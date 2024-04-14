@@ -1,6 +1,7 @@
 import {Application, Assets, Text, TextStyle} from 'pixi.js'
 import {EditorEvents, MONO_FONT} from './editor/constants';
 import {Menu} from './editor/menu';
+import {EnemiesTab} from "./editor/enemies_tab";
 
 class Editor {
     app: Application
@@ -9,8 +10,8 @@ class Editor {
         this.app = new Application();
     }
 
-    // @ts-ignore
-    async initialize(): Promise<void> {
+    // @ts-expect-error we need thos for the async init
+    async initialize() {
         await this.app.init({background: '#FFFFFF', resizeTo: window});
         document.body.appendChild(this.app.canvas);
 
@@ -31,17 +32,16 @@ class Editor {
             text: 'Tactical fulcrum editor', style: style
         });
         this.app.stage.addChild(titleText);
-        new Menu(this.app).setup();
+        new Menu(this.app)
+        new EnemiesTab(this.app)
 
         window.addEventListener('resize', () => {
             const width = this.app.renderer.width;
-            console.debug('App', 'resize', width);
             this.app.stage.emit(EditorEvents.Resize, width);
         });
         window.dispatchEvent(new Event('resize'));
-        console.debug('Done');
+        console.debug('App initialized');
     }
-
 
 }
 

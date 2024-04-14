@@ -4,15 +4,11 @@ import {FancyButton} from '@pixi/ui';
 import {
     EditorEvents,
     ElementState,
-    HOVER_COLOR,
-    MONO_FONT,
-    SELECTED_BACKGROUND_COLOR,
-    SELECTED_COLOR,
-    STANDARD_BACKGROUND_COLOR,
-    STANDARD_COLOR
+    Color,
+    MONO_FONT, STANDARD_TEXT_STYLE, Heights,
 } from './constants';
 
-enum ButtonList {
+export enum ButtonList {
     Map = 0,
     Enemies = 1,
     Info = 2,
@@ -20,84 +16,75 @@ enum ButtonList {
 }
 
 export class Menu {
-    private static readonly NUMBER_OF_BUTTONS = 3;
-    private static readonly BUTTON_HEIGHT = 50;
-
-    private static readonly BUTTON_STANDARD_TEXT_STYLE: TextStyle = new TextStyle({
-        fontFamily: MONO_FONT,
-        fontSize: 20,
-        fill: STANDARD_COLOR
-    });
     private static readonly BUTTON_HOVER_TEXT_STYLE: TextStyle = new TextStyle({
         fontFamily: MONO_FONT,
         fontSize: 20,
-        fill: HOVER_COLOR
+        fill: Color.hover
     });
-    private static readonly BUTTON_SELECTED_TEXT_STYLE: TextStyle = new TextStyle({
-        fontFamily: MONO_FONT,
-        fontSize: 20,
-        fill: SELECTED_COLOR
-    });
-
     app: Application
 
     constructor(app: Application) {
         this.app = app;
+        const buttonWidth: number = this.app.renderer.width / ButtonList.__SIZE;
+        const menuContainer: Container = new Container({position: {x: 0, y: Heights.title}});
+        this.setupButton(menuContainer, buttonWidth, 'Map', ButtonList.Map);
+        this.setupButton(menuContainer, buttonWidth, 'Info', ButtonList.Info);
+        this.setupButton(menuContainer, buttonWidth, 'Enemies', ButtonList.Enemies);
+        this.app.stage.addChild(menuContainer);
     }
 
     private createText(text: string, state: ElementState): Text {
         let style: TextStyle;
         switch (state) {
-            case ElementState.DEFAULT:
-                style = Menu.BUTTON_STANDARD_TEXT_STYLE;
+            case ElementState.default:
+                style = STANDARD_TEXT_STYLE;
                 break;
-            case ElementState.HOVER:
+            case ElementState.hover:
                 style = Menu.BUTTON_HOVER_TEXT_STYLE;
                 break;
-            case ElementState.SELECTED:
-                style = Menu.BUTTON_SELECTED_TEXT_STYLE;
+            case ElementState.selected:
+                style = STANDARD_TEXT_STYLE;
                 break;
-
         }
         const button = new Text({
             text: text,
             style: style
         });
         button.anchor.set(0.5);
-        button.y = Menu.BUTTON_HEIGHT / 2;
+        button.y = Heights.menu / 2;
         return button;
     }
 
     private createBackground(buttonWidth: number, state: ElementState): Graphics {
         let color: string;
         switch (state) {
-            case ElementState.DEFAULT:
-                color = STANDARD_BACKGROUND_COLOR;
+            case ElementState.default:
+                color = Color.backgroundStandard;
                 break;
-            case ElementState.HOVER:
-                color = STANDARD_BACKGROUND_COLOR;
+            case ElementState.hover:
+                color = Color.backgroundStandard;
                 break;
-            case ElementState.SELECTED:
-                color = SELECTED_BACKGROUND_COLOR;
+            case ElementState.selected:
+                color = Color.backgroundSelected;
                 break;
 
         }
-        return new Graphics().rect(0, 0, buttonWidth, Menu.BUTTON_HEIGHT).fill(color);
+        return new Graphics().rect(0, 0, buttonWidth, Heights.menu).fill(color);
     }
 
     private setupButton(menuContainer: Container, buttonWidth: number, text: string, button: ButtonList): void {
-        const standardButtonBg = this.createBackground(buttonWidth, ElementState.DEFAULT);
-        const standardText = this.createText(text, ElementState.DEFAULT);
+        const standardButtonBg = this.createBackground(buttonWidth, ElementState.default);
+        const standardText = this.createText(text, ElementState.default);
         const standardView = new Container();
         standardView.addChild(standardButtonBg, standardText);
 
-        const hoverButtonBg = this.createBackground(buttonWidth, ElementState.HOVER)
-        const hoverText = this.createText(text, ElementState.HOVER);
+        const hoverButtonBg = this.createBackground(buttonWidth, ElementState.hover)
+        const hoverText = this.createText(text, ElementState.hover);
         const hoverView = new Container();
         hoverView.addChild(hoverButtonBg, hoverText);
 
-        const selectedButtonBg = this.createBackground(buttonWidth, ElementState.SELECTED)
-        const selectedText = this.createText(text, ElementState.SELECTED);
+        const selectedButtonBg = this.createBackground(buttonWidth, ElementState.selected)
+        const selectedText = this.createText(text, ElementState.selected);
         const selectedView = new Container();
         selectedView.addChild(selectedButtonBg, selectedText);
 
@@ -119,8 +106,7 @@ export class Menu {
         });
         menuContainer.addChild(fancyButton)
         const resize = function (width: number): void {
-            console.debug("Resize menu button", width)
-            const buttonWidth = width / Menu.NUMBER_OF_BUTTONS;
+            const buttonWidth = width / ButtonList.__SIZE;
             fancyButton.width = buttonWidth;
             fancyButton.x = buttonWidth * button.valueOf();
 
@@ -135,14 +121,5 @@ export class Menu {
         };
         this.app.stage.on(EditorEvents.Resize, resize);
         resize(this.app.renderer.width);
-    }
-
-    public setup() {
-        const buttonWidth: number = this.app.renderer.width / Menu.NUMBER_OF_BUTTONS;
-        const menuContainer: Container = new Container({position: {x: 0, y: 75}});
-        this.setupButton(menuContainer, buttonWidth, 'Map', ButtonList.Map);
-        this.setupButton(menuContainer, buttonWidth, 'Info', ButtonList.Info);
-        this.setupButton(menuContainer, buttonWidth, 'Enemies', ButtonList.Enemies);
-        this.app.stage.addChild(menuContainer);
     }
 }

@@ -1,7 +1,7 @@
 import {Application, Container, Graphics, Text, TextStyle} from 'pixi.js'
 import {FancyButton} from '@pixi/ui';
 import {EditorForMenu} from '../editor'
-import {MONO_FONT, STANDARD_COLOR, HOVER_COLOR} from './constants';
+import {MONO_FONT, STANDARD_COLOR, HOVER_COLOR, RESIZE_EVENT} from './constants';
 
 export class Menu {
     private static readonly NUMBER_OF_BUTTONS = 3;
@@ -39,7 +39,7 @@ export class Menu {
         return new Graphics().rect(0, 0, buttonWidth, Menu.BUTTON_HEIGHT).fill('#A5E24D');
     }
 
-    private setupButton(menuContainer: Container, buttonWidth: number, text: string, index: number, onClick: () => void): (buttonWidth: number) => void {
+    private setupButton(menuContainer: Container, buttonWidth: number, text: string, index: number, onClick: () => void): void {
         const standardButtonBg = this.createBackground(buttonWidth);
         const standardText = this.createText(text, false);
         const standardView = new Container();
@@ -54,7 +54,9 @@ export class Menu {
         button.width = buttonWidth;
         button.onPress.connect(() => onClick());
         menuContainer.addChild(button)
-        const resize = function (buttonWidth: number): void {
+        const resize = function (width: number): void {
+            console.debug("Resize menu button", width)
+            const buttonWidth = width / Menu.NUMBER_OF_BUTTONS;
             button.width = buttonWidth;
             button.x = buttonWidth * index;
 
@@ -64,24 +66,16 @@ export class Menu {
             hoverButtonBg.width = buttonWidth;
             hoverText.x = buttonWidth / 2;
         };
-        resize(buttonWidth);
-        return resize
+        this.app.stage.on(RESIZE_EVENT, resize);
+        resize(this.app.renderer.width);
     }
 
     public setup(editorForMenu: EditorForMenu) {
         const buttonWidth: number = this.app.renderer.width / Menu.NUMBER_OF_BUTTONS;
-        const resizeCallbacks: Array<(buttonWidth: number) => void> = [];
         const menuContainer: Container = new Container({position: {x: 0, y: 75}});
-        resizeCallbacks.push(this.setupButton(menuContainer, buttonWidth, 'Map', 0, editorForMenu.clickInfo));
-        resizeCallbacks.push(this.setupButton(menuContainer, buttonWidth, 'Enemies', 1, editorForMenu.clickInfo));
-        resizeCallbacks.push(this.setupButton(menuContainer, buttonWidth, 'Info', 2, editorForMenu.clickInfo));
-
+        this.setupButton(menuContainer, buttonWidth, 'Map', 0, editorForMenu.clickInfo);
+        this.setupButton(menuContainer, buttonWidth, 'Info', 2, editorForMenu.clickInfo);
+        this.setupButton(menuContainer, buttonWidth, 'Enemies', 1, editorForMenu.clickInfo);
         this.app.stage.addChild(menuContainer);
-        window.addEventListener('resize', () => {
-            const buttonWidth = this.app.renderer.width / Menu.NUMBER_OF_BUTTONS;
-            resizeCallbacks.forEach((callback) => {
-                callback(buttonWidth)
-            });
-        });
     }
 }

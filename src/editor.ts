@@ -1,16 +1,8 @@
 import {Application, Assets, Text, TextStyle} from 'pixi.js'
-import {MONO_FONT, RESIZE_EVENT} from './editor/constants';
+import {EditorEvents, MONO_FONT} from './editor/constants';
 import {Menu} from './editor/menu';
 
-export interface EditorForMenu {
-    clickMap(): void
-
-    clickEnemies(): void
-
-    clickInfo(): void
-}
-
-class Editor implements EditorForMenu {
+class Editor {
     app: Application
 
     constructor() {
@@ -39,28 +31,17 @@ class Editor implements EditorForMenu {
             text: 'Tactical fulcrum editor', style: style
         });
         this.app.stage.addChild(titleText);
-        new Menu(this.app).setup(this);
+        new Menu(this.app).setup();
 
         window.addEventListener('resize', () => {
             const width = this.app.renderer.width;
             console.debug('App', 'resize', width);
-            this.app.stage.emit(RESIZE_EVENT, width);
+            this.app.stage.emit(EditorEvents.Resize, width);
         });
         window.dispatchEvent(new Event('resize'));
         console.debug('Done');
     }
 
-    clickEnemies(): void {
-        throw new Error("Not implemented")
-    }
-
-    clickInfo(): void {
-        throw new Error("Not implemented")
-    }
-
-    clickMap(): void {
-        throw new Error("Not implemented")
-    }
 
 }
 

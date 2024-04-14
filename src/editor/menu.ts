@@ -11,8 +11,9 @@ import {
 export enum ButtonList {
     Map = 0,
     Enemies = 1,
-    Info = 2,
-    __SIZE = 3,
+    Items = 2,
+    Info = 3,
+    __SIZE = 4,
 }
 
 export class Menu {
@@ -28,8 +29,9 @@ export class Menu {
         const buttonWidth: number = this.app.renderer.width / ButtonList.__SIZE;
         const menuContainer: Container = new Container({position: {x: 0, y: Heights.title}});
         this.setupButton(menuContainer, buttonWidth, 'Map', ButtonList.Map);
-        this.setupButton(menuContainer, buttonWidth, 'Info', ButtonList.Info);
         this.setupButton(menuContainer, buttonWidth, 'Enemies', ButtonList.Enemies);
+        this.setupButton(menuContainer, buttonWidth, 'Items', ButtonList.Items);
+        this.setupButton(menuContainer, buttonWidth, 'Info', ButtonList.Info);
         this.app.stage.addChild(menuContainer);
     }
 

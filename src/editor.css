@@ -1,6 +1,63 @@
-html,
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url(assets/JetBrainsMono-Medium.woff2) format("woff"), url(assets/JetBrainsMonoNL-Regular.ttf) format("truetype");
+}
+
 body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+    font-family: "JetBrains Mono", monospace;
+}
+
+:root {
+    --sl-font-sans: "JetBrains Mono", monospace;
+    --sl-font-serif: "JetBrains Mono", monospace;
+    --sl-font-mono: "JetBrains Mono", monospace;
+
+    sl-tab-group::part(nav) {
+        display: flex;
+        justify-content: center;
+    }
+
+    #enemiesTab {
+        .enemyLine {
+            sl-tag, sl-select, sl-input {
+                width: 10%;
+            }
+
+            sl-select {
+                display: inline-block;
+            }
+
+            sl-input {
+                display: inline-block;
+            }
+
+            text-align: center;
+            padding-bottom: 0.5em;
+
+            sl-tag.delete {
+                visibility: hidden;
+            }
+
+            .delete {
+                width: 5%;
+            }
+
+            .type {
+                width: 15%;
+            }
+        }
+
+        .add {
+            text-align: center;
+            padding-top: 0.5em;
+
+            sl-button {
+                width: 5%;
+            }
+        }
+    }
+}
+
+h1 {
+    text-align: center;
 }

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import * as esbuild from 'esbuild'
-
 import {copy} from 'esbuild-plugin-copy'
 
 const config = {
@@ -14,15 +13,14 @@ const config = {
     loader: {'.ttf': 'copy', '.woff2': 'copy', '.html': 'copy'},
     plugins: [
         copy({
-            resolveFrom: "cwd",
             assets: {
-                from: "node_modules/@shoelace-style/shoelace/dist/assets/icons/*",
-                to: "out/assets/icons",
+                from: './node_modules/@shoelace-style/shoelace/dist/assets/icons/*',
+                to: './out/assets/icons',
             },
+            watch: true,
         })
     ],
 };
 
-
-const result = await esbuild.build(config);
-console.log(result);
+const context = await esbuild.context(config);
+await context.watch();

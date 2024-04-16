@@ -1,48 +1,22 @@
-import {Application, Assets, Text, TextStyle} from 'pixi.js'
-import {EditorEvents, MONO_FONT} from './editor/constants';
-import {Menu} from './editor/menu';
-import {EnemiesTab} from "./editor/enemies_tab";
+import './reset.css';
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import './editor.css';
 
-class Editor {
-    app: Application
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/tag/tag.js';
+import '@shoelace-style/shoelace/dist/components/tab/tab.js';
+import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
+import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
 
-    constructor() {
-        this.app = new Application();
-    }
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+const rootUrl = document.location.origin;
 
-    // @ts-expect-error we need thos for the async init
-    async initialize() {
-        await this.app.init({background: '#FFFFFF', resizeTo: window});
-        document.body.appendChild(this.app.canvas);
+setBasePath(rootUrl);
 
-        Assets.addBundle('fonts', [
-            {
-                alias: 'JetBrains Mono Regular',
-                src: 'assets/JetBrainsMono-Regular.ttf',
-                data: {family: 'JetBrains Mono Regular'}
-            },
-        ]);
-
-        await Assets.loadBundle('fonts');
-        const style: TextStyle = new TextStyle({
-            fontFamily: MONO_FONT,
-            fontSize: 50
-        });
-        const titleText = new Text({
-            text: 'Tactical fulcrum editor', style: style
-        });
-        this.app.stage.addChild(titleText);
-        new Menu(this.app)
-        new EnemiesTab(this.app)
-
-        window.addEventListener('resize', () => {
-            const width = this.app.renderer.width;
-            this.app.stage.emit(EditorEvents.Resize, width);
-        });
-        window.dispatchEvent(new Event('resize'));
-        console.debug('App initialized');
-    }
+function main() {
 
 }
-
-new Editor().initialize()

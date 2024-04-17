@@ -8,14 +8,12 @@ export enum Tabs {
 }
 
 export class MainMenu {
-    static readonly TAB_GROUP_ID = 'mainMenuTabGroup';
-
     private readonly editor: Editor;
 
     constructor(editor: Editor) {
         this.editor = editor;
         render(document.getElementById("content"), html`
-            <sl-tab-group id="${MainMenu.TAB_GROUP_ID}">
+            <sl-tab-group @sl-tab-show="${this.tabShown}">
                 <sl-tab slot="nav" panel="${Tabs.map}">Map</sl-tab>
                 <sl-tab slot="nav" panel="${Tabs.enemies}">Enemies</sl-tab>
                 <sl-tab slot="nav" panel="${Tabs.info}">Info</sl-tab>
@@ -25,15 +23,10 @@ export class MainMenu {
                 <sl-tab-panel id="${Tabs.info}" name="${Tabs.info}">Info</sl-tab-panel>
             </sl-tab-group>
         `);
-        document
-            .getElementById(MainMenu.TAB_GROUP_ID)
-            .addEventListener('sl-tab-show', event => {
-                // @ts-ignore
-                this.tabShown(event.detail.name);
-            })
     }
 
-    private tabShown(tab: Tabs): void {
+    private tabShown = (event: CustomEvent) => {
+        const tab = event.detail.name;
         console.debug('MainMenu: tab', tab, 'shown');
         this.editor.tabShown(tab);
     }

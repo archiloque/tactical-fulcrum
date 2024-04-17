@@ -2,13 +2,12 @@ import {Editor} from "../../editor";
 import {Tabs} from "./main-menu";
 import {Enemy} from "../data/enemy";
 import {effect, Signal, signal} from '@preact/signals-core';
-import {reactive, html} from 'uhtml/reactive';
+import {html, reactive} from 'uhtml/reactive';
 
 export class TabEnemies {
     private readonly editor: Editor;
     private readonly tabElement: HTMLElement;
-    private readonly enemySignal : Signal<Enemy[]>;
-    private static readonly ADD_BUTTON_ID = "tabEnemiesAddButton";
+    private readonly enemySignal: Signal<Enemy[]>;
 
     constructor(editor: Editor) {
         this.editor = editor;
@@ -17,22 +16,26 @@ export class TabEnemies {
     }
 
     private line(enemy: Enemy, enemyIndex: number): string {
-        return html`<div class="enemyLine">
-        <sl-select class="type" placeholder="Type" hoist>
-            <sl-option value="option-1">Burgeoner</sl-option>
-            <sl-option value="option-2">Fighter</sl-option>
-            <sl-option value="option-3">Ranger</sl-option>
-            <sl-option value="option-4">Shadow</sl-option>
-            <sl-option value="option-5">Slasher</sl-option>
-        </sl-select>
-        <sl-input placeholder="Level"></sl-input>
-            <sl-input placeholder="Name"></sl-input>
-            <sl-input placeholder="HP"></sl-input>
-            <sl-input placeholder="Atk"></sl-input>
-            <sl-input placeholder="Def"></sl-input>
-            <sl-input placeholder="Exp"></sl-input>
-            <sl-button data-index="${enemyIndex}" onclick="${this.deleteEnemy}" variant="danger" class="tabEnemyDelete"><sl-icon name="trash"></sl-icon></sl-button>
-        </div>`;
+        return html`
+            <div class="enemyLine">
+                <sl-select class="type" placeholder="Type" hoist>
+                    <sl-option value="option-1">Burgeoner</sl-option>
+                    <sl-option value="option-2">Fighter</sl-option>
+                    <sl-option value="option-3">Ranger</sl-option>
+                    <sl-option value="option-4">Shadow</sl-option>
+                    <sl-option value="option-5">Slasher</sl-option>
+                </sl-select>
+                <sl-input placeholder="Level"></sl-input>
+                <sl-input placeholder="Name"></sl-input>
+                <sl-input placeholder="HP"></sl-input>
+                <sl-input placeholder="Atk"></sl-input>
+                <sl-input placeholder="Def"></sl-input>
+                <sl-input placeholder="Exp"></sl-input>
+                <sl-button data-index="${enemyIndex}" onclick="${this.deleteEnemy}" variant="danger"
+                           class="tabEnemyDelete">
+                    <sl-icon name="trash"></sl-icon>
+                </sl-button>
+            </div>`;
     }
 
     public show(): void {
@@ -52,22 +55,18 @@ export class TabEnemies {
             </div>
             ${this.enemySignal.value.map((enemy, enemyIndex) => this.line(enemy, enemyIndex))}
             <div id="tabEnemiesAddButtonDiv">
-                <sl-button id="${TabEnemies.ADD_BUTTON_ID}" class="add">
+                <sl-button onclick="${this.addEnemy}" id="tabEnemiesAddButton" class="add">
                     <sl-icon name="plus-circle"></sl-icon>
                 </sl-button>
             </div>
         `);
-        document
-            .getElementById(TabEnemies.ADD_BUTTON_ID)
-            .addEventListener('click', event => {
-                this.addLine();
-            });
     }
-    private addLine(){
+
+    private addEnemy = () => {
         console.debug('TabEnemies add enemy');
         this.enemySignal.value = [...this.enemySignal.value, new Enemy()];
     }
-    deleteEnemy = (event: PointerEvent)=> {
+    private deleteEnemy = (event: PointerEvent) => {
         // @ts-ignore
         const enemyIndex = event.currentTarget.dataset.index;
         console.debug('TabEnemies delete enemy', enemyIndex);

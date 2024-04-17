@@ -17,7 +17,7 @@ body {
         justify-content: center;
     }
 
-    #enemiesTab {
+    #tabEnemies {
         .enemyLine {
             sl-tag, sl-select, sl-input {
                 width: 10%;
@@ -34,11 +34,11 @@ body {
             text-align: center;
             padding-bottom: 0.5em;
 
-            sl-tag.delete {
+            sl-tag.tabEnemyDelete {
                 visibility: hidden;
             }
 
-            .delete {
+            .tabEnemyDelete {
                 width: 5%;
             }
 
@@ -47,7 +47,7 @@ body {
             }
         }
 
-        .add {
+        #tabEnemiesAddButtonDiv {
             text-align: center;
             padding-top: 0.5em;
 

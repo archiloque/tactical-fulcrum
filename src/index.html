@@ -10,47 +10,7 @@
 
 <body>
 <h1>Tactical fulcrum editor</h1>
-
-<sl-tab-group>
-    <sl-tab slot="nav" panel="enemies">Enemies</sl-tab>
-    <sl-tab slot="nav" panel="map">Map</sl-tab>
-    <sl-tab slot="nav" panel="info">Info</sl-tab>
-
-    <sl-tab-panel id="enemiesTab" name="enemies">
-        <div class="enemyLine">
-            <sl-tag class="type" variant="neutral" size="large">Type</sl-tag>
-            <sl-tag variant="neutral" size="large">Level</sl-tag>
-            <sl-tag variant="neutral" size="large">Name</sl-tag>
-            <sl-tag variant="neutral" size="large">HP</sl-tag>
-            <sl-tag variant="neutral" size="large">Atk</sl-tag>
-            <sl-tag variant="neutral" size="large">def</sl-tag>
-            <sl-tag variant="neutral" size="large">Exp</sl-tag>
-            <sl-tag variant="neutral" class="delete" size="large">Delete</sl-tag>
-        </div>
-        <div  class="enemyLine">
-        <sl-select class="type" placeholder="Type" hoist>
-            <sl-option value="option-1">Burgeoner</sl-option>
-            <sl-option value="option-2">Fighter</sl-option>
-            <sl-option value="option-3">Ranger</sl-option>
-            <sl-option value="option-4">Shadow</sl-option>
-            <sl-option value="option-5">Slasher</sl-option>
-        </sl-select>
-        <sl-input placeholder="Level"></sl-input>
-            <sl-input placeholder="Name"></sl-input>
-            <sl-input placeholder="HP"></sl-input>
-            <sl-input placeholder="Atk"></sl-input>
-            <sl-input placeholder="Def"></sl-input>
-            <sl-input placeholder="Exp"></sl-input>
-            <sl-button variant="danger" class="delete"><sl-icon name="trash"></sl-icon></sl-button>
-        </div>
-        <div class="add">
-        <sl-button class="add"><sl-icon name="plus-circle"></sl-icon></sl-button>
-        </div>
-    </sl-tab-panel>
-    <sl-tab-panel name="map">This is the general tab panel.</sl-tab-panel>
-    <sl-tab-panel name="info">This is the advanced tab panel.</sl-tab-panel>
-</sl-tab-group>
-
+<div id="content"></div>
 </body>
 
 </html>

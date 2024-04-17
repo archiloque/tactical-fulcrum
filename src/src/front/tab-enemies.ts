@@ -16,12 +16,6 @@ export class TabEnemies {
         this.enemySignal = signal(this.editor.tower.enemies);
     }
 
-    private field(type: string, name: string, value: string): string {
-        return html`
-            <sl-input type="${type}" ${(type == "number") ? 'min="0" ' : ''}placeholder="${name}"
-                      value="${value}"></sl-input>`
-    }
-
     private line(enemy: Enemy, enemyIndex: number): string {
         return html`
             <div class="enemyLine">

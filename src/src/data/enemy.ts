@@ -8,4 +8,8 @@ export class Enemy {
     atk: string;
     def: string;
     exp: string;
+
+    constructor() {
+        this.hp = '10';
+    }
 }

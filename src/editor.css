@@ -38,6 +38,13 @@ body {
                 visibility: hidden;
             }
 
+            .tabEnemyLevel {
+                width: 5%;
+            }
+            .tabEnemyName {
+                width: 15%;
+            }
+
             .tabEnemyDelete {
                 width: 5%;
             }

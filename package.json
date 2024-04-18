@@ -6,7 +6,7 @@
   "license": "GPL-3.0-only",
   "scripts": {
     "build": "node esbuild.build.mjs",
-    "watch": "node esbuild.watch.mjs",
+    "serve": "node esbuild.serve.mjs",
     "lint": "npx eslint 'src/**.ts'"
   },
   "devDependencies": {

@@ -20,7 +20,7 @@ export class TabEnemies {
         return html`
             <div class="enemyLine">
                 <sl-select class="type" placeholder="Type" hoist>
-                    ${ENEMY_TYPES.map(enemyType => html`
+                    ${ENEMY_TYPES.map((enemyType: string) => html`
                         <sl-option value="${enemyType}">${enemyType}</sl-option>`)}
                 </sl-select>
                 <sl-input class="tabEnemyLevel" type="number" min="0" placeholder="Lv"
@@ -52,7 +52,7 @@ export class TabEnemies {
                 <sl-tag variant="neutral" size="large">Exp</sl-tag>
                 <sl-tag variant="neutral" class="tabEnemyDelete" size="large">Delete</sl-tag>
             </div>
-            ${this.enemySignal.value.map((enemy, enemyIndex) => this.line(enemy, enemyIndex))}
+            ${this.enemySignal.value.map((enemy: Enemy, enemyIndex: number) => this.line(enemy, enemyIndex))}
             <div id="tabEnemiesAddButtonDiv">
                 <sl-button onclick="${this.addEnemy}" id="tabEnemiesAddButton" class="add">
                     <sl-icon name="plus-circle"></sl-icon>
@@ -61,11 +61,12 @@ export class TabEnemies {
         `);
     }
 
-    private addEnemy = () => {
+    private addEnemy = (): void => {
         console.debug('TabEnemies add enemy');
         this.enemySignal.value = [...this.enemySignal.value, new Enemy()];
+        console.log(this.enemySignal.value)
     }
-    private deleteEnemy = (event: PointerEvent) => {
+    private deleteEnemy = (event: PointerEvent): void => {
         // @ts-ignore
         const enemyIndex = event.currentTarget.dataset.index;
         console.debug('TabEnemies delete enemy', enemyIndex);

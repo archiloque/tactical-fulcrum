@@ -22,13 +22,12 @@ setBasePath(rootUrl);
 
 export class Editor {
     readonly tower: Tower;
-    private readonly mainMenu: MainMenu;
     private readonly tabEnemies: TabEnemies;
 
     constructor() {
         console.info('Editor starting')
         this.tower = new Tower();
-        this.mainMenu = new MainMenu(this);
+        new MainMenu(this);
         this.tabEnemies = new TabEnemies(this);
     }
 
@@ -47,6 +46,6 @@ export class Editor {
     }
 }
 
-onload = (event) => {
+onload = (): void => {
     new Editor();
 };

@@ -7,13 +7,14 @@
   "scripts": {
     "build": "node esbuild.build.mjs",
     "serve": "node esbuild.serve.mjs",
-    "lint": "npx eslint 'src/**.ts'"
+    "lint": "npx eslint 'src/**/*.ts'"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^9.0.0",
     "@preact/signals-core": "^1.6.0",
     "@shoelace-style/shoelace": "^2.15.0",
+    "@stylistic/eslint-plugin": "^1.7.2",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "esbuild": "0.20.2",
     "esbuild-plugin-copy": "^2.1.1",

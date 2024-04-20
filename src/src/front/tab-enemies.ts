@@ -38,7 +38,7 @@ export class TabEnemies {
             </div>`
     }
 
-    public render(): void {
+    public renderEnemies(): void {
         console.debug('TabEnemies showing')
         const render = reactive(effect);
 
@@ -73,5 +73,8 @@ export class TabEnemies {
         // @ts-expect-error because
         const enemyIndex = event.currentTarget.dataset.index
         console.debug('TabEnemies delete enemy', enemyIndex)
+        const begin = this.enemySignal.value.slice(0, enemyIndex)
+        const end = this.enemySignal.value.slice(enemyIndex, -1)
+        this.enemySignal.value = [...begin, ...end]
     }
 }

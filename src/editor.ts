@@ -38,7 +38,7 @@ export class Editor {
             case Tabs.info:
                 break
             case Tabs.enemies:
-                this.tabEnemies.render()
+                this.tabEnemies.renderEnemies()
                 break
             default:
                 throw new Error(`Unknown tab [${tabName}]`)

@@ -16,7 +16,7 @@ export class TabEnemies {
         this.enemySignal = signal(this.editor.tower.enemies)
     }
 
-    private renderEnemy(enemySignal: Signal<Enemy>, enemyIndex: number): string {
+    private renderEnemy(enemy: Enemy, enemyIndex: number): string {
         return html`
             <div class="enemyLine">
                 <sl-select class="type" placeholder="Type" hoist>
@@ -24,13 +24,13 @@ export class TabEnemies {
                         <sl-option value="${enemyType}">${enemyType}</sl-option>`)}
                 </sl-select>
                 <sl-input class="tabEnemyLevel" type="number" min="0" placeholder="Lv"
-                          value="${enemySignal.value.level}"></sl-input>
+                          value="${enemy.level}"></sl-input>
                 <sl-input class="tabEnemyName" type="text" placeholder="Name"
-                          value="${enemySignal.value.name}"></sl-input>
-                <sl-input type="number" min="0" placeholder="HP" value="${enemySignal.value.hp}"></sl-input>
-                <sl-input type="number" min="0" placeholder="Atk" value="${enemySignal.value.atk}"></sl-input>
-                <sl-input type="number" min="0" placeholder="Def" value="${enemySignal.value.def}"></sl-input>
-                <sl-input type="number" min="0" placeholder="Exp" value="${enemySignal.value.exp}"></sl-input>
+                          value="${enemy.name}"></sl-input>
+                <sl-input type="number" min="0" placeholder="HP" value="${enemy.hp}"></sl-input>
+                <sl-input type="number" min="0" placeholder="Atk" value="${enemy.atk}"></sl-input>
+                <sl-input type="number" min="0" placeholder="Def" value="${enemy.def}"></sl-input>
+                <sl-input type="number" min="0" placeholder="Exp" value="${enemy.exp}"></sl-input>
                 <sl-button data-index="${enemyIndex}" onclick="${this.deleteEnemy}" variant="danger"
                            class="tabEnemyDelete">
                     <sl-icon name="trash"></sl-icon>
@@ -40,8 +40,7 @@ export class TabEnemies {
 
     public render(): void {
         console.debug('TabEnemies showing')
-        const render = reactive(effect)
-        const enemiesSignals = this.enemySignal.value.map((enemy: Enemy) => signal(enemy))
+        const render = reactive(effect);
 
         render(this.tabElement, () => html`
             <div class="enemyLine">
@@ -54,13 +53,14 @@ export class TabEnemies {
                 <sl-tag variant="neutral" size="large">Exp</sl-tag>
                 <sl-tag variant="neutral" class="tabEnemyDelete" size="large">Delete</sl-tag>
             </div>
-            ${enemiesSignals.map((enemy: Signal<Enemy>, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
+            ${this.enemySignal.value.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
             <div id="tabEnemiesAddButtonDiv">
                 <sl-button onclick="${this.addEnemy}" id="tabEnemiesAddButton" class="add">
                     <sl-icon name="plus-circle"></sl-icon>
                 </sl-button>
             </div>
-        `)
+        `);
+
     }
 
     private addEnemy = (): void => {

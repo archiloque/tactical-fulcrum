@@ -19,10 +19,6 @@ body {
 
     #tabEnemies {
         .enemyLine {
-            sl-tag, sl-select, sl-input {
-                width: 10%;
-            }
-
             sl-select {
                 display: inline-block;
             }
@@ -38,20 +34,20 @@ body {
                 visibility: hidden;
             }
 
-            .level {
-                width: 5%;
+            sl-tag, sl-select, sl-input {
+                width: 10%;
             }
 
-            .name {
+            .level {
+                width: 4%;
+            }
+
+            .name, .type, .drop {
                 width: 15%;
             }
 
             .delete {
                 width: 3%;
-            }
-
-            .type {
-                width: 15%;
             }
         }
 
@@ -68,6 +64,9 @@ body {
     #tabImportExport {
         .topButtons {
             text-align: center;
+            padding-bottom: 1em;
+        }
+        .exportAlert {
             padding-bottom: 1em;
         }
     }

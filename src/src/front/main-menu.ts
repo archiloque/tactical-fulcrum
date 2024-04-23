@@ -1,6 +1,6 @@
-import {html, render} from 'uhtml'
 import {Editor} from '../../editor'
-import {Tabs} from "./tabs";
+import {Tabs} from './tabs'
+import {html, render} from 'uhtml'
 
 export class MainMenu {
     private readonly editor: Editor

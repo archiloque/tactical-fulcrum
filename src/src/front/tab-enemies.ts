@@ -1,8 +1,9 @@
 import {Editor} from '../../editor'
 import {Enemy} from '../data/enemy'
-import {html, render} from 'uhtml'
-import {Enemy_type, EnemyType} from '../data/enemy_type'
-import {Tabs} from "./tabs";
+import {Hole, html, render} from 'uhtml'
+import {ENEMY_TYPE, EnemyType} from '../data/enemy_type'
+import {Tabs} from './tabs'
+import {ITEMS} from '../data/item'
 
 export class TabEnemies {
     private readonly editor: Editor
@@ -15,25 +16,35 @@ export class TabEnemies {
         this.enemies = this.editor.tower.enemies
     }
 
-    private renderEnemy(enemy: Enemy, enemyIndex: number): string {
+    private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
         return html`
             <div data-index="${enemyIndex}" class="enemyLine">
                 <sl-select @sl-input="${this.typeChange}" class="type" placeholder="Type" hoist required>
-                    ${Enemy_type.map((enemyType: string) => html`
+                    ${ENEMY_TYPE.map((enemyType: string) => html`
                         <sl-option value="${enemyType}">${enemyType}</sl-option>`)}
                 </sl-select>
-                <sl-input @sl-input="${this.levelChange}" class="level" type="number" min="1" pattern="[0-9]+" placeholder="Lv"
+                <sl-input @sl-input="${this.levelChange}" class="level" type="number" min="1" pattern="[0-9]+"
+                          placeholder="Lv"
                           no-spin-buttons value="${enemy.level}" required></sl-input>
                 <sl-input @sl-input="${this.nameChange}" minlength="1" class="name" type="text" placeholder="Name"
                           value="${enemy.name}" required></sl-input>
-                <sl-input @sl-input="${this.hpChange}" type="number" min="1" pattern="[0-9]+" placeholder="HP" no-spin-buttons
+                <sl-input @sl-input="${this.hpChange}" type="number" min="1" pattern="[0-9]+" placeholder="HP"
+                          no-spin-buttons
                           value="${enemy.hp}" required></sl-input>
-                <sl-input @sl-input="${this.atkChange}" type="number" min="1" pattern="[0-9]+" placeholder="Atk" no-spin-buttons
+                <sl-input @sl-input="${this.atkChange}" type="number" min="1" pattern="[0-9]+" placeholder="Atk"
+                          no-spin-buttons
                           value="${enemy.atk}" required></sl-input>
-                <sl-input @sl-input="${this.defChange}" type="number" min="1" pattern="[0-9]+" placeholder="Def" no-spin-buttons
+                <sl-input @sl-input="${this.defChange}" type="number" min="1" pattern="[0-9]+" placeholder="Def"
+                          no-spin-buttons
                           value="${enemy.def}" required></sl-input>
-                <sl-input @sl-input="${this.expChange}" type="number" min="1" pattern="[0-9]+" placeholder="Exp" no-spin-buttons
+                <sl-input @sl-input="${this.expChange}" type="number" min="1" pattern="[0-9]+" placeholder="Exp"
+                          no-spin-buttons
                           value="${enemy.exp}" required></sl-input>
+                <sl-select @sl-input="${this.typeChange}" class="drop" placeholder="Drop" hoist required>
+                    ${ITEMS.map((item: string, index: number) => html`
+                        <sl-option value="${index}">${item}</sl-option>`)}
+                </sl-select>
+
 
                 <sl-button onclick="${this.deleteEnemy}" variant="danger"
                            class="delete">
@@ -52,8 +63,9 @@ export class TabEnemies {
                 <sl-tag variant="neutral" class="name" size="large">Name</sl-tag>
                 <sl-tag variant="neutral" size="large">HP</sl-tag>
                 <sl-tag variant="neutral" size="large">Atk</sl-tag>
-                <sl-tag variant="neutral" size="large">def</sl-tag>
+                <sl-tag variant="neutral" size="large">Def</sl-tag>
                 <sl-tag variant="neutral" size="large">Exp</sl-tag>
+                <sl-tag variant="neutral" class="drop" size="large">Drop</sl-tag>
                 <sl-tag variant="neutral" class="delete" size="large">Delete</sl-tag>
             </div>
             ${this.enemies.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
@@ -62,7 +74,7 @@ export class TabEnemies {
                     <sl-icon name="plus-circle"></sl-icon>
                 </sl-button>
             </div>
-        `);
+        `)
     }
 
     private addEnemy = (): void => {
@@ -76,7 +88,7 @@ export class TabEnemies {
         const enemyIndex = parseInt(event.currentTarget.parentElement.dataset.index)
         console.debug(Tabs.enemies, 'delete enemy', enemyIndex)
         this.enemies.splice(enemyIndex, 1)
-        this.renderEnemies();
+        this.renderEnemies()
     }
 
     private atkChange = (event: CustomEvent): void => {
@@ -121,16 +133,15 @@ export class TabEnemies {
         this.enemies[enemyIndex].type = (value == '') ? null : EnemyType[value]
     }
 
-    private getInputValueInt = (event: CustomEvent): [number, number | void] => {
+    private getInputValueInt = (event: CustomEvent): [number, number | null] => {
         const [enemyIndex, stringValue] = this.getInputValue(event)
         const value: number = parseInt(stringValue)
         return [enemyIndex, (isNaN(value) ? null : value)]
     }
 
     private getInputValue = (event: CustomEvent): [number, string] => {
-        let currentTarget = event.currentTarget;
+        const currentTarget = event.currentTarget
         // @ts-expect-error because
-        console.debug(currentTarget.checkValidity())
         const enemyIndex = parseInt(currentTarget.parentElement.dataset.index)
         // @ts-expect-error because
         return [enemyIndex, currentTarget.value]

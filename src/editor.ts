@@ -2,6 +2,7 @@ import './reset.css'
 import '@shoelace-style/shoelace/dist/themes/light.css'
 import './editor.css'
 
+import '@shoelace-style/shoelace/dist/components/alert/alert.js'
 import '@shoelace-style/shoelace/dist/components/button/button.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
@@ -17,8 +18,8 @@ import {setBasePath} from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 import {MainMenu} from './src/front/main-menu'
 import {Tower} from './src/data/tower'
 import {TabEnemies} from './src/front/tab-enemies'
-import {TabImportExport} from "./src/front/tab-import-export";
-import {Tabs} from "./src/front/tabs";
+import {TabImportExport} from './src/front/tab-import-export'
+import {Tabs} from './src/front/tabs'
 
 const rootUrl = document.location.origin
 setBasePath(rootUrl)
@@ -33,7 +34,7 @@ export class Editor {
         this.tower = new Tower()
         new MainMenu(this)
         this.tabEnemies = new TabEnemies(this)
-        this.tabImportExport = new TabImportExport(this);
+        this.tabImportExport = new TabImportExport(this)
     }
 
     public tabShown(tabName: Tabs): void {

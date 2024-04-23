@@ -2,16 +2,15 @@ import {EnemyType} from './enemy_type'
 import {Item} from './item'
 
 export class Enemy {
-    type?: EnemyType
-    level: string
-    name: string
-    hp: string
-    atk: string
-    def: string
-    exp: string
-    drop?: Item
+    type: EnemyType | void
+    level: number | void
+    name: string | void
+    hp: number | void
+    atk: number | void
+    def: number | void
+    exp: number | void
+    drop: Item
 
     constructor() {
-        this.hp = '10'
     }
 }

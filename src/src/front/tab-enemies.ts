@@ -1,80 +1,138 @@
 import {Editor} from '../../editor'
-import {Tabs} from './main-menu'
 import {Enemy} from '../data/enemy'
-import {effect, Signal, signal} from '@preact/signals-core'
-import {html, reactive} from 'uhtml/reactive'
-import {Enemy_type} from '../data/enemy_type'
+import {html, render} from 'uhtml'
+import {Enemy_type, EnemyType} from '../data/enemy_type'
+import {Tabs} from "./tabs";
 
 export class TabEnemies {
     private readonly editor: Editor
     private readonly tabElement: HTMLElement
-    private readonly enemySignal: Signal<Enemy[]>
+    private readonly enemies: Enemy[]
 
     constructor(editor: Editor) {
         this.editor = editor
         this.tabElement = document.getElementById(Tabs.enemies)
-        this.enemySignal = signal(this.editor.tower.enemies)
+        this.enemies = this.editor.tower.enemies
     }
 
     private renderEnemy(enemy: Enemy, enemyIndex: number): string {
         return html`
-            <div class="enemyLine">
-                <sl-select class="type" placeholder="Type" hoist>
+            <div data-index="${enemyIndex}" class="enemyLine">
+                <sl-select @sl-input="${this.typeChange}" class="type" placeholder="Type" hoist required>
                     ${Enemy_type.map((enemyType: string) => html`
                         <sl-option value="${enemyType}">${enemyType}</sl-option>`)}
                 </sl-select>
-                <sl-input class="tabEnemyLevel" type="number" min="0" placeholder="Lv"
-                          value="${enemy.level}"></sl-input>
-                <sl-input class="tabEnemyName" type="text" placeholder="Name"
-                          value="${enemy.name}"></sl-input>
-                <sl-input type="number" min="0" placeholder="HP" value="${enemy.hp}"></sl-input>
-                <sl-input type="number" min="0" placeholder="Atk" value="${enemy.atk}"></sl-input>
-                <sl-input type="number" min="0" placeholder="Def" value="${enemy.def}"></sl-input>
-                <sl-input type="number" min="0" placeholder="Exp" value="${enemy.exp}"></sl-input>
-                <sl-button data-index="${enemyIndex}" onclick="${this.deleteEnemy}" variant="danger"
-                           class="tabEnemyDelete">
+                <sl-input @sl-input="${this.levelChange}" class="level" type="number" min="1" pattern="[0-9]+" placeholder="Lv"
+                          no-spin-buttons value="${enemy.level}" required></sl-input>
+                <sl-input @sl-input="${this.nameChange}" minlength="1" class="name" type="text" placeholder="Name"
+                          value="${enemy.name}" required></sl-input>
+                <sl-input @sl-input="${this.hpChange}" type="number" min="1" pattern="[0-9]+" placeholder="HP" no-spin-buttons
+                          value="${enemy.hp}" required></sl-input>
+                <sl-input @sl-input="${this.atkChange}" type="number" min="1" pattern="[0-9]+" placeholder="Atk" no-spin-buttons
+                          value="${enemy.atk}" required></sl-input>
+                <sl-input @sl-input="${this.defChange}" type="number" min="1" pattern="[0-9]+" placeholder="Def" no-spin-buttons
+                          value="${enemy.def}" required></sl-input>
+                <sl-input @sl-input="${this.expChange}" type="number" min="1" pattern="[0-9]+" placeholder="Exp" no-spin-buttons
+                          value="${enemy.exp}" required></sl-input>
+
+                <sl-button onclick="${this.deleteEnemy}" variant="danger"
+                           class="delete">
                     <sl-icon name="trash"></sl-icon>
                 </sl-button>
             </div>`
     }
 
-    public renderEnemies(): void {
-        console.debug('TabEnemies showing')
-        const render = reactive(effect);
+    renderEnemies(): void {
+        console.debug(Tabs.enemies, 'showing')
 
-        render(this.tabElement, () => html`
-            <div class="enemyLine">
+        render(this.tabElement, html`
+            <div class="enemyLine validity-styles">
                 <sl-tag class="type" variant="neutral" size="large">Type</sl-tag>
-                <sl-tag variant="neutral" class="tabEnemyLevel" size="large">Lv</sl-tag>
-                <sl-tag variant="neutral" class="tabEnemyName" size="large">Name</sl-tag>
+                <sl-tag variant="neutral" class="level" size="large">Lv</sl-tag>
+                <sl-tag variant="neutral" class="name" size="large">Name</sl-tag>
                 <sl-tag variant="neutral" size="large">HP</sl-tag>
                 <sl-tag variant="neutral" size="large">Atk</sl-tag>
                 <sl-tag variant="neutral" size="large">def</sl-tag>
                 <sl-tag variant="neutral" size="large">Exp</sl-tag>
-                <sl-tag variant="neutral" class="tabEnemyDelete" size="large">Delete</sl-tag>
+                <sl-tag variant="neutral" class="delete" size="large">Delete</sl-tag>
             </div>
-            ${this.enemySignal.value.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
-            <div id="tabEnemiesAddButtonDiv">
-                <sl-button onclick="${this.addEnemy}" id="tabEnemiesAddButton" class="add">
+            ${this.enemies.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
+            <div class="addButtonDiv">
+                <sl-button variant="primary" outline onclick="${this.addEnemy}">
                     <sl-icon name="plus-circle"></sl-icon>
                 </sl-button>
             </div>
         `);
-
     }
 
     private addEnemy = (): void => {
-        console.debug('TabEnemies add enemy')
-        this.enemySignal.value = [...this.enemySignal.value, new Enemy()]
-        console.log(this.enemySignal.value)
+        console.debug(Tabs.enemies, 'add enemy')
+        this.enemies.push(new Enemy())
+        this.renderEnemies()
     }
 
     private deleteEnemy = (event: PointerEvent): void => {
         // @ts-expect-error because
-        const enemyIndex = event.currentTarget.dataset.index
-        console.debug('TabEnemies delete enemy', enemyIndex)
-        const begin = this.enemySignal.value.slice(0, enemyIndex)
-        const end = this.enemySignal.value.slice(enemyIndex, -1)
-        this.enemySignal.value = [...begin, ...end]
+        const enemyIndex = parseInt(event.currentTarget.parentElement.dataset.index)
+        console.debug(Tabs.enemies, 'delete enemy', enemyIndex)
+        this.enemies.splice(enemyIndex, 1)
+        this.renderEnemies();
+    }
+
+    private atkChange = (event: CustomEvent): void => {
+        const [enemyIndex, value] = this.getInputValueInt(event)
+        console.debug(Tabs.enemies, 'atkChange', enemyIndex, value)
+        this.enemies[enemyIndex].atk = value
+    }
+
+    private defChange = (event: CustomEvent): void => {
+        const [enemyIndex, value] = this.getInputValueInt(event)
+        console.debug(Tabs.enemies, 'defChange', enemyIndex, value)
+        this.enemies[enemyIndex].def = value
+    }
+
+    private expChange = (event: CustomEvent): void => {
+        const [enemyIndex, value] = this.getInputValueInt(event)
+        console.debug(Tabs.enemies, 'expChange', enemyIndex, value)
+        this.enemies[enemyIndex].exp = value
+    }
+
+    private hpChange = (event: CustomEvent): void => {
+        const [enemyIndex, value] = this.getInputValueInt(event)
+        console.debug(Tabs.enemies, 'hpChange', enemyIndex, value)
+        this.enemies[enemyIndex].hp = value
+    }
+
+    private levelChange = (event: CustomEvent): void => {
+        const [enemyIndex, value] = this.getInputValueInt(event)
+        console.debug(Tabs.enemies, 'levelChange', enemyIndex, value)
+        this.enemies[enemyIndex].level = value
+    }
+
+    private nameChange = (event: CustomEvent): void => {
+        const [enemyIndex, value] = this.getInputValue(event)
+        console.debug(Tabs.enemies, 'nameChange', enemyIndex, value)
+        this.enemies[enemyIndex].name = (value == '') ? null : value
+    }
+
+    private typeChange = (event: CustomEvent): void => {
+        const [enemyIndex, value] = this.getInputValue(event)
+        console.debug(Tabs.enemies, 'typeChange', enemyIndex, value)
+        this.enemies[enemyIndex].type = (value == '') ? null : EnemyType[value]
+    }
+
+    private getInputValueInt = (event: CustomEvent): [number, number | void] => {
+        const [enemyIndex, stringValue] = this.getInputValue(event)
+        const value: number = parseInt(stringValue)
+        return [enemyIndex, (isNaN(value) ? null : value)]
+    }
+
+    private getInputValue = (event: CustomEvent): [number, string] => {
+        let currentTarget = event.currentTarget;
+        // @ts-expect-error because
+        console.debug(currentTarget.checkValidity())
+        const enemyIndex = parseInt(currentTarget.parentElement.dataset.index)
+        // @ts-expect-error because
+        return [enemyIndex, currentTarget.value]
     }
 }

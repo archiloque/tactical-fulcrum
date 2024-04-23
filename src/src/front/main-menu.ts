@@ -1,11 +1,6 @@
 import {html, render} from 'uhtml'
 import {Editor} from '../../editor'
-
-export enum Tabs {
-    map = 'tabMap',
-    enemies = 'tabEnemies',
-    info = 'tabInfo',
-}
+import {Tabs} from "./tabs";
 
 export class MainMenu {
     private readonly editor: Editor
@@ -17,10 +12,12 @@ export class MainMenu {
                 <sl-tab slot="nav" panel="${Tabs.map}">Map</sl-tab>
                 <sl-tab slot="nav" panel="${Tabs.enemies}">Enemies</sl-tab>
                 <sl-tab slot="nav" panel="${Tabs.info}">Info</sl-tab>
+                <sl-tab slot="nav" panel="${Tabs.importExport}">Import/Export</sl-tab>
 
                 <sl-tab-panel id="${Tabs.map}" name="${Tabs.map}">Map</sl-tab-panel>
                 <sl-tab-panel id="${Tabs.enemies}" name="${Tabs.enemies}">Enemies</sl-tab-panel>
                 <sl-tab-panel id="${Tabs.info}" name="${Tabs.info}">Info</sl-tab-panel>
+                <sl-tab-panel id="${Tabs.importExport}" name="${Tabs.importExport}">Import/Export</sl-tab-panel>
             </sl-tab-group>
         `)
     }

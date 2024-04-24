@@ -39,11 +39,13 @@ export class TabImportExport {
                 </sl-alert>`)
         }
  else {
-            const errors = exportStatus.errors.join(', ')
             render(alert, html`
                 <sl-alert variant="warning" open>
                     <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-                    The data has error(s) in ${errors}. The export has been done but beware!
+                    The export has been done but there are errors:
+                    <ul>
+                        ${exportStatus.errors.sort().map(message => html`<li>${message}</li>`)}
+                    </ul>
                 </sl-alert>`)
         }
         // @ts-expect-error because

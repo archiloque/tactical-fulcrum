@@ -13,32 +13,32 @@ export class ExportStatus {
 
 export class Export {
     private readonly tower: Tower
-    private errors: Set<string>
+    private readonly errors: string[]
 
     private static ERROR_TYPE_ENEMIES = 'enemies'
 
     constructor(tower: Tower) {
         this.tower = tower
-        this.errors = new Set()
+        this.errors = []
     }
 
     export(): ExportStatus {
         return new ExportStatus(JSON.stringify({
-                enemies: this.tower.enemies.map(enemy => this.enemyToJson(enemy)),
+                enemies: this.tower.enemies.map((enemy: Enemy, enemyIndex: number)=> this.enemyToJson(enemy, enemyIndex)),
             }, null, 2),
             Array.from(this.errors),
         )
     }
 
-    private enemyToJson(enemy: Enemy) {
-        this.checkNull(enemy.type, Export.ERROR_TYPE_ENEMIES)
-        this.checkNotEmpty(enemy.name, Export.ERROR_TYPE_ENEMIES)
-        this.checkNumber(enemy.hp, Export.ERROR_TYPE_ENEMIES)
-        this.checkNumber(enemy.hp, Export.ERROR_TYPE_ENEMIES)
-        this.checkNumber(enemy.atk, Export.ERROR_TYPE_ENEMIES)
-        this.checkNumber(enemy.def, Export.ERROR_TYPE_ENEMIES)
-        this.checkNumber(enemy.exp, Export.ERROR_TYPE_ENEMIES)
-        this.checkNull(enemy.drop, Export.ERROR_TYPE_ENEMIES)
+    private enemyToJson(enemy: Enemy, enemyIndex: number) {
+        this.checkNull(enemy.type, `Enemy ${enemyIndex} type is invalid`)
+        this.checkNumber(enemy.level, `Enemy ${enemyIndex} level is invalid`)
+        this.checkNotEmpty(enemy.name, `Enemy ${enemyIndex} name is invalid`)
+        this.checkNumber(enemy.hp, `Enemy ${enemyIndex} hp is invalid`)
+        this.checkNumber(enemy.atk, `Enemy ${enemyIndex} atk is invalid`)
+        this.checkNumber(enemy.def, `Enemy ${enemyIndex} def is invalid`)
+        this.checkNumber(enemy.exp, `Enemy ${enemyIndex} exp is invalid`)
+        this.checkNull(enemy.drop, `Enemy ${enemyIndex} drop is invalid`)
 
         return {
             type: enemy.type ? enemy.type.valueOf() : null,
@@ -53,21 +53,21 @@ export class Export {
     }
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
-    private checkNull(value: any, type: string): void {
+    private checkNull(value: any, message: string): void {
         if (value == null) {
-            this.errors.add(type)
+            this.errors.push(message)
         }
     }
 
-    private checkNotEmpty(value: string | null, type: string): void {
+    private checkNotEmpty(value: string | null, message: string): void {
         if ((value == null) || (value.length == 0)) {
-            this.errors.add(type)
+            this.errors.push(message)
         }
     }
 
-    private checkNumber(value: number | null, type: string): void {
+    private checkNumber(value: number | null, message: string): void {
         if ((value == null) || (value == 0)) {
-            this.errors.add(type)
+            this.errors.push(message)
         }
     }
 }

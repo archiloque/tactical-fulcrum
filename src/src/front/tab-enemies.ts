@@ -18,16 +18,17 @@ export class TabEnemies {
     }
 
     private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
-        let drops:Hole[] = [
+        let drops: Hole[] = [
             html`
-            <sl-option value="0">&lt;Nothing&gt;</sl-option>`
+                <sl-option value="0">&lt;Nothing&gt;</sl-option>`
         ].concat(
             ITEMS.map((item: string, index: number) => html`
-            <sl-option value="${index + 1}">${item}</sl-option>`));
+                <sl-option value="${index + 1}">${item}</sl-option>`));
         const dropValue = (enemy.drop == null) ? 0 : ITEMS.indexOf(enemy.drop)
-        return html `
+        return html`
             <div data-index="${enemyIndex}" class="enemyLine">
-                <sl-select @sl-input="${this.typeChange}" class="type" placeholder="Type" hoist value="${enemy.type}" required>
+                <sl-select @sl-input="${this.typeChange}" class="type" placeholder="Type" hoist value="${enemy.type}"
+                           required>
                     ${ENEMY_TYPE.map((enemyType: string) => html`
                         <sl-option value="${enemyType}">${enemyType}</sl-option>`)}
                 </sl-select>
@@ -48,7 +49,8 @@ export class TabEnemies {
                 <sl-input @sl-input="${this.expChange}" type="number" min="1" pattern="[0-9]+" placeholder="Exp"
                           no-spin-buttons
                           value="${enemy.exp}" required></sl-input>
-                <sl-select @sl-input="${this.dropChange}" class="drop" placeholder="Drop" hoist value="${dropValue}" required>
+                <sl-select @sl-input="${this.dropChange}" class="drop" placeholder="Drop" hoist value="${dropValue}"
+                           required>
                     ${drops}
                 </sl-select>
 
@@ -136,7 +138,7 @@ export class TabEnemies {
     private typeChange = (event: CustomEvent): void => {
         const [enemyIndex, value] = this.getInputValue(event)
         console.debug(Tabs.enemies, 'typeChange', enemyIndex, value)
-        this.tower.enemies[enemyIndex].type = (value == '') ? null : <EnemyType> value
+        this.tower.enemies[enemyIndex].type = (value == '') ? null : <EnemyType>value
     }
 
     private dropChange = (event: CustomEvent): void => {

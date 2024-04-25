@@ -38,6 +38,18 @@ abstract class IOOperation {
         this.errors = []
     }
 
+    protected validateEnemies(enemies: Enemy[]) {
+        const knownEnemies = []
+        enemies.forEach((enemy, index) => {
+            const enemyIdentifier = `${enemy.level}|${enemy.type}`
+            if (knownEnemies.indexOf(enemyIdentifier) != -1) {
+                this.errors.push(`Enemy ${index} is duplicated (samy type and level)`)
+            } else {
+                knownEnemies.push(enemyIdentifier)
+            }
+        })
+    }
+
     protected validateEnemy(enemy: Enemy, enemyIndex: number) {
         this.checkEnum(enemy.type, ENEMY_TYPES, true, `Enemy ${enemyIndex} type is invalid`)
         this.checkNumber(enemy.level, `Enemy ${enemyIndex} level is invalid`)
@@ -108,6 +120,7 @@ export class Import extends IOOperation {
         } catch (e) {
             this.errors.push(e.message)
         }
+        this.validateEnemies(tower.enemies)
         return new ImportResult(
             tower,
             this.errors,
@@ -124,7 +137,7 @@ export class Import extends IOOperation {
         result.atk = value['atk']
         result.def = value['def']
         result.exp = value['exp']
-        const drop:string = value['drop'];
+        const drop: string = value['drop'];
         result.drop = (ITEMS.map(it => it.valueOf()).indexOf(drop) == -1) ? null : drop as Item
         return result;
     }
@@ -142,6 +155,7 @@ export class Export extends IOOperation {
             this.validateEnemy(enemy, enemyIndex)
             return this.enemyToJson(enemy)
         });
+        this.validateEnemies(tower.enemies)
         enemies.sort((e1, e2) => {
             if (e1['type'] != e2['type']) {
                 return (e1['type'] > e2['type']) ? 1 : -1

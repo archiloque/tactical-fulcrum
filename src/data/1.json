@@ -1,0 +1,204 @@
+{
+ "enemies": [
+  {
+   "type": "Burgeoner",
+   "level": 16,
+   "name": "Fine burgeoner",
+   "atk": 820,
+   "def": 10,
+   "drop": "",
+   "exp": 300,
+   "hp": 9999
+  },
+  {
+   "type": "Fighter",
+   "level": 1,
+   "name": "Junior Fighter",
+   "atk": 55,
+   "def": 25,
+   "drop": "Guard piece",
+   "exp": 2,
+   "hp": 120
+  },
+  {
+   "type": "Fighter",
+   "level": 3,
+   "name": "Fighter",
+   "atk": 110,
+   "def": 40,
+   "drop": "Guard piece",
+   "exp": 5,
+   "hp": 320
+  },
+  {
+   "type": "Fighter",
+   "level": 5,
+   "name": "Elder Fighter",
+   "atk": 145,
+   "def": 65,
+   "drop": "Guard gem",
+   "exp": 10,
+   "hp": 600
+  },
+  {
+   "type": "Fighter",
+   "level": 8,
+   "name": "Great Fighter",
+   "atk": 260,
+   "def": 85,
+   "drop": "Guard gem",
+   "exp": 18,
+   "hp": 1000
+  },
+  {
+   "type": "Fighter",
+   "level": 12,
+   "name": "Fine Fighter",
+   "atk": 440,
+   "def": 120,
+   "drop": "Guard potion",
+   "exp": 30,
+   "hp": 2000
+  },
+  {
+   "type": "Fighter",
+   "level": 15,
+   "name": "Master Fighter",
+   "atk": 590,
+   "def": 170,
+   "drop": "Guard potion",
+   "exp": 47,
+   "hp": 3500
+  },
+  {
+   "type": "Fighter",
+   "level": 19,
+   "name": "General Fighter",
+   "atk": 1120,
+   "def": 445,
+   "drop": "Guard card",
+   "exp": 70,
+   "hp": 5500
+  },
+  {
+   "type": "Fighter",
+   "level": 23,
+   "name": "Legendary Fighter",
+   "atk": 1650,
+   "def": 620,
+   "drop": "Guard card",
+   "exp": 100,
+   "hp": 8000
+  },
+  {
+   "type": "Fighter",
+   "level": 28,
+   "name": "",
+   "atk": 2150,
+   "def": 700,
+   "drop": "Guard card",
+   "exp": 138,
+   "hp": 1600
+  },
+  {
+   "type": "Ranger",
+   "level": 2,
+   "name": "Junior Ranger",
+   "atk": 200,
+   "def": 10,
+   "drop": "Red potion",
+   "exp": 4,
+   "hp": 200
+  },
+  {
+   "type": "Ranger",
+   "level": 4,
+   "name": "Ranger",
+   "atk": 350,
+   "def": 20,
+   "drop": "Red potion",
+   "exp": 16,
+   "hp": 200
+  },
+  {
+   "type": "Ranger",
+   "level": 7,
+   "name": "Elder Ranger",
+   "atk": 280,
+   "def": 40,
+   "drop": "Blue potion",
+   "exp": 36,
+   "hp": 800
+  },
+  {
+   "type": "Ranger",
+   "level": 10,
+   "name": "Great Ranger",
+   "atk": 540,
+   "def": 60,
+   "drop": "Blue potion",
+   "exp": 64,
+   "hp": 800
+  },
+  {
+   "type": "Ranger",
+   "level": 13,
+   "name": "Fine Ranger",
+   "atk": 1050,
+   "def": 80,
+   "drop": "Blue potion",
+   "exp": 100,
+   "hp": 800
+  },
+  {
+   "type": "Ranger",
+   "level": 16,
+   "name": "Master Ranger",
+   "atk": 1100,
+   "def": 120,
+   "drop": "Life potion",
+   "exp": 144,
+   "hp": 2000
+  },
+  {
+   "type": "Ranger",
+   "level": 18,
+   "name": "General Ranger",
+   "atk": 1660,
+   "def": 240,
+   "drop": "Life potion",
+   "exp": 196,
+   "hp": 2000
+  },
+  {
+   "type": "Ranger",
+   "level": 22,
+   "name": "Legendary Ranger",
+   "atk": 2350,
+   "def": 360,
+   "drop": "Heavenly potion",
+   "exp": 256,
+   "hp": 3000
+  },
+  {
+   "type": "Ranger",
+   "level": 26,
+   "name": "",
+   "atk": 3740,
+   "def": 720,
+   "drop": "Heavenly potion",
+   "exp": 324,
+   "hp": 3000
+  },
+  {
+   "type": "Ranger",
+   "level": 30,
+   "name": "",
+   "atk": 4800,
+   "def": 480,
+   "drop": "Drop of dream ocean",
+   "exp": 400,
+   "hp": 9999
+  }
+ ]
+}

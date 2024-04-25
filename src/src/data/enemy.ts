@@ -9,7 +9,7 @@ export class Enemy {
     atk: number | null
     def: number | null
     exp: number | null
-    drop: Item
+    drop: Item | null
 
     constructor() {
     }

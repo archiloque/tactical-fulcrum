@@ -1,7 +1,6 @@
 import {Tower} from './tower'
 import {Enemy} from './enemy'
 import {ENEMY_TYPES} from '../../../old/editor/enemy_types'
-import {ITEMS} from '../data/item'
 import {EnemyType} from '../data/enemy_type'
 import {DROPS} from "../data/drop";
 

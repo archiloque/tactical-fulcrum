@@ -24,7 +24,7 @@ export class TabImportExport {
                         </sl-button>
                     </div>
                     <div class="exportAlert"></div>
-                    <sl-textarea class="textArea" resize="auto"></sl-textarea>
+                    <sl-textarea class="textArea" resize="auto" size="small"></sl-textarea>
             `,
         )
     }
@@ -35,7 +35,7 @@ export class TabImportExport {
         const stringData = textArea[0].value
         const importResult = new Import().import(stringData)
         const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
-        TabImportExport.processIOResult(importResult, alert, 'import')
+        TabImportExport.processIOResult(importResult, alert, 'Import')
         this.editor.tower.enemies = importResult.content.enemies
     }
 
@@ -43,7 +43,7 @@ export class TabImportExport {
         const textArea = document.getElementById(Tabs.importExport).getElementsByClassName('textArea')
         const exportResult = new Export().export(this.editor.tower)
         const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
-        TabImportExport.processIOResult(exportResult, alert, 'export')
+        TabImportExport.processIOResult(exportResult, alert, 'Export')
         // @ts-ignore
         textArea[0].value = exportResult.content
     }
@@ -51,20 +51,22 @@ export class TabImportExport {
     private static processIOResult(ioStatus: IOStatus, alert: Element, operationName: string) {
         if (ioStatus.errors.length == 0) {
             render(alert, html`
-                <sl-alert variant="success" open>
+                <sl-alert variant="success" open closable duration="3000">
                     <sl-icon slot="icon" name="check2-circle"></sl-icon>
-                    The data has no error and the ${operationName} has been done.
+                    ${operationName} done
                 </sl-alert>`)
         } else {
             render(alert, html`
-                <sl-alert variant="warning" open>
+                <sl-alert variant="warning" open closable>
                     <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-                    The ${operationName} has been done but there are errors:
+                    ${operationName} done but there are errors:
                     <ul>
                         ${ioStatus.errors.sort().map(message => html`
                             <li>${message}</li>`)}
                     </ul>
                 </sl-alert>`)
         }
+        // @ts-ignore
+        alert.querySelector('sl-alert').toast()
     }
 }

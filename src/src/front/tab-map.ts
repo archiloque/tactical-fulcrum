@@ -17,6 +17,7 @@ export class TabMap {
     private readonly tower: Tower
     private readonly app: Application
     private splitPanel: HTMLElement
+    private tabMapEnemies: HTMLElement
 
     constructor(editor: Editor) {
         settings.RESOLUTION = window.devicePixelRatio || 1
@@ -31,8 +32,6 @@ export class TabMap {
 
     async init() {
         await this.app.init({background: '#FF00FF'})
-        const enemies: Hole[] = this.editor.tower.enemies.map(e => html`
-            <sl-tree-item>${e.type} ${e.level}</sl-tree-item>`)
         const keys: Hole[] = COLORS.map(c => html`
             <sl-tree-item>${capitalize(c)}</sl-tree-item>`)
         const items: Hole[] = ITEMS.map(i => html`
@@ -46,8 +45,7 @@ export class TabMap {
                     <sl-tree selection="leaf">
                         <sl-tree-item selected>Empty</sl-tree-item>
                         <sl-tree-item>Wall</sl-tree-item>
-                        <sl-tree-item>Enemy
-                            ${enemies}
+                        <sl-tree-item id="tabMapEnemies">Enemy
                         </sl-tree-item>
                         <sl-tree-item>Key
                             ${keys}
@@ -58,11 +56,15 @@ export class TabMap {
                     </sl-tree>
                 </div>`)
         this.splitPanel = document.getElementById('tabMapSplitPanel')
+        this.tabMapEnemies = document.getElementById('tabMapEnemies')
         document.getElementById('tabMapMap').appendChild(this.app.canvas)
     }
 
     renderMap() {
         console.debug(Tab.map, 'showing')
+        const enemies: Hole[] = this.editor.tower.enemies.map(e => html`
+            <sl-tree-item>${e.type} ${e.level}</sl-tree-item>`)
+        render(this.tabMapEnemies, html`Enemy ${enemies}`)
         this.resize()
     }
 

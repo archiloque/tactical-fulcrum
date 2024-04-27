@@ -64,7 +64,7 @@ export class TabImportExport {
                     ${operationName} done but there are errors:
                     <ul>
                         ${ioStatus.errors.sort().map(message => html`
-                            <li>${message}</li>`)}
+                <li>${message}</li>`)}
                     </ul>
                 </sl-alert>`)
         }

@@ -6,6 +6,7 @@ import {Tower} from '../behavior/tower'
 import {COLORS} from '../data/color'
 import {capitalize} from '../behavior/utils'
 import {ITEMS} from '../data/item'
+
 export class TabMap {
     private readonly editor: Editor
     private readonly tabElement: HTMLElement

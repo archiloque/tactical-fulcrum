@@ -127,7 +127,7 @@ export class Import extends IOOperation {
  else {
                 const enemies: any[] = parsedData['enemies']
                 tower.enemies = enemies.map((value, index) => {
-                    const enemy: Enemy = this.enemyFromJson(value)
+                    const enemy: Enemy = Import.enemyFromJson(value)
                     this.validateEnemy(enemy, index)
                     return enemy
                 })
@@ -143,7 +143,7 @@ export class Import extends IOOperation {
         )
     }
 
-    private enemyFromJson(value: any): Enemy {
+    static enemyFromJson(value: any): Enemy {
         const result: Enemy = new Enemy()
         const enemyType = value['type']
         result.type = (ENEMY_TYPES.map(it => it.valueOf()).indexOf(enemyType) == -1) ? null : enemyType as EnemyType

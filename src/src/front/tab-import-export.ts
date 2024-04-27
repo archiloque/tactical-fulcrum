@@ -37,6 +37,7 @@ export class TabImportExport {
         const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
         TabImportExport.processIOResult(importResult, alert, 'Import')
         this.editor.tower.enemies = importResult.content.enemies
+        this.editor.tower.saveEnemies()
     }
 
     private export = (): void => {

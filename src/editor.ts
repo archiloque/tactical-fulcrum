@@ -36,6 +36,7 @@ export class Editor {
     constructor() {
         console.info('Editor starting')
         this.tower = new Tower()
+        this.tower.load()
         new MainMenu(this)
         this.tabEnemies = new TabEnemies(this)
         this.tabImportExport = new TabImportExport(this)

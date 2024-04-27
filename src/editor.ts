@@ -1,5 +1,4 @@
 import './reset.css'
-import '@shoelace-style/shoelace/dist/themes/light.css'
 import './editor.css'
 
 import '@shoelace-style/shoelace/dist/components/alert/alert.js'
@@ -41,7 +40,6 @@ export class Editor {
         this.tabEnemies = new TabEnemies(this)
         this.tabImportExport = new TabImportExport(this)
         this.tabMap = new TabMap(this)
-        // @ts-ignore
         this.tabMap.renderMap()
     }
 

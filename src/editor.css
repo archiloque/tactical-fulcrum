@@ -111,7 +111,6 @@ body {
     sl-tree-item:hover::part(base) {
         color: var(--sl-color-primary-600);
     }
-
 }
 
 h1 {

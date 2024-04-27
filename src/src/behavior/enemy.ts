@@ -1,5 +1,4 @@
 import {EnemyType} from '../data/enemy_type'
-import {Item} from '../data/item'
 
 export class Enemy {
     type: EnemyType | null

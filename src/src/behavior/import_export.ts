@@ -1,8 +1,9 @@
 import {Tower} from './tower'
 import {Enemy} from './enemy'
-import {ENEMY_TYPES} from "../../../old/editor/enemy_types";
-import {Item, ITEMS} from "./item";
-import {EnemyType} from "./enemy_type";
+import {ENEMY_TYPES} from '../../../old/editor/enemy_types'
+import {ITEMS} from '../data/item'
+import {EnemyType} from '../data/enemy_type'
+import {DROPS} from "../data/drop";
 
 export abstract class IOStatus {
     readonly errors: string[]
@@ -10,7 +11,6 @@ export abstract class IOStatus {
     protected constructor(errors: string[]) {
         this.errors = errors
     }
-
 }
 
 export class ExportResult extends IOStatus {
@@ -52,19 +52,18 @@ abstract class IOOperation {
 
     protected validateEnemy(enemy: Enemy, enemyIndex: number) {
         this.checkEnum(enemy.type, ENEMY_TYPES, true, `Enemy ${enemyIndex} type is invalid`)
-        this.checkNumber(enemy.level, `Enemy ${enemyIndex} level is invalid`)
-        this.checkNotEmpty(enemy.name, `Enemy ${enemyIndex} name is invalid`)
-        this.checkNumber(enemy.hp, `Enemy ${enemyIndex} hp is invalid`)
-        this.checkNumber(enemy.atk, `Enemy ${enemyIndex} atk is invalid`)
-        this.checkNumber(enemy.def, `Enemy ${enemyIndex} def is invalid`)
-        this.checkNumber(enemy.exp, `Enemy ${enemyIndex} exp is invalid`)
-        this.checkEnum(enemy.drop, ITEMS, false, `Enemy ${enemyIndex} drop is invalid`)
+        this.checkNumber(enemy.level, `Enemy ${enemyIndex} level [${enemy.level}] is invalid`, false)
+        this.checkNotEmpty(enemy.name, `Enemy ${enemyIndex} name [${enemy.name}] is invalid`)
+        this.checkNumber(enemy.hp, `Enemy ${enemyIndex} hp [${enemy.hp}] is invalid`, false)
+        this.checkNumber(enemy.atk, `Enemy ${enemyIndex} atk [${enemy.atk}] is invalid`, true)
+        this.checkNumber(enemy.def, `Enemy ${enemyIndex} def [${enemy.def}] is invalid`, true)
+        this.checkNumber(enemy.exp, `Enemy ${enemyIndex} exp [${enemy.exp}] is invalid`, true)
+        this.checkEnum(enemy.drop, DROPS, false, `Enemy ${enemyIndex} drop [${enemy.drop}] is invalid`)
     }
-
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
     private checkEnum(value: any, values: string[], mandatory: boolean, message: string): void {
-        if ((value == null) || (value == "")) {
+        if ((value == null) || (value == '')) {
             if (mandatory) {
                 this.errors.push(message)
             }
@@ -81,19 +80,30 @@ abstract class IOOperation {
         }
     }
 
-    private checkNumber(value: string | number | null, message: string): void {
+    private checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean): void {
         if (value == null) {
             this.errors.push(message)
-        } else if (typeof value == "number") {
-            if (value <= 0) {
-                this.errors.push(message)
+        } else if (typeof value == 'number') {
+            if (zeroAuthorized) {
+                if (value < 0) {
+                    this.errors.push(message)
+                }
+            } else {
+                if (value <= 0) {
+                    this.errors.push(message)
+                }
             }
         } else {
-            const v = parseInt(value);
-            if ((isNaN(v) || v <= 0)) {
-                this.errors.push(message)
+            const v = parseInt(value)
+            if (zeroAuthorized) {
+                if ((isNaN(v) || v < 0)) {
+                    this.errors.push(message)
+                }
+            } else {
+                if ((isNaN(v) || v <= 0)) {
+                    this.errors.push(message)
+                }
             }
-
         }
     }
 }
@@ -104,15 +114,15 @@ export class Import extends IOOperation {
     }
 
     import(stringData: string): ImportResult {
-        const tower = new Tower();
+        const tower: Tower = new Tower()
         try {
-            const parsedData = JSON.parse(stringData);
+            const parsedData = JSON.parse(stringData)
             if ((parsedData['enemies'] == null) || (!Array.isArray(parsedData['enemies']))) {
-                this.errors.push("Enemies value is invalid")
+                this.errors.push('Enemies value is invalid')
             } else {
-                const enemies: any[] = parsedData['enemies'];
+                const enemies: any[] = parsedData['enemies']
                 tower.enemies = enemies.map((value, index) => {
-                    const enemy = this.enemyFromJson(value)
+                    const enemy: Enemy = this.enemyFromJson(value)
                     this.validateEnemy(enemy, index)
                     return enemy
                 })
@@ -128,8 +138,8 @@ export class Import extends IOOperation {
     }
 
     private enemyFromJson(value: any): Enemy {
-        const result = new Enemy()
-        const enemyType = value['type'];
+        const result: Enemy = new Enemy()
+        const enemyType = value['type']
         result.type = (ENEMY_TYPES.map(it => it.valueOf()).indexOf(enemyType) == -1) ? null : enemyType as EnemyType
         result.level = value['level']
         result.name = value['name']
@@ -137,24 +147,25 @@ export class Import extends IOOperation {
         result.atk = value['atk']
         result.def = value['def']
         result.exp = value['exp']
-        const drop: string = value['drop'];
-        result.drop = (ITEMS.map(it => it.valueOf()).indexOf(drop) == -1) ? null : drop as Item
-        return result;
+        let drop: string = value['drop']
+        if (drop == "") {
+            drop = null
+        }
+        result.drop = (DROPS.indexOf(drop) == -1) ? null : drop
+        return result
     }
-
 }
 
 export class Export extends IOOperation {
-
     constructor() {
         super()
     }
 
     export(tower: Tower): ExportResult {
-        let enemies = tower.enemies.map((enemy: Enemy, enemyIndex: number) => {
+        const enemies = tower.enemies.map((enemy: Enemy, enemyIndex: number) => {
             this.validateEnemy(enemy, enemyIndex)
             return this.enemyToJson(enemy)
-        });
+        })
         this.validateEnemies(tower.enemies)
         enemies.sort((e1, e2) => {
             if (e1['type'] != e2['type']) {
@@ -172,11 +183,11 @@ export class Export extends IOOperation {
             } else if (e1['exp'] != e2['exp']) {
                 return e1['exp'] - e2['exp']
             } else if (e1['drop'] > e2['drop']) {
-                return 1;
+                return 1
             } else if (e1['drop'] < e2['drop']) {
-                return -1;
+                return -1
             } else {
-                return 0;
+                return 0
             }
         })
         return new ExportResult(JSON.stringify({
@@ -195,7 +206,7 @@ export class Export extends IOOperation {
             atk: enemy.atk,
             def: enemy.def,
             exp: enemy.exp,
-            drop: enemy.drop ? enemy.drop.valueOf() : "",
+            drop: enemy.drop ? enemy.drop : '',
         }
     }
 }

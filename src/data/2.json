@@ -1,284 +1,284 @@
 {
- "enemies": [
-  {
-   "type": "Burgeoner",
-   "level": 5,
-   "name": "",
-   "atk": 100,
-   "def": 0,
-   "drop": "",
-   "exp": 20,
-   "hp": 2500
-  },
-  {
-   "type": "Burgeoner",
-   "level": 9,
-   "name": "",
-   "atk": 300,
-   "def": 0,
-   "drop": "",
-   "exp": 50,
-   "hp": 3000
-  },
-  {
-   "type": "Burgeoner",
-   "level": 30,
-   "name": "",
-   "atk": 1000,
-   "def": 300,
-   "drop": "",
-   "exp": 470,
-   "hp": 18000
-  },
-  {
-   "type": "Fighter",
-   "level": 1,
-   "name": "",
-   "atk": 100,
-   "def": 0,
-   "drop": "Guard piece",
-   "exp": 2,
-   "hp": 200
-  },
-  {
-   "type": "Fighter",
-   "level": 3,
-   "name": "",
-   "atk": 200,
-   "def": 0,
-   "drop": "Guard piece",
-   "exp": 5,
-   "hp": 300
-  },
-  {
-   "type": "Fighter",
-   "level": 6,
-   "name": "",
-   "atk": 300,
-   "def": 100,
-   "drop": "Guard gem",
-   "exp": 10,
-   "hp": 600
-  },
-  {
-   "type": "Fighter",
-   "level": 11,
-   "name": "",
-   "atk": 400,
-   "def": 200,
-   "drop": "Guard gem",
-   "exp": 18,
-   "hp": 1000
-  },
-  {
-   "type": "Fighter",
-   "level": 17,
-   "name": "",
-   "atk": 700,
-   "def": 300,
-   "drop": "Guard potion",
-   "exp": 30,
-   "hp": 2000
-  },
-  {
-   "type": "Fighter",
-   "level": 36,
-   "name": "",
-   "atk": 1200,
-   "def": 600,
-   "drop": "Guard card",
-   "exp": 70,
-   "hp": 5500
-  },
-  {
-   "type": "Ranger",
-   "level": 3,
-   "name": "",
-   "atk": 100,
-   "def": 0,
-   "drop": "Red potion",
-   "exp": 2,
-   "hp": 200
-  },
-  {
-   "type": "Ranger",
-   "level": 6,
-   "name": "",
-   "atk": 200,
-   "def": 100,
-   "drop": "Red potion",
-   "exp": 5,
-   "hp": 200
-  },
-  {
-   "type": "Ranger",
-   "level": 13,
-   "name": "",
-   "atk": 300,
-   "def": 100,
-   "drop": "Blue potion",
-   "exp": 10,
-   "hp": 800
-  },
-  {
-   "type": "Ranger",
-   "level": 16,
-   "name": "",
-   "atk": 600,
-   "def": 100,
-   "drop": "Blue potion",
-   "exp": 18,
-   "hp": 800
-  },
-  {
-   "type": "Ranger",
-   "level": 19,
-   "name": "",
-   "atk": 800,
-   "def": 200,
-   "drop": "Blue potion",
-   "exp": 30,
-   "hp": 800
-  },
-  {
-   "type": "Ranger",
-   "level": 23,
-   "name": "",
-   "atk": 1000,
-   "def": 100,
-   "drop": "Life potion",
-   "exp": 47,
-   "hp": 2000
-  },
-  {
-   "type": "Ranger",
-   "level": 32,
-   "name": "",
-   "atk": 1600,
-   "def": 200,
-   "drop": "Life potion",
-   "exp": 70,
-   "hp": 2000
-  },
-  {
-   "type": "Ranger",
-   "level": 36,
-   "name": "",
-   "atk": 2200,
-   "def": 400,
-   "drop": "Heavenly potion",
-   "exp": 100,
-   "hp": 3000
-  },
-  {
-   "type": "Shadow",
-   "level": 3,
-   "name": "",
-   "atk": 200,
-   "def": 0,
-   "drop": "Yellow key",
-   "exp": 4,
-   "hp": 300
-  },
-  {
-   "type": "Shadow",
-   "level": 8,
-   "name": "",
-   "atk": 300,
-   "def": 100,
-   "drop": "Blue key",
-   "exp": 16,
-   "hp": 500
-  },
-  {
-   "type": "Shadow",
-   "level": 14,
-   "name": "",
-   "atk": 700,
-   "def": 100,
-   "drop": "Crimson key",
-   "exp": 36,
-   "hp": 600
-  },
-  {
-   "type": "Shadow",
-   "level": 22,
-   "name": "",
-   "atk": 1200,
-   "def": 200,
-   "drop": "Violet key",
-   "exp": 64,
-   "hp": 1200
-  },
-  {
-   "type": "Shadow",
-   "level": 50,
-   "name": "",
-   "atk": 3000,
-   "def": 0,
-   "drop": "Yellow key",
-   "exp": 200,
-   "hp": 5000
-  },
-  {
-   "type": "Shadow",
-   "level": 60,
-   "name": "",
-   "atk": 4000,
-   "def": 100,
-   "drop": "Blue key",
-   "exp": 250,
-   "hp": 7000
-  },
-  {
-   "type": "Slasher",
-   "level": 1,
-   "name": "",
-   "atk": 200,
-   "def": 0,
-   "drop": "Power piece",
-   "exp": 2,
-   "hp": 100
-  },
-  {
-   "type": "Slasher",
-   "level": 3,
-   "name": "",
-   "atk": 300,
-   "def": 0,
-   "drop": "Power piece",
-   "exp": 5,
-   "hp": 200
-  },
-  {
-   "type": "Slasher",
-   "level": 6,
-   "name": "",
-   "atk": 500,
-   "def": 0,
-   "drop": "Power gem",
-   "exp": 10,
-   "hp": 400
-  },
-  {
-   "type": "Slasher",
-   "level": 11,
-   "name": "",
-   "atk": 600,
-   "def": 100,
-   "drop": "Power gem",
-   "exp": 18,
-   "hp": 800
-  },
-  {
-   "type": "Slasher",
-   "level": 17,
-   "name": "",
-   "atk": 1000,
-   "def": 200,
-   "drop": "Power potion",
-   "exp": 30,
-   "hp": 1000
-  }
- ]
+  "enemies": [
+    {
+      "type": "Burgeoner",
+      "level": 5,
+      "name": "",
+      "atk": 100,
+      "def": 0,
+      "drop": "",
+      "exp": 20,
+      "hp": 2500
+    },
+    {
+      "type": "Burgeoner",
+      "level": 9,
+      "name": "",
+      "atk": 300,
+      "def": 0,
+      "drop": "",
+      "exp": 50,
+      "hp": 3000
+    },
+    {
+      "type": "Burgeoner",
+      "level": 30,
+      "name": "",
+      "atk": 1000,
+      "def": 300,
+      "drop": "",
+      "exp": 470,
+      "hp": 18000
+    },
+    {
+      "type": "Fighter",
+      "level": 1,
+      "name": "",
+      "atk": 100,
+      "def": 0,
+      "drop": "Guard piece",
+      "exp": 2,
+      "hp": 200
+    },
+    {
+      "type": "Fighter",
+      "level": 3,
+      "name": "",
+      "atk": 200,
+      "def": 0,
+      "drop": "Guard piece",
+      "exp": 5,
+      "hp": 300
+    },
+    {
+      "type": "Fighter",
+      "level": 6,
+      "name": "",
+      "atk": 300,
+      "def": 100,
+      "drop": "Guard gem",
+      "exp": 10,
+      "hp": 600
+    },
+    {
+      "type": "Fighter",
+      "level": 11,
+      "name": "",
+      "atk": 400,
+      "def": 200,
+      "drop": "Guard gem",
+      "exp": 18,
+      "hp": 1000
+    },
+    {
+      "type": "Fighter",
+      "level": 17,
+      "name": "",
+      "atk": 700,
+      "def": 300,
+      "drop": "Guard potion",
+      "exp": 30,
+      "hp": 2000
+    },
+    {
+      "type": "Fighter",
+      "level": 36,
+      "name": "",
+      "atk": 1200,
+      "def": 600,
+      "drop": "Guard card",
+      "exp": 70,
+      "hp": 5500
+    },
+    {
+      "type": "Ranger",
+      "level": 3,
+      "name": "",
+      "atk": 100,
+      "def": 0,
+      "drop": "Red potion",
+      "exp": 2,
+      "hp": 200
+    },
+    {
+      "type": "Ranger",
+      "level": 6,
+      "name": "",
+      "atk": 200,
+      "def": 100,
+      "drop": "Red potion",
+      "exp": 5,
+      "hp": 200
+    },
+    {
+      "type": "Ranger",
+      "level": 13,
+      "name": "",
+      "atk": 300,
+      "def": 100,
+      "drop": "Blue potion",
+      "exp": 10,
+      "hp": 800
+    },
+    {
+      "type": "Ranger",
+      "level": 16,
+      "name": "",
+      "atk": 600,
+      "def": 100,
+      "drop": "Blue potion",
+      "exp": 18,
+      "hp": 800
+    },
+    {
+      "type": "Ranger",
+      "level": 19,
+      "name": "",
+      "atk": 800,
+      "def": 200,
+      "drop": "Blue potion",
+      "exp": 30,
+      "hp": 800
+    },
+    {
+      "type": "Ranger",
+      "level": 23,
+      "name": "",
+      "atk": 1000,
+      "def": 100,
+      "drop": "Life potion",
+      "exp": 47,
+      "hp": 2000
+    },
+    {
+      "type": "Ranger",
+      "level": 32,
+      "name": "",
+      "atk": 1600,
+      "def": 200,
+      "drop": "Life potion",
+      "exp": 70,
+      "hp": 2000
+    },
+    {
+      "type": "Ranger",
+      "level": 36,
+      "name": "",
+      "atk": 2200,
+      "def": 400,
+      "drop": "Heavenly potion",
+      "exp": 100,
+      "hp": 3000
+    },
+    {
+      "type": "Shadow",
+      "level": 3,
+      "name": "",
+      "atk": 200,
+      "def": 0,
+      "drop": "Yellow key",
+      "exp": 4,
+      "hp": 300
+    },
+    {
+      "type": "Shadow",
+      "level": 8,
+      "name": "",
+      "atk": 300,
+      "def": 100,
+      "drop": "Blue key",
+      "exp": 16,
+      "hp": 500
+    },
+    {
+      "type": "Shadow",
+      "level": 14,
+      "name": "",
+      "atk": 700,
+      "def": 100,
+      "drop": "Crimson key",
+      "exp": 36,
+      "hp": 600
+    },
+    {
+      "type": "Shadow",
+      "level": 22,
+      "name": "",
+      "atk": 1200,
+      "def": 200,
+      "drop": "Violet key",
+      "exp": 64,
+      "hp": 1200
+    },
+    {
+      "type": "Shadow",
+      "level": 50,
+      "name": "",
+      "atk": 3000,
+      "def": 0,
+      "drop": "Yellow key",
+      "exp": 200,
+      "hp": 5000
+    },
+    {
+      "type": "Shadow",
+      "level": 60,
+      "name": "",
+      "atk": 4000,
+      "def": 100,
+      "drop": "Blue key",
+      "exp": 250,
+      "hp": 7000
+    },
+    {
+      "type": "Slasher",
+      "level": 1,
+      "name": "",
+      "atk": 200,
+      "def": 0,
+      "drop": "Power piece",
+      "exp": 2,
+      "hp": 100
+    },
+    {
+      "type": "Slasher",
+      "level": 3,
+      "name": "",
+      "atk": 300,
+      "def": 0,
+      "drop": "Power piece",
+      "exp": 5,
+      "hp": 200
+    },
+    {
+      "type": "Slasher",
+      "level": 6,
+      "name": "",
+      "atk": 500,
+      "def": 0,
+      "drop": "Power gem",
+      "exp": 10,
+      "hp": 400
+    },
+    {
+      "type": "Slasher",
+      "level": 11,
+      "name": "",
+      "atk": 600,
+      "def": 100,
+      "drop": "Power gem",
+      "exp": 18,
+      "hp": 800
+    },
+    {
+      "type": "Slasher",
+      "level": 17,
+      "name": "",
+      "atk": 1000,
+      "def": 200,
+      "drop": "Power potion",
+      "exp": 30,
+      "hp": 1000
+    }
+  ]
 }

@@ -15,6 +15,7 @@ export default [
             '@stylistic/object-curly-spacing': ['error', 'never'],
             'comma-dangle': ['error', 'always-multiline'],
             '@stylistic/indent': ['off'],
+            "@typescript-eslint/ban-ts-comment": ["off"]
         }
     }
 ];

@@ -1,10 +1,12 @@
 import {Editor} from '../../editor'
-import {Enemy} from '../data/enemy'
+import {Enemy} from '../behavior/enemy'
+// @ts-ignore
 import {Hole, html, render} from 'uhtml'
 import {ENEMY_TYPE, EnemyType} from '../data/enemy_type'
 import {Tabs} from './tabs'
 import {ITEMS} from '../data/item'
-import {Tower} from "../data/tower";
+import {Tower} from '../behavior/tower'
+import {DROPS} from "../data/drop";
 
 export class TabEnemies {
     private readonly editor: Editor
@@ -18,13 +20,10 @@ export class TabEnemies {
     }
 
     private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
-        let drops: Hole[] = [
-            html`
-                <sl-option value="0">&lt;Nothing&gt;</sl-option>`
-        ].concat(
-            ITEMS.map((item: string, index: number) => html`
-                <sl-option value="${index + 1}">${item}</sl-option>`));
-        const dropValue = (enemy.drop == null) ? 0 : ITEMS.indexOf(enemy.drop)
+        const drops: Hole[] = DROPS.map((item: string, index: number) => html`
+            <sl-option value="${index + 1}">${(item == null) ? '<Nothing>' : item}</sl-option>`
+        )
+        const dropValue = DROPS.indexOf(enemy.drop)
         return html`
             <div data-index="${enemyIndex}" class="enemyLine">
                 <sl-select @sl-input="${this.typeChange}" class="type" placeholder="Type" hoist value="${enemy.type}"
@@ -92,7 +91,7 @@ export class TabEnemies {
     }
 
     private deleteEnemy = (event: PointerEvent): void => {
-        // @ts-expect-error because
+        // @ts-ignore
         const enemyIndex = parseInt(event.currentTarget.parentElement.dataset.index)
         console.debug(Tabs.enemies, 'delete enemy', enemyIndex)
         this.tower.enemies.splice(enemyIndex, 1)
@@ -144,7 +143,7 @@ export class TabEnemies {
     private dropChange = (event: CustomEvent): void => {
         const [enemyIndex, value] = this.getInputValue(event)
         console.debug(Tabs.enemies, 'dropChange', enemyIndex, value)
-        this.tower.enemies[enemyIndex].drop = (value == '0') ? null : ITEMS[parseInt(value) - 1]
+        this.tower.enemies[enemyIndex].drop = DROPS[parseInt(value)]
     }
 
     private getInputValueInt = (event: CustomEvent): [number, number | null] => {
@@ -155,9 +154,9 @@ export class TabEnemies {
 
     private getInputValue = (event: CustomEvent): [number, string] => {
         const currentTarget = event.currentTarget
-        // @ts-expect-error because
+        // @ts-ignore
         const enemyIndex = parseInt(currentTarget.parentElement.dataset.index)
-        // @ts-expect-error because
+        // @ts-ignore
         return [enemyIndex, currentTarget.value]
     }
 }

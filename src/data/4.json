@@ -1,14 +1,14 @@
 {
- "enemies": [
-  {
-   "type": "Fighter",
-   "level": 1,
-   "name": "",
-   "atk": 1,
-   "def": 0,
-   "drop": "",
-   "exp": 10000,
-   "hp": 1
-  }
- ]
+  "enemies": [
+    {
+      "type": "Fighter",
+      "level": 1,
+      "name": "",
+      "atk": 1,
+      "def": 0,
+      "drop": "",
+      "exp": 10000,
+      "hp": 1
+    }
+  ]
 }

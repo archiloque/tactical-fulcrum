@@ -1,5 +1,6 @@
 import {Editor} from '../../editor'
-import {Export, Import, IOStatus} from '../data/import_export'
+import {Export, Import, IOStatus} from '../behavior/import_export'
+// @ts-ignore
 import {html, render} from 'uhtml'
 import {Tabs} from './tabs'
 
@@ -30,11 +31,11 @@ export class TabImportExport {
 
     private import = (): void => {
         const textArea = document.getElementById(Tabs.importExport).getElementsByClassName('textArea')
-        // @ts-expect-error because
-        const stringData = textArea[0].value;
+        // @ts-ignore
+        const stringData = textArea[0].value
         const importResult = new Import().import(stringData)
         const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
-        TabImportExport.processIOResult(importResult, alert, "import");
+        TabImportExport.processIOResult(importResult, alert, 'import')
         this.editor.tower.enemies = importResult.content.enemies
     }
 
@@ -42,8 +43,8 @@ export class TabImportExport {
         const textArea = document.getElementById(Tabs.importExport).getElementsByClassName('textArea')
         const exportResult = new Export().export(this.editor.tower)
         const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
-        TabImportExport.processIOResult(exportResult, alert, "export");
-// @ts-expect-error because
+        TabImportExport.processIOResult(exportResult, alert, 'export')
+        // @ts-ignore
         textArea[0].value = exportResult.content
     }
 

@@ -14,9 +14,10 @@ import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js'
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js'
 import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
 
+// @ts-ignore
 import {setBasePath} from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 import {MainMenu} from './src/front/main-menu'
-import {Tower} from './src/data/tower'
+import {Tower} from './src/behavior/tower'
 import {TabEnemies} from './src/front/tab-enemies'
 import {TabImportExport} from './src/front/tab-import-export'
 import {Tabs} from './src/front/tabs'

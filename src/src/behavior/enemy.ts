@@ -1,5 +1,5 @@
-import {EnemyType} from './enemy_type'
-import {Item} from './item'
+import {EnemyType} from '../data/enemy_type'
+import {Item} from '../data/item'
 
 export class Enemy {
     type: EnemyType | null
@@ -9,7 +9,7 @@ export class Enemy {
     atk: number | null
     def: number | null
     exp: number | null
-    drop: Item | null
+    drop: string | null
 
     constructor() {
     }

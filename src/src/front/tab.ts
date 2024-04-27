@@ -1,4 +1,4 @@
-export enum Tabs {
+export enum Tab {
     map = 'tabMap',
     enemies = 'tabEnemies',
     info = 'tabInfo',

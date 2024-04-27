@@ -1,31 +1,35 @@
 import {Editor} from '../../editor'
-import {Tabs} from './tabs'
+import {Tab} from './tab'
 // @ts-ignore
-import {html, render} from 'uhtml'
+import {Hole, html, render} from 'uhtml'
 
 export class MainMenu {
     private readonly editor: Editor
+    private static readonly tabNames = [
+        [Tab.map, 'Map'],
+        [Tab.enemies, 'Enemies'],
+        [Tab.info, 'Info'],
+        [Tab.importExport, 'Import/Export'],
+    ]
 
     constructor(editor: Editor) {
         this.editor = editor
+
+        const tabs: Hole[] = MainMenu.tabNames.map(it => html`
+            <sl-tab slot="nav" panel="${it[0].valueOf()}">${it[1]}</sl-tab>`)
+        const tabPanels: Hole[] = MainMenu.tabNames.map(it => html`
+            <sl-tab-panel id="${it[0].valueOf()}" name="${it[0].valueOf()}">${it[1]}</sl-tab-panel>`)
         render(document.getElementById('content'), html`
             <sl-tab-group @sl-tab-show="${this.tabShown}">
-                <sl-tab slot="nav" panel="${Tabs.map}">Map</sl-tab>
-                <sl-tab slot="nav" panel="${Tabs.enemies}">Enemies</sl-tab>
-                <sl-tab slot="nav" panel="${Tabs.info}">Info</sl-tab>
-                <sl-tab slot="nav" panel="${Tabs.importExport}">Import/Export</sl-tab>
-
-                <sl-tab-panel id="${Tabs.map}" name="${Tabs.map}">Map</sl-tab-panel>
-                <sl-tab-panel id="${Tabs.enemies}" name="${Tabs.enemies}">Enemies</sl-tab-panel>
-                <sl-tab-panel id="${Tabs.info}" name="${Tabs.info}">Info</sl-tab-panel>
-                <sl-tab-panel id="${Tabs.importExport}" name="${Tabs.importExport}">Import/Export</sl-tab-panel>
+                ${tabs}
+                ${tabPanels}
             </sl-tab-group>
         `)
     }
 
     private tabShown = (event: CustomEvent) => {
-        const tab = event.detail.name
+        const tab: string = event.detail.name
         console.debug('MainMenu: tab', tab, 'shown')
-        this.editor.tabShown(tab)
+        this.editor.tabShown(tab as Tab)
     }
 }

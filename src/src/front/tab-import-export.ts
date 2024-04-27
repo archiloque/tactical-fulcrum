@@ -2,7 +2,7 @@ import {Editor} from '../../editor'
 import {Export, Import, IOStatus} from '../behavior/import_export'
 // @ts-ignore
 import {html, render} from 'uhtml'
-import {Tabs} from './tabs'
+import {Tab} from './tab'
 
 export class TabImportExport {
     private readonly editor: Editor
@@ -10,11 +10,11 @@ export class TabImportExport {
 
     constructor(editor: Editor) {
         this.editor = editor
-        this.tabElement = document.getElementById(Tabs.importExport)
+        this.tabElement = document.getElementById(Tab.importExport)
     }
 
     renderImportExport() {
-        console.debug(Tabs.importExport, 'showing')
+        console.debug(Tab.importExport, 'showing')
         render(
             this.tabElement, html`
                     <div class="topButtons">
@@ -30,7 +30,7 @@ export class TabImportExport {
     }
 
     private import = (): void => {
-        const textArea = document.getElementById(Tabs.importExport).getElementsByClassName('textArea')
+        const textArea = document.getElementById(Tab.importExport).getElementsByClassName('textArea')
         // @ts-ignore
         const stringData = textArea[0].value
         const importResult = new Import().import(stringData)
@@ -40,7 +40,7 @@ export class TabImportExport {
     }
 
     private export = (): void => {
-        const textArea = document.getElementById(Tabs.importExport).getElementsByClassName('textArea')
+        const textArea = document.getElementById(Tab.importExport.valueOf()).getElementsByClassName('textArea')
         const exportResult = new Export().export(this.editor.tower)
         const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
         TabImportExport.processIOResult(exportResult, alert, 'Export')
@@ -55,7 +55,8 @@ export class TabImportExport {
                     <sl-icon slot="icon" name="check2-circle"></sl-icon>
                     ${operationName} done
                 </sl-alert>`)
-        } else {
+        }
+ else {
             render(alert, html`
                 <sl-alert variant="warning" open closable>
                     <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>

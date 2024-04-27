@@ -13,6 +13,8 @@ import '@shoelace-style/shoelace/dist/components/tag/tag.js'
 import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js'
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js'
 import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
+import '@shoelace-style/shoelace/dist/components/tree/tree.js'
+import '@shoelace-style/shoelace/dist/components/tree-item/tree-item.js'
 
 // @ts-ignore
 import {setBasePath} from '@shoelace-style/shoelace/dist/utilities/base-path.js'
@@ -20,7 +22,8 @@ import {MainMenu} from './src/front/main-menu'
 import {Tower} from './src/behavior/tower'
 import {TabEnemies} from './src/front/tab-enemies'
 import {TabImportExport} from './src/front/tab-import-export'
-import {Tabs} from './src/front/tabs'
+import {Tab} from './src/front/tab'
+import {TabMap} from './src/front/tab-map'
 
 const rootUrl = document.location.origin
 setBasePath(rootUrl)
@@ -29,6 +32,7 @@ export class Editor {
     readonly tower: Tower
     private readonly tabEnemies: TabEnemies
     private readonly tabImportExport: TabImportExport
+    private readonly tabMap: TabMap
 
     constructor() {
         console.info('Editor starting')
@@ -36,18 +40,22 @@ export class Editor {
         new MainMenu(this)
         this.tabEnemies = new TabEnemies(this)
         this.tabImportExport = new TabImportExport(this)
+        this.tabMap = new TabMap(this)
+        // @ts-ignore
+        this.tabMap.renderMap()
     }
 
-    public tabShown(tabName: Tabs): void {
+    public tabShown(tabName: Tab): void {
         switch (tabName) {
-            case Tabs.map:
+            case Tab.map:
+                this.tabMap.renderMap()
                 break
-            case Tabs.info:
+            case Tab.info:
                 break
-            case Tabs.enemies:
+            case Tab.enemies:
                 this.tabEnemies.renderEnemies()
                 break
-            case Tabs.importExport:
+            case Tab.importExport:
                 this.tabImportExport.renderImportExport()
                 break
             default:

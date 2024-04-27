@@ -2,7 +2,7 @@ import {Tower} from './tower'
 import {Enemy} from './enemy'
 import {ENEMY_TYPES} from '../../../old/editor/enemy_types'
 import {EnemyType} from '../data/enemy_type'
-import {DROPS} from "../data/drop";
+import {DROPS} from '../data/drop'
 
 export abstract class IOStatus {
     readonly errors: string[]
@@ -43,7 +43,8 @@ abstract class IOOperation {
             const enemyIdentifier = `${enemy.level}|${enemy.type}`
             if (knownEnemies.indexOf(enemyIdentifier) != -1) {
                 this.errors.push(`Enemy ${index} is duplicated (samy type and level)`)
-            } else {
+            }
+ else {
                 knownEnemies.push(enemyIdentifier)
             }
         })
@@ -82,23 +83,27 @@ abstract class IOOperation {
     private checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean): void {
         if (value == null) {
             this.errors.push(message)
-        } else if (typeof value == 'number') {
+        }
+ else if (typeof value == 'number') {
             if (zeroAuthorized) {
                 if (value < 0) {
                     this.errors.push(message)
                 }
-            } else {
+            }
+ else {
                 if (value <= 0) {
                     this.errors.push(message)
                 }
             }
-        } else {
+        }
+ else {
             const v = parseInt(value)
             if (zeroAuthorized) {
                 if ((isNaN(v) || v < 0)) {
                     this.errors.push(message)
                 }
-            } else {
+            }
+ else {
                 if ((isNaN(v) || v <= 0)) {
                     this.errors.push(message)
                 }
@@ -118,7 +123,8 @@ export class Import extends IOOperation {
             const parsedData = JSON.parse(stringData)
             if ((parsedData['enemies'] == null) || (!Array.isArray(parsedData['enemies']))) {
                 this.errors.push('Enemies value is invalid')
-            } else {
+            }
+ else {
                 const enemies: any[] = parsedData['enemies']
                 tower.enemies = enemies.map((value, index) => {
                     const enemy: Enemy = this.enemyFromJson(value)
@@ -126,7 +132,8 @@ export class Import extends IOOperation {
                     return enemy
                 })
             }
-        } catch (e) {
+        }
+ catch (e) {
             this.errors.push(e.message)
         }
         this.validateEnemies(tower.enemies)
@@ -147,7 +154,7 @@ export class Import extends IOOperation {
         result.def = value['def']
         result.exp = value['exp']
         let drop: string = value['drop']
-        if (drop == "") {
+        if (drop == '') {
             drop = null
         }
         result.drop = (DROPS.indexOf(drop) == -1) ? null : drop
@@ -169,23 +176,32 @@ export class Export extends IOOperation {
         enemies.sort((e1, e2) => {
             if (e1['type'] != e2['type']) {
                 return (e1['type'] > e2['type']) ? 1 : -1
-            } else if (e1['level'] != e2['level']) {
+            }
+ else if (e1['level'] != e2['level']) {
                 return e1['level'] - e2['level']
-            } else if (e1['name'] != e2['name']) {
+            }
+ else if (e1['name'] != e2['name']) {
                 return (e1['name'] > e2['name']) ? 1 : -1
-            } else if (e1['hp'] != e2['hp']) {
+            }
+ else if (e1['hp'] != e2['hp']) {
                 return e1['hp'] - e2['hp']
-            } else if (e1['atk'] != e2['atk']) {
+            }
+ else if (e1['atk'] != e2['atk']) {
                 return e1['atk'] - e2['atk']
-            } else if (e1['def'] != e2['def']) {
+            }
+ else if (e1['def'] != e2['def']) {
                 return e1['def'] - e2['def']
-            } else if (e1['exp'] != e2['exp']) {
+            }
+ else if (e1['exp'] != e2['exp']) {
                 return e1['exp'] - e2['exp']
-            } else if (e1['drop'] > e2['drop']) {
+            }
+ else if (e1['drop'] > e2['drop']) {
                 return 1
-            } else if (e1['drop'] < e2['drop']) {
+            }
+ else if (e1['drop'] < e2['drop']) {
                 return -1
-            } else {
+            }
+ else {
                 return 0
             }
         })

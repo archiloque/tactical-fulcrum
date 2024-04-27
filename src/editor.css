@@ -72,6 +72,19 @@ body {
         }
     }
 
+    #tabMap {
+        #tabMapMap {
+            display: flex;
+            flex: 3;
+            justify-content: flex-start;
+        }
+        sl-tree {
+            display: flex;
+            flex: 1;
+            justify-content: flex-end;
+        }
+    }
+
     sl-input[data-user-invalid]::part(base),
     sl-select[data-user-invalid]::part(combobox),
     sl-checkbox[data-user-invalid]::part(control) {
@@ -94,6 +107,11 @@ body {
         border-color: var(--sl-color-danger-600);
         box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
     }
+
+    sl-tree-item:hover::part(base) {
+        color: var(--sl-color-primary-600);
+    }
+
 }
 
 h1 {

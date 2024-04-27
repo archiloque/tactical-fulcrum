@@ -5,6 +5,7 @@
 
 body {
     font-family: "JetBrains Mono", monospace;
+    margin: 0;
 }
 
 :root {
@@ -69,19 +70,6 @@ body {
 
         .exportAlert {
             padding-bottom: 1em;
-        }
-    }
-
-    #tabMap {
-        #tabMapMap {
-            display: flex;
-            flex: 3;
-            justify-content: flex-start;
-        }
-        sl-tree {
-            display: flex;
-            flex: 1;
-            justify-content: flex-end;
         }
     }
 

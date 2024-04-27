@@ -18,9 +18,10 @@ export class Tower {
     }
 
     load() {
+        console.debug('Tower', 'load')
         const enemiesRaw = localStorage.getItem(Tower.LOCAL_STORAGE_KEY_ENEMY)
         if (enemiesRaw != null) {
-            const enemiesJson = JSON.parse(enemiesRaw)
+            const enemiesJson: object[] = JSON.parse(enemiesRaw)
             this.enemies = enemiesJson.map(value => Import.enemyFromJson(value))
         }
     }

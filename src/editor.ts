@@ -7,6 +7,7 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/option/option.js'
 import '@shoelace-style/shoelace/dist/components/select/select.js'
+import '@shoelace-style/shoelace/dist/components/split-panel/split-panel.js'
 import '@shoelace-style/shoelace/dist/components/tab/tab.js'
 import '@shoelace-style/shoelace/dist/components/tag/tag.js'
 import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js'
@@ -41,7 +42,7 @@ export class Editor {
         this.tabEnemies = new TabEnemies(this)
         this.tabImportExport = new TabImportExport(this)
         this.tabMap = new TabMap(this)
-        this.tabMap.renderMap()
+        this.tabMap.init().then(() => this.tabMap.renderMap())
     }
 
     public tabShown(tabName: Tab): void {

@@ -42,7 +42,6 @@ class Editor {
         window.dispatchEvent(new Event('resize'));
         console.debug('App initialized');
     }
-
 }
 
 new Editor().initialize()

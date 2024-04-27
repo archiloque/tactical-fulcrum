@@ -143,7 +143,7 @@ export class Import extends IOOperation {
         )
     }
 
-    static enemyFromJson(value: any): Enemy {
+    static enemyFromJson(value: object): Enemy {
         const result: Enemy = new Enemy()
         const enemyType = value['type']
         result.type = (ENEMY_TYPES.map(it => it.valueOf()).indexOf(enemyType) == -1) ? null : enemyType as EnemyType

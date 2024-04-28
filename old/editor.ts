@@ -1,7 +1,7 @@
 import {Application, Assets, Text, TextStyle} from 'pixi.js'
 import {EditorEvents, MONO_FONT} from './editor/constants';
 import {Menu} from './editor/menu';
-import {EnemiesTab} from "./editor/enemies_tab";
+import {EnemiesTab} from "./editor/enemiesTab";
 
 class Editor {
     app: Application

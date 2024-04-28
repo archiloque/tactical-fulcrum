@@ -2,7 +2,7 @@ import {Editor} from '../../editor'
 import {Enemy} from '../behavior/enemy'
 // @ts-ignore
 import {Hole, html, render} from 'uhtml'
-import {ENEMY_TYPE, EnemyType} from '../data/enemy_type'
+import {ENEMY_TYPES, EnemyType} from '../data/enemyType'
 import {Tab} from './tab'
 import {Tower} from '../behavior/tower'
 import {DROPS} from '../data/drop'
@@ -23,7 +23,7 @@ export class TabEnemies {
             <sl-option value="${index + 1}">${(item == null) ? '<Nothing>' : item}</sl-option>`,
         )
         const dropValue = DROPS.indexOf(enemy.drop)
-        const enemyTypes = ENEMY_TYPE.map((enemyType: string) => html`
+        const enemyTypes = ENEMY_TYPES.map((enemyType: string) => html`
             <sl-option value="${enemyType}">${enemyType}</sl-option>`)
         return html`
             <div data-index="${enemyIndex}" class="enemyLine">

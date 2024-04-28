@@ -1,7 +1,7 @@
 // @ts-ignore
 import {Application, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
 
-export class TowerMap {
+export class TabMapMap {
     private static readonly TILES = 15
     readonly app: Application
     private readonly background: Sprite
@@ -30,8 +30,8 @@ export class TowerMap {
     }
 
     resize(elementSize: number) {
-        this.tileSize = Math.floor(elementSize / TowerMap.TILES)
-        const appSize = this.tileSize * TowerMap.TILES
+        this.tileSize = Math.floor(elementSize / TabMapMap.TILES)
+        const appSize = this.tileSize * TabMapMap.TILES
         this.app.renderer.resize(appSize, appSize)
         this.background.width = appSize
         this.background.height = appSize

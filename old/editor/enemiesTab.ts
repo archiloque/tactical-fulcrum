@@ -1,7 +1,7 @@
 import {Application, Container, Graphics, Text} from "pixi.js";
 import {Color, Heights, STANDARD_TEXT_STYLE} from "./constants";
 import {Input, Select} from "@pixi/ui";
-import {ENEMY_TYPES} from "./enemy_types";
+import {EnemyType} from "./enemyType";
 
 export class EnemiesTab {
     app: Application;
@@ -114,7 +114,7 @@ export class EnemiesTab {
             openBG: this.createEnemyTypeBackGround('↑'),
             closedBG: this.createEnemyTypeBackGround('↓'),
             items: {
-                items: ENEMY_TYPES,
+                items: EnemyType,
                 width: EnemiesTab.ENEMIES_TYPE_LIST_WIDTH,
                 height: EnemiesTab.COMPONENT_HEIGHT,
                 backgroundColor: Color.backgroundStandard,

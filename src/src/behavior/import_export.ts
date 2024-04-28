@@ -1,8 +1,8 @@
 import {Tower} from './tower'
 import {Enemy} from './enemy'
-import {ENEMY_TYPES} from '../../../old/editor/enemy_types'
-import {EnemyType} from '../data/enemy_type'
+import {ENEMY_TYPES} from '../data/enemyType'
 import {DROPS} from '../data/drop'
+import {Level} from "./level";
 
 export abstract class IOStatus {
     readonly errors: string[]
@@ -127,7 +127,7 @@ export class Import extends IOOperation {
  else {
                 const enemies: any[] = parsedData['enemies']
                 tower.enemies = enemies.map((value, index) => {
-                    const enemy: Enemy = Import.enemyFromJson(value)
+                    const enemy: Enemy = Import.enemyFromAttributes(value)
                     this.validateEnemy(enemy, index)
                     return enemy
                 })
@@ -143,10 +143,10 @@ export class Import extends IOOperation {
         )
     }
 
-    static enemyFromJson(value: object): Enemy {
+    static enemyFromAttributes(value: object): Enemy {
         const result: Enemy = new Enemy()
         const enemyType = value['type']
-        result.type = (ENEMY_TYPES.map(it => it.valueOf()).indexOf(enemyType) == -1) ? null : enemyType as EnemyType
+        result.type = (ENEMY_TYPES.map(it => it.valueOf()).indexOf(enemyType) == -1) ? null : enemyType
         result.level = value['level']
         result.name = value['name']
         result.hp = value['hp']
@@ -160,6 +160,12 @@ export class Import extends IOOperation {
         result.drop = (DROPS.indexOf(drop) == -1) ? null : drop
         return result
     }
+
+    static levelFromAttributes(value: object): Level {
+        const result: Level = new Level()
+        result.name = value['name']
+        return result
+    }
 }
 
 export class Export extends IOOperation {
@@ -170,7 +176,7 @@ export class Export extends IOOperation {
     export(tower: Tower): ExportResult {
         const enemies = tower.enemies.map((enemy: Enemy, enemyIndex: number) => {
             this.validateEnemy(enemy, enemyIndex)
-            return this.enemyToJson(enemy)
+            return Export.enemyToAttributes(enemy)
         })
         this.validateEnemies(tower.enemies)
         enemies.sort((e1, e2) => {
@@ -212,7 +218,7 @@ export class Export extends IOOperation {
         )
     }
 
-    private enemyToJson(enemy: Enemy) {
+    static enemyToAttributes(enemy: Enemy) {
         return {
             type: enemy.type ? enemy.type.valueOf() : null,
             level: enemy.level,
@@ -222,6 +228,12 @@ export class Export extends IOOperation {
             def: enemy.def,
             exp: enemy.exp,
             drop: enemy.drop ? enemy.drop : '',
+        }
+    }
+
+    static levelToAttributes(level: Level) {
+        return {
+            name: level.name,
         }
     }
 }

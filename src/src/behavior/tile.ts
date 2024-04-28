@@ -1,7 +1,7 @@
 import {Color} from '../data/color'
 import {Enemy} from './enemy'
 import {Item} from '../data/item'
-import {StaircaseDirection} from '../data/staircase_direction'
+import {StaircaseDirection} from '../data/staircaseDirection'
 
 export enum TileType {
     door = 'door',

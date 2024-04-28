@@ -6,7 +6,7 @@ export enum EnemyType {
     slasher = 'Slasher',
 }
 
-export const ENEMY_TYPE: EnemyType[] = [
+export const ENEMY_TYPES: EnemyType[] = [
     EnemyType.burgeoner,
     EnemyType.fighter,
     EnemyType.ranger,

@@ -18,12 +18,12 @@ import '@shoelace-style/shoelace/dist/components/tree-item/tree-item.js'
 
 // @ts-ignore
 import {setBasePath} from '@shoelace-style/shoelace/dist/utilities/base-path.js'
-import {MainMenu} from './src/front/main-menu'
+import {MainMenu} from './src/front/mainMenu'
 import {Tower} from './src/behavior/tower'
-import {TabEnemies} from './src/front/tab-enemies'
-import {TabImportExport} from './src/front/tab-import-export'
+import {TabEnemies} from './src/front/tabEnemies'
+import {TabImportExport} from './src/front/tabImportExport'
 import {Tab} from './src/front/tab'
-import {TabMap} from './src/front/tab-map'
+import {TabMap} from './src/front/tabMap/tabMap'
 
 const rootUrl = document.location.origin
 setBasePath(rootUrl)

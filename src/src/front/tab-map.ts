@@ -12,6 +12,7 @@ import {Application} from 'pixi.js'
 import {settings} from '@pixi/settings'
 
 export class TabMap {
+    private static readonly TILES = 15
     private readonly editor: Editor
     private readonly tabElement: HTMLElement
     private readonly tower: Tower
@@ -75,10 +76,11 @@ export class TabMap {
     private resize() {
         const boundingRect = this.splitPanel.getBoundingClientRect()
         const viewPortHeight = window.innerHeight
-        const height = viewPortHeight - boundingRect.top
+        const height = viewPortHeight - boundingRect.top - 10
         // @ts-ignore
-        const width = window.innerWidth * this.splitPanel.position / 100
-        const size = Math.min(height, width)
+        const width = (window.innerWidth * this.splitPanel.position / 100) - 10
+        const number = Math.min(height, width);
+        const size = Math.floor(number / TabMap.TILES) * TabMap.TILES
         this.app.renderer.resize(size, size)
     }
 }

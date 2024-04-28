@@ -42,7 +42,9 @@ export class Editor {
         this.tabEnemies = new TabEnemies(this)
         this.tabImportExport = new TabImportExport(this)
         this.tabMap = new TabMap(this)
-        this.tabMap.init().then(() => this.tabMap.renderMap())
+        this.tabMap.init().then(() => {
+            setTimeout(() => {this.tabMap.renderMap()}, 10)
+        })
     }
 
     public tabShown(tabName: Tab): void {

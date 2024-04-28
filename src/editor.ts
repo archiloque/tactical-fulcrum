@@ -43,7 +43,9 @@ export class Editor {
         this.tabImportExport = new TabImportExport(this)
         this.tabMap = new TabMap(this)
         this.tabMap.init().then(() => {
-            setTimeout(() => {this.tabMap.renderMap()}, 10)
+            setTimeout(() => {
+                this.tabMap.renderMap()
+}, 10)
         })
     }
 

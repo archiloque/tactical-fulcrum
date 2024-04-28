@@ -7,32 +7,30 @@ import {COLORS} from '../data/color'
 import {capitalize} from '../behavior/utils'
 import {ITEMS} from '../data/item'
 // @ts-ignore
-import {Application} from 'pixi.js'
-// @ts-ignore
 import {settings} from '@pixi/settings'
+import {TowerMap} from './tower-map'
 
 export class TabMap {
-    private static readonly TILES = 15
     private readonly editor: Editor
     private readonly tabElement: HTMLElement
     private readonly tower: Tower
-    private readonly app: Application
     private splitPanel: HTMLElement
     private tabMapEnemies: HTMLElement
+    private towerMap: TowerMap
 
     constructor(editor: Editor) {
         settings.RESOLUTION = window.devicePixelRatio || 1
         this.editor = editor
         this.tabElement = document.getElementById(Tab.map)
         this.tower = this.editor.tower
-        this.app = new Application()
+        this.towerMap = new TowerMap()
         window.addEventListener('resize', () => {
             this.resize()
         })
     }
 
     async init() {
-        await this.app.init({background: '#FF00FF'})
+        await this.towerMap.init()
         const keys: Hole[] = COLORS.map(c => html`
             <sl-tree-item>${capitalize(c)}</sl-tree-item>`)
         const items: Hole[] = ITEMS.map(i => html`
@@ -58,7 +56,7 @@ export class TabMap {
                 </div>`)
         this.splitPanel = document.getElementById('tabMapSplitPanel')
         this.tabMapEnemies = document.getElementById('tabMapEnemies')
-        document.getElementById('tabMapMap').appendChild(this.app.canvas)
+        document.getElementById('tabMapMap').appendChild(this.towerMap.app.canvas)
     }
 
     renderMap() {
@@ -74,13 +72,10 @@ export class TabMap {
     }
 
     private resize() {
-        const boundingRect = this.splitPanel.getBoundingClientRect()
-        const viewPortHeight = window.innerHeight
-        const height = viewPortHeight - boundingRect.top - 10
+        const height = window.innerHeight - this.splitPanel.getBoundingClientRect().top - 10
         // @ts-ignore
         const width = (window.innerWidth * this.splitPanel.position / 100) - 10
-        const number = Math.min(height, width);
-        const size = Math.floor(number / TabMap.TILES) * TabMap.TILES
-        this.app.renderer.resize(size, size)
+        const number = Math.min(height, width)
+        this.towerMap.resize(number)
     }
 }

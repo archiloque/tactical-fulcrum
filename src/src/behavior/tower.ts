@@ -9,7 +9,11 @@ export class Tower {
 
     constructor() {
         this.enemies = []
-        this.levels = []
+        const level1 = new Level();
+        level1.name = "Level 1"
+        const level2 = new Level();
+        level2.name = "Level 2"
+        this.levels = [level1, level2]
     }
 
     saveEnemies() {

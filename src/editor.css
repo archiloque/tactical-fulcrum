@@ -12,99 +12,114 @@ body {
     --sl-font-sans: "JetBrains Mono", monospace;
     --sl-font-serif: "JetBrains Mono", monospace;
     --sl-font-mono: "JetBrains Mono", monospace;
+}
 
-    sl-tab-group::part(nav) {
-        display: flex;
-        justify-content: center;
-    }
 
-    #tabEnemies {
-        .enemyLine {
-            sl-select {
-                display: inline-block;
-            }
+sl-tab-group::part(nav) {
+    display: flex;
+    justify-content: center;
+}
 
-            sl-input {
-                display: inline-block;
-            }
-
-            text-align: center;
-            padding-bottom: 0.5em;
-
-            sl-tag.delete {
-                visibility: hidden;
-            }
-
-            sl-tag, sl-select, sl-input {
-                width: 10%;
-            }
-
-            .level {
-                width: 4%;
-            }
-
-            .name, .type, .drop {
-                width: 15%;
-            }
-
-            .delete {
-                width: 3%;
-            }
+#tabEnemies {
+    .enemyLine {
+        sl-select {
+            display: inline-block;
         }
 
-        .addButtonDiv {
-            text-align: center;
-            padding-top: 0.5em;
+        sl-input {
+            display: inline-block;
+        }
 
-            sl-button {
-                width: 5%;
-            }
+        text-align: center;
+        padding-bottom: 0.5em;
+
+        sl-tag.delete {
+            visibility: hidden;
+        }
+
+        sl-tag, sl-select, sl-input {
+            width: 10%;
+        }
+
+        .level {
+            width: 4%;
+        }
+
+        .name, .type, .drop {
+            width: 15%;
+        }
+
+        .delete {
+            width: 3%;
         }
     }
 
-    #tabImportExport {
-        .topButtons {
-            text-align: center;
-            padding-bottom: 1em;
+    .addButtonDiv {
+        text-align: center;
+        padding-top: 0.5em;
+
+        sl-button {
+            width: 5%;
         }
-
-        .exportAlert {
-            padding-bottom: 1em;
-        }
-    }
-
-    #tabMapMap {
-        margin: 10px;
-    }
-
-    sl-input[data-user-invalid]::part(base),
-    sl-select[data-user-invalid]::part(combobox),
-    sl-checkbox[data-user-invalid]::part(control) {
-        border-color: var(--sl-color-danger-600);
-    }
-
-    [data-user-invalid]::part(form-control-label),
-    [data-user-invalid]::part(form-control-help-text),
-    sl-checkbox[data-user-invalid]::part(label) {
-        color: var(--sl-color-danger-700);
-    }
-
-    sl-checkbox[data-user-invalid]::part(control) {
-        outline: none;
-    }
-
-    sl-input:focus-within[data-user-invalid]::part(base),
-    sl-select:focus-within[data-user-invalid]::part(combobox),
-    sl-checkbox:focus-within[data-user-invalid]::part(control) {
-        border-color: var(--sl-color-danger-600);
-        box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
-    }
-
-    sl-tree-item:hover::part(base) {
-        color: var(--sl-color-primary-600);
     }
 }
 
-h1 {
+#tabImportExport {
+    .topButtons {
+        text-align: center;
+        padding-bottom: 1em;
+    }
+
+    .exportAlert {
+        padding-bottom: 1em;
+    }
+}
+
+#tabMapMap {
+    margin: 10px;
+}
+
+sl-input[data-user-invalid]::part(base),
+sl-select[data-user-invalid]::part(combobox),
+sl-checkbox[data-user-invalid]::part(control) {
+    border-color: var(--sl-color-danger-600);
+}
+
+[data-user-invalid]::part(form-control-label),
+[data-user-invalid]::part(form-control-help-text),
+sl-checkbox[data-user-invalid]::part(label) {
+    color: var(--sl-color-danger-700);
+}
+
+sl-checkbox[data-user-invalid]::part(control) {
+    outline: none;
+}
+
+sl-input:focus-within[data-user-invalid]::part(base),
+sl-select:focus-within[data-user-invalid]::part(combobox),
+sl-checkbox:focus-within[data-user-invalid]::part(control) {
+    border-color: var(--sl-color-danger-600);
+    box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
+}
+
+sl-tree-item:hover::part(base) {
+    color: var(--sl-color-primary-600);
+}
+
+#tabMapLevelName {
+    padding: 1em;
+}
+
+h1, h2 {
+    padding:0 ;
+    margin: 0;
     text-align: center;
 }
+h1 {
+    padding-top: 0.1em;
+}
+h2 {
+    font-size: 1.4em;
+    padding-bottom: 0.2em;
+}
+

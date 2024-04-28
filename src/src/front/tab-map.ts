@@ -9,6 +9,8 @@ import {ITEMS} from '../data/item'
 // @ts-ignore
 import {settings} from '@pixi/settings'
 import {TowerMap} from './tower-map'
+// @ts-ignore
+import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component";
 
 export class TabMap {
     private readonly editor: Editor
@@ -17,6 +19,7 @@ export class TabMap {
     private splitPanel: HTMLElement
     private tabMapEnemies: HTMLElement
     private towerMap: TowerMap
+    private tabMapLevelTree: HTMLElement
 
     constructor(editor: Editor) {
         settings.RESOLUTION = window.devicePixelRatio || 1
@@ -36,34 +39,52 @@ export class TabMap {
         const items: Hole[] = ITEMS.map(i => html`
             <sl-tree-item>${i}</sl-tree-item>`)
         render(this.tabElement, html`
-            <sl-split-panel id="tabMapSplitPanel" @sl-reposition="${this.resized}" position="75">
+            <sl-split-panel id="tabMapSplitPanel" @sl-reposition="${this.resized}" position="66">
                 <div id="tabMapMap"
                      slot="start"></div>
                 <div
                         slot="end">
-                    <sl-tree selection="leaf">
-                        <sl-tree-item selected>Empty</sl-tree-item>
-                        <sl-tree-item>Wall</sl-tree-item>
-                        <sl-tree-item id="tabMapEnemies">Enemy
-                        </sl-tree-item>
-                        <sl-tree-item>Key
-                            ${keys}
-                        </sl-tree-item>
-                        <sl-tree-item>Item
-                            ${items}
-                        </sl-tree-item>
-                    </sl-tree>
-                </div>`)
+                    <sl-split-panel>
+                        <div
+                                slot="start">
+                            <h2>Level</h2>
+                            <sl-input id="tabMapLevelName" placeholder="Name"></sl-input>
+                            <sl-tree id="tabMapLevelTree" selection="leaf" @sl-selection-change="${this.levelSelected}">
+                            </sl-tree>
+                        </div>
+                        <div
+                                slot="end">
+                            <h2>Element</h2>
+                            <sl-tree selection="leaf">
+                                <sl-tree-item selected>Empty</sl-tree-item>
+                                <sl-tree-item>Wall</sl-tree-item>
+                                <sl-tree-item id="tabMapEnemies">Enemy
+                                </sl-tree-item>
+                                <sl-tree-item>Key
+                                    ${keys}
+                                </sl-tree-item>
+                                <sl-tree-item>Item
+                                    ${items}
+                                </sl-tree-item>
+                            </sl-tree>
+                        </div>
+                    </sl-split-panel>
+                </div>
+            </sl-split-panel>`)
         this.splitPanel = document.getElementById('tabMapSplitPanel')
         this.tabMapEnemies = document.getElementById('tabMapEnemies')
+        this.tabMapLevelTree = document.getElementById('tabMapLevelTree')
         document.getElementById('tabMapMap').appendChild(this.towerMap.app.canvas)
     }
 
     renderMap() {
         console.debug(Tab.map, 'showing')
-        const enemies: Hole[] = this.editor.tower.enemies.map(e => html`
-            <sl-tree-item>${e.type} ${e.level}</sl-tree-item>`)
+        const enemies: Hole[] = this.editor.tower.enemies.map(enemy => html`
+            <sl-tree-item>${enemy.type} ${enemy.level}</sl-tree-item>`)
         render(this.tabMapEnemies, html`Enemy ${enemies}`)
+        const levels: Hole[] = this.editor.tower.levels.map((level, index) => html`
+            <sl-tree-item ?selected="${index == 0}" data-index="${index}">${level.name}</sl-tree-item>`)
+        render(this.tabMapLevelTree, html`Enemy ${levels}`)
         this.resize()
     }
 
@@ -77,5 +98,11 @@ export class TabMap {
         const width = (window.innerWidth * this.splitPanel.position / 100) - 10
         const number = Math.min(height, width)
         this.towerMap.resize(number)
+    }
+
+    private levelSelected(event: CustomEvent) {
+        const levelIndex = event.detail.selection[0].dataset.index
+        console.debug(event)
+        debugger
     }
 }

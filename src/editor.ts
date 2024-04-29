@@ -4,6 +4,7 @@ import './editor.css'
 import '@shoelace-style/shoelace/dist/components/alert/alert.js'
 import '@shoelace-style/shoelace/dist/components/button/button.js'
 import '@shoelace-style/shoelace/dist/components/button-group/button-group.js'
+import '@shoelace-style/shoelace/dist/components/dialog/dialog.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/option/option.js'
@@ -45,23 +46,23 @@ export class Editor {
         this.tabMap = new TabMap(this)
         this.tabMap.init().then(() => {
             setTimeout(() => {
-                this.tabMap.renderMap()
-}, 10)
+                this.tabMap.render()
+            }, 10)
         })
     }
 
     public tabShown(tabName: Tab): void {
         switch (tabName) {
             case Tab.map:
-                this.tabMap.renderMap()
+                this.tabMap.render()
                 break
             case Tab.info:
                 break
             case Tab.enemies:
-                this.tabEnemies.renderEnemies()
+                this.tabEnemies.render()
                 break
             case Tab.importExport:
-                this.tabImportExport.renderImportExport()
+                this.tabImportExport.render()
                 break
             default:
                 throw new Error(`Unknown tab [${tabName}]`)

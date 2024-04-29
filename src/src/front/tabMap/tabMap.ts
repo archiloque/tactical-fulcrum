@@ -44,11 +44,11 @@ export class TabMap {
                     <sl-split-panel>
                         <div
                                 slot="start">
-                            ${this.tabMapLevels.init()}
+                            ${this.tabMapElement.init()}
                         </div>
                         <div
                                 slot="end">
-                            ${this.tabMapElement.init()}
+                            ${this.tabMapLevels.init()}
                         </div>
                     </sl-split-panel>
                 </div>
@@ -59,7 +59,7 @@ export class TabMap {
         this.tabMapElement.postInit()
     }
 
-    renderMap() {
+    render() {
         console.debug(Tab.map, 'showing')
         this.tabMapElement.render()
         this.tabMapLevels.render()

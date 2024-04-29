@@ -78,6 +78,10 @@ sl-tab-group::part(nav) {
 #tabMapMap {
     margin: 10px;
 }
+#tabMapLevelAdd {
+    text-align: center;
+    padding-top: 0.5em;
+}
 
 sl-input[data-user-invalid]::part(base),
 sl-select[data-user-invalid]::part(combobox),
@@ -117,13 +121,15 @@ sl-tree-item:hover::part(base) {
 }
 
 h1, h2 {
-    padding:0 ;
+    padding: 0;
     margin: 0;
     text-align: center;
 }
+
 h1 {
     padding-top: 0.1em;
 }
+
 h2 {
     font-size: 1.4em;
     padding-bottom: 0.2em;

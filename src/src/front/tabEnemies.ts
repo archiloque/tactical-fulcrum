@@ -6,11 +6,15 @@ import {ENEMY_TYPES, EnemyType} from '../data/enemyType'
 import {Tab} from './tab'
 import {Tower} from '../behavior/tower'
 import {DROPS} from '../data/drop'
+// @ts-ignore
+import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
 
 export class TabEnemies {
     private readonly editor: Editor
     private readonly tabElement: HTMLElement
     private readonly tower: Tower
+    private enemyDeletionIndex = -1
+    private deleteDialog: SlDialog
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -61,7 +65,7 @@ export class TabEnemies {
             </div>`
     }
 
-    renderEnemies(): void {
+    render(): void {
         console.debug(Tab.enemies, 'showing')
         render(this.tabElement, html`
             <div class="enemyLine validity-styles">
@@ -81,23 +85,39 @@ export class TabEnemies {
                     <sl-icon name="plus-circle"></sl-icon>
                 </sl-button>
             </div>
+            <sl-dialog label="Delete level" id="tabEnemiesDeleteDialog">
+                Are you sure you want to delete this enemy?
+                <div slot="footer">
+                    <sl-button onclick="${this.deleteDialogCancel}" variant="neutral">No</sl-button>
+                    <sl-button onclick="${this.deleteDialogConfirm}" variant="danger">Yes</sl-button>
+                </div>
+            </sl-dialog>
         `)
+        this.deleteDialog = document.getElementById('tabEnemiesDeleteDialog')
     }
 
     private addEnemy = (): void => {
         console.debug(Tab.enemies, 'add enemy')
         this.tower.enemies.push(new Enemy())
-        this.renderEnemies()
+        this.render()
         this.editor.tower.saveEnemies()
     }
 
     private deleteEnemy = (event: PointerEvent): void => {
         // @ts-ignore
-        const enemyIndex = parseInt(event.currentTarget.parentElement.dataset.index)
-        console.debug(Tab.enemies, 'delete enemy', enemyIndex)
-        this.tower.enemies.splice(enemyIndex, 1)
-        this.renderEnemies()
+        this.enemyDeletionIndex = parseInt(event.currentTarget.parentElement.dataset.index)
+        this.deleteDialog.show()
+    }
+
+    private deleteDialogConfirm = (): void => {
+        this.deleteDialog.hide()
+        this.tower.enemies.splice(this.enemyDeletionIndex, 1)
         this.editor.tower.saveEnemies()
+        this.render()
+    }
+
+    private deleteDialogCancel = (): void => {
+        this.deleteDialog.hide()
     }
 
     private atkChange = (event: CustomEvent): void => {

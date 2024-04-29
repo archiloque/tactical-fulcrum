@@ -1,5 +1,5 @@
 import {Editor} from '../../editor'
-import {Export, Import, IOStatus} from '../behavior/import_export'
+import {Export, Import, IOStatus} from '../behavior/importExport'
 // @ts-ignore
 import {html, render} from 'uhtml'
 import {Tab} from './tab'
@@ -13,7 +13,7 @@ export class TabImportExport {
         this.tabElement = document.getElementById(Tab.importExport)
     }
 
-    renderImportExport() {
+    render() {
         console.debug(Tab.importExport, 'showing')
         render(
             this.tabElement, html`
@@ -56,8 +56,7 @@ export class TabImportExport {
                     <sl-icon slot="icon" name="check2-circle"></sl-icon>
                     ${operationName} done
                 </sl-alert>`)
-        }
- else {
+        } else {
             render(alert, html`
                 <sl-alert variant="warning" open closable>
                     <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>

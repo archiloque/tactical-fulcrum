@@ -10,6 +10,7 @@ import SlTreeItem from '@shoelace-style/shoelace/cdn/components/tree-item/tree-i
 export class TabMapElements {
     private readonly editor: Editor
     private tabMapEnemies: SlTreeItem
+
     constructor(editor: Editor) {
         this.editor = editor
     }

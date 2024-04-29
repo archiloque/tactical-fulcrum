@@ -8,6 +8,8 @@ import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
 // @ts-ignore
 import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
 import {Level} from "../../behavior/level";
+// @ts-ignore
+import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component";
 
 export class TabMapLevels {
     private readonly editor: Editor
@@ -16,6 +18,8 @@ export class TabMapLevels {
     private deleteDialog: SlDialog
     private static readonly NO_LEVEL_SELECTED = -1
     selectedLevelIndex: number = TabMapLevels.NO_LEVEL_SELECTED
+    private buttonUp: SlButton;
+    private buttonDown: SlButton;
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -25,10 +29,10 @@ export class TabMapLevels {
         return html`<h2>Level</h2>
         <sl-input id="tabMapLevelName" @sl-input="${this.nameChanged}" placeholder="Name"></sl-input>
         <div id="tabMapLevelButtons">
-            <sl-button variant="neutral" onclick="${this.moveUp}">
+            <sl-button id="tabMapLevelButtonUp" variant="neutral" onclick="${this.moveUp}">
                 <sl-icon name="arrow-up"></sl-icon>
             </sl-button>
-            <sl-button variant="neutral" onclick="${this.moveUp}">
+            <sl-button id="tabMapLevelButtonDown" variant="neutral" onclick="${this.moveDown}">
                 <sl-icon name="arrow-down"></sl-icon>
             </sl-button>
             <sl-button variant="danger" onclick="${this.delete}">
@@ -56,6 +60,8 @@ export class TabMapLevels {
         this.tree = document.getElementById('tabMapLevelTree')
         this.levelNameInput = document.getElementById('tabMapLevelName')
         this.deleteDialog = document.getElementById('tabMapLevelDeleteDialog')
+        this.buttonUp = document.getElementById('tabMapLevelButtonUp')
+        this.buttonDown = document.getElementById('tabMapLevelButtonDown')
         if (this.editor.tower.levels.length > 0) {
             this.levelSelected(0)
         }
@@ -71,7 +77,9 @@ export class TabMapLevels {
         const levels: Hole[] = this.editor.tower.levels.map((level, index) => {
             const id = `tabMapLevelLevel${index}`
             return html`
-                <sl-tree-item id="${id}" ?selected="${index == this.selectedLevelIndex}" data-index="${index}">${level.name}</sl-tree-item>`
+                <sl-tree-item id="${id}" ?selected="${index == this.selectedLevelIndex}" data-index="${index}">
+                    ${level.name}
+                </sl-tree-item>`
         })
         render(this.tree, html`Enemy ${levels}`)
     }
@@ -81,7 +89,14 @@ export class TabMapLevels {
     }
 
     private moveUp = (): void => {
-
+        const levels = this.editor.tower.levels;
+        const currentLevel = levels[this.selectedLevelIndex]
+        const targetLevel = levels[this.selectedLevelIndex - 1]
+        levels[this.selectedLevelIndex] = targetLevel
+        levels[this.selectedLevelIndex - 1] = currentLevel
+        this.editor.tower.saveLevels()
+        this.levelSelected(this.selectedLevelIndex - 1)
+        this.render()
     }
 
     private delete = (): void => {
@@ -89,7 +104,14 @@ export class TabMapLevels {
     }
 
     private moveDown = (): void => {
-
+        const levels = this.editor.tower.levels;
+        const currentLevel = levels[this.selectedLevelIndex]
+        const targetLevel = levels[this.selectedLevelIndex + 1]
+        levels[this.selectedLevelIndex] = targetLevel
+        levels[this.selectedLevelIndex + 1] = currentLevel
+        this.editor.tower.saveLevels()
+        this.levelSelected(this.selectedLevelIndex + 1)
+        this.render()
     }
 
     private addLevel = (): void => {
@@ -130,8 +152,12 @@ export class TabMapLevels {
         this.selectedLevelIndex = selectedLevelIndex
         if (selectedLevelIndex != TabMapLevels.NO_LEVEL_SELECTED) {
             this.levelNameInput.value = this.editor.tower.levels[this.selectedLevelIndex].name
+            this.buttonUp.disabled = (selectedLevelIndex == 0)
+            this.buttonDown.disabled = (selectedLevelIndex == (this.editor.tower.levels.length - 1))
         } else {
             this.levelNameInput.value = ''
+            this.buttonUp.disabled = true
+            this.buttonDown.disabled = true
         }
     }
 }

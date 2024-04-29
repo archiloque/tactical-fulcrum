@@ -106,8 +106,14 @@ sl-tree-item:hover::part(base) {
     color: var(--sl-color-primary-600);
 }
 
-#tabMapLevelName {
+#tabMapLevelName, #tabMapLevelButtons {
     padding: 1em;
+}
+
+#tabMapLevelButtons {
+    padding-top: 0;
+    display: block;
+    text-align: center;
 }
 
 h1, h2 {

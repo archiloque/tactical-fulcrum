@@ -77,7 +77,7 @@ export class TabEnemies {
             </div>
             ${this.tower.enemies.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
             <div class="addButtonDiv">
-                <sl-button variant="primary" outline onclick="${this.addEnemy}">
+                <sl-button variant="primary" onclick="${this.addEnemy}">
                     <sl-icon name="plus-circle"></sl-icon>
                 </sl-button>
             </div>

@@ -3,6 +3,7 @@ import './editor.css'
 
 import '@shoelace-style/shoelace/dist/components/alert/alert.js'
 import '@shoelace-style/shoelace/dist/components/button/button.js'
+import '@shoelace-style/shoelace/dist/components/button-group/button-group.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/option/option.js'

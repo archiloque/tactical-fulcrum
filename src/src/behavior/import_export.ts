@@ -2,7 +2,7 @@ import {Tower} from './tower'
 import {Enemy} from './enemy'
 import {ENEMY_TYPES} from '../data/enemyType'
 import {DROPS} from '../data/drop'
-import {Level} from "./level";
+import {Level} from './level'
 
 export abstract class IOStatus {
     readonly errors: string[]

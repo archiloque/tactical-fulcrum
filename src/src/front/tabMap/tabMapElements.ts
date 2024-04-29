@@ -16,7 +16,9 @@ export class TabMapElements {
 
     init(): Hole {
         const keys: Hole[] = COLORS.map(c => html`
-            <sl-tree-item>${capitalize(c)}</sl-tree-item>`)
+            <sl-tree-item>${capitalize(c)} key</sl-tree-item>`)
+        const doors: Hole[] = COLORS.map(c => html`
+            <sl-tree-item>${capitalize(c)} door</sl-tree-item>`)
         const items: Hole[] = ITEMS.map(i => html`
             <sl-tree-item>${i}</sl-tree-item>`)
         return html`<h2>Element</h2>
@@ -27,6 +29,9 @@ export class TabMapElements {
             </sl-tree-item>
             <sl-tree-item>Key
                 ${keys}
+            </sl-tree-item>
+            <sl-tree-item>Door
+                ${doors}
             </sl-tree-item>
             <sl-tree-item>Item
                 ${items}

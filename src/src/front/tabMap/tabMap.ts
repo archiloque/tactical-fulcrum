@@ -15,7 +15,8 @@ export class TabMap {
     private readonly editor: Editor
     private readonly tabElement: HTMLElement
     private readonly tower: Tower
-    private splitPanel: SlSplitPanel
+    private splitPanel1: SlSplitPanel
+    private splitPanel2: SlSplitPanel;
     private towerMap: TabMapMap
     private tabMapElement: TabMapElements
     private tabMapLevels: TabMapLevels
@@ -36,15 +37,17 @@ export class TabMap {
     async init() {
         await this.towerMap.init()
         render(this.tabElement, html`
-            <sl-split-panel id="tabMapSplitPanel" @sl-reposition="${this.reposition}" position="66">
-                <div id="tabMapMap"
-                     slot="start"></div>
+            <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
+                <div
+                        slot="start">
+                    ${this.tabMapElement.init()}
+                </div>
+
                 <div
                         slot="end">
-                    <sl-split-panel>
-                        <div
-                                slot="start">
-                            ${this.tabMapElement.init()}
+                    <sl-split-panel id="tabMapSplitPanel2" position="75">
+                        <div id="tabMapMap"
+                             slot="start">
                         </div>
                         <div
                                 slot="end">
@@ -53,7 +56,8 @@ export class TabMap {
                     </sl-split-panel>
                 </div>
             </sl-split-panel>`)
-        this.splitPanel = document.getElementById('tabMapSplitPanel')
+        this.splitPanel1 = document.getElementById('tabMapSplitPanel1')
+        this.splitPanel2 = document.getElementById('tabMapSplitPanel2')
         document.getElementById('tabMapMap').appendChild(this.towerMap.app.canvas)
         this.tabMapLevels.postInit()
         this.tabMapElement.postInit()
@@ -71,9 +75,11 @@ export class TabMap {
     }
 
     private resize() {
-        const height = window.innerHeight - this.splitPanel.getBoundingClientRect().top - 10
+        const height = window.innerHeight - this.splitPanel1.getBoundingClientRect().top - 10
         // @ts-ignore
-        const width = (window.innerWidth * this.splitPanel.position / 100) - 10
+        const splitPanel1Percent = 1 - this.splitPanel1.position / 100;
+        const splitPanel2Percent = this.splitPanel2.position / 100
+        const width = ( window.innerWidth * splitPanel1Percent * splitPanel2Percent) - 20
         const number = Math.min(height, width)
         this.towerMap.resize(number)
     }

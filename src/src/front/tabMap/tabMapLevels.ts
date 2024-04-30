@@ -7,9 +7,9 @@ import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.compone
 import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
 // @ts-ignore
 import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
-import {Level} from "../../behavior/level";
+import {Level} from '../../behavior/level'
 // @ts-ignore
-import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component";
+import SlButton from '@shoelace-style/shoelace/cdn/components/button/button.component'
 
 export class TabMapLevels {
     private readonly editor: Editor
@@ -18,8 +18,8 @@ export class TabMapLevels {
     private deleteDialog: SlDialog
     private static readonly NO_LEVEL_SELECTED = -1
     selectedLevelIndex: number = TabMapLevels.NO_LEVEL_SELECTED
-    private buttonUp: SlButton;
-    private buttonDown: SlButton;
+    private buttonUp: SlButton
+    private buttonDown: SlButton
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -73,7 +73,7 @@ export class TabMapLevels {
         } else if (this.selectedLevelIndex == TabMapLevels.NO_LEVEL_SELECTED) {
             this.levelSelected(0)
         }
-        console.log("TabMapLevels", "render with selected", this.selectedLevelIndex)
+        console.log('TabMapLevels', 'render with selected', this.selectedLevelIndex)
         const levels: Hole[] = this.editor.tower.levels.map((level, index) => {
             const id = `tabMapLevelLevel${index}`
             return html`
@@ -89,7 +89,7 @@ export class TabMapLevels {
     }
 
     private moveUp = (): void => {
-        const levels = this.editor.tower.levels;
+        const levels = this.editor.tower.levels
         const currentLevel = levels[this.selectedLevelIndex]
         const targetLevel = levels[this.selectedLevelIndex - 1]
         levels[this.selectedLevelIndex] = targetLevel
@@ -104,7 +104,7 @@ export class TabMapLevels {
     }
 
     private moveDown = (): void => {
-        const levels = this.editor.tower.levels;
+        const levels = this.editor.tower.levels
         const currentLevel = levels[this.selectedLevelIndex]
         const targetLevel = levels[this.selectedLevelIndex + 1]
         levels[this.selectedLevelIndex] = targetLevel
@@ -115,9 +115,9 @@ export class TabMapLevels {
     }
 
     private addLevel = (): void => {
-        console.log("TabMapLevels", "add level")
+        console.log('TabMapLevels', 'add level')
         const level: Level = new Level()
-        level.name = "New level"
+        level.name = 'New level'
         this.editor.tower.levels.push(level)
         this.editor.tower.saveLevels()
         this.levelSelected(this.editor.tower.levels.length - 1)
@@ -127,7 +127,7 @@ export class TabMapLevels {
     private deleteDialogConfirm = (): void => {
         this.deleteDialog.hide()
         if (this.selectedLevelIndex != TabMapLevels.NO_LEVEL_SELECTED) {
-            console.log("TabMapLevels", "delete level", this.selectedLevelIndex)
+            console.log('TabMapLevels', 'delete level', this.selectedLevelIndex)
             this.editor.tower.levels.splice(this.selectedLevelIndex, 1)
             this.editor.tower.saveLevels()
             this.levelSelected((this.editor.tower.levels.length == 0) ? TabMapLevels.NO_LEVEL_SELECTED : 0)
@@ -148,7 +148,7 @@ export class TabMapLevels {
     }
 
     private levelSelected(selectedLevelIndex: number) {
-        console.log("TabMapLevels", "select level", selectedLevelIndex)
+        console.log('TabMapLevels', 'select level', selectedLevelIndex)
         this.selectedLevelIndex = selectedLevelIndex
         if (selectedLevelIndex != TabMapLevels.NO_LEVEL_SELECTED) {
             this.levelNameInput.value = this.editor.tower.levels[this.selectedLevelIndex].name

@@ -78,10 +78,12 @@ sl-tab-group::part(nav) {
 #tabMapMap {
     text-align: center;
 }
+
 #tabMapLevelAdd {
     text-align: center;
     padding-top: 0.5em;
 }
+
 #tabMapLevelName, #tabMapLevelButtons {
     padding: 0.5em;
     padding-top: 0;

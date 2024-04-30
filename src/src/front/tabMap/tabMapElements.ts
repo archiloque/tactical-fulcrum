@@ -45,9 +45,10 @@ export class TabMapElements {
     }
 
     render() {
-        const enemies: Hole[] = this.editor.tower.enemies.map(enemy => {
+        const enemies: Hole[] = this.editor.tower.enemies.map((enemy) => {
             const enemyName = `${(enemy.type == null) || (enemy.type.length == 0) ? '??' : enemy.type} ${(enemy.level == null) ? '??' : enemy.level}`
-            return html`<sl-tree-item>${enemyName}</sl-tree-item>`;
+            return html`
+                <sl-tree-item>${enemyName}</sl-tree-item>`
         })
         render(this.tabMapEnemies, html`Enemy ${enemies}`)
     }

@@ -16,7 +16,7 @@ export class TabMap {
     private readonly tabElement: HTMLElement
     private readonly tower: Tower
     private splitPanel1: SlSplitPanel
-    private splitPanel2: SlSplitPanel;
+    private splitPanel2: SlSplitPanel
     private towerMap: TabMapMap
     private tabMapElement: TabMapElements
     private tabMapLevels: TabMapLevels
@@ -77,9 +77,9 @@ export class TabMap {
     private resize() {
         const height = window.innerHeight - this.splitPanel1.getBoundingClientRect().top - 10
         // @ts-ignore
-        const splitPanel1Percent = 1 - this.splitPanel1.position / 100;
+        const splitPanel1Percent = 1 - this.splitPanel1.position / 100
         const splitPanel2Percent = this.splitPanel2.position / 100
-        const width = ( window.innerWidth * splitPanel1Percent * splitPanel2Percent) - 20
+        const width = (window.innerWidth * splitPanel1Percent * splitPanel2Percent) - 20
         const number = Math.min(height, width)
         this.towerMap.resize(number)
     }

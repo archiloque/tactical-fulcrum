@@ -19,13 +19,14 @@ export class IoLevel {
         })
     }
 
-    static fromAttributes(value: object): Level {
+    static fromAttributes(value: Record<string, string | number | null>): Level {
         const result: Level = new Level()
+        // @ts-ignore
         result.name = value[IoLevel.ATTRIBUTE_NAME]
         return result
     }
 
-    static toAttributes(level: Level) {
+    static toAttributes(level: Level): Record<string, string | number | null> {
         return {
             [IoLevel.ATTRIBUTE_NAME]: level.name,
         }

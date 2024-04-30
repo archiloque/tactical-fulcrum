@@ -36,16 +36,24 @@ export class IoEnemy {
         })
     }
 
-    static fromAttributes(value: object): Enemy {
+    static fromAttributes(value: Record<string, string | number | null>): Enemy {
         const result: Enemy = new Enemy()
         const enemyType = value[IoEnemy.ATTRIBUTE_TYPE]
+        // @ts-ignore
         result.type = (ENEMY_TYPES.map(it => it.valueOf()).indexOf(enemyType) == -1) ? null : enemyType
+        // @ts-ignore
         result.level = value[IoEnemy.ATTRIBUTE_LEVEL]
+        // @ts-ignore
         result.name = value[IoEnemy.ATTRIBUTE_NAME]
+        // @ts-ignore
         result.hp = value[IoEnemy.ATTRIBUTE_HP]
+        // @ts-ignore
         result.atk = value[IoEnemy.ATTRIBUTE_ATK]
+        // @ts-ignore
         result.def = value[IoEnemy.ATTRIBUTE_DEF]
+        // @ts-ignore
         result.exp = value[IoEnemy.ATTRIBUTE_EXP]
+        // @ts-ignore
         let drop: string = value[IoEnemy.ATTRIBUTE_DROP]
         if (drop == '') {
             drop = null
@@ -54,7 +62,7 @@ export class IoEnemy {
         return result
     }
 
-    static toAttributes(enemy: Enemy) {
+    static toAttributes(enemy: Enemy): Record<string, string | number | null> {
         return {
             [IoEnemy.ATTRIBUTE_TYPE]: enemy.type ? enemy.type.valueOf() : null,
             [IoEnemy.ATTRIBUTE_LEVEL]: enemy.level,

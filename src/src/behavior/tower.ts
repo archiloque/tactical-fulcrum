@@ -1,7 +1,7 @@
 import {Level} from './level'
 import {Enemy} from './enemy'
-import {IoEnemy} from "./io/ioEnemy";
-import {IoLevel} from "./io/ioLevel";
+import {IoEnemy} from './io/ioEnemy'
+import {IoLevel} from './io/ioLevel'
 
 export class Tower {
     private static readonly LOCAL_STORAGE_KEY_ENEMIES = 'editorEnemies'
@@ -32,14 +32,14 @@ export class Tower {
         console.debug('Tower', 'load')
         const enemiesRaw = localStorage.getItem(Tower.LOCAL_STORAGE_KEY_ENEMIES)
         if (enemiesRaw != null) {
-            const enemiesJson: object[] = JSON.parse(enemiesRaw)
+            const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
             this.enemies = enemiesJson.map(value => IoEnemy.fromAttributes(value))
             console.debug('Tower', this.enemies.length, 'enemies loaded')
         }
 
         const levelsRaw = localStorage.getItem(Tower.LOCAL_STORAGE_KEY_LEVELS)
         if (levelsRaw != null) {
-            const levelsJson: object[] = JSON.parse(levelsRaw)
+            const levelsJson: Record<string, string | number | null>[] = JSON.parse(levelsRaw)
             this.levels = levelsJson.map(value => IoLevel.fromAttributes(value))
             console.debug('Tower', this.levels.length, 'levels loaded')
         }

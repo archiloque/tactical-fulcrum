@@ -1,8 +1,8 @@
 // @ts-ignore
 import {Application, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
+import {TILES_IN_ROW} from '../../data/map'
 
 export class TabMapMap {
-    private static readonly TILES = 15
     readonly app: Application
     private readonly background: Sprite
     private readonly cursor: Graphics
@@ -30,8 +30,8 @@ export class TabMapMap {
     }
 
     resize(elementSize: number) {
-        this.tileSize = Math.floor(elementSize / TabMapMap.TILES)
-        const appSize = this.tileSize * TabMapMap.TILES
+        this.tileSize = Math.floor(elementSize / TILES_IN_ROW)
+        const appSize = this.tileSize * TILES_IN_ROW
         this.app.renderer.resize(appSize, appSize)
         this.background.width = appSize
         this.background.height = appSize

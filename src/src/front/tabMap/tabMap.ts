@@ -7,7 +7,7 @@ import {Tower} from '../../behavior/tower'
 import {settings} from '@pixi/settings'
 import {TabMapMap} from './tabMapMap'
 import {TabMapElements} from './tabMapElements'
-import {TabMapLevels} from './tabMapLevels'
+import {TabMapRooms} from './tabMapRooms'
 // @ts-ignore
 import SlSplitPanel from '@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component'
 
@@ -19,13 +19,13 @@ export class TabMap {
     private splitPanel2: SlSplitPanel
     private towerMap: TabMapMap
     private tabMapElement: TabMapElements
-    private tabMapLevels: TabMapLevels
+    private tabMapRooms: TabMapRooms
 
     constructor(editor: Editor) {
         settings.RESOLUTION = window.devicePixelRatio || 1
         this.editor = editor
         this.tabMapElement = new TabMapElements(editor)
-        this.tabMapLevels = new TabMapLevels(editor)
+        this.tabMapRooms = new TabMapRooms(editor)
         this.tabElement = document.getElementById(Tab.map)
         this.tower = this.editor.tower
         this.towerMap = new TabMapMap()
@@ -51,7 +51,7 @@ export class TabMap {
                         </div>
                         <div
                                 slot="end">
-                            ${this.tabMapLevels.init()}
+                            ${this.tabMapRooms.init()}
                         </div>
                     </sl-split-panel>
                 </div>
@@ -59,14 +59,14 @@ export class TabMap {
         this.splitPanel1 = document.getElementById('tabMapSplitPanel1')
         this.splitPanel2 = document.getElementById('tabMapSplitPanel2')
         document.getElementById('tabMapMap').appendChild(this.towerMap.app.canvas)
-        this.tabMapLevels.postInit()
+        this.tabMapRooms.postInit()
         this.tabMapElement.postInit()
     }
 
     render() {
         console.debug(Tab.map, 'showing')
         this.tabMapElement.render()
-        this.tabMapLevels.render()
+        this.tabMapRooms.render()
         this.resize()
     }
 

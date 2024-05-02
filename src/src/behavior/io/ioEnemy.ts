@@ -12,8 +12,26 @@ export class IoEnemy {
     static readonly ATTRIBUTE_DEF = 'def'
     static readonly ATTRIBUTE_EXP = 'exp'
     static readonly ATTRIBUTE_DROP = 'drop'
+    static readonly ATTRIBUTES: string[] = [
+        IoEnemy.ATTRIBUTE_TYPE,
+        IoEnemy.ATTRIBUTE_HP,
+        IoEnemy.ATTRIBUTE_NAME,
+        IoEnemy.ATTRIBUTE_LEVEL,
+        IoEnemy.ATTRIBUTE_ATK,
+        IoEnemy.ATTRIBUTE_DEF,
+        IoEnemy.ATTRIBUTE_EXP,
+        IoEnemy.ATTRIBUTE_DROP,
+    ]
 
-    static validate(enemy: Enemy, index: number, errors: string[]) {
+    static checkAttributes(attributes: Record<string, string | number | null>, index: number, errors: string[]): void {
+        for (const attributeName in attributes) {
+            if (IoEnemy.ATTRIBUTES.indexOf(attributeName) === -1) {
+                errors.push(`Enemy ${index + 1} has an unknown [${attributeName}] attribute`)
+            }
+        }
+    }
+
+    static validate(enemy: Enemy, index: number, errors: string[]): void {
         IO.checkEnum(enemy.type, ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
         IO.checkNumber(enemy.level, `Enemy ${index} level [${enemy.level}] is invalid`, false, errors)
         IO.checkNotEmpty(enemy.name, `Enemy ${index} name [${enemy.name}] is invalid`, errors)
@@ -24,12 +42,12 @@ export class IoEnemy {
         IO.checkEnum(enemy.drop, DROPS, false, `Enemy ${index} drop [${enemy.drop}] is invalid`, errors)
     }
 
-    static validateEnemies(enemies: Enemy[], errors: string[]) {
+    static validateEnemies(enemies: Enemy[], errors: string[]): void {
         const knownEnemies = []
         enemies.forEach((enemy, index) => {
             const enemyIdentifier = `${enemy.level}|${enemy.type}`
             if (knownEnemies.indexOf(enemyIdentifier) != -1) {
-                errors.push(`Enemy ${index} is duplicated (same type and level)`)
+                errors.push(`Enemy ${index + 1} is duplicated (same type and level)`)
             } else {
                 knownEnemies.push(enemyIdentifier)
             }
@@ -40,7 +58,10 @@ export class IoEnemy {
         const result: Enemy = new Enemy()
         const enemyType = value[IoEnemy.ATTRIBUTE_TYPE]
         // @ts-ignore
-        result.type = (ENEMY_TYPES.map(it => it.valueOf()).indexOf(enemyType) == -1) ? null : enemyType
+        result.type = ENEMY_TYPES.find(it => it.valueOf() === enemyType)
+        if (result.type === undefined) {
+            result.type = null
+        }
         // @ts-ignore
         result.level = value[IoEnemy.ATTRIBUTE_LEVEL]
         // @ts-ignore
@@ -55,10 +76,10 @@ export class IoEnemy {
         result.exp = value[IoEnemy.ATTRIBUTE_EXP]
         // @ts-ignore
         let drop: string = value[IoEnemy.ATTRIBUTE_DROP]
-        if (drop == '') {
+        if (drop === '') {
             drop = null
         }
-        result.drop = (DROPS.indexOf(drop) == -1) ? null : drop
+        result.drop = (DROPS.indexOf(drop) === -1) ? null : drop
         return result
     }
 

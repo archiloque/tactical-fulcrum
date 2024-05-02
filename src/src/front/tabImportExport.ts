@@ -50,7 +50,7 @@ export class TabImportExport {
     }
 
     private static processIOResult(ioStatus: IOStatus, alert: Element, operationName: string) {
-        if (ioStatus.errors.length == 0) {
+        if (ioStatus.errors.length === 0) {
             render(alert, html`
                 <sl-alert variant="success" open closable duration="3000">
                     <sl-icon slot="icon" name="check2-circle"></sl-icon>
@@ -63,7 +63,7 @@ export class TabImportExport {
                     ${operationName} done but there are errors:
                     <ul>
                         ${ioStatus.errors.sort().map(message => html`
-                <li>${message}</li>`)}
+                            <li>${message}</li>`)}
                     </ul>
                 </sl-alert>`)
         }

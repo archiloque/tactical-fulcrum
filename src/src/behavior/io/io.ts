@@ -1,27 +1,27 @@
 export class IO {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     static checkEnum(value: any, values: string[], mandatory: boolean, message: string, errors: string[]): void {
-        if ((value == null) || (value == '')) {
+        if ((value === null) || (value === '')) {
             if (mandatory) {
                 errors.push(message)
             }
             return
         }
-        if (values.indexOf(value) == -1) {
+        if (values.indexOf(value) === -1) {
             errors.push(message)
         }
     }
 
     static checkNotEmpty(value: string | null, message: string, errors: string[]): void {
-        if ((value == null) || (value.length == 0)) {
+        if ((value === null) || (value.length === 0)) {
             errors.push(message)
         }
     }
 
     static checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean, errors: string[]): void {
-        if (value == null) {
+        if (value === null) {
             errors.push(message)
-        } else if (typeof value == 'number') {
+        } else if (typeof value === 'number') {
             if (zeroAuthorized) {
                 if (value < 0) {
                     errors.push(message)

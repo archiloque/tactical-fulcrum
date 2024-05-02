@@ -1,17 +1,32 @@
 import {Color} from '../data/color'
 import {Enemy} from './enemy'
-import {Item, ITEMS} from '../data/item'
+import {Item} from '../data/item'
 import {StaircaseDirection} from '../data/staircaseDirection'
+import {ScoreType} from '../data/scoreType'
 
 export const enum TileType {
     door = 'door',
+    empty = 'empty',
     enemy = 'enemy',
     item = 'item',
     key = 'key',
+    score = 'score',
     staircase = 'staircase',
     startingPosition = 'startingPosition',
     wall = 'wall',
 }
+
+export const TILES_TYPES: TileType[] = [
+    TileType.door,
+    TileType.empty,
+    TileType.enemy,
+    TileType.item,
+    TileType.key,
+    TileType.score,
+    TileType.staircase,
+    TileType.startingPosition,
+    TileType.wall,
+]
 
 export interface Tile {
     getType(): TileType
@@ -38,6 +53,14 @@ export const DOOR_TILES: Record<Color, DoorTile> = {
     [Color.yellow]: new DoorTile(Color.yellow),
 }
 
+export class EmptyTile implements Tile {
+    getType(): TileType {
+        return TileType.empty
+    }
+}
+
+export const EMPTY_TILE: EmptyTile = new EmptyTile()
+
 export class EnemyTile implements Tile {
     readonly enemy: Enemy
 
@@ -62,7 +85,7 @@ export class ItemTile implements Tile {
     }
 }
 
-export const ITEMS_TILE: Record<Item, ItemTile> = {
+export const ITEMS_TILES: Record<Item, ItemTile> = {
     [Item.blue_potion]: new ItemTile(Item.blue_potion),
     [Item.drop_of_dream_ocean]: new ItemTile(Item.drop_of_dream_ocean),
     [Item.golden_feather]: new ItemTile(Item.golden_feather),
@@ -82,11 +105,7 @@ export const ITEMS_TILE: Record<Item, ItemTile> = {
     [Item.pulse_book_shield]: new ItemTile(Item.pulse_book_shield),
     [Item.pulse_book_sword]: new ItemTile(Item.pulse_book_sword),
     [Item.red_potion]: new ItemTile(Item.red_potion),
-
 }
-ITEMS.forEach(item =>
-    ITEMS_TILE[item] = new ItemTile(item),
-)
 
 export class KeyTile implements Tile {
     readonly color: Color
@@ -109,11 +128,29 @@ export const KEY_TILES: Record<Color, KeyTile> = {
     [Color.yellow]: new KeyTile(Color.yellow),
 }
 
-export class Staircase implements Tile {
-    readonly staircaseDirection: StaircaseDirection
+export class ScoreTile implements Tile {
+    readonly score: ScoreType
+
+    constructor(score: ScoreType) {
+        this.score = score
+    }
+
+    getType(): TileType {
+        return TileType.score
+    }
+}
+
+export const SCORE_TILES: Record<ScoreType, ScoreTile> = {
+    [ScoreType.check]: new ScoreTile(ScoreType.check),
+    [ScoreType.crown]: new ScoreTile(ScoreType.crown),
+    [ScoreType.star]: new ScoreTile(ScoreType.star),
+}
+
+export class StaircaseTile implements Tile {
+    readonly direction: StaircaseDirection
 
     constructor(staircaseDirection: StaircaseDirection) {
-        this.staircaseDirection = staircaseDirection
+        this.direction = staircaseDirection
     }
 
     getType(): TileType {
@@ -121,21 +158,23 @@ export class Staircase implements Tile {
     }
 }
 
-export const DOWN_STAIRCASE_TILE: Staircase = new Staircase(StaircaseDirection.down)
-export const UP_STAIRCASE_TILE: Staircase = new Staircase(StaircaseDirection.up)
+export const STAIRCASE_TILES: Record<StaircaseDirection, StaircaseTile> = {
+    [StaircaseDirection.down]: new StaircaseTile(StaircaseDirection.down),
+    [StaircaseDirection.up]: new StaircaseTile(StaircaseDirection.up),
+}
 
-export class StartingPosition implements Tile {
+export class StartingPositionTile implements Tile {
     getType(): TileType {
         return TileType.startingPosition
     }
 }
 
-export const STARTING_POSITION_TILE: StartingPosition = new StartingPosition()
+export const STARTING_POSITION_TILE: StartingPositionTile = new StartingPositionTile()
 
-export class Wall implements Tile {
+export class WallTile implements Tile {
     getType(): TileType {
         return TileType.wall
     }
 }
 
-export const WALL_TILE: Wall = new Wall()
+export const WALL_TILE: WallTile = new WallTile()

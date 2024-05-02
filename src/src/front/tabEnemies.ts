@@ -24,7 +24,7 @@ export class TabEnemies {
 
     private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
         const drops: Hole[] = DROPS.map((item: string, index: number) => html`
-            <sl-option value="${index + 1}">${(item == null) ? '<Nothing>' : item}</sl-option>`,
+            <sl-option value="${index + 1}">${(item === null) ? '<Nothing>' : item}</sl-option>`,
         )
         const dropValue = DROPS.indexOf(enemy.drop)
         const enemyTypes = ENEMY_TYPES.map((enemyType: string) => html`
@@ -35,7 +35,7 @@ export class TabEnemies {
                            required>
                     ${enemyTypes}
                 </sl-select>
-                <sl-input @sl-input="${this.levelChange}" class="level" type="number" min="1" pattern="[0-9]+"
+                <sl-input @sl-input="${this.roomChange}" class="room" type="number" min="1" pattern="[0-9]+"
                           placeholder="Lv"
                           no-spin-buttons value="${enemy.level}" required></sl-input>
                 <sl-input @sl-input="${this.nameChange}" minlength="1" class="name" type="text" placeholder="Name"
@@ -70,7 +70,7 @@ export class TabEnemies {
         render(this.tabElement, html`
             <div class="enemyLine validity-styles">
                 <sl-tag class="type" variant="neutral" size="large">Type</sl-tag>
-                <sl-tag variant="neutral" class="level" size="large">Lv</sl-tag>
+                <sl-tag variant="neutral" class="room" size="large">Lv</sl-tag>
                 <sl-tag variant="neutral" class="name" size="large">Name</sl-tag>
                 <sl-tag variant="neutral" size="large">HP</sl-tag>
                 <sl-tag variant="neutral" size="large">Atk</sl-tag>
@@ -85,7 +85,7 @@ export class TabEnemies {
                     <sl-icon name="plus-circle"></sl-icon>
                 </sl-button>
             </div>
-            <sl-dialog label="Delete level" id="tabEnemiesDeleteDialog">
+            <sl-dialog label="Delete room" id="tabEnemiesDeleteDialog">
                 Are you sure you want to delete this enemy?
                 <div slot="footer">
                     <sl-button onclick="${this.deleteDialogCancel}" variant="neutral">No</sl-button>
@@ -148,9 +148,9 @@ export class TabEnemies {
         this.editor.tower.saveEnemies()
     }
 
-    private levelChange = (event: CustomEvent): void => {
+    private roomChange = (event: CustomEvent): void => {
         const [enemyIndex, value] = this.getInputValueInt(event)
-        console.debug(Tab.enemies, 'levelChange', enemyIndex, value)
+        console.debug(Tab.enemies, 'roomChange', enemyIndex, value)
         this.tower.enemies[enemyIndex].level = value
         this.editor.tower.saveEnemies()
     }
@@ -158,14 +158,14 @@ export class TabEnemies {
     private nameChange = (event: CustomEvent): void => {
         const [enemyIndex, value] = this.getInputValue(event)
         console.debug(Tab.enemies, 'nameChange', enemyIndex, value)
-        this.tower.enemies[enemyIndex].name = (value == '') ? null : value
+        this.tower.enemies[enemyIndex].name = (value === '') ? null : value
         this.editor.tower.saveEnemies()
     }
 
     private typeChange = (event: CustomEvent): void => {
         const [enemyIndex, value] = this.getInputValue(event)
         console.debug(Tab.enemies, 'typeChange', enemyIndex, value)
-        this.tower.enemies[enemyIndex].type = (value == '') ? null : <EnemyType>value
+        this.tower.enemies[enemyIndex].type = (value === '') ? null : <EnemyType>value
         this.editor.tower.saveEnemies()
     }
 

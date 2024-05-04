@@ -1,8 +1,7 @@
 import {Enemy} from '../../enemy'
-import {IoEnemy} from "./ioEnemy";
+import {IoEnemy} from './ioEnemy'
 
 export class IoEnemyToAttributes {
-
     static toAttributes(enemy: Enemy): Record<string, string | number | null> {
         return {
             [IoEnemy.ATTRIBUTE_TYPE]: enemy.type ? enemy.type.valueOf() : null,

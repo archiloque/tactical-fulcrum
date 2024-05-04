@@ -4,8 +4,8 @@ import {IoEnemy} from './enemy/ioEnemy'
 import {Room} from '../room'
 import {IoRoom} from './room/ioRoom'
 import {IOOperation, IOResult} from './importExport'
-import {IoRoomToAttributes} from "./room/ioRoomToAttributes";
-import {IoEnemyToAttributes} from "./enemy/ioEnemyToAttributes";
+import {IoRoomToAttributes} from './room/ioRoomToAttributes'
+import {IoEnemyToAttributes} from './enemy/ioEnemyToAttributes'
 
 export class ExportResult extends IOResult {
     readonly content: string

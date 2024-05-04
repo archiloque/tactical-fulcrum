@@ -4,7 +4,8 @@ import {html, render} from 'uhtml'
 import {Tab} from './tab'
 import {Import} from '../behavior/io/import'
 import {Export} from '../behavior/io/export'
-import {SlAlert, SlTextarea} from "@shoelace-style/shoelace";
+import {SlTextarea} from '@shoelace-style/shoelace'
+import {showAlert} from './alert'
 
 export class TabImportExport {
     private readonly editor: Editor
@@ -25,7 +26,6 @@ export class TabImportExport {
                         <sl-button onclick="${this.import}" variant="primary" size="large" outline>Import from text
                         </sl-button>
                     </div>
-                    <div id="tabImportExportExportAlert"></div>
                     <sl-textarea class="textArea" resize="auto" size="small"></sl-textarea>
             `,
         )
@@ -48,25 +48,13 @@ export class TabImportExport {
     }
 
     private static processIOResult(ioResult: IOResult, operationName: string) {
-        const alert = document.getElementById('tabImportExportExportAlert')
         if (ioResult.errors.length === 0) {
-            render(alert,html`<sl-alert id="nya" variant="success" open closable duration="3000">
-                    <sl-icon slot="icon" name="check2-circle"></sl-icon>
-                    ${operationName} done
-                </sl-alert>`)
+            showAlert(`${operationName} done`, 'success', 'check2-circle')
         } else {
-            render(alert,html`
-                <sl-alert id="nya" variant="warning" open closable>
-                    <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-                    ${operationName} done but there are errors:
+            showAlert(`${operationName} done but there are errors:
                     <ul>
-                        ${ioResult.errors.sort().map(message => html`
-                            <li>${message}</li>`)}
-                    </ul>
-                </sl-alert>`)
+                        ${ioResult.errors.sort().map(message => `<li>${message}</li>`).join('\n')}
+                    </ul>`, 'warning', 'exclamation-triangle', 30000, true)
         }
-        const element: SlAlert = <SlAlert>document.getElementById("nya")
-        debugger
-        element.toast()
     }
 }

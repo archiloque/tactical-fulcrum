@@ -22,6 +22,9 @@ sl-tab-group::part(nav) {
 
 #tabEnemies {
     .enemyLine {
+        text-align: center;
+        padding-bottom: 0.5em;
+
         sl-select {
             display: inline-block;
         }
@@ -30,15 +33,12 @@ sl-tab-group::part(nav) {
             display: inline-block;
         }
 
-        text-align: center;
-        padding-bottom: 0.5em;
-
         sl-tag.delete {
             visibility: hidden;
         }
 
         sl-tag, sl-select, sl-input {
-            width: 10%;
+            width: 7%;
         }
 
         .level {

@@ -2,8 +2,8 @@ import {Room} from './room'
 import {Enemy} from './enemy'
 import {IoEnemy} from './io/enemy/ioEnemy'
 import {IoRoom} from './io/room/ioRoom'
-import {IoEnemyFromAttributes} from "./io/enemy/ioEnemyFromAttributes";
-import {IoRoomFromAttributes} from "./io/room/ioRoomFromAttributes";
+import {IoEnemyFromAttributes} from './io/enemy/ioEnemyFromAttributes'
+import {IoRoomFromAttributes} from './io/room/ioRoomFromAttributes'
 
 export class Tower {
     private static readonly LOCAL_STORAGE_KEY_ENEMIES = 'editorEnemies'

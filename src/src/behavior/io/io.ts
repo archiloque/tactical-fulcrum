@@ -21,7 +21,6 @@ export class IO {
         }
     }
 
-
     static checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean, errors: string[]): void {
         if (value === null) {
             errors.push(message)

@@ -3,8 +3,8 @@ import {IOStatus} from '../behavior/io/importExport'
 // @ts-ignore
 import {html, render} from 'uhtml'
 import {Tab} from './tab'
-import {Import} from "../behavior/io/import";
-import {Export} from "../behavior/io/export";
+import {Import} from '../behavior/io/import'
+import {Export} from '../behavior/io/export'
 
 export class TabImportExport {
     private readonly editor: Editor

@@ -1,7 +1,7 @@
 import {IO} from '../io'
 import {Room} from '../../room'
-import {TILES_TYPES,} from '../../tile'
-import {TILES_IN_ROW} from "../../../data/map";
+import {TILES_TYPES} from '../../tile'
+import {TILES_IN_ROW} from '../../../data/map'
 
 export class IoRoom {
     static readonly ATTRIBUTE_NAME = 'name'
@@ -74,10 +74,8 @@ export class IoRoom {
             } else {
                 knownRooms.push(room.name)
             }
-
         })
     }
-
 
     static toAttributes(room: Room): Record<string, string | number | null> {
         return {

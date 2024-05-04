@@ -1,10 +1,9 @@
-import {Tower} from "../tower";
-import {IoEnemy} from "./enemy/ioEnemy";
-import {IoEnemyFromAttributes} from "./enemy/ioEnemyFromAttributes";
-import {IoRoom} from "./room/ioRoom";
-import {Room} from "../room";
-import {IoRoomFromAttributes} from "./room/ioRoomFromAttributes";
-import {IOOperation, IOStatus} from "./importExport";
+import {Tower} from '../tower'
+import {IoEnemy} from './enemy/ioEnemy'
+import {IoEnemyFromAttributes} from './enemy/ioEnemyFromAttributes'
+import {IoRoom} from './room/ioRoom'
+import {IoRoomFromAttributes} from './room/ioRoomFromAttributes'
+import {IOOperation, IOStatus} from './importExport'
 
 export class ImportResult extends IOStatus {
     readonly content: Tower

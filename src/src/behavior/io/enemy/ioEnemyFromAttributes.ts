@@ -1,8 +1,7 @@
 import {Enemy} from '../../enemy'
 import {ENEMY_TYPES} from '../../../data/enemyType'
 import {DROPS} from '../../../data/drop'
-import {IO} from '../io'
-import {IoEnemy} from "./ioEnemy";
+import {IoEnemy} from './ioEnemy'
 
 export class IoEnemyFromAttributes {
     static fromAttributes(value: Record<string, string | number | null>): Enemy {

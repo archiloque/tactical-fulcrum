@@ -16,11 +16,9 @@ import {ENEMY_TYPES, EnemyType} from '../../../data/enemyType'
 import {Enemy} from '../../enemy'
 import {STAIRCASE_DIRECTIONS, StaircaseDirection} from '../../../data/staircaseDirection'
 import {SCORE_TYPES, ScoreType} from '../../../data/scoreType'
-import {IoRoom} from "./ioRoom";
+import {IoRoom} from './ioRoom'
 
 export class IoRoomFromAttributes {
-
-
     static fromAttributes(value: Record<string, string | any>, enemies: Enemy[]): Room {
         const result: Room = new Room()
         // @ts-ignore
@@ -49,19 +47,19 @@ export class IoRoomFromAttributes {
         if (tileType != null) {
             switch (tileType) {
                 case TileType.door:
-                    return IoRoomFromAttributes.createTileDoor(tile);
+                    return IoRoomFromAttributes.createTileDoor(tile)
                 case TileType.empty:
                     return EMPTY_TILE
                 case TileType.enemy:
-                    return IoRoomFromAttributes.createTileEnemy(tile, enemies);
+                    return IoRoomFromAttributes.createTileEnemy(tile, enemies)
                 case TileType.item:
-                    return IoRoomFromAttributes.createTileItem(tile);
+                    return IoRoomFromAttributes.createTileItem(tile)
                 case TileType.key:
-                    return IoRoomFromAttributes.createTileKey(tile);
+                    return IoRoomFromAttributes.createTileKey(tile)
                 case TileType.score:
-                    return IoRoomFromAttributes.createTileScore(tile);
+                    return IoRoomFromAttributes.createTileScore(tile)
                 case TileType.staircase:
-                    return IoRoomFromAttributes.createTileStaircase(tile);
+                    return IoRoomFromAttributes.createTileStaircase(tile)
                 case TileType.startingPosition:
                     return STARTING_POSITION_TILE
                 case TileType.wall:

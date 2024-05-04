@@ -16,4 +16,3 @@ export abstract class IOOperation {
     static readonly ATTRIBUTE_ROOMS = 'rooms'
     static readonly ATTRIBUTE_ENEMIES = 'enemies'
 }
-

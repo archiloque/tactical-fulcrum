@@ -1,7 +1,7 @@
-import {Enemy} from '../enemy'
-import {ENEMY_TYPES} from '../../data/enemyType'
-import {DROPS} from '../../data/drop'
-import {IO} from './io'
+import {Enemy} from '../../enemy'
+import {ENEMY_TYPES} from '../../../data/enemyType'
+import {DROPS} from '../../../data/drop'
+import {IO} from '../io'
 
 export class IoEnemy {
     static readonly ATTRIBUTE_TYPE = 'type'
@@ -23,15 +23,29 @@ export class IoEnemy {
         IoEnemy.ATTRIBUTE_DROP,
     ]
 
-    static checkAttributes(attributes: Record<string, string | number | null>, index: number, errors: string[]): void {
-        for (const attributeName in attributes) {
+    static validateEnemyImport(enemy: Record<string, string | number | null>, index: number, errors: string[]): void {
+        for (const attributeName in enemy) {
             if (IoEnemy.ATTRIBUTES.indexOf(attributeName) === -1) {
                 errors.push(`Enemy ${index + 1} has an unknown [${attributeName}] attribute`)
             }
         }
+        IO.checkEnum(enemy[IoEnemy.ATTRIBUTE_TYPE], ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
+        IO.checkNumber(enemy[IoEnemy.ATTRIBUTE_LEVEL], `Enemy ${index} level [${enemy.level}] is invalid`, false, errors)
+        const name = enemy[IoEnemy.ATTRIBUTE_NAME]
+        IO.checkNotEmpty(name, `Enemy ${index} name [${name}] is invalid`, errors)
+        const hp = enemy[IoEnemy.ATTRIBUTE_HP]
+        IO.checkNumber(hp, `Enemy ${index} hp [${hp}] is invalid`, false, errors)
+        const atk = enemy[IoEnemy.ATTRIBUTE_ATK]
+        IO.checkNumber(atk, `Enemy ${index} atk [${atk}] is invalid`, true, errors)
+        const def = enemy[IoEnemy.ATTRIBUTE_DEF]
+        IO.checkNumber(def, `Enemy ${index} def [${def}] is invalid`, true, errors)
+        const exp = enemy[IoEnemy.ATTRIBUTE_EXP]
+        IO.checkNumber(exp, `Enemy ${index} exp [${exp}] is invalid`, true, errors)
+        const drop = enemy[IoEnemy.ATTRIBUTE_DROP]
+        IO.checkEnum(drop, DROPS, false, `Enemy ${index} drop [${drop}] is invalid`, errors)
     }
 
-    static validate(enemy: Enemy, index: number, errors: string[]): void {
+    static validateEnemyExport(enemy: Enemy, index: number, errors: string[]): void {
         IO.checkEnum(enemy.type, ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
         IO.checkNumber(enemy.level, `Enemy ${index} level [${enemy.level}] is invalid`, false, errors)
         IO.checkNotEmpty(enemy.name, `Enemy ${index} name [${enemy.name}] is invalid`, errors)
@@ -42,7 +56,7 @@ export class IoEnemy {
         IO.checkEnum(enemy.drop, DROPS, false, `Enemy ${index} drop [${enemy.drop}] is invalid`, errors)
     }
 
-    static validateEnemies(enemies: Enemy[], errors: string[]): void {
+    static validateEnemiesImport(enemies: Record<string, string | number | null>[], errors: string[]): void {
         const knownEnemies = []
         enemies.forEach((enemy, index) => {
             const enemyIdentifier = `${enemy.level}|${enemy.type}`
@@ -54,33 +68,16 @@ export class IoEnemy {
         })
     }
 
-    static fromAttributes(value: Record<string, string | number | null>): Enemy {
-        const result: Enemy = new Enemy()
-        const enemyType = value[IoEnemy.ATTRIBUTE_TYPE]
-        // @ts-ignore
-        result.type = ENEMY_TYPES.find(it => it.valueOf() === enemyType)
-        if (result.type === undefined) {
-            result.type = null
-        }
-        // @ts-ignore
-        result.level = value[IoEnemy.ATTRIBUTE_LEVEL]
-        // @ts-ignore
-        result.name = value[IoEnemy.ATTRIBUTE_NAME]
-        // @ts-ignore
-        result.hp = value[IoEnemy.ATTRIBUTE_HP]
-        // @ts-ignore
-        result.atk = value[IoEnemy.ATTRIBUTE_ATK]
-        // @ts-ignore
-        result.def = value[IoEnemy.ATTRIBUTE_DEF]
-        // @ts-ignore
-        result.exp = value[IoEnemy.ATTRIBUTE_EXP]
-        // @ts-ignore
-        let drop: string = value[IoEnemy.ATTRIBUTE_DROP]
-        if (drop === '') {
-            drop = null
-        }
-        result.drop = (DROPS.indexOf(drop) === -1) ? null : drop
-        return result
+    static validateEnemiesExport(enemies: Enemy[], errors: string[]): void {
+        const knownEnemies = []
+        enemies.forEach((enemy, index) => {
+            const enemyIdentifier = `${enemy.level}|${enemy.type}`
+            if (knownEnemies.indexOf(enemyIdentifier) != -1) {
+                errors.push(`Enemy ${index + 1} is duplicated (same type and level)`)
+            } else {
+                knownEnemies.push(enemyIdentifier)
+            }
+        })
     }
 
     static toAttributes(enemy: Enemy): Record<string, string | number | null> {

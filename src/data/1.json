@@ -203,7 +203,7 @@
  ],
  "rooms": [
   {
-   "name": "level_1_1_n",
+   "name": "level_1_1",
    "tiles": [
     [
      {
@@ -249,54 +249,6 @@
       "type": "empty"
      },
      {
-      "type": "staircase",
-      "direction": "down"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
       "type": "empty"
      }
     ],
@@ -370,454 +322,17 @@
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "startingPosition"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
      {
       "type": "wall"
      },
@@ -829,6 +344,546 @@
      },
      {
       "type": "empty"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 2
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_piece"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "red_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_piece"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "item",
+      "name": "power_piece"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 1
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "item",
+      "name": "red_potion"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_piece"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "startingPosition"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 1
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 1
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 1
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "key",
+      "color": "yellow"
+     },
+     {
+      "type": "door",
+      "color": "yellow"
+     },
+     {
+      "type": "staircase",
+      "direction": "up"
+     }
+    ],
+    [
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 1
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "item",
+      "name": "red_potion"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "red_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 2
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
      },
      {
       "type": "empty"
@@ -866,13 +921,10 @@
     ],
     [
      {
-      "type": "staircase",
-      "direction": "down"
+      "type": "empty"
      },
      {
-      "type": "enemy",
-      "enemyType": "burgeoner",
-      "level": 16
+      "type": "empty"
      },
      {
       "type": "empty"
@@ -917,621 +969,13 @@
    ]
   },
   {
-   "name": "level_1_2_n",
+   "name": "level_1_2",
    "tiles": [
     [
      {
-      "type": "empty"
+      "type": "item",
+      "name": "guard_deck"
      },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "staircase",
-      "direction": "down"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "startingPosition"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
      {
       "type": "wall"
      },
@@ -1539,7 +983,128 @@
       "type": "empty"
      },
      {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
       "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "key",
+      "color": "yellow"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 12
+     },
+     {
+      "type": "item",
+      "name": "power_card"
+     }
+    ],
+    [
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "key",
+      "color": "yellow"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "guard_piece"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
      },
      {
       "type": "empty"
@@ -1548,8 +1113,141 @@
       "type": "empty"
      },
      {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
       "type": "empty"
      },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 2
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "door",
+      "color": "blue"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "door",
+      "color": "yellow"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
      {
       "type": "empty"
      },
@@ -1557,36 +1255,127 @@
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "wall"
      },
      {
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 1
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
      },
      {
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
      },
      {
       "type": "empty"
      },
      {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
       "type": "empty"
+     },
+     {
+      "type": "wall"
      }
     ],
     [
      {
       "type": "staircase",
-      "direction": "down"
+      "direction": "up"
+     },
+     {
+      "type": "item",
+      "name": "drop_of_dream_ocean"
      },
      {
       "type": "enemy",
-      "enemyType": "burgeoner",
-      "level": 16
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
      },
      {
       "type": "empty"
@@ -1595,7 +1384,268 @@
       "type": "empty"
      },
      {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
       "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 2
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "staircase",
+      "direction": "down"
+     }
+    ],
+    [
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_card"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 1
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "door",
+      "color": "yellow"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "item",
+      "name": "guard_card"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "door",
+      "color": "blue"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "key",
+      "color": "blue"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_piece"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
      },
      {
       "type": "empty"
@@ -1604,648 +1654,365 @@
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
      },
      {
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
      },
      {
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 2
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 22
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_piece"
+     },
+     {
+      "type": "item",
+      "name": "guard_gem"
+     },
+     {
+      "type": "item",
+      "name": "power_piece"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     }
+    ],
+    [
+     {
+      "type": "item",
+      "name": "life_crown"
+     },
+     {
+      "type": "wall"
      },
      {
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_piece"
      },
      {
       "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 10
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 13
+     },
+     {
+      "type": "key",
+      "color": "blue"
      }
     ]
    ]
   },
   {
-   "name": "level_1_3_n",
+   "name": "level_1_3",
    "tiles": [
     [
      {
-      "type": "empty"
+      "type": "item",
+      "name": "life_crown"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "golden_feather"
      },
      {
-      "type": "empty"
+      "type": "door",
+      "color": "violet"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "heavenly_potion"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "key",
+      "color": "yellow"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
      },
      {
-      "type": "empty"
+      "type": "door",
+      "color": "yellow"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "key",
+      "color": "crimson"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "guard_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "guard_potion"
      },
      {
-      "type": "staircase",
-      "direction": "down"
+      "type": "item",
+      "name": "power_potion"
      }
     ],
     [
      {
-      "type": "empty"
+      "type": "item",
+      "name": "drop_of_dream_ocean"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 16
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "guard_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "guard_potion"
      }
     ],
     [
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "door",
+      "color": "blue"
      },
      {
-      "type": "empty"
+      "type": "door",
+      "color": "yellow"
      }
     ],
     [
      {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "startingPosition"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
+      "type": "item",
+      "name": "golden_feather"
      },
      {
-      "type": "empty"
-     }
-    ],
-    [
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
-     },
-     {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "life_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "life_potion"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 10
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "heavenly_potion"
      },
-     {
-      "type": "empty"
-     }
-    ],
-    [
      {
       "type": "wall"
      },
@@ -2256,7 +2023,40 @@
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 13
+     }
+    ],
+    [
+     {
+      "type": "door",
+      "color": "crimson"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "door",
+      "color": "yellow"
      },
      {
       "type": "empty"
@@ -2265,7 +2065,61 @@
       "type": "empty"
      },
      {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     }
+    ],
+    [
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
       "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
      },
      {
       "type": "empty"
@@ -2274,22 +2128,81 @@
       "type": "empty"
      },
      {
+      "type": "wall"
+     },
+     {
+      "type": "door",
+      "color": "yellow"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
       "type": "empty"
+     }
+    ],
+    [
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 10
+     },
+     {
+      "type": "door",
+      "color": "yellow"
      },
      {
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "life_potion"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 13
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
      }
     ],
     [
@@ -2298,9 +2211,269 @@
       "direction": "down"
      },
      {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "empty"
+     },
+     {
       "type": "enemy",
-      "enemyType": "burgeoner",
-      "level": 16
+      "enemyType": "fighter",
+      "level": 12
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "staircase",
+      "direction": "up"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 10
+     }
+    ],
+    [
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 10
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_card"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 12
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     }
+    ],
+    [
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "door",
+      "color": "yellow"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "item",
+      "name": "guard_potion"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     }
+    ],
+    [
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 3
+     },
+     {
+      "type": "empty"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 8
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 12
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "item",
+      "name": "life_potion"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     }
+    ],
+    [
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
      },
      {
       "type": "empty"
@@ -2309,7 +2482,69 @@
       "type": "empty"
      },
      {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
       "type": "empty"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     },
+     {
+      "type": "item",
+      "name": "heavenly_potion"
+     },
+     {
+      "type": "item",
+      "name": "blue_potion"
+     }
+    ],
+    [
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
      },
      {
       "type": "empty"
@@ -2318,28 +2553,145 @@
       "type": "empty"
      },
      {
-      "type": "empty"
+      "type": "wall"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "guard_potion"
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_potion"
+     }
+    ],
+    [
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
      },
      {
-      "type": "empty"
+      "type": "item",
+      "name": "power_gem"
      },
      {
-      "type": "empty"
+      "type": "wall"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 5
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "door",
+      "color": "blue"
+     }
+    ],
+    [
+     {
+      "type": "key",
+      "color": "yellow"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 7
+     },
+     {
+      "type": "door",
+      "color": "blue"
+     },
+     {
+      "type": "key",
+      "color": "yellow"
+     },
+     {
+      "type": "item",
+      "name": "power_potion"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "ranger",
+      "level": 4
+     },
+     {
+      "type": "item",
+      "name": "power_gem"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 15
+     },
+     {
+      "type": "item",
+      "name": "golden_feather"
+     },
+     {
+      "type": "wall"
+     },
+     {
+      "type": "key",
+      "color": "yellow"
+     },
+     {
+      "type": "item",
+      "name": "life_crown"
+     },
+     {
+      "type": "enemy",
+      "enemyType": "fighter",
+      "level": 19
      }
     ]
    ]

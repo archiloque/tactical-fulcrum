@@ -12,11 +12,15 @@ export class IO {
         }
     }
 
-    static checkNotEmpty(value: string | null, message: string, errors: string[]): void {
-        if ((value === null) || (value.length === 0)) {
+    static checkNotEmpty(value: string | number | null, message: string, errors: string[]): void {
+        if (value === null) {
+            errors.push(message)
+        } else if (typeof value === 'number') {
+        } else if (value.length === 0) {
             errors.push(message)
         }
     }
+
 
     static checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean, errors: string[]): void {
         if (value === null) {

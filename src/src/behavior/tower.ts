@@ -1,7 +1,9 @@
 import {Room} from './room'
 import {Enemy} from './enemy'
-import {IoEnemy} from './io/ioEnemy'
-import {IoRoom} from './io/ioRoom'
+import {IoEnemy} from './io/enemy/ioEnemy'
+import {IoRoom} from './io/room/ioRoom'
+import {IoEnemyFromAttributes} from "./io/enemy/ioEnemyFromAttributes";
+import {IoRoomFromAttributes} from "./io/room/ioRoomFromAttributes";
 
 export class Tower {
     private static readonly LOCAL_STORAGE_KEY_ENEMIES = 'editorEnemies'
@@ -33,14 +35,14 @@ export class Tower {
         const enemiesRaw = localStorage.getItem(Tower.LOCAL_STORAGE_KEY_ENEMIES)
         if (enemiesRaw != null) {
             const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
-            this.enemies = enemiesJson.map(value => IoEnemy.fromAttributes(value))
+            this.enemies = enemiesJson.map(value => IoEnemyFromAttributes.fromAttributes(value))
             console.debug('Tower', this.enemies.length, 'enemies loaded')
         }
 
         const roomsRaw = localStorage.getItem(Tower.LOCAL_STORAGE_KEY_LEVELS)
         if (roomsRaw != null) {
             const roomsJson: Record<string, string | number | null>[] = JSON.parse(roomsRaw)
-            this.rooms = roomsJson.map(value => IoRoom.fromAttributes(value))
+            this.rooms = roomsJson.map(value => IoRoomFromAttributes.fromAttributes(value, this.enemies))
             console.debug('Tower', this.rooms.length, 'rooms loaded')
         }
     }

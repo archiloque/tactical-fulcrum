@@ -1,4 +1,4 @@
-export abstract class IOStatus {
+export abstract class IOResult {
     readonly errors: string[]
 
     protected constructor(errors: string[]) {

@@ -1,14 +1,9 @@
 import {Editor} from '../../../editor'
-// @ts-ignore
 import {Hole, html, render} from 'uhtml'
-// @ts-ignore
 import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
-// @ts-ignore
 import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
-// @ts-ignore
 import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
 import {Room} from '../../behavior/room'
-// @ts-ignore
 import SlButton from '@shoelace-style/shoelace/cdn/components/button/button.component'
 
 export class TabMapRooms {
@@ -57,11 +52,11 @@ export class TabMapRooms {
     }
 
     postInit() {
-        this.tree = document.getElementById('tabMapRoomTree')
-        this.roomNameInput = document.getElementById('tabMapRoomName')
-        this.deleteDialog = document.getElementById('tabMapRoomDeleteDialog')
-        this.buttonUp = document.getElementById('tabMapRoomButtonUp')
-        this.buttonDown = document.getElementById('tabMapRoomButtonDown')
+        this.tree = <SlTree>document.getElementById('tabMapRoomTree')
+        this.roomNameInput = <SlInput>document.getElementById('tabMapRoomName')
+        this.deleteDialog = <SlDialog>document.getElementById('tabMapRoomDeleteDialog')
+        this.buttonUp = <SlButton>document.getElementById('tabMapRoomButtonUp')
+        this.buttonDown = <SlButton>document.getElementById('tabMapRoomButtonDown')
         if (this.editor.tower.rooms.length > 0) {
             this.roomSelected(0)
         }

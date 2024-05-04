@@ -1,10 +1,10 @@
 import {Editor} from '../../editor'
-import {IOStatus} from '../behavior/io/importExport'
-// @ts-ignore
+import {IOResult} from '../behavior/io/importExport'
 import {html, render} from 'uhtml'
 import {Tab} from './tab'
 import {Import} from '../behavior/io/import'
 import {Export} from '../behavior/io/export'
+import {SlAlert, SlTextarea} from "@shoelace-style/shoelace";
 
 export class TabImportExport {
     private readonly editor: Editor
@@ -25,51 +25,48 @@ export class TabImportExport {
                         <sl-button onclick="${this.import}" variant="primary" size="large" outline>Import from text
                         </sl-button>
                     </div>
-                    <div class="exportAlert"></div>
+                    <div id="tabImportExportExportAlert"></div>
                     <sl-textarea class="textArea" resize="auto" size="small"></sl-textarea>
             `,
         )
     }
 
     private import = (): void => {
-        const textArea = document.getElementById(Tab.importExport).getElementsByClassName('textArea')
-        // @ts-ignore
-        const stringData = textArea[0].value
+        const textArea: SlTextarea = <SlTextarea>document.getElementById(Tab.importExport).getElementsByClassName('textArea')[0]
+        const stringData = textArea.value
         const importResult = new Import().import(stringData)
-        const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
-        TabImportExport.processIOResult(importResult, alert, 'Import')
+        TabImportExport.processIOResult(importResult, 'Import')
         this.editor.tower.enemies = importResult.content.enemies
         this.editor.tower.saveEnemies()
     }
 
     private export = (): void => {
-        const textArea = document.getElementById(Tab.importExport.valueOf()).getElementsByClassName('textArea')
+        const textArea: SlTextarea = <SlTextarea>document.getElementById(Tab.importExport.valueOf()).getElementsByClassName('textArea')[0]
         const exportResult = new Export().export(this.editor.tower)
-        const alert = this.tabElement.getElementsByClassName('exportAlert')[0]
-        TabImportExport.processIOResult(exportResult, alert, 'Export')
-        // @ts-ignore
-        textArea[0].value = exportResult.content
+        TabImportExport.processIOResult(exportResult, 'Export')
+        textArea.value = exportResult.content
     }
 
-    private static processIOResult(ioStatus: IOStatus, alert: Element, operationName: string) {
-        if (ioStatus.errors.length === 0) {
-            render(alert, html`
-                <sl-alert variant="success" open closable duration="3000">
+    private static processIOResult(ioResult: IOResult, operationName: string) {
+        const alert = document.getElementById('tabImportExportExportAlert')
+        if (ioResult.errors.length === 0) {
+            render(alert,html`<sl-alert id="nya" variant="success" open closable duration="3000">
                     <sl-icon slot="icon" name="check2-circle"></sl-icon>
                     ${operationName} done
                 </sl-alert>`)
         } else {
-            render(alert, html`
-                <sl-alert variant="warning" open closable>
+            render(alert,html`
+                <sl-alert id="nya" variant="warning" open closable>
                     <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
                     ${operationName} done but there are errors:
                     <ul>
-                        ${ioStatus.errors.sort().map(message => html`
+                        ${ioResult.errors.sort().map(message => html`
                             <li>${message}</li>`)}
                     </ul>
                 </sl-alert>`)
         }
-        // @ts-ignore
-        alert.querySelector('sl-alert').toast()
+        const element: SlAlert = <SlAlert>document.getElementById("nya")
+        debugger
+        element.toast()
     }
 }

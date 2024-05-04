@@ -1,6 +1,5 @@
 import {Editor} from '../../editor'
 import {Tab} from './tab'
-// @ts-ignore
 import {Hole, html, render} from 'uhtml'
 
 export class MainMenu {

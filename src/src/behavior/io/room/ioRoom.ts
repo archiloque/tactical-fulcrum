@@ -9,7 +9,7 @@ export class IoRoom {
     static readonly ATTRIBUTE_TYPE = 'type'
     static readonly ATTRIBUTE_COLOR = 'color'
     static readonly ATTRIBUTE_ENEMY_TYPE = 'enemyType'
-    static readonly ATTRIBUTE_LEVEL = 'level'
+    static readonly ATTRIBUTE_ENEMY_LEVEL = 'level'
     static readonly ATTRIBUTE_DIRECTION = 'direction'
     static readonly ATTRIBUTE_SCORE = 'score'
     static readonly ATTRIBUTES: string[] = [
@@ -75,11 +75,5 @@ export class IoRoom {
                 knownRooms.push(room.name)
             }
         })
-    }
-
-    static toAttributes(room: Room): Record<string, string | number | null> {
-        return {
-            [IoRoom.ATTRIBUTE_NAME]: room.name,
-        }
     }
 }

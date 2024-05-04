@@ -1,10 +1,8 @@
 import {Editor} from '../../../editor'
-// @ts-ignore
 import {Hole, html, render} from 'uhtml'
 import {COLORS} from '../../data/color'
 import {capitalize} from '../../behavior/utils'
 import {ITEMS} from '../../data/item'
-// @ts-ignore
 import SlTreeItem from '@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component'
 
 export class TabMapElements {
@@ -41,7 +39,7 @@ export class TabMapElements {
     }
 
     postInit() {
-        this.tabMapEnemies = document.getElementById('tabMapEnemies')
+        this.tabMapEnemies = <SlTreeItem>document.getElementById('tabMapEnemies')
     }
 
     render() {

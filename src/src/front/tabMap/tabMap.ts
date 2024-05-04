@@ -1,14 +1,11 @@
 import {Editor} from '../../../editor'
-// @ts-ignore
 import {html, render} from 'uhtml'
 import {Tab} from '../tab'
 import {Tower} from '../../behavior/tower'
-// @ts-ignore
 import {settings} from '@pixi/settings'
 import {TabMapMap} from './tabMapMap'
 import {TabMapElements} from './tabMapElements'
 import {TabMapRooms} from './tabMapRooms'
-// @ts-ignore
 import SlSplitPanel from '@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component'
 
 export class TabMap {
@@ -56,8 +53,8 @@ export class TabMap {
                     </sl-split-panel>
                 </div>
             </sl-split-panel>`)
-        this.splitPanel1 = document.getElementById('tabMapSplitPanel1')
-        this.splitPanel2 = document.getElementById('tabMapSplitPanel2')
+        this.splitPanel1 = <SlSplitPanel>document.getElementById('tabMapSplitPanel1')
+        this.splitPanel2 = <SlSplitPanel>document.getElementById('tabMapSplitPanel2')
         document.getElementById('tabMapMap').appendChild(this.towerMap.app.canvas)
         this.tabMapRooms.postInit()
         this.tabMapElement.postInit()
@@ -76,7 +73,6 @@ export class TabMap {
 
     private resize() {
         const height = window.innerHeight - this.splitPanel1.getBoundingClientRect().top - 10
-        // @ts-ignore
         const splitPanel1Percent = 1 - this.splitPanel1.position / 100
         const splitPanel2Percent = this.splitPanel2.position / 100
         const width = (window.innerWidth * splitPanel1Percent * splitPanel2Percent) - 20

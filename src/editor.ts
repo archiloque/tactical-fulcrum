@@ -18,7 +18,6 @@ import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
 import '@shoelace-style/shoelace/dist/components/tree/tree.js'
 import '@shoelace-style/shoelace/dist/components/tree-item/tree-item.js'
 
-// @ts-ignore
 import {setBasePath} from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 import {MainMenu} from './src/front/mainMenu'
 import {Tower} from './src/behavior/tower'

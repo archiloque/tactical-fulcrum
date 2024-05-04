@@ -70,7 +70,7 @@ sl-tab-group::part(nav) {
         padding-bottom: 1em;
     }
 
-    .exportAlert {
+    #tabImportExportExportAlert {
         padding-bottom: 1em;
     }
 }
@@ -84,14 +84,12 @@ sl-tab-group::part(nav) {
     padding-top: 0.5em;
 }
 
-#tabMapLevelName, #tabMapLevelButtons {
+#tabMapLevelName, #tabMapRoomButtons {
     padding: 0.5em;
-    padding-top: 0;
 }
 
-#tabMapLevelButtons {
-    padding-top: 0;
-    display: block;
+#tabMapRoomButtons {
+       display: block;
     text-align: center;
 }
 

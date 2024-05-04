@@ -1,4 +1,3 @@
-// @ts-ignore
 import {Application, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
 import {TILES_IN_ROW} from '../../data/map'
 

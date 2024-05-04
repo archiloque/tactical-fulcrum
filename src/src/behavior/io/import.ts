@@ -3,9 +3,9 @@ import {IoEnemy} from './enemy/ioEnemy'
 import {IoEnemyFromAttributes} from './enemy/ioEnemyFromAttributes'
 import {IoRoom} from './room/ioRoom'
 import {IoRoomFromAttributes} from './room/ioRoomFromAttributes'
-import {IOOperation, IOStatus} from './importExport'
+import {IOOperation, IOResult} from './importExport'
 
-export class ImportResult extends IOStatus {
+export class ImportResult extends IOResult {
     readonly content: Tower
 
     constructor(content: Tower, errors: string[]) {

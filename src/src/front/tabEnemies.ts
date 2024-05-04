@@ -1,12 +1,10 @@
 import {Editor} from '../../editor'
 import {Enemy} from '../behavior/enemy'
-// @ts-ignore
 import {Hole, html, render} from 'uhtml'
 import {ENEMY_TYPES, EnemyType} from '../data/enemyType'
 import {Tab} from './tab'
 import {Tower} from '../behavior/tower'
 import {DROPS} from '../data/drop'
-// @ts-ignore
 import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
 
 export class TabEnemies {
@@ -93,7 +91,7 @@ export class TabEnemies {
                 </div>
             </sl-dialog>
         `)
-        this.deleteDialog = document.getElementById('tabEnemiesDeleteDialog')
+        this.deleteDialog = <SlDialog>document.getElementById('tabEnemiesDeleteDialog')
     }
 
     private addEnemy = (): void => {

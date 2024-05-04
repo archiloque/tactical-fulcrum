@@ -1,8 +1,11 @@
 import {Room} from '../../room'
 import {
     DOOR_TILES,
-    EMPTY_TILE, EnemyTile, ITEMS_TILES,
-    KEY_TILES, SCORE_TILES,
+    EMPTY_TILE,
+    EnemyTile,
+    ITEMS_TILES,
+    KEY_TILES,
+    SCORE_TILES,
     STARTING_POSITION_TILE,
     Tile,
     TILES_TYPES,
@@ -21,7 +24,6 @@ import {IoRoom} from './ioRoom'
 export class IoRoomFromAttributes {
     static fromAttributes(value: Record<string, string | any>, enemies: Enemy[]): Room {
         const result: Room = new Room()
-        // @ts-ignore
         result.name = value[IoRoom.ATTRIBUTE_NAME]
         const tiles = value[IoRoom.ATTRIBUTE_TILES]
         if (Array.isArray(tiles)) {
@@ -112,8 +114,7 @@ export class IoRoomFromAttributes {
         if (enemyType === undefined) {
             return EMPTY_TILE
         }
-        // @ts-ignore
-        const enemyLevel = parseInt(tile[IoRoom.ATTRIBUTE_LEVEL])
+        const enemyLevel = parseInt(<string>tile[IoRoom.ATTRIBUTE_ENEMY_LEVEL])
         const enemy = enemies.find(e => (e.type == enemyType) && (e.level == enemyLevel))
         if (enemy === null) {
             return EMPTY_TILE

@@ -3,9 +3,11 @@ import {Enemy} from '../enemy'
 import {IoEnemy} from './enemy/ioEnemy'
 import {Room} from '../room'
 import {IoRoom} from './room/ioRoom'
-import {IOOperation, IOStatus} from './importExport'
+import {IOOperation, IOResult} from './importExport'
+import {IoRoomToAttributes} from "./room/ioRoomToAttributes";
+import {IoEnemyToAttributes} from "./enemy/ioEnemyToAttributes";
 
-export class ExportResult extends IOStatus {
+export class ExportResult extends IOResult {
     readonly content: string
 
     constructor(content: string, errors: string[]) {
@@ -22,11 +24,11 @@ export class Export extends IOOperation {
     export(tower: Tower): ExportResult {
         const enemies = tower.enemies.map((enemy: Enemy, index: number) => {
             IoEnemy.validateEnemyExport(enemy, index + 1, this.errors)
-            return IoEnemy.toAttributes(enemy)
+            return IoEnemyToAttributes.toAttributes(enemy)
         })
         const rooms = tower.rooms.map((room: Room, index: number) => {
             IoRoom.validateRoomExport(room, index + 1, this.errors)
-            return IoRoom.toAttributes(room)
+            return IoRoomToAttributes.toAttributes(room)
         })
         IoEnemy.validateEnemiesExport(tower.enemies, this.errors)
         IoRoom.validateRoomsExport(tower.rooms, this.errors)

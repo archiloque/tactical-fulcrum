@@ -32,12 +32,10 @@ export class TabMap {
             this.resize()
         })
         this.sheets = new Sheets()
-        // @ts-ignore
-        this.sheets.load()
     }
 
     async init() {
-        await this.towerMap.init()
+        await Promise.all([this.towerMap.init(), this.sheets.load()])
         render(this.tabElement, html`
             <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
                 <div

@@ -43,7 +43,8 @@ export class TabMapMap {
         this.cursor.width = this.tileSize
         this.cursor.height = this.tileSize
         this.repositionCursor()
-        this.app.stage.addChild(this.sheets.empty)
+        this.app.stage.addChild(this.sheets.tilemap)
+        this.sheets.tilemap.tile(this.sheets.EMPTY_TILE, 0, 0)
     }
 
     private pointerMove(e: FederatedPointerEvent) {

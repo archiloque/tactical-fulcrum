@@ -12,6 +12,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^9.1.1",
+    "@pixi/settings": "^7.4.2",
     "@shoelace-style/shoelace": "^2.15.0",
     "@stylistic/eslint-plugin": "^1.7.2",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -23,11 +24,11 @@
     "eslint-plugin-promise": "^6.1.1",
     "globals": "^15.0.0",
     "pixi.js": "^8.1.0",
-    "@pixi/settings": "^7.4.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.1",
     "uhtml": "^4.5.8"
   },
   "dependencies": {
+    "@pixi/tilemap": "^5.0.1"
   }
 }

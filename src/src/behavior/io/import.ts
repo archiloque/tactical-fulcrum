@@ -31,7 +31,8 @@ export class Import extends IOOperation {
             const enemies = parsedData[IOOperation.ATTRIBUTE_ENEMIES]
             if (this.parsedValueInvalid(enemies)) {
                 this.errors.push('Enemies value is invalid')
-            } else {
+            }
+ else {
                 tower.enemies = enemies.map((value: Record<string, string | number | null>, index: number) => {
                     IoEnemy.validateEnemyImport(value, index + 1, this.errors)
                     return IoEnemyFromAttributes.fromAttributes(value)
@@ -41,14 +42,16 @@ export class Import extends IOOperation {
             const rooms = parsedData[IOOperation.ATTRIBUTE_ROOMS]
             if (this.parsedValueInvalid(rooms)) {
                 this.errors.push('Rooms value is invalid')
-            } else {
+            }
+ else {
                 tower.rooms = rooms.map((value: Record<string, string | any>, index: number) => {
                     IoRoom.validateRoomImport(value, index + 1, this.errors)
                     return IoRoomFromAttributes.fromAttributes(value, enemies)
                 })
                 IoRoom.validateRoomsImport(rooms, this.errors)
             }
-        } catch (e) {
+        }
+ catch (e) {
             this.errors.push(e.message)
         }
         return new ImportResult(

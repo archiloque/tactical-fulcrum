@@ -62,7 +62,8 @@ export class IoEnemy {
             const enemyIdentifier = `${enemy.level}|${enemy.type}`
             if (knownEnemies.indexOf(enemyIdentifier) != -1) {
                 errors.push(`Enemy ${index + 1} is duplicated (same type and level)`)
-            } else {
+            }
+ else {
                 knownEnemies.push(enemyIdentifier)
             }
         })
@@ -74,7 +75,8 @@ export class IoEnemy {
             const enemyIdentifier = `${enemy.level}|${enemy.type}`
             if (knownEnemies.indexOf(enemyIdentifier) != -1) {
                 errors.push(`Enemy ${index + 1} is duplicated (same type and level)`)
-            } else {
+            }
+ else {
                 knownEnemies.push(enemyIdentifier)
             }
         })

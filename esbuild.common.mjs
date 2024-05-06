@@ -1,16 +1,52 @@
+// src/assets/punyworld-overworld-tileset.png
+
+const icons = [
+    'arrow-up',
+    'arrow-down',
+    'check2-circle',
+    'exclamation-triangle',
+    'plus-circle',
+    'trash',
+]
+
+const assets = [
+    'sprites.png',
+    'sprites.json',
+]
+
+const themes = [
+    'light',
+    'dark'
+]
+
+const entryPoints = [
+    {out: 'editor', in: 'src/editor.ts'},
+    {out: 'index', in: 'src/index.html'},
+].concat(icons.map((icon) => {
+            return {
+                out: `assets/icons/${icon}`,
+                in: `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${icon}.svg`,
+            }
+        }
+    )
+).concat(themes.map((theme) => {
+            return {
+                out: `assets/theme/${theme}`,
+                in: `node_modules/@shoelace-style/shoelace/dist/themes/${theme}.css`,
+            }
+        }
+    )
+).concat(assets.map((asset) => {
+            return {
+                out: `assets/images/${asset.split('.')[0]}`,
+                in: `src/assets/${asset}`,
+            }
+        }
+    )
+)
+
 export default {
-    entryPoints: [
-        {out: 'editor', in: 'src/editor.ts'},
-        {out: 'index', in: 'src/index.html'},
-        {out: 'assets/icons/arrow-up', in: 'node_modules/@shoelace-style/shoelace/cdn/assets/icons/arrow-up.svg'},
-        {out: 'assets/icons/arrow-down', in: 'node_modules/@shoelace-style/shoelace/cdn/assets/icons/arrow-down.svg'},
-        {out: 'assets/icons/check2-circle', in: 'node_modules/@shoelace-style/shoelace/cdn/assets/icons/check2-circle.svg'},
-        {out: 'assets/icons/exclamation-triangle', in: 'node_modules/@shoelace-style/shoelace/cdn/assets/icons/exclamation-triangle.svg'},
-        {out: 'assets/icons/plus-circle', in: 'node_modules/@shoelace-style/shoelace/cdn/assets/icons/plus-circle.svg'},
-        {out: 'assets/icons/trash', in: 'node_modules/@shoelace-style/shoelace/cdn/assets/icons/trash.svg'},
-        {out: 'assets/theme/light', in: 'node_modules/@shoelace-style/shoelace/dist/themes/light.css'},
-        {out: 'assets/theme/dark', in: 'node_modules/@shoelace-style/shoelace/dist/themes/dark.css'},
-    ],
+    entryPoints: entryPoints,
     bundle: true,
     minify: true,
     sourcemap: true,
@@ -21,6 +57,8 @@ export default {
         '.svg': 'copy',
         '.ttf': 'copy',
         '.woff2': 'copy',
+        '.png': 'copy',
+        '.json': 'copy',
     },
     target: [
         'es2015'

@@ -38,6 +38,8 @@ export class TabImportExport {
         TabImportExport.processIOResult(importResult, 'Import')
         this.editor.tower.enemies = importResult.content.enemies
         this.editor.tower.saveEnemies()
+        this.editor.tower.rooms = importResult.content.rooms
+        this.editor.tower.saveRooms()
     }
 
     private export = (): void => {
@@ -50,7 +52,8 @@ export class TabImportExport {
     private static processIOResult(ioResult: IOResult, operationName: string) {
         if (ioResult.errors.length === 0) {
             showAlert(`${operationName} done`, 'success', 'check2-circle')
-        } else {
+        }
+ else {
             showAlert(`${operationName} done but there are errors:
                     <ul>
                         ${ioResult.errors.sort().map(message => `<li>${message}</li>`).join('\n')}

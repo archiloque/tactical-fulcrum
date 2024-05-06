@@ -1,5 +1,6 @@
 import {Application, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
 import {TILES_IN_ROW} from '../../data/map'
+import {Sheets} from "./sheets";
 
 export class TabMapMap {
     readonly app: Application
@@ -8,6 +9,7 @@ export class TabMapMap {
     private tileSize: number
     private readonly lastMousePosition: Point
     private readonly lastMouseTile: Point = new Point(-1, -1)
+    private sheets: Sheets;
 
     constructor() {
         this.app = new Application()
@@ -26,6 +28,9 @@ export class TabMapMap {
         this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
         this.app.stage.addChild(this.background)
         this.app.stage.addChild(this.cursor)
+        this.sheets = new Sheets()
+        await this.sheets.load()
+        this.app.stage.addChild(this.cursor)
     }
 
     resize(elementSize: number) {
@@ -38,16 +43,17 @@ export class TabMapMap {
         this.cursor.width = this.tileSize
         this.cursor.height = this.tileSize
         this.repositionCursor()
+        this.app.stage.addChild(this.sheets.empty)
     }
 
     private pointerMove(e: FederatedPointerEvent) {
         e.getLocalPosition(this.app.stage, this.lastMousePosition)
-        const x = this.lastMousePosition.x
-        const y = this.lastMousePosition.y
-        const tileX = Math.floor(x / this.tileSize)
-        const tileY = Math.floor(y / this.tileSize)
+        const x: number = this.lastMousePosition.x
+        const y: number = this.lastMousePosition.y
+        const tileX: number = Math.floor(x / this.tileSize)
+        const tileY: number = Math.floor(y / this.tileSize)
         if ((tileY != this.lastMouseTile.y) || (tileX != this.lastMouseTile.x)) {
-            console.debug('pointermove', 'tileY', tileY, 'tileX', tileX)
+            console.debug('moved', 'tileY', tileY, 'tileX', tileX)
             this.lastMouseTile.y = tileY
             this.lastMouseTile.x = tileX
             this.repositionCursor()

@@ -7,6 +7,7 @@ import {TabMapMap} from './tabMapMap'
 import {TabMapElements} from './tabMapElements'
 import {TabMapRooms} from './tabMapRooms'
 import SlSplitPanel from '@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component'
+import {Sheets} from "./sheets";
 
 export class TabMap {
     private readonly editor: Editor
@@ -17,6 +18,7 @@ export class TabMap {
     private towerMap: TabMapMap
     private tabMapElement: TabMapElements
     private tabMapRooms: TabMapRooms
+    private sheets: Sheets;
 
     constructor(editor: Editor) {
         settings.RESOLUTION = window.devicePixelRatio || 1
@@ -29,6 +31,9 @@ export class TabMap {
         window.addEventListener('resize', () => {
             this.resize()
         })
+        this.sheets = new Sheets()
+        // @ts-ignore
+        this.sheets.load()
     }
 
     async init() {

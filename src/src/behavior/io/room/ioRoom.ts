@@ -35,7 +35,8 @@ export class IoRoom {
             tilesArrayArray.forEach((tilesArray, tilesArrayIndex) => {
                 if (!Array.isArray(tilesArray)) {
                     errors.push(`Room ${index + 1} ${IoRoom.ATTRIBUTE_TILES} line ${tilesArrayIndex + 1} attribute [${tilesArray}] is not an array`)
-                } else {
+                }
+ else {
                     if (tilesArray.length != TILES_IN_ROW) {
                         errors.push(`Room ${index + 1} ${IoRoom.ATTRIBUTE_TILES} length ${tilesArray.length}] should be ${TILES_IN_ROW}`)
                     }
@@ -47,7 +48,8 @@ export class IoRoom {
                     })
                 }
             })
-        } else {
+        }
+ else {
             errors.push(`Room ${index + 1} tiles ${IoRoom.ATTRIBUTE_TILES} attribute [${tilesArrayArray}] is not an array`)
         }
     }
@@ -59,7 +61,8 @@ export class IoRoom {
             if (roomName != null) {
                 if (knownRooms.indexOf(roomName) != -1) {
                     errors.push(`Room ${index} is duplicated (same name)`)
-                } else {
+                }
+ else {
                     knownRooms.push(roomName)
                 }
             }
@@ -71,7 +74,8 @@ export class IoRoom {
         rooms.forEach((room, index) => {
             if (knownRooms.indexOf(room.name) != -1) {
                 errors.push(`Room ${index} is duplicated (same name)`)
-            } else {
+            }
+ else {
                 knownRooms.push(room.name)
             }
         })

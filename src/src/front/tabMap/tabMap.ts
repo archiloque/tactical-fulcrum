@@ -35,11 +35,13 @@ export class TabMap {
     }
 
     async init() {
+        console.debug('TabMap', 'init')
+        await Promise.all([this.tabMapMap.init(), this.sheets.load()])
         render(this.tabElement, html`
             <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
                 <div
                         slot="start">
-                    ${this.tabMapElement.init()}
+                    ${this.tabMapElement.hole()}
                 </div>
 
                 <div
@@ -50,7 +52,7 @@ export class TabMap {
                         </div>
                         <div
                                 slot="end">
-                            ${this.tabMapRooms.init()}
+                            ${this.tabMapRooms.hole()}
                         </div>
                     </sl-split-panel>
                 </div>
@@ -59,12 +61,12 @@ export class TabMap {
         this.splitPanel2 = <SlSplitPanel>document.getElementById('tabMapSplitPanel2')
         document.getElementById('tabMapMap').appendChild(this.tabMapMap.app.canvas)
         this.tabMapRooms.postInit()
-        this.tabMapElement.postInit()
-        await Promise.all([this.tabMapMap.init(), this.sheets.load()])
+        this.tabMapElement.init()
+        await this.sheets.load()
     }
 
     render() {
-        console.debug(Tab.map, 'render')
+        console.debug('TabMap', 'render')
         this.tabMapElement.render()
         this.tabMapRooms.render()
         this.resize()

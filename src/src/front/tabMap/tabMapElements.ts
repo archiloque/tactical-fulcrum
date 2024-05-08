@@ -13,7 +13,8 @@ export class TabMapElements {
         this.editor = editor
     }
 
-    init(): Hole {
+    hole(): Hole {
+        console.debug('TabMapElements', 'hole')
         const keys: Hole[] = COLORS.map(c => html`
             <sl-tree-item>${capitalize(c)} key</sl-tree-item>`)
         const doors: Hole[] = COLORS.map(c => html`
@@ -38,11 +39,13 @@ export class TabMapElements {
         </sl-tree>`
     }
 
-    postInit() {
+    init() {
+        console.debug('TabMapElements', 'init')
         this.tabMapEnemies = <SlTreeItem>document.getElementById('tabMapEnemies')
     }
 
     render() {
+        console.debug('TabMapElements', 'render')
         const enemies: Hole[] = this.editor.tower.enemies.map((enemy) => {
             const enemyName = `${(enemy.type === null) || (enemy.type.length === 0) ? '??' : enemy.type} ${(enemy.level === null) ? '??' : enemy.level}`
             return html`

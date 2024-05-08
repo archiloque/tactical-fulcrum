@@ -19,18 +19,19 @@ export class TabMapMap {
         this.cursor = new Graphics().rect(0, 0, 10, 10).fill(0xff0000)
         this.cursor.eventMode = 'none'
         this.lastMousePosition = new Point()
+        this.sheets = new Sheets()
     }
 
-    async init() {
-        await this.app.init({background: '#FFFFEE'})
+    async init():Promise<any> {
+        console.debug('TabMapMap', 'init')
         this.background.on('pointerenter', () => this.pointerEnter())
         this.background.on('pointerleave', () => this.pointerLeave())
         this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
-        this.app.stage.addChild(this.background)
-        this.app.stage.addChild(this.cursor)
-        this.sheets = new Sheets()
-        await this.sheets.load()
-        this.app.stage.addChild(this.cursor)
+        return Promise.all([this.app.init({background: '#FFFFEE'}).then(() => {
+                this.app.stage.addChild(this.background)
+                this.app.stage.addChild(this.cursor)
+            },
+        ), this.sheets.load()])
     }
 
     resize(elementSize: number) {

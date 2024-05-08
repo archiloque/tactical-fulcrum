@@ -20,7 +20,8 @@ export class TabMapRooms {
         this.editor = editor
     }
 
-    init(): Hole {
+    hole(): Hole {
+        console.debug('TabMapRooms', 'hole')
         return html`<h2>Room</h2>
         <sl-input id="tabMapRoomName" @sl-input="${this.nameChanged}" placeholder="Name"></sl-input>
         <div id="tabMapRoomButtons">
@@ -52,6 +53,7 @@ export class TabMapRooms {
     }
 
     postInit() {
+        console.debug('TabMapRooms', 'postInit')
         this.tree = <SlTree>document.getElementById('tabMapRoomTree')
         this.roomNameInput = <SlInput>document.getElementById('tabMapRoomName')
         this.deleteDialog = <SlDialog>document.getElementById('tabMapRoomDeleteDialog')
@@ -63,6 +65,7 @@ export class TabMapRooms {
     }
 
     render() {
+        console.debug('TabMapRooms', 'render')
         if (this.editor.tower.rooms.length === 0) {
             this.roomSelected(TabMapRooms.NO_LEVEL_SELECTED)
         } else if (this.selectedRoomIndex === TabMapRooms.NO_LEVEL_SELECTED) {

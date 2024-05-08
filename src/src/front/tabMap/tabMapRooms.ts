@@ -5,19 +5,26 @@ import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
 import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
 import {Room} from '../../behavior/room'
 import SlButton from '@shoelace-style/shoelace/cdn/components/button/button.component'
+import {EventEmitter} from 'pixi.js'
+import {EVENT_ROOM_SELECT_NO_ROOM_SELECTED} from '../eventManager'
 
 export class TabMapRooms {
     private readonly editor: Editor
     private tree: SlTree
     private roomNameInput: SlInput
     private deleteDialog: SlDialog
-    private static readonly NO_LEVEL_SELECTED = -1
-    selectedRoomIndex: number = TabMapRooms.NO_LEVEL_SELECTED
+    private selectedRoomIndex: number = EVENT_ROOM_SELECT_NO_ROOM_SELECTED
     private buttonUp: SlButton
     private buttonDown: SlButton
+    private readonly eventEmitter: EventEmitter
 
     constructor(editor: Editor) {
         this.editor = editor
+        editor.eventManager.registerRoomChange(selectedRoomIndex => this.roomSelected(selectedRoomIndex))
+    }
+
+    private notifyRoomChange(selectedRoomIndex: number): void {
+        this.editor.eventManager.notifyRoomChange(selectedRoomIndex)
     }
 
     hole(): Hole {
@@ -52,26 +59,26 @@ export class TabMapRooms {
         `
     }
 
-    postInit(): void {
-        console.debug('TabMapRooms', 'postInit')
+    init(): void {
+        console.debug('TabMapRooms', 'init')
         this.tree = <SlTree>document.getElementById('tabMapRoomTree')
         this.roomNameInput = <SlInput>document.getElementById('tabMapRoomName')
         this.deleteDialog = <SlDialog>document.getElementById('tabMapRoomDeleteDialog')
         this.buttonUp = <SlButton>document.getElementById('tabMapRoomButtonUp')
         this.buttonDown = <SlButton>document.getElementById('tabMapRoomButtonDown')
         if (this.editor.tower.rooms.length > 0) {
-            this.roomSelected(0)
+            this.editor.eventManager.notifyRoomChange(0)
         }
     }
 
     render(): void {
         console.debug('TabMapRooms', 'render')
         if (this.editor.tower.rooms.length === 0) {
-            this.roomSelected(TabMapRooms.NO_LEVEL_SELECTED)
-        } else if (this.selectedRoomIndex === TabMapRooms.NO_LEVEL_SELECTED) {
-            this.roomSelected(0)
+            this.notifyRoomChange(EVENT_ROOM_SELECT_NO_ROOM_SELECTED)
+        } else if (this.selectedRoomIndex === EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+            this.notifyRoomChange(0)
         }
-        console.log('TabMapRooms', 'render with selected', this.selectedRoomIndex)
+        console.debug('TabMapRooms', 'render with selected', this.selectedRoomIndex)
         const rooms: Hole[] = this.editor.tower.rooms.map((room, index) => {
             const id = `tabMapRoomRoom${index}`
             return html`
@@ -83,7 +90,7 @@ export class TabMapRooms {
     }
 
     private roomSelection = (event: CustomEvent): void => {
-        this.roomSelected(parseInt(event.detail.selection[0].dataset.index))
+        this.notifyRoomChange(parseInt(event.detail.selection[0].dataset.index))
     }
 
     private moveUp = (): void => {
@@ -93,7 +100,7 @@ export class TabMapRooms {
         rooms[this.selectedRoomIndex] = targetRoom
         rooms[this.selectedRoomIndex - 1] = currentRoom
         this.editor.tower.saveRooms()
-        this.roomSelected(this.selectedRoomIndex - 1)
+        this.notifyRoomChange(this.selectedRoomIndex - 1)
         this.render()
     }
 
@@ -108,27 +115,27 @@ export class TabMapRooms {
         rooms[this.selectedRoomIndex] = targetRoom
         rooms[this.selectedRoomIndex + 1] = currentRoom
         this.editor.tower.saveRooms()
-        this.roomSelected(this.selectedRoomIndex + 1)
+        this.notifyRoomChange(this.selectedRoomIndex + 1)
         this.render()
     }
 
     private addRoom = (): void => {
-        console.log('TabMapRooms', 'add room')
+        console.debug('TabMapRooms', 'add room')
         const room: Room = new Room()
         room.name = 'New room'
         this.editor.tower.rooms.push(room)
         this.editor.tower.saveRooms()
-        this.roomSelected(this.editor.tower.rooms.length - 1)
+        this.notifyRoomChange(this.editor.tower.rooms.length - 1)
         this.render()
     }
 
     private deleteDialogConfirm = (): void => {
         this.deleteDialog.hide()
-        if (this.selectedRoomIndex != TabMapRooms.NO_LEVEL_SELECTED) {
-            console.log('TabMapRooms', 'delete room', this.selectedRoomIndex)
+        if (this.selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+            console.debug('TabMapRooms', 'delete room', this.selectedRoomIndex)
             this.editor.tower.rooms.splice(this.selectedRoomIndex, 1)
             this.editor.tower.saveRooms()
-            this.roomSelected((this.editor.tower.rooms.length === 0) ? TabMapRooms.NO_LEVEL_SELECTED : 0)
+            this.notifyRoomChange((this.editor.tower.rooms.length === 0) ? EVENT_ROOM_SELECT_NO_ROOM_SELECTED : 0)
             this.render()
         }
     }
@@ -138,7 +145,7 @@ export class TabMapRooms {
     }
 
     private nameChanged = (): void => {
-        if (this.selectedRoomIndex != TabMapRooms.NO_LEVEL_SELECTED) {
+        if (this.selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
             this.editor.tower.rooms[this.selectedRoomIndex].name = this.roomNameInput.value
             this.editor.tower.saveRooms()
             this.render()
@@ -146,9 +153,9 @@ export class TabMapRooms {
     }
 
     private roomSelected(selectedRoomIndex: number): void {
-        console.log('TabMapRooms', 'select room', selectedRoomIndex)
+        console.debug('TabMapRooms', 'roomSelected', selectedRoomIndex)
         this.selectedRoomIndex = selectedRoomIndex
-        if (selectedRoomIndex != TabMapRooms.NO_LEVEL_SELECTED) {
+        if (selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
             this.roomNameInput.value = this.editor.tower.rooms[this.selectedRoomIndex].name
             this.buttonUp.disabled = (selectedRoomIndex === 0)
             this.buttonDown.disabled = (selectedRoomIndex === (this.editor.tower.rooms.length - 1))

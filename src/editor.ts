@@ -25,20 +25,23 @@ import {TabEnemies} from './src/front/tabEnemies'
 import {TabImportExport} from './src/front/tabImportExport'
 import {Tab} from './src/front/tab'
 import {TabMap} from './src/front/tabMap/tabMap'
+import {EventManager} from './src/front/eventManager'
 
 const rootUrl = document.location.origin
 setBasePath(rootUrl)
 
 export class Editor {
     readonly tower: Tower
+    readonly eventManager: EventManager
     private readonly tabEnemies: TabEnemies
     private readonly tabImportExport: TabImportExport
     private readonly tabMap: TabMap
 
     constructor() {
-        console.info('Editor starting')
+        console.debug('Editor starting')
         this.tower = new Tower()
         this.tower.load()
+        this.eventManager = new EventManager()
         new MainMenu(this)
         this.tabEnemies = new TabEnemies(this)
         this.tabImportExport = new TabImportExport(this)

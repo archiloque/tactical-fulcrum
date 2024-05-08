@@ -7,7 +7,6 @@ import {TabMapMap} from './tabMapMap'
 import {TabMapElements} from './tabMapElements'
 import {TabMapRooms} from './tabMapRooms'
 import SlSplitPanel from '@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component'
-import {Sheets} from './sheets'
 
 export class TabMap {
     private readonly editor: Editor
@@ -18,7 +17,6 @@ export class TabMap {
     private tabMapMap: TabMapMap
     private tabMapElement: TabMapElements
     private tabMapRooms: TabMapRooms
-    private sheets: Sheets
 
     constructor(editor: Editor) {
         settings.RESOLUTION = window.devicePixelRatio || 1
@@ -27,16 +25,15 @@ export class TabMap {
         this.tabMapRooms = new TabMapRooms(editor)
         this.tabElement = document.getElementById(Tab.map)
         this.tower = this.editor.tower
-        this.tabMapMap = new TabMapMap()
+        this.tabMapMap = new TabMapMap(editor)
         window.addEventListener('resize', () => {
             this.resize()
         })
-        this.sheets = new Sheets()
     }
 
     async init(): Promise<any> {
         console.debug('TabMap', 'init')
-        await Promise.all([this.tabMapMap.init(), this.sheets.load()])
+        await this.tabMapMap.init()
         render(this.tabElement, html`
             <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
                 <div
@@ -60,7 +57,7 @@ export class TabMap {
         this.splitPanel1 = <SlSplitPanel>document.getElementById('tabMapSplitPanel1')
         this.splitPanel2 = <SlSplitPanel>document.getElementById('tabMapSplitPanel2')
         document.getElementById('tabMapMap').appendChild(this.tabMapMap.app.canvas)
-        this.tabMapRooms.postInit()
+        this.tabMapRooms.init()
         this.tabMapElement.init()
     }
 

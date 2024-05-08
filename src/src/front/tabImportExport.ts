@@ -17,7 +17,7 @@ export class TabImportExport {
     }
 
     render(): void {
-        console.debug(Tab.importExport, 'render')
+        console.debug('TabImportExport', 'render')
         render(
             this.tabElement, html`
                     <div class="topButtons">

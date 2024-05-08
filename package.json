@@ -26,9 +26,9 @@
     "pixi.js": "^8.1.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.1",
-    "uhtml": "^4.5.8"
+    "uhtml": "^4.5.8",
+    "@pixi/tilemap": "^5.0.1"
   },
   "dependencies": {
-    "@pixi/tilemap": "^5.0.1"
   }
 }

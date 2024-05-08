@@ -65,8 +65,7 @@ export class TabMapRooms {
     render() {
         if (this.editor.tower.rooms.length === 0) {
             this.roomSelected(TabMapRooms.NO_LEVEL_SELECTED)
-        }
- else if (this.selectedRoomIndex === TabMapRooms.NO_LEVEL_SELECTED) {
+        } else if (this.selectedRoomIndex === TabMapRooms.NO_LEVEL_SELECTED) {
             this.roomSelected(0)
         }
         console.log('TabMapRooms', 'render with selected', this.selectedRoomIndex)
@@ -150,8 +149,7 @@ export class TabMapRooms {
             this.roomNameInput.value = this.editor.tower.rooms[this.selectedRoomIndex].name
             this.buttonUp.disabled = (selectedRoomIndex === 0)
             this.buttonDown.disabled = (selectedRoomIndex === (this.editor.tower.rooms.length - 1))
-        }
- else {
+        } else {
             this.roomNameInput.value = ''
             this.buttonUp.disabled = true
             this.buttonDown.disabled = true

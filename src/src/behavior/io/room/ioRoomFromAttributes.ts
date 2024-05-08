@@ -77,8 +77,7 @@ export class IoRoomFromAttributes {
         const staircaseDirection: StaircaseDirection = STAIRCASE_DIRECTIONS.find(s => s.valueOf() === tile[IoRoom.ATTRIBUTE_DIRECTION])
         if (staircaseDirection === undefined) {
             return EMPTY_TILE
-        }
- else {
+        } else {
             return STAIRCASE_DIRECTIONS[staircaseDirection]
         }
     }
@@ -87,8 +86,7 @@ export class IoRoomFromAttributes {
         const scoreType: ScoreType = SCORE_TYPES.find(s => s.valueOf() === tile[IoRoom.ATTRIBUTE_SCORE])
         if (scoreType === undefined) {
             return EMPTY_TILE
-        }
- else {
+        } else {
             return SCORE_TILES[scoreType]
         }
     }
@@ -97,8 +95,7 @@ export class IoRoomFromAttributes {
         const keyColor: Color = COLORS.find(c => c.valueOf() === tile[IoRoom.ATTRIBUTE_COLOR])
         if (keyColor === undefined) {
             return EMPTY_TILE
-        }
- else {
+        } else {
             return KEY_TILES[keyColor]
         }
     }
@@ -107,8 +104,7 @@ export class IoRoomFromAttributes {
         const itemName: Item = ITEMS.find(i => i.valueOf() === tile[IoRoom.ATTRIBUTE_NAME])
         if (itemName === undefined) {
             return EMPTY_TILE
-        }
- else {
+        } else {
             return ITEMS_TILES[itemName]
         }
     }
@@ -122,8 +118,7 @@ export class IoRoomFromAttributes {
         const enemy = enemies.find(e => (e.type == enemyType) && (e.level == enemyLevel))
         if (enemy === null) {
             return EMPTY_TILE
-        }
- else {
+        } else {
             return new EnemyTile(enemy)
         }
     }
@@ -132,8 +127,7 @@ export class IoRoomFromAttributes {
         const doorColor: Color = COLORS.find(c => c.valueOf() === tile[IoRoom.ATTRIBUTE_COLOR])
         if (doorColor === undefined) {
             return EMPTY_TILE
-        }
- else {
+        } else {
             return DOOR_TILES[doorColor]
         }
     }

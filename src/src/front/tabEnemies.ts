@@ -64,7 +64,7 @@ export class TabEnemies {
     }
 
     render(): void {
-        console.debug(Tab.enemies, 'showing')
+        console.debug(Tab.enemies, 'render')
         render(this.tabElement, html`
             <div class="enemyLine validity-styles">
                 <sl-tag class="type" variant="neutral" size="large">Type</sl-tag>

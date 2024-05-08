@@ -17,7 +17,7 @@ export class TabImportExport {
     }
 
     render() {
-        console.debug(Tab.importExport, 'showing')
+        console.debug(Tab.importExport, 'render')
         render(
             this.tabElement, html`
                     <div class="topButtons">
@@ -52,8 +52,7 @@ export class TabImportExport {
     private static processIOResult(ioResult: IOResult, operationName: string) {
         if (ioResult.errors.length === 0) {
             showAlert(`${operationName} done`, 'success', 'check2-circle')
-        }
- else {
+        } else {
             showAlert(`${operationName} done but there are errors:
                     <ul>
                         ${ioResult.errors.sort().map(message => `<li>${message}</li>`).join('\n')}

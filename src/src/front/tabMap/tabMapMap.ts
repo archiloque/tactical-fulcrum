@@ -1,6 +1,6 @@
 import {Application, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
 import {TILES_IN_ROW} from '../../data/map'
-import {Sheets} from "./sheets";
+import {Sheets} from './sheets'
 
 export class TabMapMap {
     readonly app: Application
@@ -9,7 +9,7 @@ export class TabMapMap {
     private tileSize: number
     private readonly lastMousePosition: Point
     private readonly lastMouseTile: Point = new Point(-1, -1)
-    private sheets: Sheets;
+    private sheets: Sheets
 
     constructor() {
         this.app = new Application()

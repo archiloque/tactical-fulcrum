@@ -34,7 +34,7 @@ export class TabMap {
         this.sheets = new Sheets()
     }
 
-    async init() {
+    async init(): Promise<any> {
         console.debug('TabMap', 'init')
         await Promise.all([this.tabMapMap.init(), this.sheets.load()])
         render(this.tabElement, html`
@@ -62,10 +62,9 @@ export class TabMap {
         document.getElementById('tabMapMap').appendChild(this.tabMapMap.app.canvas)
         this.tabMapRooms.postInit()
         this.tabMapElement.init()
-        await this.sheets.load()
     }
 
-    render() {
+    render(): void {
         console.debug('TabMap', 'render')
         this.tabMapElement.render()
         this.tabMapRooms.render()
@@ -76,7 +75,7 @@ export class TabMap {
         this.resize()
     }
 
-    private resize() {
+    private resize(): void {
         const height = window.innerHeight - this.splitPanel1.getBoundingClientRect().top - 10
         const splitPanel1Percent = 1 - this.splitPanel1.position / 100
         const splitPanel2Percent = this.splitPanel2.position / 100

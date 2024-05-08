@@ -20,17 +20,17 @@ export class Tower {
         this.rooms = [room1, room2]
     }
 
-    saveEnemies() {
+    saveEnemies(): void {
         console.debug('Tower', 'saveEnemies')
         localStorage.setItem(Tower.LOCAL_STORAGE_KEY_ENEMIES, JSON.stringify(this.enemies.map(e => IoEnemyToAttributes.toAttributes(e))))
     }
 
-    saveRooms() {
+    saveRooms(): void {
         console.debug('Tower', 'saveRooms')
         localStorage.setItem(Tower.LOCAL_STORAGE_KEY_LEVELS, JSON.stringify(this.rooms.map(l => IoRoomToAttributes.toAttributes(l))))
     }
 
-    load() {
+    load(): void {
         console.debug('Tower', 'load')
         const enemiesRaw = localStorage.getItem(Tower.LOCAL_STORAGE_KEY_ENEMIES)
         if (enemiesRaw != null) {

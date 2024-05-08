@@ -52,7 +52,7 @@ export class TabMapRooms {
         `
     }
 
-    postInit() {
+    postInit(): void {
         console.debug('TabMapRooms', 'postInit')
         this.tree = <SlTree>document.getElementById('tabMapRoomTree')
         this.roomNameInput = <SlInput>document.getElementById('tabMapRoomName')
@@ -64,7 +64,7 @@ export class TabMapRooms {
         }
     }
 
-    render() {
+    render(): void {
         console.debug('TabMapRooms', 'render')
         if (this.editor.tower.rooms.length === 0) {
             this.roomSelected(TabMapRooms.NO_LEVEL_SELECTED)
@@ -145,7 +145,7 @@ export class TabMapRooms {
         }
     }
 
-    private roomSelected(selectedRoomIndex: number) {
+    private roomSelected(selectedRoomIndex: number): void {
         console.log('TabMapRooms', 'select room', selectedRoomIndex)
         this.selectedRoomIndex = selectedRoomIndex
         if (selectedRoomIndex != TabMapRooms.NO_LEVEL_SELECTED) {

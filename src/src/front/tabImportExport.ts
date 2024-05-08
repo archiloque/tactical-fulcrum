@@ -16,7 +16,7 @@ export class TabImportExport {
         this.tabElement = document.getElementById(Tab.importExport)
     }
 
-    render() {
+    render(): void {
         console.debug(Tab.importExport, 'render')
         render(
             this.tabElement, html`
@@ -49,7 +49,7 @@ export class TabImportExport {
         textArea.value = exportResult.content
     }
 
-    private static processIOResult(ioResult: IOResult, operationName: string) {
+    private static processIOResult(ioResult: IOResult, operationName: string): void {
         if (ioResult.errors.length === 0) {
             showAlert(`${operationName} done`, 'success', 'check2-circle')
         } else {

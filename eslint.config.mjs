@@ -16,7 +16,8 @@ export default [
             'comma-dangle': ['error', 'always-multiline'],
             '@stylistic/indent': ['off'],
             "@typescript-eslint/ban-ts-comment": ["off"],
-            "@typescript-eslint/no-explicit-any": ["off"]
+            "@typescript-eslint/no-explicit-any": ["off"],
+            "@typescript-eslint/explicit-function-return-type": ["error"],
         }
     }
 ];

@@ -73,7 +73,7 @@ export class IoRoomFromAttributes {
         return null
     }
 
-    private static createTileStaircase(tile: Record<string, string | number>) {
+    private static createTileStaircase(tile: Record<string, string | number>): Tile {
         const staircaseDirection: StaircaseDirection = STAIRCASE_DIRECTIONS.find(s => s.valueOf() === tile[IoRoom.ATTRIBUTE_DIRECTION])
         if (staircaseDirection === undefined) {
             return EMPTY_TILE
@@ -82,7 +82,7 @@ export class IoRoomFromAttributes {
         }
     }
 
-    private static createTileScore(tile: Record<string, string | number>) {
+    private static createTileScore(tile: Record<string, string | number>): Tile {
         const scoreType: ScoreType = SCORE_TYPES.find(s => s.valueOf() === tile[IoRoom.ATTRIBUTE_SCORE])
         if (scoreType === undefined) {
             return EMPTY_TILE
@@ -91,7 +91,7 @@ export class IoRoomFromAttributes {
         }
     }
 
-    private static createTileKey(tile: Record<string, string | number>) {
+    private static createTileKey(tile: Record<string, string | number>): Tile {
         const keyColor: Color = COLORS.find(c => c.valueOf() === tile[IoRoom.ATTRIBUTE_COLOR])
         if (keyColor === undefined) {
             return EMPTY_TILE
@@ -100,7 +100,7 @@ export class IoRoomFromAttributes {
         }
     }
 
-    private static createTileItem(tile: Record<string, string | number>) {
+    private static createTileItem(tile: Record<string, string | number>): Tile {
         const itemName: Item = ITEMS.find(i => i.valueOf() === tile[IoRoom.ATTRIBUTE_NAME])
         if (itemName === undefined) {
             return EMPTY_TILE
@@ -109,7 +109,7 @@ export class IoRoomFromAttributes {
         }
     }
 
-    private static createTileEnemy(tile: Record<string, string | number>, enemies: Enemy[]) {
+    private static createTileEnemy(tile: Record<string, string | number>, enemies: Enemy[]): Tile {
         const enemyType: EnemyType = ENEMY_TYPES.find(i => i.valueOf() === tile[IoRoom.ATTRIBUTE_ENEMY_TYPE])
         if (enemyType === undefined) {
             return EMPTY_TILE
@@ -123,7 +123,7 @@ export class IoRoomFromAttributes {
         }
     }
 
-    private static createTileDoor(tile: Record<string, string | number>) {
+    private static createTileDoor(tile: Record<string, string | number>): Tile {
         const doorColor: Color = COLORS.find(c => c.valueOf() === tile[IoRoom.ATTRIBUTE_COLOR])
         if (doorColor === undefined) {
             return EMPTY_TILE

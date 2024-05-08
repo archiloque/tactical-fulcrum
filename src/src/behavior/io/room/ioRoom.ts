@@ -52,7 +52,7 @@ export class IoRoom {
         }
     }
 
-    static validateRoomsImport(rooms: Record<string, string | any>[], errors: string[]) {
+    static validateRoomsImport(rooms: Record<string, string | any>[], errors: string[]): void {
         const knownRooms: string[] = []
         rooms.forEach((room, index) => {
             const roomName = room[IoRoom.ATTRIBUTE_NAME]
@@ -66,7 +66,7 @@ export class IoRoom {
         })
     }
 
-    static validateRoomsExport(rooms: Room[], errors: string[]) {
+    static validateRoomsExport(rooms: Room[], errors: string[]): void {
         const knownRooms: string[] = []
         rooms.forEach((room, index) => {
             if (knownRooms.indexOf(room.name) != -1) {

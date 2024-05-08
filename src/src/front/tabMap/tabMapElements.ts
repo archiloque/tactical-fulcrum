@@ -39,12 +39,12 @@ export class TabMapElements {
         </sl-tree>`
     }
 
-    init() {
+    init(): void {
         console.debug('TabMapElements', 'init')
         this.tabMapEnemies = <SlTreeItem>document.getElementById('tabMapEnemies')
     }
 
-    render() {
+    render(): void {
         console.debug('TabMapElements', 'render')
         const enemies: Hole[] = this.editor.tower.enemies.map((enemy) => {
             const enemyName = `${(enemy.type === null) || (enemy.type.length === 0) ? '??' : enemy.type} ${(enemy.level === null) ? '??' : enemy.level}`

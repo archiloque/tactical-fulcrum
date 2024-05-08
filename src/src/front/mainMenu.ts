@@ -26,7 +26,7 @@ export class MainMenu {
         `)
     }
 
-    private tabShown = (event: CustomEvent) => {
+    private tabShown = (event: CustomEvent): void => {
         const tab: string = event.detail.name
         console.debug('MainMenu: tab', tab, 'shown')
         this.editor.tabShown(tab as Tab)

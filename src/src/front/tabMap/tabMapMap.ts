@@ -22,7 +22,7 @@ export class TabMapMap {
         this.sheets = new Sheets()
     }
 
-    async init():Promise<any> {
+    async init(): Promise<any> {
         console.debug('TabMapMap', 'init')
         this.background.on('pointerenter', () => this.pointerEnter())
         this.background.on('pointerleave', () => this.pointerLeave())
@@ -34,7 +34,7 @@ export class TabMapMap {
         ), this.sheets.load()])
     }
 
-    resize(elementSize: number) {
+    resize(elementSize: number): void {
         this.tileSize = Math.floor(elementSize / TILES_IN_ROW)
         const appSize = this.tileSize * TILES_IN_ROW
         this.app.renderer.resize(appSize, appSize)
@@ -48,7 +48,7 @@ export class TabMapMap {
         this.sheets.tilemap.tile(this.sheets.EMPTY_TILE, 0, 0)
     }
 
-    private pointerMove(e: FederatedPointerEvent) {
+    private pointerMove(e: FederatedPointerEvent): void {
         e.getLocalPosition(this.app.stage, this.lastMousePosition)
         const x: number = this.lastMousePosition.x
         const y: number = this.lastMousePosition.y
@@ -62,15 +62,15 @@ export class TabMapMap {
         }
     }
 
-    private pointerEnter() {
+    private pointerEnter(): void {
         this.cursor.visible = true
     }
 
-    private pointerLeave() {
+    private pointerLeave(): void {
         this.cursor.visible = false
     }
 
-    private repositionCursor() {
+    private repositionCursor(): void {
         this.cursor.x = this.lastMouseTile.x * this.tileSize
         this.cursor.y = this.lastMouseTile.y * this.tileSize
     }

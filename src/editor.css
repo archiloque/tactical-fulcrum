@@ -89,7 +89,7 @@ sl-tab-group::part(nav) {
 }
 
 #tabMapRoomButtons {
-       display: block;
+    display: block;
     text-align: center;
 }
 

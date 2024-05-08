@@ -174,6 +174,12 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">empty.png</key>
+            <key type="filename">enemy-Burgeoner.png</key>
+            <key type="filename">enemy-Fighter.png</key>
+            <key type="filename">enemy-Ranger.png</key>
+            <key type="filename">enemy-Shadow.png</key>
+            <key type="filename">enemy-Slasher.png</key>
+            <key type="filename">potion.png</key>
             <key type="filename">wall.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -198,6 +204,12 @@
                 <array>
                     <filename>empty.png</filename>
                     <filename>wall.png</filename>
+                    <filename>enemy-Burgeoner.png</filename>
+                    <filename>enemy-Fighter.png</filename>
+                    <filename>enemy-Ranger.png</filename>
+                    <filename>enemy-Shadow.png</filename>
+                    <filename>enemy-Slasher.png</filename>
+                    <filename>potion.png</filename>
                 </array>
             </struct>
         </map>

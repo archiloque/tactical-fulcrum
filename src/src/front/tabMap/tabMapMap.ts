@@ -3,7 +3,8 @@ import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/map'
 import {Sheets} from './sheets'
 import {Editor} from '../../../editor'
 import {EVENT_ROOM_SELECT_NO_ROOM_SELECTED} from '../eventManager'
-import {Tile, TileType} from '../../behavior/tile'
+import {EnemyTile, Tile, TileType} from '../../behavior/tile'
+import {EnemyType} from '../../data/enemyType'
 
 export class TabMapMap {
     readonly app: Application
@@ -98,7 +99,25 @@ export class TabMapMap {
     private sheetNameFromTile(tile: Tile): string | null {
         switch (tile.getType()) {
             case TileType.empty:
-                return this.sheets.EMPTY_TILE
+                return Sheets.TILE_EMPTY
+            case TileType.wall:
+                return Sheets.TILE_WALL
+            case TileType.item:
+                return Sheets.TILE_POTION
+            case TileType.enemy:
+                const enemyTile = tile as EnemyTile
+                switch (enemyTile.enemy.type) {
+                    case EnemyType.burgeoner:
+                        return Sheets.TILE_ENEMY_BURGEONER
+                    case EnemyType.fighter:
+                        return Sheets.TILE_ENEMY_FIGHTER
+                    case EnemyType.ranger:
+                        return Sheets.TILE_ENEMY_RANGER
+                    case EnemyType.shadow:
+                        return Sheets.TILE_ENEMY_SHADOW
+                    case EnemyType.slasher:
+                        return Sheets.TILE_ENEMY_SLASHER
+                }
         }
         console.error('TabMapMap', 'sheetNameFromTile', 'Unknown tile', tile.getType())
         return null

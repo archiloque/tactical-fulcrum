@@ -25,14 +25,14 @@ export class IoRoomToAttributes {
             case TileType.enemy:
                 const enemy = tile as EnemyTile
                 return {
-                    [IoRoom.ATTRIBUTE_TYPE]: TileType.door,
+                    [IoRoom.ATTRIBUTE_TYPE]: TileType.enemy,
                     [IoRoom.ATTRIBUTE_ENEMY_TYPE]: enemy.enemy.type,
                     [IoRoom.ATTRIBUTE_ENEMY_LEVEL]: enemy.enemy.level,
                 }
             case TileType.item:
                 const item = tile as ItemTile
                 return {
-                    [IoRoom.ATTRIBUTE_TYPE]: TileType.door,
+                    [IoRoom.ATTRIBUTE_TYPE]: TileType.item,
                     [IoRoom.ATTRIBUTE_NAME]: item.item.valueOf(),
                 }
             case TileType.key:
@@ -45,13 +45,13 @@ export class IoRoomToAttributes {
                 const score = tile as ScoreTile
                 return {
                     [IoRoom.ATTRIBUTE_TYPE]: TileType.score,
-                    [IoRoom.ATTRIBUTE_SCORE]: score.getType().valueOf(),
+                    [IoRoom.ATTRIBUTE_SCORE]: score.score,
                 }
             case TileType.staircase:
                 const staircase = tile as StaircaseTile
                 return {
                     [IoRoom.ATTRIBUTE_TYPE]: TileType.staircase,
-                    [IoRoom.ATTRIBUTE_SCORE]: staircase.getType().valueOf(),
+                    [IoRoom.ATTRIBUTE_DIRECTION]: staircase.direction.valueOf(),
                 }
             case TileType.startingPosition:
                 return {

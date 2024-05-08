@@ -9,9 +9,63 @@
 	"sourceSize": {"w":16,"h":16},
 	"anchor": {"x":0.5,"y":0.5}
 },
-"wall":
+"enemy-Burgeoner":
 {
 	"frame": {"x":16,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"enemy-Fighter":
+{
+	"frame": {"x":32,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"enemy-Ranger":
+{
+	"frame": {"x":48,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"enemy-Shadow":
+{
+	"frame": {"x":64,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"enemy-Slasher":
+{
+	"frame": {"x":80,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"potion":
+{
+	"frame": {"x":96,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"wall":
+{
+	"frame": {"x":112,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -23,8 +77,8 @@
 	"version": "1.1",
 	"image": "sprites.png",
 	"format": "RGBA8888",
-	"size": {"w":32,"h":16},
+	"size": {"w":128,"h":16},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b7b9df74a2afe7325bb695f07219df60:7ba2fc8154b1a76d071cc111b9f372dd:1eabdf11f75e3a4fe3147baf7b5be24b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:334a66c7d3e3392f7baaafcf0ac40ed7:249c44e26a99d52f9dcb5db400ba2307:1eabdf11f75e3a4fe3147baf7b5be24b$"
 }
 }

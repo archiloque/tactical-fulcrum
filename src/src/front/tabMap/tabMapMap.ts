@@ -43,16 +43,19 @@ export class TabMapMap {
 
     resize(elementSize: number): void {
         console.debug('TabMapMap', 'resize')
-        this.tileSize = Math.floor(elementSize / TILES_IN_ROW)
-        const appSize = this.tileSize * TILES_IN_ROW
-        this.app.renderer.resize(appSize, appSize)
-        this.background.width = appSize
-        this.background.height = appSize
-        this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
-        this.sheets = new Sheets()
-        this.sheets.reload(this.tileSize).then(() => {
-            this.repaint()
-        })
+        const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
+        if (newTileSize != this.tileSize) {
+            this.tileSize = newTileSize
+            const appSize = this.tileSize * TILES_IN_ROW
+            this.app.renderer.resize(appSize, appSize)
+            this.background.width = appSize
+            this.background.height = appSize
+            this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
+            this.sheets = new Sheets()
+            this.sheets.reload(this.tileSize).then(() => {
+                this.repaint()
+            })
+        }
     }
 
     private pointerMove(e: FederatedPointerEvent): void {

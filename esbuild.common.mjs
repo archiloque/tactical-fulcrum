@@ -20,6 +20,8 @@ const themes = [
 ]
 
 const entryPoints = [
+    {out: 'assets/sprites/stairs', in: 'src/assets/sprites/stairs.svg'},
+    {out: 'assets/sprites/key', in: 'src/assets/sprites/key.svg'},
     {out: 'editor', in: 'src/editor.ts'},
     {out: 'index', in: 'src/index.html'},
 ].concat(icons.map((icon) => {

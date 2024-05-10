@@ -3,9 +3,10 @@ import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/map'
 import {Sprites, TacticalFulcrumSprites} from './sprites'
 import {Editor} from '../../../editor'
 import {EVENT_ROOM_SELECT_NO_ROOM_SELECTED} from '../eventManager'
-import {EnemyTile, ItemTile, StaircaseTile, Tile, TileType} from '../../behavior/tile'
+import {DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType} from '../../behavior/tile'
 import {StaircaseDirection} from '../../data/staircaseDirection'
 import {SlTooltip} from '@shoelace-style/shoelace'
+import {Color} from "../../data/color";
 
 export class TabMapMap {
     readonly app: Application
@@ -26,7 +27,7 @@ export class TabMapMap {
         this.app = new Application()
         this.background = new Sprite()
         this.background.eventMode = 'dynamic'
-        this.cursor = new Graphics().rect(0, 0, TILES_DEFAULT_SIZE, TILES_DEFAULT_SIZE).fill(0xff0000)
+        this.cursor = new Graphics().rect(0, 0, this.tileSize, this.tileSize).stroke({width: 1, color: 0xff0000})
         this.cursor.eventMode = 'none'
         this.editor = editor
         this.editor.eventManager.registerRoomChange(selectedRoomIndex => this.roomSelected(selectedRoomIndex))
@@ -173,13 +174,41 @@ export class TabMapMap {
             case TileType.empty:
                 return null
             case TileType.door:
-                return TacticalFulcrumSprites.door
+                switch((tile as DoorTile).color) {
+                    case Color.blue:
+                        return TacticalFulcrumSprites.doorBlue
+                    case Color.crimson:
+                        return TacticalFulcrumSprites.doorCrimson;
+                    case Color.greenBlue:
+                        return TacticalFulcrumSprites.doorGreenBlue
+                    case Color.platinum:
+                        return TacticalFulcrumSprites.doorPlatinum
+                    case Color.violet:
+                        return TacticalFulcrumSprites.doorViolet
+                    case Color.yellow:
+                        return TacticalFulcrumSprites.doorYellow
+                }
+                break
+            case TileType.key:
+                switch((tile as KeyTile).color) {
+                    case Color.blue:
+                        return TacticalFulcrumSprites.keyBlue
+                    case Color.crimson:
+                        return TacticalFulcrumSprites.keyCrimson;
+                    case Color.greenBlue:
+                        return TacticalFulcrumSprites.keyGreenBlue
+                    case Color.platinum:
+                        return TacticalFulcrumSprites.keyPlatinum
+                    case Color.violet:
+                        return TacticalFulcrumSprites.keyViolet
+                    case Color.yellow:
+                        return TacticalFulcrumSprites.keyYellow
+                }
+                break
             case TileType.enemy:
                 return TacticalFulcrumSprites.enemy
             case TileType.item:
                 return TacticalFulcrumSprites.item
-            case TileType.key:
-                return TacticalFulcrumSprites.key
             case TileType.staircase:
                 switch ((tile as StaircaseTile).direction) {
                     case StaircaseDirection.down:

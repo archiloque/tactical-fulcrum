@@ -2,7 +2,6 @@ import {Application, Container, FederatedPointerEvent, Graphics, Point, Sprite} 
 import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/map'
 import {Spriter} from './spriter'
 import {Editor} from '../../../editor'
-import {EVENT_ROOM_SELECT_NO_ROOM_SELECTED} from '../eventManager'
 import {DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType} from '../../behavior/tile'
 import {StaircaseDirection} from '../../data/staircaseDirection'
 import {SlTooltip} from '@shoelace-style/shoelace'
@@ -18,7 +17,7 @@ export class TabMapMap {
     private lastMouseTile: Point = new Point(-1, -1)
     private sprites: Spriter = new Spriter()
     private readonly editor: Editor
-    private selectedRoomIndex: number = EVENT_ROOM_SELECT_NO_ROOM_SELECTED
+    private selectedRoomIndex: number = null
     private tiles: Container
     private mapToolTip: HTMLElement
     private toolTipTimeout: number = null
@@ -39,6 +38,7 @@ export class TabMapMap {
         this.background.on('pointerenter', () => this.pointerEnter())
         this.background.on('pointerleave', () => this.pointerLeave())
         this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
+        this.background.on('pointertap', (e: FederatedPointerEvent) => this.pointerTap(e))
         return Promise.all([
             this.app.init({background: '#FDFDFD'}),
             this.sprites.reload(this.tileSize),
@@ -73,16 +73,16 @@ export class TabMapMap {
         }
     }
 
+    private pointerTap(e: FederatedPointerEvent): void {
+        const tilePosition= this.tileFromEven(e);
+        console.debug('TabMapMap', 'pointerTap', tilePosition)
+    }
+
     private pointerMove(e: FederatedPointerEvent): void {
-        e.getLocalPosition(this.app.stage, this.lastMousePosition)
-        const x: number = this.lastMousePosition.x
-        const y: number = this.lastMousePosition.y
-        const tileX: number = Math.floor(x / this.tileSize)
-        const tileY: number = Math.floor(y / this.tileSize)
-        const newMouseTile: Point = new Point(tileX, tileY)
-        if (!this.lastMouseTile.equals(newMouseTile)) {
-            console.debug('TabMapMap', 'moved tile', 'tileY', tileY, 'tileX', tileX)
-            this.lastMouseTile = newMouseTile
+        const tilePosition= this.tileFromEven(e);
+        if (!this.lastMouseTile.equals(tilePosition)) {
+            console.debug('TabMapMap', 'pointerMove', tilePosition)
+            this.lastMouseTile = tilePosition
             if (this.mapToolTipTip.open) {
                 this.mapToolTipTip.open = false
             }
@@ -96,11 +96,20 @@ export class TabMapMap {
         }
     }
 
+    private tileFromEven(e: FederatedPointerEvent): Point {
+        e.getLocalPosition(this.app.stage, this.lastMousePosition)
+        const x: number = this.lastMousePosition.x
+        const y: number = this.lastMousePosition.y
+        const tileX: number = Math.floor(x / this.tileSize)
+        const tileY: number = Math.floor(y / this.tileSize)
+        return new Point(tileX, tileY)
+    }
+
     private showToolTip(): void {
         if (this.toolTipTimeout != null) {
             clearTimeout(this.toolTipTimeout)
         }
-        if (this.selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+        if (this.selectedRoomIndex != null) {
             const currentRoom = this.editor.tower.rooms[this.selectedRoomIndex]
             const currentTile: Tile = currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
             const toolTipText = this.getToolTipText(currentTile)
@@ -141,7 +150,7 @@ export class TabMapMap {
             this.tiles.destroy()
         }
         this.tiles = new Container()
-        if (this.selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+        if (this.selectedRoomIndex != null) {
             const currentRoom = this.editor.tower.rooms[this.selectedRoomIndex]
             for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
                 for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {

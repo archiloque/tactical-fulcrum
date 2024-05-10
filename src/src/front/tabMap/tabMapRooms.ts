@@ -6,14 +6,13 @@ import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.comp
 import {Room} from '../../behavior/room'
 import SlButton from '@shoelace-style/shoelace/cdn/components/button/button.component'
 import {EventEmitter} from 'pixi.js'
-import {EVENT_ROOM_SELECT_NO_ROOM_SELECTED} from '../eventManager'
 
 export class TabMapRooms {
     private readonly editor: Editor
     private tree: SlTree
     private roomNameInput: SlInput
     private deleteDialog: SlDialog
-    private selectedRoomIndex: number = EVENT_ROOM_SELECT_NO_ROOM_SELECTED
+    private selectedRoomIndex: number = null
     private buttonUp: SlButton
     private buttonDown: SlButton
     private readonly eventEmitter: EventEmitter
@@ -74,8 +73,8 @@ export class TabMapRooms {
     render(): void {
         console.debug('TabMapRooms', 'render')
         if (this.editor.tower.rooms.length === 0) {
-            this.notifyRoomChange(EVENT_ROOM_SELECT_NO_ROOM_SELECTED)
-        } else if (this.selectedRoomIndex === EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+            this.notifyRoomChange(null)
+        } else if (this.selectedRoomIndex === null) {
             this.notifyRoomChange(0)
         }
         console.debug('TabMapRooms', 'render with selected', this.selectedRoomIndex)
@@ -131,11 +130,11 @@ export class TabMapRooms {
 
     private deleteDialogConfirm = (): void => {
         this.deleteDialog.hide()
-        if (this.selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+        if (this.selectedRoomIndex != null) {
             console.debug('TabMapRooms', 'delete room', this.selectedRoomIndex)
             this.editor.tower.rooms.splice(this.selectedRoomIndex, 1)
             this.editor.tower.saveRooms()
-            this.notifyRoomChange((this.editor.tower.rooms.length === 0) ? EVENT_ROOM_SELECT_NO_ROOM_SELECTED : 0)
+            this.notifyRoomChange((this.editor.tower.rooms.length === 0) ? null : 0)
             this.render()
         }
     }
@@ -145,7 +144,7 @@ export class TabMapRooms {
     }
 
     private nameChanged = (): void => {
-        if (this.selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+        if (this.selectedRoomIndex != null) {
             this.editor.tower.rooms[this.selectedRoomIndex].name = this.roomNameInput.value
             this.editor.tower.saveRooms()
             this.render()
@@ -155,7 +154,7 @@ export class TabMapRooms {
     private roomSelected(selectedRoomIndex: number): void {
         console.debug('TabMapRooms', 'roomSelected', selectedRoomIndex)
         this.selectedRoomIndex = selectedRoomIndex
-        if (selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
+        if (selectedRoomIndex != null) {
             this.roomNameInput.value = this.editor.tower.rooms[this.selectedRoomIndex].name
             this.buttonUp.disabled = (selectedRoomIndex === 0)
             this.buttonDown.disabled = (selectedRoomIndex === (this.editor.tower.rooms.length - 1))

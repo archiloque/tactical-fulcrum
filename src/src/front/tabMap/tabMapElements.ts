@@ -22,7 +22,7 @@ export class TabMapElements {
         const items: Hole[] = ITEMS.map(i => html`
             <sl-tree-item>${i}</sl-tree-item>`)
         return html`<h2>Element</h2>
-        <sl-tree selection="leaf">
+        <sl-tree selection="leaf" @sl-selection-change="${this.selectionChanged}">
             <sl-tree-item selected>Empty</sl-tree-item>
             <sl-tree-item>Wall</sl-tree-item>
             <sl-tree-item id="tabMapEnemies">Enemy
@@ -52,5 +52,9 @@ export class TabMapElements {
                 <sl-tree-item>${enemyName}</sl-tree-item>`
         })
         render(this.tabMapEnemies, html`Enemy ${enemies}`)
+    }
+
+    private selectionChanged = (event: CustomEvent): void => {
+        console.debug('TabMapElements', 'selectionChanged', event.detail.selection[0])
     }
 }

@@ -15,7 +15,9 @@ const themes = [
     'dark'
 ]
 
-const sprites = fs.readdirSync('src/assets/sprites').filter((s) => path.extname(s) === '.svg')
+const sprites = fs
+    .readdirSync('src/assets/sprites')
+    .filter((s) => path.extname(s) === '.svg')
 
 const entryPoints = [
     {out: 'editor', in: 'src/editor.ts'},

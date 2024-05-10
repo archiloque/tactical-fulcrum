@@ -93,6 +93,10 @@ sl-tab-group::part(nav) {
     text-align: center;
 }
 
+#tabMapMapToolTip {
+    position: absolute;
+}
+
 
 sl-input[data-user-invalid]::part(base),
 sl-select[data-user-invalid]::part(combobox),

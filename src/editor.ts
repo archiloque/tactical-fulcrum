@@ -15,6 +15,7 @@ import '@shoelace-style/shoelace/dist/components/tag/tag.js'
 import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js'
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js'
 import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js'
 import '@shoelace-style/shoelace/dist/components/tree/tree.js'
 import '@shoelace-style/shoelace/dist/components/tree-item/tree-item.js'
 

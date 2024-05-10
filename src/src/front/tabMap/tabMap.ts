@@ -35,20 +35,21 @@ export class TabMap {
         console.debug('TabMap', 'init')
         await this.tabMapMap.init()
         render(this.tabElement, html`
+            <div id="tabMapMapToolTip">
+                <sl-tooltip id="tabMapMapToolTipTip" trigger="manual" hoist content="This is a tooltip">
+                    <div id="tabMapMapToolTipElement"></div>
+                </sl-tooltip>
+            </div>
             <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
-                <div
-                        slot="start">
+                <div slot="start">
                     ${this.tabMapElement.hole()}
                 </div>
-
-                <div
-                        slot="end">
+                <div slot="end">
                     <sl-split-panel id="tabMapSplitPanel2" position="75">
                         <div id="tabMapMap"
                              slot="start">
                         </div>
-                        <div
-                                slot="end">
+                        <div slot="end">
                             ${this.tabMapRooms.hole()}
                         </div>
                     </sl-split-panel>
@@ -59,6 +60,7 @@ export class TabMap {
         document.getElementById('tabMapMap').appendChild(this.tabMapMap.app.canvas)
         this.tabMapRooms.init()
         this.tabMapElement.init()
+        this.tabMapMap.postInit()
     }
 
     render(): void {

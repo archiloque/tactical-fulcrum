@@ -1,12 +1,13 @@
 import {Application, Container, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
 import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/map'
-import {Sprites, TacticalFulcrumSprites} from './sprites'
+import {Spriter} from './spriter'
 import {Editor} from '../../../editor'
 import {EVENT_ROOM_SELECT_NO_ROOM_SELECTED} from '../eventManager'
 import {DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType} from '../../behavior/tile'
 import {StaircaseDirection} from '../../data/staircaseDirection'
 import {SlTooltip} from '@shoelace-style/shoelace'
-import {Color} from "../../data/color";
+import {Color} from '../../data/color'
+import {Sprites} from './sprites'
 
 export class TabMapMap {
     readonly app: Application
@@ -15,7 +16,7 @@ export class TabMapMap {
     private tileSize: number = TILES_DEFAULT_SIZE
     private readonly lastMousePosition: Point = new Point()
     private lastMouseTile: Point = new Point(-1, -1)
-    private sprites: Sprites = new Sprites()
+    private sprites: Spriter = new Spriter()
     private readonly editor: Editor
     private selectedRoomIndex: number = EVENT_ROOM_SELECT_NO_ROOM_SELECTED
     private tiles: Container
@@ -64,7 +65,7 @@ export class TabMapMap {
             this.background.width = appSize
             this.background.height = appSize
             this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
-            this.sprites = new Sprites()
+            this.sprites = new Spriter()
             this.sprites.reload(this.tileSize).then(() => {
                 this.repaint()
             })
@@ -145,7 +146,7 @@ export class TabMapMap {
             for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
                 for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
                     const currentTile = currentRoom.tiles[lineIndex][columnIndex]
-                    const sheetName = this.sheetNameFromTile(currentTile)
+                    const sheetName = this.spriteNameFromTile(currentTile)
                     if (sheetName != null) {
                         const sprite = this.sprites.getSprite(sheetName)
                         sprite.x = this.tileSize * columnIndex
@@ -169,60 +170,60 @@ export class TabMapMap {
         return null
     }
 
-    private sheetNameFromTile(tile: Tile): TacticalFulcrumSprites | null {
+    private spriteNameFromTile(tile: Tile): Sprites | null {
         switch (tile.getType()) {
             case TileType.empty:
                 return null
             case TileType.door:
-                switch((tile as DoorTile).color) {
+                switch ((tile as DoorTile).color) {
                     case Color.blue:
-                        return TacticalFulcrumSprites.doorBlue
+                        return Sprites.doorBlue
                     case Color.crimson:
-                        return TacticalFulcrumSprites.doorCrimson;
+                        return Sprites.doorCrimson
                     case Color.greenBlue:
-                        return TacticalFulcrumSprites.doorGreenBlue
+                        return Sprites.doorGreenBlue
                     case Color.platinum:
-                        return TacticalFulcrumSprites.doorPlatinum
+                        return Sprites.doorPlatinum
                     case Color.violet:
-                        return TacticalFulcrumSprites.doorViolet
+                        return Sprites.doorViolet
                     case Color.yellow:
-                        return TacticalFulcrumSprites.doorYellow
+                        return Sprites.doorYellow
                 }
                 break
             case TileType.key:
-                switch((tile as KeyTile).color) {
+                switch ((tile as KeyTile).color) {
                     case Color.blue:
-                        return TacticalFulcrumSprites.keyBlue
+                        return Sprites.keyBlue
                     case Color.crimson:
-                        return TacticalFulcrumSprites.keyCrimson;
+                        return Sprites.keyCrimson
                     case Color.greenBlue:
-                        return TacticalFulcrumSprites.keyGreenBlue
+                        return Sprites.keyGreenBlue
                     case Color.platinum:
-                        return TacticalFulcrumSprites.keyPlatinum
+                        return Sprites.keyPlatinum
                     case Color.violet:
-                        return TacticalFulcrumSprites.keyViolet
+                        return Sprites.keyViolet
                     case Color.yellow:
-                        return TacticalFulcrumSprites.keyYellow
+                        return Sprites.keyYellow
                 }
                 break
             case TileType.enemy:
-                return TacticalFulcrumSprites.enemy
+                return Sprites.enemy
             case TileType.item:
-                return TacticalFulcrumSprites.item
+                return Sprites.item
             case TileType.staircase:
                 switch ((tile as StaircaseTile).direction) {
                     case StaircaseDirection.down:
-                        return TacticalFulcrumSprites.staircaseUp
+                        return Sprites.staircaseUp
                     case StaircaseDirection.up:
-                        return TacticalFulcrumSprites.staircaseDown
+                        return Sprites.staircaseDown
                 }
                 break
             case TileType.startingPosition:
-                return TacticalFulcrumSprites.startingPosition
+                return Sprites.startingPosition
             case TileType.wall:
-                return TacticalFulcrumSprites.wall
+                return Sprites.wall
         }
-        console.error('TabMapMap', 'sheetNameFromTile', 'Unknown tile', tile.getType())
+        console.error('TabMapMap', 'spriteNameFromTile', 'Unknown tile', tile.getType())
         return null
     }
 }

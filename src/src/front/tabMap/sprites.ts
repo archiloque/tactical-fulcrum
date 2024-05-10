@@ -1,6 +1,4 @@
-import {Assets, Sprite} from 'pixi.js'
-
-export const enum TacticalFulcrumSprites {
+export const enum Sprites {
     doorBlue = 'door-blue',
     doorCrimson = 'door-crimson',
     doorGreenBlue = 'door-greenBlue',
@@ -21,51 +19,23 @@ export const enum TacticalFulcrumSprites {
     wall = 'wall',
 }
 
-const SPRITES: TacticalFulcrumSprites[] = [
-    TacticalFulcrumSprites.doorBlue,
-    TacticalFulcrumSprites.doorCrimson,
-    TacticalFulcrumSprites.doorGreenBlue,
-    TacticalFulcrumSprites.doorPlatinum,
-    TacticalFulcrumSprites.doorViolet,
-    TacticalFulcrumSprites.doorYellow,
-    TacticalFulcrumSprites.enemy,
-    TacticalFulcrumSprites.item,
-    TacticalFulcrumSprites.keyBlue,
-    TacticalFulcrumSprites.keyCrimson,
-    TacticalFulcrumSprites.keyGreenBlue,
-    TacticalFulcrumSprites.keyPlatinum,
-    TacticalFulcrumSprites.keyViolet,
-    TacticalFulcrumSprites.keyYellow,
-    TacticalFulcrumSprites.staircaseUp,
-    TacticalFulcrumSprites.staircaseDown,
-    TacticalFulcrumSprites.startingPosition,
-    TacticalFulcrumSprites.wall,
+export const SPRITES: Sprites[] = [
+    Sprites.doorBlue,
+    Sprites.doorCrimson,
+    Sprites.doorGreenBlue,
+    Sprites.doorPlatinum,
+    Sprites.doorViolet,
+    Sprites.doorYellow,
+    Sprites.enemy,
+    Sprites.item,
+    Sprites.keyBlue,
+    Sprites.keyCrimson,
+    Sprites.keyGreenBlue,
+    Sprites.keyPlatinum,
+    Sprites.keyViolet,
+    Sprites.keyYellow,
+    Sprites.staircaseUp,
+    Sprites.staircaseDown,
+    Sprites.startingPosition,
+    Sprites.wall,
 ]
-
-export class Sprites {
-    private tileSize: number
-
-    async reload(tileSize: number): Promise<any> {
-        console.info('Sheets', 'reload', tileSize)
-        this.tileSize = tileSize
-        Assets.cache.reset()
-        return Promise.all(SPRITES.map(sprite =>
-            Assets.load({
-                alias: sprite.valueOf(),
-                src: `./assets/sprites/${sprite.valueOf()}.svg`,
-                data: {
-                    height: tileSize * window.devicePixelRatio,
-                    width: tileSize * window.devicePixelRatio,
-                    resolution: window.devicePixelRatio,
-                },
-            }),
-        ))
-    }
-
-    getSprite(spriteName: TacticalFulcrumSprites): Sprite {
-        const sprite: Sprite = Sprite.from(spriteName.valueOf())
-        sprite.width = this.tileSize
-        sprite.height = this.tileSize
-        return sprite
-    }
-}

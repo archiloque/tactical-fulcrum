@@ -1,4 +1,5 @@
-// src/assets/punyworld-overworld-tileset.png
+import fs from 'fs'
+import path from 'path'
 
 const icons = [
     'arrow-up',
@@ -9,19 +10,14 @@ const icons = [
     'trash',
 ]
 
-const assets = [
-    'sprites.png',
-    'sprites.json',
-]
-
 const themes = [
     'light',
     'dark'
 ]
 
+const sprites = fs.readdirSync('src/assets/sprites').filter((s) => path.extname(s) === '.svg')
+
 const entryPoints = [
-    {out: 'assets/sprites/stairs', in: 'src/assets/sprites/stairs.svg'},
-    {out: 'assets/sprites/key', in: 'src/assets/sprites/key.svg'},
     {out: 'editor', in: 'src/editor.ts'},
     {out: 'index', in: 'src/index.html'},
 ].concat(icons.map((icon) => {
@@ -38,10 +34,10 @@ const entryPoints = [
             }
         }
     )
-).concat(assets.map((asset) => {
+).concat(sprites.map((asset) => {
             return {
-                out: `assets/images/${asset.split('.')[0]}`,
-                in: `src/assets/${asset}`,
+                out: `assets/sprites/${path.parse(asset).name}`,
+                in: `src/assets/sprites/${asset}`,
             }
         }
     )

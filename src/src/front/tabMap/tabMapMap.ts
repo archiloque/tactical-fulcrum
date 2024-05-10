@@ -1,9 +1,10 @@
 import {Application, Container, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
 import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/map'
-import {Sheets, TacticalFulcrumSprites} from './sheets'
+import {Sprites, TacticalFulcrumSprites} from './sprites'
 import {Editor} from '../../../editor'
 import {EVENT_ROOM_SELECT_NO_ROOM_SELECTED} from '../eventManager'
-import {Tile, TileType} from '../../behavior/tile'
+import {StaircaseTile, Tile, TileType} from '../../behavior/tile'
+import {StaircaseDirection} from '../../data/staircaseDirection'
 
 export class TabMapMap {
     readonly app: Application
@@ -12,7 +13,7 @@ export class TabMapMap {
     private tileSize: number = TILES_DEFAULT_SIZE
     private readonly lastMousePosition: Point
     private lastMouseTile: Point = new Point(-1, -1)
-    private sheets: Sheets
+    private sprites: Sprites
     private readonly editor: Editor
     private selectedRoomIndex: number = EVENT_ROOM_SELECT_NO_ROOM_SELECTED
     private tiles: Container
@@ -24,7 +25,7 @@ export class TabMapMap {
         this.cursor = new Graphics().rect(0, 0, TILES_DEFAULT_SIZE, TILES_DEFAULT_SIZE).fill(0xff0000)
         this.cursor.eventMode = 'none'
         this.lastMousePosition = new Point()
-        this.sheets = new Sheets()
+        this.sprites = new Sprites()
         this.editor = editor
         this.editor.eventManager.registerRoomChange(selectedRoomIndex => this.roomSelected(selectedRoomIndex))
     }
@@ -34,7 +35,7 @@ export class TabMapMap {
         this.background.on('pointerenter', () => this.pointerEnter())
         this.background.on('pointerleave', () => this.pointerLeave())
         this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
-        return Promise.all([this.app.init({background: '#FFFFEE'}), this.sheets.reload(this.tileSize)]).then(() => {
+        return Promise.all([this.app.init({background: '#FDFDFD'}), this.sprites.reload(this.tileSize)]).then(() => {
             this.app.stage.addChild(this.background)
             this.app.stage.addChild(this.cursor)
             this.repaint()
@@ -51,8 +52,8 @@ export class TabMapMap {
             this.background.width = appSize
             this.background.height = appSize
             this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
-            this.sheets = new Sheets()
-            this.sheets.reload(this.tileSize).then(() => {
+            this.sprites = new Sprites()
+            this.sprites.reload(this.tileSize).then(() => {
                 this.repaint()
             })
         }
@@ -94,6 +95,7 @@ export class TabMapMap {
     private repaint(): void {
         if (this.tiles != null) {
             this.app.stage.removeChild(this.tiles)
+            this.tiles.destroy()
         }
         this.tiles = new Container()
         if (this.selectedRoomIndex != EVENT_ROOM_SELECT_NO_ROOM_SELECTED) {
@@ -103,7 +105,7 @@ export class TabMapMap {
                     const currentTile = currentRoom.tiles[lineIndex][columnIndex]
                     const sheetName = this.sheetNameFromTile(currentTile)
                     if (sheetName != null) {
-                        const sprite = this.sheets.getSprite(sheetName)
+                        const sprite = this.sprites.getSprite(sheetName)
                         sprite.x = this.tileSize * columnIndex
                         sprite.y = this.tileSize * lineIndex
                         this.tiles.addChild(sprite)
@@ -116,34 +118,29 @@ export class TabMapMap {
 
     private sheetNameFromTile(tile: Tile): TacticalFulcrumSprites | null {
         switch (tile.getType()) {
+            case TileType.empty:
+                return null
+            case TileType.door:
+                return TacticalFulcrumSprites.door
+            case TileType.enemy:
+                return TacticalFulcrumSprites.enemy
+            case TileType.item:
+                return TacticalFulcrumSprites.item
             case TileType.key:
                 return TacticalFulcrumSprites.key
             case TileType.staircase:
-                return TacticalFulcrumSprites.stairs
-        }
-        return null/*
-            case TileType.empty:
-                return Sheets.TILE_EMPTY
-            case TileType.wall:
-                return Sheets.TILE_WALL
-            case TileType.item:
-                return Sheets.TILE_POTION
-            case TileType.enemy:
-                const enemyTile = tile as EnemyTile
-                switch (enemyTile.enemy.type) {
-                    case EnemyType.burgeoner:
-                        return Sheets.TILE_ENEMY_BURGEONER
-                    case EnemyType.fighter:
-                        return Sheets.TILE_ENEMY_FIGHTER
-                    case EnemyType.ranger:
-                        return Sheets.TILE_ENEMY_RANGER
-                    case EnemyType.shadow:
-                        return Sheets.TILE_ENEMY_SHADOW
-                    case EnemyType.slasher:
-                        return Sheets.TILE_ENEMY_SLASHER
+                switch ((tile as StaircaseTile).direction) {
+                    case StaircaseDirection.down:
+                        return TacticalFulcrumSprites.staircaseUp
+                    case StaircaseDirection.up:
+                        return TacticalFulcrumSprites.staircaseDown
                 }
+            case TileType.startingPosition:
+                return TacticalFulcrumSprites.startingPosition
+            case TileType.wall:
+                return TacticalFulcrumSprites.wall
         }
         console.error('TabMapMap', 'sheetNameFromTile', 'Unknown tile', tile.getType())
-        return null */
+        return null
     }
 }

@@ -7,7 +7,8 @@
   "scripts": {
     "build": "node esbuild.build.mjs",
     "serve": "node esbuild.serve.mjs",
-    "lint": "npx eslint --fix 'src/**/*.ts'"
+    "lint": "npx eslint --fix 'src/**/*.ts'",
+    "svg": "node build-svg.mjs"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",

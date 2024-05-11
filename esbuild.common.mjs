@@ -16,7 +16,7 @@ const themes = [
 ]
 
 const sprites = fs
-    .readdirSync('src/assets/sprites')
+    .readdirSync('src/assets/sprites/out')
     .filter((s) => path.extname(s) === '.svg')
 
 const entryPoints = [
@@ -39,7 +39,7 @@ const entryPoints = [
 ).concat(sprites.map((asset) => {
             return {
                 out: `assets/sprites/${path.parse(asset).name}`,
-                in: `src/assets/sprites/${asset}`,
+                in: `src/assets/sprites/out/${asset}`,
             }
         }
     )

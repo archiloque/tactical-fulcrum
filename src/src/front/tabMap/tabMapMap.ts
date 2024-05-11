@@ -27,7 +27,14 @@ export class TabMapMap {
         this.app = new Application()
         this.background = new Sprite()
         this.background.eventMode = 'dynamic'
-        this.cursor = new Graphics().rect(0, 0, this.tileSize, this.tileSize).stroke({width: 1, color: 0xff0000})
+        this.cursor = new Graphics()
+            .rect(0, 0, this.tileSize, this.tileSize)
+            .stroke(
+                {
+                    width: 1,
+                    color: 0xff0000,
+                    alignment: 1,
+                })
         this.cursor.eventMode = 'none'
         this.editor = editor
         this.editor.eventManager.registerRoomChange(selectedRoomIndex => this.roomSelected(selectedRoomIndex))

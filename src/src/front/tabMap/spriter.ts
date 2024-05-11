@@ -5,7 +5,7 @@ export class Spriter {
     private tileSize: number
 
     async reload(tileSize: number): Promise<any> {
-        console.info('Sheets', 'reload', tileSize)
+        console.debug('Spriter', 'reload', tileSize)
         this.tileSize = tileSize
         Assets.cache.reset()
         return Promise.all(SPRITES.map(sprite =>

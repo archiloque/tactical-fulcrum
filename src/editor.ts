@@ -27,6 +27,7 @@ import {TabImportExport} from './src/front/tabImportExport'
 import {Tab} from './src/front/tab'
 import {TabMap} from './src/front/tabMap/tabMap'
 import {EventManager} from './src/front/eventManager'
+import {EMPTY_TILE} from './src/behavior/tile'
 
 const rootUrl = document.location.origin
 setBasePath(rootUrl)
@@ -52,6 +53,7 @@ export class Editor {
                 this.tabMap.render()
             }, 10)
         })
+        this.eventManager.notifyTileSelection(EMPTY_TILE, false)
     }
 
     public tabShown(tabName: Tab): void {

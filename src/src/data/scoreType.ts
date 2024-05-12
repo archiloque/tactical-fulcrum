@@ -7,5 +7,5 @@ export enum ScoreType {
 export const SCORE_TYPES: ScoreType[] = [
     ScoreType.check,
     ScoreType.crown,
-    ScoreType.check,
+    ScoreType.star,
 ]

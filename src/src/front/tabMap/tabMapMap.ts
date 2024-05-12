@@ -7,6 +7,7 @@ import {StaircaseDirection} from '../../data/staircaseDirection'
 import {SlTooltip} from '@shoelace-style/shoelace'
 import {Color} from '../../data/color'
 import {Sprites} from './sprites'
+import {Room} from '../../behavior/room'
 
 export class TabMapMap {
     readonly app: Application
@@ -22,6 +23,7 @@ export class TabMapMap {
     private mapToolTip: HTMLElement
     private toolTipTimeout: number = null
     private mapToolTipTip: SlTooltip
+    private selectedTile: Tile
 
     constructor(editor: Editor) {
         this.app = new Application()
@@ -37,7 +39,8 @@ export class TabMapMap {
                 })
         this.cursor.eventMode = 'none'
         this.editor = editor
-        this.editor.eventManager.registerRoomChange(selectedRoomIndex => this.roomSelected(selectedRoomIndex))
+        this.editor.eventManager.registerRoomSelected(selectedRoomIndex => this.roomSelected(selectedRoomIndex))
+        this.editor.eventManager.registerTileSelection(selectedTile => this.tileSelected(selectedTile))
     }
 
     async init(): Promise<any> {
@@ -65,7 +68,7 @@ export class TabMapMap {
     resize(elementSize: number): void {
         console.debug('TabMapMap', 'resize')
         const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
-        if (newTileSize != this.tileSize) {
+        if (newTileSize !== this.tileSize) {
             this.tileSize = newTileSize
             const appSize = this.tileSize * TILES_IN_ROW
             this.app.renderer.resize(appSize, appSize)
@@ -81,12 +84,21 @@ export class TabMapMap {
     }
 
     private pointerTap(e: FederatedPointerEvent): void {
-        const tilePosition= this.tileFromEven(e);
-        console.debug('TabMapMap', 'pointerTap', tilePosition)
+        const tilePosition: Point = this.tileFromEvent(e)
+        console.debug('TabMapMap', 'pointerTap', 'position', tilePosition, 'shift', e.shiftKey)
+        const currentRoom: Room = this.editor.tower.rooms[this.selectedRoomIndex]
+        if (e.shiftKey) {
+            const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
+            this.editor.eventManager.notifyTileSelection(selectedTile, true)
+        } else {
+            currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
+            this.editor.tower.saveRooms()
+            this.repaint()
+        }
     }
 
     private pointerMove(e: FederatedPointerEvent): void {
-        const tilePosition= this.tileFromEven(e);
+        const tilePosition: Point = this.tileFromEvent(e)
         if (!this.lastMouseTile.equals(tilePosition)) {
             console.debug('TabMapMap', 'pointerMove', tilePosition)
             this.lastMouseTile = tilePosition
@@ -103,7 +115,7 @@ export class TabMapMap {
         }
     }
 
-    private tileFromEven(e: FederatedPointerEvent): Point {
+    private tileFromEvent(e: FederatedPointerEvent): Point {
         e.getLocalPosition(this.app.stage, this.lastMousePosition)
         const x: number = this.lastMousePosition.x
         const y: number = this.lastMousePosition.y
@@ -149,6 +161,10 @@ export class TabMapMap {
         console.debug('TabMapMap', 'roomSelected', selectedRoomIndex)
         this.selectedRoomIndex = selectedRoomIndex
         this.repaint()
+    }
+
+    private tileSelected(tileSelected: Tile): void {
+        this.selectedTile = tileSelected
     }
 
     private repaint(): void {

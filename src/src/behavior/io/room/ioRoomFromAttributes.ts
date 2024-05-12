@@ -3,13 +3,13 @@ import {
     DOOR_TILES,
     EMPTY_TILE,
     EnemyTile,
-    ITEMS_TILES,
+    ITEM_TILES,
     KEY_TILES,
     SCORE_TILES,
     STAIRCASE_TILES,
     STARTING_POSITION_TILE,
     Tile,
-    TILES_TYPES,
+    TILE_TYPES,
     TileType,
     WALL_TILE,
 } from '../../tile'
@@ -21,6 +21,7 @@ import {Enemy} from '../../enemy'
 import {STAIRCASE_DIRECTIONS, StaircaseDirection} from '../../../data/staircaseDirection'
 import {SCORE_TYPES, ScoreType} from '../../../data/scoreType'
 import {IoRoom} from './ioRoom'
+import {findEnum} from '../../functions'
 
 export class IoRoomFromAttributes {
     static fromAttributes(value: Record<string, string | any>, enemies: Enemy[]): Room {
@@ -49,8 +50,7 @@ export class IoRoomFromAttributes {
     }
 
     private static createTile(tile: Record<string, string | number>, enemies: Enemy[]): Tile | null {
-        const tileTypeString: string = tile[IoRoom.ATTRIBUTE_TYPE] as string
-        const tileType: TileType = TILES_TYPES.find(it => it.valueOf() === tileTypeString)
+        const tileType: TileType = findEnum(TILE_TYPES, tile[IoRoom.ATTRIBUTE_TYPE] as string)
         if (tileType != null) {
             switch (tileType) {
                 case TileType.door:
@@ -78,8 +78,7 @@ export class IoRoomFromAttributes {
     }
 
     private static createTileStaircase(tile: Record<string, string | number>): Tile {
-        const rawDirection: string = tile[IoRoom.ATTRIBUTE_DIRECTION] as string
-        const staircaseDirection: StaircaseDirection = STAIRCASE_DIRECTIONS.find(s => s.valueOf() === rawDirection)
+        const staircaseDirection: StaircaseDirection = findEnum(STAIRCASE_DIRECTIONS, tile[IoRoom.ATTRIBUTE_DIRECTION] as string)
         if (staircaseDirection === undefined) {
             console.error('IoRoomFromAttributes', 'createTileStaircase', 'unknown direction', tile)
             return EMPTY_TILE
@@ -89,8 +88,7 @@ export class IoRoomFromAttributes {
     }
 
     private static createTileScore(tile: Record<string, string | number>): Tile {
-        const rawScore: string = tile[IoRoom.ATTRIBUTE_SCORE] as string
-        const scoreType: ScoreType = SCORE_TYPES.find(s => s.valueOf() === rawScore)
+        const scoreType: ScoreType = findEnum(SCORE_TYPES, tile[IoRoom.ATTRIBUTE_SCORE] as string)
         if (scoreType === undefined) {
             console.error('IoRoomFromAttributes', 'createTileScore', 'unknown score', tile)
             return EMPTY_TILE
@@ -100,8 +98,7 @@ export class IoRoomFromAttributes {
     }
 
     private static createTileKey(tile: Record<string, string | number>): Tile {
-        const rawColor: string = tile[IoRoom.ATTRIBUTE_COLOR] as string
-        const keyColor: Color = COLORS.find(c => c.valueOf() === rawColor)
+        const keyColor: Color = findEnum(COLORS, tile[IoRoom.ATTRIBUTE_COLOR] as string)
         if (keyColor === undefined) {
             console.error('IoRoomFromAttributes', 'createTileKey', 'unknown color', tile)
             return EMPTY_TILE
@@ -111,19 +108,17 @@ export class IoRoomFromAttributes {
     }
 
     private static createTileItem(tile: Record<string, string | number>): Tile {
-        const rawItemName: string = tile[IoRoom.ATTRIBUTE_NAME] as string
-        const itemName: Item = ITEMS.find(i => i.valueOf() === rawItemName)
+        const itemName: Item = findEnum(ITEMS, tile[IoRoom.ATTRIBUTE_NAME] as string)
         if (itemName === undefined) {
             console.error('IoRoomFromAttributes', 'createTileItem', 'unknown item', tile)
             return EMPTY_TILE
         } else {
-            return ITEMS_TILES[itemName]
+            return ITEM_TILES[itemName]
         }
     }
 
     private static createTileEnemy(tile: Record<string, string | number>, enemies: Enemy[]): Tile {
-        const rawEnemyType: string = tile[IoRoom.ATTRIBUTE_ENEMY_TYPE] as string
-        const enemyType: EnemyType = ENEMY_TYPES.find(i => i.valueOf() === rawEnemyType)
+        const enemyType: EnemyType = findEnum(ENEMY_TYPES, tile[IoRoom.ATTRIBUTE_ENEMY_TYPE] as string)
         if (enemyType === undefined) {
             console.error('IoRoomFromAttributes', 'createTileEnemy', 'unknown enemy type', tile)
             return EMPTY_TILE
@@ -139,8 +134,7 @@ export class IoRoomFromAttributes {
     }
 
     private static createTileDoor(tile: Record<string, string | number>): Tile {
-        const rawColor: string = tile[IoRoom.ATTRIBUTE_COLOR] as string
-        const doorColor: Color = COLORS.find(c => c.valueOf() === rawColor)
+        const doorColor: Color = findEnum(COLORS, tile[IoRoom.ATTRIBUTE_COLOR] as string)
         if (doorColor === undefined) {
             console.error('IoRoomFromAttributes', 'createTileDoor', 'unknown color', tile)
             return EMPTY_TILE

@@ -6,6 +6,7 @@ import {Tab} from './tab'
 import {Tower} from '../behavior/tower'
 import {DROPS} from '../data/drop'
 import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
+import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
 
 export class TabEnemies {
     private readonly editor: Editor
@@ -181,10 +182,8 @@ export class TabEnemies {
     }
 
     private getInputValue = (event: CustomEvent): [number, string] => {
-        const currentTarget = event.currentTarget
-        // @ts-ignore
-        const enemyIndex = parseInt(currentTarget.parentElement.dataset.index)
-        // @ts-ignore
+        const currentTarget = event.currentTarget as SlInput
+        const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
         return [enemyIndex, currentTarget.value]
     }
 }

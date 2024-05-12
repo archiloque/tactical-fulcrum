@@ -16,7 +16,7 @@ export const enum TileType {
     wall = 'wall',
 }
 
-export const TILES_TYPES: TileType[] = [
+export const TILE_TYPES: TileType[] = [
     TileType.door,
     TileType.empty,
     TileType.enemy,
@@ -85,7 +85,7 @@ export class ItemTile implements Tile {
     }
 }
 
-export const ITEMS_TILES: Record<Item, ItemTile> = {
+export const ITEM_TILES: Record<Item, ItemTile> = {
     [Item.blue_potion]: new ItemTile(Item.blue_potion),
     [Item.drop_of_dream_ocean]: new ItemTile(Item.drop_of_dream_ocean),
     [Item.golden_feather]: new ItemTile(Item.golden_feather),

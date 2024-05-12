@@ -1,6 +1,6 @@
 import {IO} from '../io'
 import {Room} from '../../room'
-import {TILES_TYPES} from '../../tile'
+import {TILE_TYPES} from '../../tile'
 import {TILES_IN_ROW} from '../../../data/map'
 
 export class IoRoom {
@@ -29,19 +29,19 @@ export class IoRoom {
         }
         const tilesArrayArray = attributes[IoRoom.ATTRIBUTE_TILES]
         if (Array.isArray(tilesArrayArray)) {
-            if (tilesArrayArray.length != TILES_IN_ROW) {
+            if (tilesArrayArray.length !== TILES_IN_ROW) {
                 errors.push(`Room ${index + 1} ${IoRoom.ATTRIBUTE_TILES} length ${tilesArrayArray.length}] should be ${TILES_IN_ROW}`)
             }
             tilesArrayArray.forEach((tilesArray, tilesArrayIndex) => {
                 if (!Array.isArray(tilesArray)) {
                     errors.push(`Room ${index + 1} ${IoRoom.ATTRIBUTE_TILES} line ${tilesArrayIndex + 1} attribute [${tilesArray}] is not an array`)
                 } else {
-                    if (tilesArray.length != TILES_IN_ROW) {
+                    if (tilesArray.length !== TILES_IN_ROW) {
                         errors.push(`Room ${index + 1} ${IoRoom.ATTRIBUTE_TILES} length ${tilesArray.length}] should be ${TILES_IN_ROW}`)
                     }
                     tilesArray.forEach((tile) => {
                         const type = tile[IoRoom.ATTRIBUTE_TYPE]
-                        if (TILES_TYPES.map(it => it.valueOf()).indexOf(type) === -1) {
+                        if (TILE_TYPES.map(it => it.valueOf()).indexOf(type) === -1) {
                             errors.push(`Room ${index + 1} has an invalid tile type [${type}]`)
                         }
                     })
@@ -57,7 +57,7 @@ export class IoRoom {
         rooms.forEach((room, index) => {
             const roomName = room[IoRoom.ATTRIBUTE_NAME]
             if (roomName != null) {
-                if (knownRooms.indexOf(roomName) != -1) {
+                if (knownRooms.indexOf(roomName) !== -1) {
                     errors.push(`Room ${index} is duplicated (same name)`)
                 } else {
                     knownRooms.push(roomName)
@@ -69,7 +69,7 @@ export class IoRoom {
     static validateRoomsExport(rooms: Room[], errors: string[]): void {
         const knownRooms: string[] = []
         rooms.forEach((room, index) => {
-            if (knownRooms.indexOf(room.name) != -1) {
+            if (knownRooms.indexOf(room.name) !== -1) {
                 errors.push(`Room ${index} is duplicated (same name)`)
             } else {
                 knownRooms.push(room.name)

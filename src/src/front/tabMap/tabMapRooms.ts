@@ -19,11 +19,11 @@ export class TabMapRooms {
 
     constructor(editor: Editor) {
         this.editor = editor
-        editor.eventManager.registerRoomChange(selectedRoomIndex => this.roomSelected(selectedRoomIndex))
+        editor.eventManager.registerRoomSelected(selectedRoomIndex => this.roomSelected(selectedRoomIndex))
     }
 
     private notifyRoomChange(selectedRoomIndex: number): void {
-        this.editor.eventManager.notifyRoomChange(selectedRoomIndex)
+        this.editor.eventManager.notifyRoomSelected(selectedRoomIndex)
     }
 
     hole(): Hole {
@@ -66,7 +66,7 @@ export class TabMapRooms {
         this.buttonUp = <SlButton>document.getElementById('tabMapRoomButtonUp')
         this.buttonDown = <SlButton>document.getElementById('tabMapRoomButtonDown')
         if (this.editor.tower.rooms.length > 0) {
-            this.editor.eventManager.notifyRoomChange(0)
+            this.editor.eventManager.notifyRoomSelected(0)
         }
     }
 

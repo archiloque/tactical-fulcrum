@@ -8,6 +8,7 @@ import {SlTooltip} from '@shoelace-style/shoelace'
 import {Color} from '../../data/color'
 import {Sprites} from './sprites'
 import {Room} from '../../behavior/room'
+import {SHIFT} from '../keys'
 
 export class TabMapMap {
     readonly app: Application
@@ -49,6 +50,8 @@ export class TabMapMap {
         this.background.on('pointerleave', () => this.pointerLeave())
         this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
         this.background.on('pointertap', (e: FederatedPointerEvent) => this.pointerTap(e))
+        document.addEventListener('keydown', (e: KeyboardEvent) => this.keyDown(e))
+        document.addEventListener('keyup', (e: KeyboardEvent) => this.keyUp(e))
         return Promise.all([
             this.app.init({background: '#FDFDFD'}),
             this.sprites.reload(this.tileSize),
@@ -80,6 +83,20 @@ export class TabMapMap {
                 this.repaint()
             })
             this.mapToolTip.style.width = `${newTileSize}px`
+        }
+    }
+
+    private keyDown(e: KeyboardEvent): void {
+        console.debug('TabMapMap', 'keyDown', e)
+        if (e.key == SHIFT) {
+            this.app.canvas.style.cursor = 'copy'
+        }
+    }
+
+    private keyUp(e: KeyboardEvent): void {
+        console.debug('TabMapMap', 'keyUp', e)
+        if (e.key == SHIFT) {
+            this.app.canvas.style.cursor = 'auto'
         }
     }
 

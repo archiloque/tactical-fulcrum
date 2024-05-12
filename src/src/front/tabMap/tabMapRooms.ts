@@ -5,7 +5,6 @@ import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
 import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
 import {Room} from '../../behavior/room'
 import SlButton from '@shoelace-style/shoelace/cdn/components/button/button.component'
-import {EventEmitter} from 'pixi.js'
 
 export class TabMapRooms {
     private readonly editor: Editor
@@ -15,7 +14,6 @@ export class TabMapRooms {
     private selectedRoomIndex: number = null
     private buttonUp: SlButton
     private buttonDown: SlButton
-    private readonly eventEmitter: EventEmitter
 
     constructor(editor: Editor) {
         this.editor = editor

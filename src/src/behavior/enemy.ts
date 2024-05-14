@@ -1,15 +1,14 @@
-import {EnemyType} from '../data/enemyType'
+import { EnemyType } from "../data/enemyType"
 
 export class Enemy {
-    type: EnemyType | null
-    level: number | null
-    name: string | null
-    hp: number | null
-    atk: number | null
-    def: number | null
-    exp: number | null
-    drop: string | null
+  type: EnemyType | null
+  level: number | null
+  name: string | null
+  hp: number | null
+  atk: number | null
+  def: number | null
+  exp: number | null
+  drop: string | null
 
-    constructor() {
-    }
+  constructor() {}
 }

@@ -1,142 +1,148 @@
 @font-face {
-    font-family: "JetBrains Mono";
-    src: url(assets/JetBrainsMono-Medium.woff2) format("woff"), url(assets/JetBrainsMonoNL-Regular.ttf) format("truetype");
+  font-family: "JetBrains Mono";
+  src:
+    url(assets/JetBrainsMono-Medium.woff2) format("woff"),
+    url(assets/JetBrainsMonoNL-Regular.ttf) format("truetype");
 }
 
 body {
-    font-family: "JetBrains Mono", monospace;
-    margin: 0;
+  font-family: "JetBrains Mono", monospace;
+  margin: 0;
 }
 
 :root {
-    --sl-font-sans: "JetBrains Mono", monospace;
-    --sl-font-serif: "JetBrains Mono", monospace;
-    --sl-font-mono: "JetBrains Mono", monospace;
+  --sl-font-sans: "JetBrains Mono", monospace;
+  --sl-font-serif: "JetBrains Mono", monospace;
+  --sl-font-mono: "JetBrains Mono", monospace;
 }
 
-
 sl-tab-group::part(nav) {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 #tabEnemies {
-    .enemyLine {
-        text-align: center;
-        padding-bottom: 0.5em;
+  .enemyLine {
+    text-align: center;
+    padding-bottom: 0.5em;
 
-        sl-select {
-            display: inline-block;
-        }
-
-        sl-input {
-            display: inline-block;
-        }
-
-        sl-tag.delete {
-            visibility: hidden;
-        }
-
-        sl-tag, sl-select, sl-input {
-            width: 7%;
-        }
-
-        .level {
-            width: 4%;
-        }
-
-        .name, .type, .drop {
-            width: 15%;
-        }
-
-        .delete {
-            width: 3%;
-        }
+    sl-select {
+      display: inline-block;
     }
 
-    .addButtonDiv {
-        text-align: center;
-        padding-top: 0.5em;
-
-        sl-button {
-            width: 5%;
-        }
+    sl-input {
+      display: inline-block;
     }
+
+    sl-tag.delete {
+      visibility: hidden;
+    }
+
+    sl-tag,
+    sl-select,
+    sl-input {
+      width: 7%;
+    }
+
+    .level {
+      width: 4%;
+    }
+
+    .name,
+    .type,
+    .drop {
+      width: 15%;
+    }
+
+    .delete {
+      width: 3%;
+    }
+  }
+
+  .addButtonDiv {
+    text-align: center;
+    padding-top: 0.5em;
+
+    sl-button {
+      width: 5%;
+    }
+  }
 }
 
 #tabImportExport {
-    .topButtons {
-        text-align: center;
-        padding-bottom: 1em;
-    }
+  .topButtons {
+    text-align: center;
+    padding-bottom: 1em;
+  }
 
-    #tabImportExportExportAlert {
-        padding-bottom: 1em;
-    }
+  #tabImportExportExportAlert {
+    padding-bottom: 1em;
+  }
 }
 
 #tabMapMap {
-    text-align: center;
+  text-align: center;
 }
 
 #tabMapLevelAdd {
-    text-align: center;
-    padding-top: 0.5em;
+  text-align: center;
+  padding-top: 0.5em;
 }
 
-#tabMapLevelName, #tabMapRoomButtons {
-    padding: 0.5em;
-}
-
+#tabMapLevelName,
 #tabMapRoomButtons {
-    display: block;
-    text-align: center;
+  padding: 0.5em;
+}
+
+#tabMapRoomButtons,
+#tabMapRoomAdd {
+  display: block;
+  text-align: center;
 }
 
 #tabMapMapToolTip {
-    position: absolute;
+  position: absolute;
 }
-
 
 sl-input[data-user-invalid]::part(base),
 sl-select[data-user-invalid]::part(combobox),
 sl-checkbox[data-user-invalid]::part(control) {
-    border-color: var(--sl-color-danger-600);
+  border-color: var(--sl-color-danger-600);
 }
 
 [data-user-invalid]::part(form-control-label),
 [data-user-invalid]::part(form-control-help-text),
 sl-checkbox[data-user-invalid]::part(label) {
-    color: var(--sl-color-danger-700);
+  color: var(--sl-color-danger-700);
 }
 
 sl-checkbox[data-user-invalid]::part(control) {
-    outline: none;
+  outline: none;
 }
 
 sl-input:focus-within[data-user-invalid]::part(base),
 sl-select:focus-within[data-user-invalid]::part(combobox),
 sl-checkbox:focus-within[data-user-invalid]::part(control) {
-    border-color: var(--sl-color-danger-600);
-    box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
+  border-color: var(--sl-color-danger-600);
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
 }
 
 sl-tree-item:hover::part(base) {
-    color: var(--sl-color-primary-600);
+  color: var(--sl-color-primary-600);
 }
 
-h1, h2 {
-    padding: 0;
-    margin: 0;
-    text-align: center;
+h1,
+h2 {
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
 
 h1 {
-    padding-top: 0.1em;
+  padding-top: 0.1em;
 }
 
 h2 {
-    font-size: 1.4em;
-    padding-bottom: 0.2em;
+  font-size: 1.4em;
+  padding-bottom: 0.2em;
 }
-

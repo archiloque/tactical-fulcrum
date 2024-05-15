@@ -26,12 +26,12 @@ export class Export extends IOOperation {
       IoEnemy.validateEnemyExport(enemy, index + 1, this.errors)
       return IoEnemyToAttributes.toAttributes(enemy)
     })
-    const rooms = tower.rooms.map((room: Room, index: number) => {
+    const rooms = tower.standardRooms.map((room: Room, index: number) => {
       IoRoom.validateRoomExport(room, index + 1, this.errors)
       return IoRoomToAttributes.toAttributes(room)
     })
     IoEnemy.validateEnemiesExport(tower.enemies, this.errors)
-    IoRoom.validateRoomsExport(tower.rooms, this.errors)
+    IoRoom.validateRoomsExport(tower.standardRooms, this.errors)
     enemies.sort((e1, e2) => {
       if (e1[IoEnemy.ATTRIBUTE_TYPE] !== e2[IoEnemy.ATTRIBUTE_TYPE]) {
         return e1[IoEnemy.ATTRIBUTE_TYPE] > e2[IoEnemy.ATTRIBUTE_TYPE] ? 1 : -1

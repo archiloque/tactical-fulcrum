@@ -108,14 +108,14 @@ export class TabMapMap {
     )
     if (selectedRoomIndexString != null) {
       const selectedRoomIndex = parseInt(selectedRoomIndexString)
-      if (selectedRoomIndex < this.editor.tower.rooms.length) {
+      if (selectedRoomIndex < this.editor.tower.standardRooms.length) {
         this.selectedRoomIndex = selectedRoomIndex
-      } else if (this.editor.tower.rooms.length >= 0) {
-        this.editor.eventManager.notifyRoomSelected(selectedRoomIndex)
+      } else if (this.editor.tower.standardRooms.length >= 0) {
+        this.editor.eventManager.notifyRoomSelected(0)
       } else {
         this.editor.eventManager.notifyRoomSelected(null)
       }
-    } else if (this.editor.tower.rooms.length > 0) {
+    } else if (this.editor.tower.standardRooms.length > 0) {
       this.editor.eventManager.notifyRoomSelected(0)
     } else {
       this.editor.eventManager.notifyRoomSelected(null)
@@ -172,7 +172,8 @@ export class TabMapMap {
       "shift",
       e.shiftKey,
     )
-    const currentRoom: Room = this.editor.tower.rooms[this.selectedRoomIndex]
+    const currentRoom: Room =
+      this.editor.tower.standardRooms[this.selectedRoomIndex]
     if (e.shiftKey) {
       const selectedTile: Tile =
         currentRoom.tiles[tilePosition.y][tilePosition.x]
@@ -216,7 +217,8 @@ export class TabMapMap {
       clearTimeout(this.toolTipTimeout)
     }
     if (this.selectedRoomIndex != null) {
-      const currentRoom = this.editor.tower.rooms[this.selectedRoomIndex]
+      const currentRoom =
+        this.editor.tower.standardRooms[this.selectedRoomIndex]
       const currentTile: Tile =
         currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
       const toolTipText = this.getToolTipText(currentTile)
@@ -270,7 +272,8 @@ export class TabMapMap {
     }
     this.tiles = new Container()
     if (this.selectedRoomIndex != null) {
-      const currentRoom = this.editor.tower.rooms[this.selectedRoomIndex]
+      const currentRoom =
+        this.editor.tower.standardRooms[this.selectedRoomIndex]
       for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
         for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
           const currentTile = currentRoom.tiles[lineIndex][columnIndex]

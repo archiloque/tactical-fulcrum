@@ -19,12 +19,12 @@ export class Import extends IOOperation {
     super()
   }
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   private parsedValueInvalid(value: any): boolean {
     return value == null || !Array.isArray(value)
   }
 
   import(stringData: string): ImportResult {
+    console.groupCollapsed("Import", "load")
     const tower: Tower = new Tower()
     try {
       const parsedData: any = JSON.parse(stringData)
@@ -41,20 +41,38 @@ export class Import extends IOOperation {
         IoEnemy.validateEnemiesImport(enemies, this.errors)
       }
       const rooms = parsedData[IOOperation.ATTRIBUTE_ROOMS]
-      if (this.parsedValueInvalid(rooms)) {
-        this.errors.push("Rooms value is invalid")
-      } else {
-        tower.rooms = rooms.map(
-          (value: Record<string, string | any>, index: number) => {
-            IoRoom.validateRoomImport(value, index + 1, this.errors)
-            return IoRoomFromAttributes.fromAttributes(value, enemies)
-          },
-        )
-        IoRoom.validateRoomsImport(rooms, this.errors)
+      const standardRooms = rooms[IOOperation.ATTRIBUTE_STANDARD]
+      if (standardRooms != null) {
+        if (this.parsedValueInvalid(standardRooms)) {
+          this.errors.push("Standard rooms value is invalid")
+        } else {
+          tower.standardRooms = standardRooms.map(
+            (value: Record<string, string | any>, index: number) => {
+              IoRoom.validateRoomImport(value, index + 1, this.errors)
+              return IoRoomFromAttributes.fromAttributes(value, enemies)
+            },
+          )
+          IoRoom.validateRoomsImport(standardRooms, this.errors)
+        }
+      }
+      const nexusRooms = rooms[IOOperation.ATTRIBUTE_NEXUS]
+      if (nexusRooms != null) {
+        if (this.parsedValueInvalid(nexusRooms)) {
+          this.errors.push("Nexus rooms value is invalid")
+        } else {
+          tower.nexusRooms = nexusRooms.map(
+            (value: Record<string, string | any>, index: number) => {
+              IoRoom.validateRoomImport(value, index + 1, this.errors)
+              return IoRoomFromAttributes.fromAttributes(value, enemies)
+            },
+          )
+          IoRoom.validateRoomsImport(nexusRooms, this.errors)
+        }
       }
     } catch (e) {
       this.errors.push(e.message)
     }
+    console.groupEnd()
     return new ImportResult(tower, this.errors)
   }
 }

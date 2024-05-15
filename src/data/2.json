@@ -281,5 +281,6866 @@
    "hp": 1000
   }
  ],
- "rooms": []
+ "rooms": {
+  "standard": [
+   {
+    "name": "level_2_1",
+    "tiles": [
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "staircase",
+       "direction": "up"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ]
+    ]
+   },
+   {
+    "name": "level_2_2",
+    "tiles": [
+     [
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Golden feather"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      }
+     ],
+     [
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Guard card"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "violet"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "startingPosition"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      }
+     ],
+     [
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Life Crown"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard deck"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "greenblue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "staircase",
+       "direction": "down"
+      },
+      {
+       "type": "door",
+       "color": "greenblue"
+      },
+      {
+       "type": "staircase",
+       "direction": "up"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      }
+     ]
+    ]
+   },
+   {
+    "name": "level_2_3",
+    "tiles": [
+     [
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "key",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "greenblue"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard card"
+      },
+      {
+       "type": "item",
+       "name": "Guard card"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Guard deck"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Guard card"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Golden feather"
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 23
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 17
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "oneWay",
+       "direction": "left"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "staircase",
+       "direction": "down"
+      },
+      {
+       "type": "door",
+       "color": "greenblue"
+      },
+      {
+       "type": "staircase",
+       "direction": "up"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "item",
+       "name": "Golden feather"
+      }
+     ]
+    ]
+   },
+   {
+    "name": "level_2_4",
+    "tiles": [
+     [
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Guard card"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 36
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard card"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "item",
+       "name": "Life Crown"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 60
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 32
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 23
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 14
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "staircase",
+       "direction": "down"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "staircase",
+       "direction": "up"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      }
+     ]
+    ]
+   },
+   {
+    "name": "level_2_5",
+    "tiles": [
+     [
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 32
+      },
+      {
+       "type": "key",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 36
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 1
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 30
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 1
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      }
+     ],
+     [
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 14
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 14
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 16
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "crimson"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 5
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 9
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 19
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "blue"
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power potion"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "staircase",
+       "direction": "down"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "staircase",
+       "direction": "up"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "item",
+       "name": "Power deck"
+      },
+      {
+       "type": "item",
+       "name": "Guard deck"
+      }
+     ]
+    ]
+   },
+   {
+    "name": "level_2_6",
+    "tiles": [
+     [
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Heavenly potion"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "item",
+       "name": "Guard card"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "violet"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "key",
+       "color": "greenblue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Life Crown"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "item",
+       "name": "Golden feather"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      }
+     ],
+     [
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Power deck"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 17
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Life potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 17
+      },
+      {
+       "type": "item",
+       "name": "Guard deck"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 16
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 22
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 9
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 16
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 9
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 9
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 9
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 50
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 9
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 3
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "oneWay",
+       "direction": "left"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "staircase",
+       "direction": "down"
+      },
+      {
+       "type": "door",
+       "color": "greenblue"
+      },
+      {
+       "type": "staircase",
+       "direction": "up"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      }
+     ]
+    ]
+   },
+   {
+    "name": "level_2_7",
+    "tiles": [
+     [
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 14
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Power card"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Guard potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "blue"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Power gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "crimson"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Burgeoner",
+       "level": 9
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 3
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Shadow",
+       "level": 8
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Ranger",
+       "level": 13
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "door",
+       "color": "violet"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 11
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Fighter",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      },
+      {
+       "type": "item",
+       "name": "Guard piece"
+      }
+     ],
+     [
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 11
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "door",
+       "color": "yellow"
+      },
+      {
+       "type": "wall"
+      },
+      {
+       "type": "key",
+       "color": "platinum"
+      },
+      {
+       "type": "wall"
+      }
+     ],
+     [
+      {
+       "type": "item",
+       "name": "Blue potion"
+      },
+      {
+       "type": "item",
+       "name": "Red potion"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "item",
+       "name": "Power piece"
+      },
+      {
+       "type": "enemy",
+       "enemyType": "Slasher",
+       "level": 6
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "staircase",
+       "direction": "down"
+      },
+      {
+       "type": "door",
+       "color": "platinum"
+      },
+      {
+       "type": "staircase",
+       "direction": "up"
+      }
+     ]
+    ]
+   },
+   {
+    "name": "level_2_8",
+    "tiles": [
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "item",
+       "name": "Guard gem"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "staircase",
+       "direction": "down"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ],
+     [
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      },
+      {
+       "type": "empty"
+      }
+     ]
+    ]
+   }
+  ],
+  "nexus": []
+ }
 }

@@ -9,23 +9,33 @@ import {
   LOCAL_STORAGE_KEY_LEVELS,
 } from "./io/localStorage"
 import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
+import { IOOperation } from "./io/importExport"
 
 export class Tower {
   enemies: Enemy[]
-  rooms: Room[]
+  standardRooms: Room[]
+  nexusRooms: Room[]
 
   constructor() {
     this.enemies = []
-    const room1 = new Room()
-    room1.name = "Room 1"
-    const room2 = new Room()
-    room2.name = "Room 2"
-    this.rooms = [room1, room2]
+    const standardRoom = new Room()
+    standardRoom.name = "Standard room"
+    const nexusRoom = new Room()
+    nexusRoom.name = "Nexus room"
+    this.standardRooms = [standardRoom]
+    this.nexusRooms = [nexusRoom]
   }
 
   countEnemies(enemy: Enemy): number {
+    return (
+      this.countEnemiesInRooms(enemy, this.standardRooms) +
+      this.countEnemiesInRooms(enemy, this.nexusRooms)
+    )
+  }
+
+  private countEnemiesInRooms(enemy: Enemy, rooms: Room[]): number {
     let result = 0
-    for (const room of this.rooms) {
+    for (const room of rooms) {
       for (const tileLines of room.tiles) {
         for (const tile of tileLines) {
           if (
@@ -43,7 +53,13 @@ export class Tower {
   deleteEnemy(enemy: Enemy): void {
     this.enemies.splice(this.enemies.indexOf(enemy), 1)
     this.saveEnemies()
-    for (const room of this.rooms) {
+    const rooms = this.standardRooms
+    this.deleteEnemiesInRooms(enemy, rooms)
+    this.saveRooms()
+  }
+
+  private deleteEnemiesInRooms(enemy: Enemy, rooms: Room[]): void {
+    for (const room of rooms) {
       for (const tileLines of room.tiles) {
         tileLines.forEach((tile, index) => {
           if (
@@ -55,7 +71,6 @@ export class Tower {
         })
       }
     }
-    this.saveRooms()
   }
 
   saveEnemies(): void {
@@ -72,12 +87,51 @@ export class Tower {
     console.debug("Tower", "saveRooms")
     localStorage.setItem(
       LOCAL_STORAGE_KEY_LEVELS,
-      JSON.stringify(this.rooms.map((l) => IoRoomToAttributes.toAttributes(l))),
+      JSON.stringify({
+        [IOOperation.ATTRIBUTE_STANDARD]: this.standardRooms.map((r) => {
+          return IoRoomToAttributes.toAttributes(r)
+        }),
+        [IOOperation.ATTRIBUTE_NEXUS]: this.nexusRooms.map((r) => {
+          return IoRoomToAttributes.toAttributes(r)
+        }),
+      }),
     )
   }
 
   load(): void {
     console.groupCollapsed("Tower", "load")
+    this.loadEnemies()
+    this.loadRooms()
+    console.groupEnd()
+  }
+
+  private loadRooms(): void {
+    const roomsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_LEVELS)
+    if (roomsRaw != null) {
+      const roomsJson: Record<
+        string,
+        Record<string, string | number | null>
+      >[] = JSON.parse(roomsRaw)
+      if (roomsJson[IOOperation.ATTRIBUTE_STANDARD] != null) {
+        this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map(
+          (value) => IoRoomFromAttributes.fromAttributes(value, this.enemies),
+        )
+        console.debug(
+          "Tower",
+          this.standardRooms.length,
+          "standard rooms loaded",
+        )
+      }
+      if (roomsJson[IOOperation.ATTRIBUTE_NEXUS] != null) {
+        this.nexusRooms = roomsJson[IOOperation.ATTRIBUTE_NEXUS].map((value) =>
+          IoRoomFromAttributes.fromAttributes(value, this.enemies),
+        )
+        console.debug("Tower", this.standardRooms.length, "nexus rooms loaded")
+      }
+    }
+  }
+
+  private loadEnemies(): void {
     const enemiesRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ENEMIES)
     if (enemiesRaw != null) {
       const enemiesJson: Record<string, string | number | null>[] =
@@ -87,16 +141,5 @@ export class Tower {
       )
       console.debug("Tower", this.enemies.length, "enemies loaded")
     }
-
-    const roomsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_LEVELS)
-    if (roomsRaw != null) {
-      const roomsJson: Record<string, string | number | null>[] =
-        JSON.parse(roomsRaw)
-      this.rooms = roomsJson.map((value) =>
-        IoRoomFromAttributes.fromAttributes(value, this.enemies),
-      )
-      console.debug("Tower", this.rooms.length, "rooms loaded")
-    }
-    console.groupEnd()
   }
 }

@@ -53,7 +53,8 @@ export class TabImportExport {
     TabImportExport.processIOResult(importResult, "Import")
     this.editor.tower.enemies = importResult.content.enemies
     this.editor.tower.saveEnemies()
-    this.editor.tower.rooms = importResult.content.rooms
+    this.editor.tower.standardRooms = importResult.content.standardRooms
+    this.editor.tower.nexusRooms = importResult.content.nexusRooms
     this.editor.tower.saveRooms()
   }
 

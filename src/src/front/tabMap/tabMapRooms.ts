@@ -91,6 +91,8 @@ export class TabMapRooms {
   render(): void {
     if (this.editor.tower.rooms.length === 0) {
       this.notifyRoomSelected(null)
+    } else if(this.selectedRoomIndex == null) {
+      this.notifyRoomSelected(0)
     }
     console.debug(
       "TabMapRooms",

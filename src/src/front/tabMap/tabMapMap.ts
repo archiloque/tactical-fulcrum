@@ -43,6 +43,11 @@ export class TabMapMap {
   private mapToolTipTip: SlTooltip
   private selectedTile: Tile
 
+  private static readonly BACKGROUND_COLORS = {
+    [ColorScheme.dark]: "#000000",
+    [ColorScheme.light]: "#FFFFFF",
+  }
+
   constructor(editor: Editor) {
     this.app = new Application()
     this.background = new Sprite()
@@ -97,7 +102,9 @@ export class TabMapMap {
     document.addEventListener("keyup", (e: KeyboardEvent) => this.keyUp(e))
 
     return Promise.all([
-      this.app.init(),
+      this.app.init({
+        background: TabMapMap.BACKGROUND_COLORS[currentColorScheme()],
+      }),
       this.sprites.reload(this.tileSize, currentColorScheme()),
     ]).then(() => {
       this.app.stage.addChild(this.background)
@@ -133,6 +140,8 @@ export class TabMapMap {
   }
 
   private schemeChanged(colorScheme: ColorScheme): void {
+    // @ts-ignore
+    this.app.setBackgroundColor(TabMapMap.BACKGROUND_COLORS[colorScheme])
     this.sprites.reload(this.tileSize, colorScheme).then(() => {
       this.repaint()
     })

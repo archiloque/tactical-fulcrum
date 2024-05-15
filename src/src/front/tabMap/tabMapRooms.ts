@@ -89,11 +89,14 @@ export class TabMapRooms {
   }
 
   render(): void {
-    console.debug("TabMapRooms", "render")
     if (this.editor.tower.rooms.length === 0) {
       this.notifyRoomSelected(null)
     }
-    console.debug("TabMapRooms", "render with selected", this.selectedRoomIndex)
+    console.debug(
+      "TabMapRooms",
+      "render with selected room index",
+      this.selectedRoomIndex,
+    )
     const rooms: Hole[] = this.editor.tower.rooms.map((room, index) => {
       const id = `tabMapRoomRoom${index}`
       return html` <sl-tree-item

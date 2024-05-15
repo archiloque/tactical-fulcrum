@@ -41,7 +41,7 @@ export class Tower {
   }
 
   load(): void {
-    console.debug("Tower", "load")
+    console.groupCollapsed("Tower", "load")
     const enemiesRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ENEMIES)
     if (enemiesRaw != null) {
       const enemiesJson: Record<string, string | number | null>[] =
@@ -61,5 +61,6 @@ export class Tower {
       )
       console.debug("Tower", this.rooms.length, "rooms loaded")
     }
+    console.groupEnd()
   }
 }

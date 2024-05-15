@@ -6,12 +6,19 @@ export class Spriter {
   private tileSize: number
 
   async reload(tileSize: number, colorScheme: ColorScheme): Promise<any> {
-    console.debug("Spriter", "reload", tileSize, colorScheme)
+    console.debug(
+      "Spriter",
+      "reload",
+      "size",
+      tileSize,
+      "color scheme",
+      colorScheme,
+    )
     this.tileSize = tileSize
     Assets.cache.reset()
-    return Promise.all(
-      SPRITES.map((sprite) =>
-        Assets.load({
+    return Assets.load(
+      SPRITES.map((sprite) => {
+        return {
           alias: sprite.valueOf(),
           src: `./assets/sprites/${sprite.valueOf()}-${colorScheme.valueOf()}.svg`,
           data: {
@@ -19,8 +26,8 @@ export class Spriter {
             width: tileSize * window.devicePixelRatio,
             resolution: window.devicePixelRatio,
           },
-        }),
-      ),
+        }
+      }),
     )
   }
 

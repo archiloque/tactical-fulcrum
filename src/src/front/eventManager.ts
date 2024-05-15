@@ -32,7 +32,6 @@ export class EventManager {
 
   public notifyRoomSelected(selectedRoomIndex: number | null): void {
     console.debug("EventManager", "notifyRoomSelected", selectedRoomIndex)
-    debugger
     this.eventEmitter.emit(EventManager.EVENT_ROOM_SELECTION, selectedRoomIndex)
   }
 

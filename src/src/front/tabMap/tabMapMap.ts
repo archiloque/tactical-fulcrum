@@ -115,6 +115,8 @@ export class TabMapMap {
       } else {
         this.editor.eventManager.notifyRoomSelected(null)
       }
+    } else if (this.editor.tower.rooms.length > 0) {
+      this.editor.eventManager.notifyRoomSelected(0)
     } else {
       this.editor.eventManager.notifyRoomSelected(null)
     }

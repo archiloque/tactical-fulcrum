@@ -11,4 +11,8 @@ export class Enemy {
   drop: string | null
 
   constructor() {}
+
+  equals(enemy: Enemy): boolean {
+    return this.level == enemy.level && this.type == enemy.type
+  }
 }

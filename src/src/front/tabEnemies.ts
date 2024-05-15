@@ -14,6 +14,7 @@ export class TabEnemies {
   private readonly tower: Tower
   private enemyDeletionIndex = -1
   private deleteDialog: SlDialog
+  private deleteDialogMessage: HTMLElement
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -146,7 +147,7 @@ export class TabEnemies {
           </sl-button>
         </div>
         <sl-dialog label="Delete room" id="tabEnemiesDeleteDialog">
-          Are you sure you want to delete this enemy?
+          <div id="tabEnemiesDeleteDialogMessage"></div>
           <div slot="footer">
             <sl-button onclick="${this.deleteDialogCancel}" variant="neutral"
               >No</sl-button
@@ -161,6 +162,9 @@ export class TabEnemies {
     this.deleteDialog = <SlDialog>(
       document.getElementById("tabEnemiesDeleteDialog")
     )
+    this.deleteDialogMessage = document.getElementById(
+      "tabEnemiesDeleteDialogMessage",
+    )
   }
 
   private addEnemy = (): void => {
@@ -170,18 +174,22 @@ export class TabEnemies {
     this.editor.tower.saveEnemies()
   }
 
-  private deleteEnemy = (event: PointerEvent): void => {
+  private deleteEnemy = async (event: PointerEvent): Promise<any> => {
     this.enemyDeletionIndex = parseInt(
       // @ts-ignore
       event.currentTarget.parentElement.dataset.index,
     )
-    this.deleteDialog.show()
+    const enemiesCount = this.editor.tower.countEnemies(
+      this.tower.enemies[this.enemyDeletionIndex],
+    )
+    const dialogMessage = `Are you sure you want to delete this enemy? ${enemiesCount == 0 ? "It is currently unused." : `It is currently used ${enemiesCount} time(s), deleting it will remove it from the map(s).`}`
+    this.deleteDialogMessage.innerText = dialogMessage
+    await this.deleteDialog.show()
   }
 
-  private deleteDialogConfirm = (): void => {
-    this.deleteDialog.hide()
-    this.tower.enemies.splice(this.enemyDeletionIndex, 1)
-    this.editor.tower.saveEnemies()
+  private deleteDialogConfirm = async (): Promise<any> => {
+    await this.deleteDialog.hide()
+    this.tower.deleteEnemy(this.tower.enemies[this.enemyDeletionIndex])
     this.render()
   }
 

@@ -8,6 +8,7 @@ import {
   LOCAL_STORAGE_KEY_ENEMIES,
   LOCAL_STORAGE_KEY_LEVELS,
 } from "./io/localStorage"
+import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
 
 export class Tower {
   enemies: Enemy[]
@@ -20,6 +21,41 @@ export class Tower {
     const room2 = new Room()
     room2.name = "Room 2"
     this.rooms = [room1, room2]
+  }
+
+  countEnemies(enemy: Enemy): number {
+    let result = 0
+    for (const room of this.rooms) {
+      for (const tileLines of room.tiles) {
+        for (const tile of tileLines) {
+          if (
+            tile.getType() === TileType.enemy &&
+            (tile as EnemyTile).enemy.equals(enemy)
+          ) {
+            result += 1
+          }
+        }
+      }
+    }
+    return result
+  }
+
+  deleteEnemy(enemy: Enemy): void {
+    this.enemies.splice(this.enemies.indexOf(enemy), 1)
+    this.saveEnemies()
+    for (const room of this.rooms) {
+      for (const tileLines of room.tiles) {
+        tileLines.forEach((tile, index) => {
+          if (
+            tile.getType() === TileType.enemy &&
+            (tile as EnemyTile).enemy.equals(enemy)
+          ) {
+            tileLines[index] = EMPTY_TILE
+          }
+        })
+      }
+    }
+    this.saveRooms()
   }
 
   saveEnemies(): void {

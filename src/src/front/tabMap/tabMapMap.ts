@@ -70,22 +70,6 @@ export class TabMapMap {
     this.editor.eventManager.registerSchemeChangeListener((colorScheme) =>
       this.schemeChanged(colorScheme),
     )
-
-    const selectedRoomIndexString = localStorage.getItem(
-      LOCAL_STORAGE_CURRENT_MAP,
-    )
-    if (selectedRoomIndexString != null) {
-      const selectedRoomIndex = parseInt(selectedRoomIndexString)
-      if (selectedRoomIndex < this.editor.tower.rooms.length) {
-        this.selectedRoomIndex = selectedRoomIndex
-      } else if (this.editor.tower.rooms.length >= 0) {
-        editor.eventManager.notifyRoomSelected(selectedRoomIndex)
-      } else {
-        editor.eventManager.notifyRoomSelected(null)
-      }
-    } else {
-      editor.eventManager.notifyRoomSelected(null)
-    }
   }
 
   async init(): Promise<any> {
@@ -119,6 +103,21 @@ export class TabMapMap {
     this.mapToolTipTip = document.getElementById(
       "tabMapMapToolTipTip",
     ) as SlTooltip
+    const selectedRoomIndexString = localStorage.getItem(
+      LOCAL_STORAGE_CURRENT_MAP,
+    )
+    if (selectedRoomIndexString != null) {
+      const selectedRoomIndex = parseInt(selectedRoomIndexString)
+      if (selectedRoomIndex < this.editor.tower.rooms.length) {
+        this.selectedRoomIndex = selectedRoomIndex
+      } else if (this.editor.tower.rooms.length >= 0) {
+        this.editor.eventManager.notifyRoomSelected(selectedRoomIndex)
+      } else {
+        this.editor.eventManager.notifyRoomSelected(null)
+      }
+    } else {
+      this.editor.eventManager.notifyRoomSelected(null)
+    }
   }
 
   resize(elementSize: number): void {
@@ -247,10 +246,14 @@ export class TabMapMap {
   private roomSelected(selectedRoomIndex: number): void {
     console.debug("TabMapMap", "roomSelected", selectedRoomIndex)
     this.selectedRoomIndex = selectedRoomIndex
-    localStorage.setItem(
-      LOCAL_STORAGE_CURRENT_MAP,
-      selectedRoomIndex.toString(),
-    )
+    if (selectedRoomIndex != null) {
+      localStorage.setItem(
+        LOCAL_STORAGE_CURRENT_MAP,
+        selectedRoomIndex.toString(),
+      )
+    } else {
+      localStorage.removeItem(LOCAL_STORAGE_CURRENT_MAP)
+    }
     this.repaint()
   }
 

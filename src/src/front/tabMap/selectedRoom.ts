@@ -3,11 +3,16 @@ export enum RoomType {
   nexus = "nexus",
 }
 
+export const ROOM_TYPES: string[] = [
+  RoomType.standard.valueOf(),
+  RoomType.nexus.valueOf(),
+]
+
 export class SelectedRoom {
-  readonly roomType: RoomType
+  readonly type: RoomType
   readonly index: number
-  constructor(roomType: RoomType, index: number) {
-    this.roomType = roomType
+  constructor(type: RoomType, index: number) {
+    this.type = type
     this.index = index
   }
 }

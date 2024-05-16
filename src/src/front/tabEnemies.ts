@@ -146,7 +146,7 @@ export class TabEnemies {
             <sl-icon name="plus-circle"></sl-icon>
           </sl-button>
         </div>
-        <sl-dialog label="Delete room" id="tabEnemiesDeleteDialog">
+        <sl-dialog label="Delete enemy" id="tabEnemiesDeleteDialog">
           <div id="tabEnemiesDeleteDialogMessage"></div>
           <div slot="footer">
             <sl-button onclick="${this.deleteDialogCancel}" variant="neutral"
@@ -193,8 +193,8 @@ export class TabEnemies {
     this.render()
   }
 
-  private deleteDialogCancel = (): void => {
-    this.deleteDialog.hide()
+  private deleteDialogCancel = async (): Promise<any> => {
+    await this.deleteDialog.hide()
   }
 
   private atkChange = (event: CustomEvent): void => {

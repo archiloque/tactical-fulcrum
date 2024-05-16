@@ -6,10 +6,11 @@ import { IoEnemyToAttributes } from "./io/enemy/ioEnemyToAttributes"
 import { IoRoomToAttributes } from "./io/room/ioRoomToAttributes"
 import {
   LOCAL_STORAGE_KEY_ENEMIES,
-  LOCAL_STORAGE_KEY_LEVELS,
+  LOCAL_STORAGE_KEY_ROOMS,
 } from "./io/localStorage"
 import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
 import { IOOperation } from "./io/importExport"
+import { RoomType } from "../front/tabMap/selectedRoom"
 
 export class Tower {
   enemies: Enemy[]
@@ -24,6 +25,15 @@ export class Tower {
     nexusRoom.name = "Nexus room"
     this.standardRooms = [standardRoom]
     this.nexusRooms = [nexusRoom]
+  }
+
+  public getRooms(roomType: RoomType): Room[] {
+    switch (roomType) {
+      case RoomType.standard:
+        return this.standardRooms
+      case RoomType.nexus:
+        return this.nexusRooms
+    }
   }
 
   countEnemies(enemy: Enemy): number {
@@ -86,7 +96,7 @@ export class Tower {
   saveRooms(): void {
     console.debug("Tower", "saveRooms")
     localStorage.setItem(
-      LOCAL_STORAGE_KEY_LEVELS,
+      LOCAL_STORAGE_KEY_ROOMS,
       JSON.stringify({
         [IOOperation.ATTRIBUTE_STANDARD]: this.standardRooms.map((r) => {
           return IoRoomToAttributes.toAttributes(r)
@@ -106,7 +116,7 @@ export class Tower {
   }
 
   private loadRooms(): void {
-    const roomsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_LEVELS)
+    const roomsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ROOMS)
     if (roomsRaw != null) {
       const roomsJson: Record<
         string,

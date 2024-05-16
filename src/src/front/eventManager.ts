@@ -1,6 +1,7 @@
 import { EventEmitter } from "pixi.js"
 import { Tile } from "../behavior/tile"
 import { ColorScheme } from "./colorScheme"
+import { SelectedRoom } from "./tabMap/selectedRoom"
 
 export class EventManager {
   private static EVENT_ROOM_SELECTION = "roomSelection"
@@ -22,17 +23,16 @@ export class EventManager {
   }
 
   public registerRoomSelected(
-    callBack: (selectedRoomIndex: number | null) => void,
+    callBack: (selectedRoom: SelectedRoom | null) => void,
   ): void {
-    this.eventEmitter.on(
-      EventManager.EVENT_ROOM_SELECTION,
-      (selectedRoomIndex) => callBack(selectedRoomIndex),
+    this.eventEmitter.on(EventManager.EVENT_ROOM_SELECTION, (selectedRoom) =>
+      callBack(selectedRoom),
     )
   }
 
-  public notifyRoomSelected(selectedRoomIndex: number | null): void {
-    console.debug("EventManager", "notifyRoomSelected", selectedRoomIndex)
-    this.eventEmitter.emit(EventManager.EVENT_ROOM_SELECTION, selectedRoomIndex)
+  public notifyRoomSelected(selectedRoom: SelectedRoom | null): void {
+    console.debug("EventManager", "notifyRoomSelected", selectedRoom)
+    this.eventEmitter.emit(EventManager.EVENT_ROOM_SELECTION, selectedRoom)
   }
 
   public registerTileSelection(

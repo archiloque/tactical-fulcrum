@@ -25,7 +25,7 @@ import { Sprites } from "./sprites"
 import { Room } from "../../behavior/room"
 import { SHIFT } from "../keys"
 import { ColorScheme, currentColorScheme } from "../colorScheme"
-import { LOCAL_STORAGE_CURRENT_MAP } from "../../behavior/io/localStorage"
+import { SelectedRoom } from "./selectedRoom"
 
 export class TabMapMap {
   readonly app: Application
@@ -36,7 +36,7 @@ export class TabMapMap {
   private lastMouseTile: Point = new Point(-1, -1)
   private sprites: Spriter = new Spriter()
   private readonly editor: Editor
-  private selectedRoomIndex: number = null
+  private selectedRoom: SelectedRoom | null = null
   private tiles: Container
   private mapToolTip: HTMLElement
   private toolTipTimeout: number = null
@@ -61,8 +61,8 @@ export class TabMapMap {
       })
     this.cursor.eventMode = "none"
     this.editor = editor
-    this.editor.eventManager.registerRoomSelected((selectedRoomIndex) =>
-      this.roomSelected(selectedRoomIndex),
+    this.editor.eventManager.registerRoomSelected((selectedRoom) =>
+      this.roomSelected(selectedRoom),
     )
     this.editor.eventManager.registerTileSelection((selectedTile) =>
       this.tileSelected(selectedTile),
@@ -103,23 +103,6 @@ export class TabMapMap {
     this.mapToolTipTip = document.getElementById(
       "tabMapMapToolTipTip",
     ) as SlTooltip
-    const selectedRoomIndexString = localStorage.getItem(
-      LOCAL_STORAGE_CURRENT_MAP,
-    )
-    if (selectedRoomIndexString != null) {
-      const selectedRoomIndex = parseInt(selectedRoomIndexString)
-      if (selectedRoomIndex < this.editor.tower.standardRooms.length) {
-        this.selectedRoomIndex = selectedRoomIndex
-      } else if (this.editor.tower.standardRooms.length >= 0) {
-        this.editor.eventManager.notifyRoomSelected(0)
-      } else {
-        this.editor.eventManager.notifyRoomSelected(null)
-      }
-    } else if (this.editor.tower.standardRooms.length > 0) {
-      this.editor.eventManager.notifyRoomSelected(0)
-    } else {
-      this.editor.eventManager.notifyRoomSelected(null)
-    }
   }
 
   resize(elementSize: number): void {
@@ -172,16 +155,19 @@ export class TabMapMap {
       "shift",
       e.shiftKey,
     )
-    const currentRoom: Room =
-      this.editor.tower.standardRooms[this.selectedRoomIndex]
-    if (e.shiftKey) {
-      const selectedTile: Tile =
-        currentRoom.tiles[tilePosition.y][tilePosition.x]
-      this.editor.eventManager.notifyTileSelection(selectedTile, true)
-    } else {
-      currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
-      this.editor.tower.saveRooms()
-      this.repaint()
+    if (this.selectedRoom != null) {
+      const currentRoom: Room = this.editor.tower.getRooms(
+        this.selectedRoom.type,
+      )[this.selectedRoom.index]
+      if (e.shiftKey) {
+        const selectedTile: Tile =
+          currentRoom.tiles[tilePosition.y][tilePosition.x]
+        this.editor.eventManager.notifyTileSelection(selectedTile, true)
+      } else {
+        currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
+        this.editor.tower.saveRooms()
+        this.repaint()
+      }
     }
   }
 
@@ -216,9 +202,10 @@ export class TabMapMap {
     if (this.toolTipTimeout != null) {
       clearTimeout(this.toolTipTimeout)
     }
-    if (this.selectedRoomIndex != null) {
-      const currentRoom =
-        this.editor.tower.standardRooms[this.selectedRoomIndex]
+    if (this.selectedRoom != null) {
+      const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[
+        this.selectedRoom.index
+      ]
       const currentTile: Tile =
         currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
       const toolTipText = this.getToolTipText(currentTile)
@@ -247,17 +234,9 @@ export class TabMapMap {
     this.cursor.y = this.lastMouseTile.y * this.tileSize
   }
 
-  private roomSelected(selectedRoomIndex: number): void {
-    console.debug("TabMapMap", "roomSelected", selectedRoomIndex)
-    this.selectedRoomIndex = selectedRoomIndex
-    if (selectedRoomIndex != null) {
-      localStorage.setItem(
-        LOCAL_STORAGE_CURRENT_MAP,
-        selectedRoomIndex.toString(),
-      )
-    } else {
-      localStorage.removeItem(LOCAL_STORAGE_CURRENT_MAP)
-    }
+  private roomSelected(selectedRoom: SelectedRoom | null): void {
+    console.debug("TabMapMap", "roomSelected", selectedRoom)
+    this.selectedRoom = selectedRoom
     this.repaint()
   }
 
@@ -271,9 +250,10 @@ export class TabMapMap {
       this.tiles.destroy()
     }
     this.tiles = new Container()
-    if (this.selectedRoomIndex != null) {
-      const currentRoom =
-        this.editor.tower.standardRooms[this.selectedRoomIndex]
+    if (this.selectedRoom != null) {
+      const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[
+        this.selectedRoom.index
+      ]
       for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
         for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
           const currentTile = currentRoom.tiles[lineIndex][columnIndex]

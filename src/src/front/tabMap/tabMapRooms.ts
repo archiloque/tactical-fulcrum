@@ -5,6 +5,7 @@ import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
 import { Room } from "../../behavior/room"
 import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
+import { RoomType, SelectedRoom } from "./selectedRoom"
 
 export class TabMapRooms {
   private readonly editor: Editor
@@ -12,19 +13,20 @@ export class TabMapRooms {
   private nexusRooms: SlTree
   private roomNameInput: SlInput
   private deleteDialog: SlDialog
-  private selectedRoomIndex: number = null
+  private selectedRoom: SelectedRoom | null = null
   private buttonUp: SlButton
   private buttonDown: SlButton
+  private addDialog: SlDialog
 
   constructor(editor: Editor) {
     this.editor = editor
-    editor.eventManager.registerRoomSelected((selectedRoomIndex) =>
-      this.roomSelected(selectedRoomIndex),
+    editor.eventManager.registerRoomSelected((selectedRoom) =>
+      this.roomSelected(selectedRoom),
     )
   }
 
-  private notifyRoomSelected(selectedRoomIndex: number): void {
-    this.editor.eventManager.notifyRoomSelected(selectedRoomIndex)
+  private notifyRoomSelected(selectedRoom: SelectedRoom | null): void {
+    this.editor.eventManager.notifyRoomSelected(selectedRoom)
   }
 
   hole(): Hole {
@@ -67,10 +69,21 @@ export class TabMapRooms {
         Are you sure you want to delete this room?
         <div slot="footer">
           <sl-button onclick="${this.deleteDialogCancel}" variant="neutral"
-            >No</sl-button
-          >
+            >No
+          </sl-button>
           <sl-button onclick="${this.deleteDialogConfirm}" variant="danger"
-            >Yes</sl-button
+            >Yes
+          </sl-button>
+        </div>
+      </sl-dialog>
+      <sl-dialog label="Add room" id="tabMapRoomAddDialog">
+        What kind of room do you want to add?
+        <div slot="footer">
+          <sl-button onclick="${this.addRoomStandard}" variant="neutral"
+            >Standard</sl-button
+          >
+          <sl-button onclick="${this.addRoomNexus}" variant="neutral"
+            >Nexus</sl-button
           >
         </div>
       </sl-dialog>`
@@ -86,6 +99,7 @@ export class TabMapRooms {
     this.deleteDialog = document.getElementById(
       "tabMapRoomDeleteDialog",
     ) as SlDialog
+    this.addDialog = document.getElementById("tabMapRoomAddDialog") as SlDialog
     this.buttonUp = document.getElementById("tabMapRoomButtonUp") as SlButton
     this.buttonDown = document.getElementById(
       "tabMapRoomButtonDown",
@@ -95,27 +109,33 @@ export class TabMapRooms {
   render(): void {
     if (this.editor.tower.standardRooms.length === 0) {
       this.notifyRoomSelected(null)
-    } else if (this.selectedRoomIndex == null) {
-      this.notifyRoomSelected(0)
     }
     console.debug(
       "TabMapRooms",
       "render with selected room index",
-      this.selectedRoomIndex,
+      this.selectedRoom,
     )
-    const standardRooms = this.renderRooms(this.editor.tower.standardRooms)
+    const standardRooms = this.renderRooms(
+      this.editor.tower.standardRooms,
+      RoomType.standard,
+    )
     render(this.standardRooms, html`Standard ${standardRooms}`)
-    const nexusRooms = this.renderRooms(this.editor.tower.nexusRooms)
+    const nexusRooms = this.renderRooms(
+      this.editor.tower.nexusRooms,
+      RoomType.nexus,
+    )
     render(this.nexusRooms, html`Nexus ${nexusRooms}`)
   }
 
-  private renderRooms(rooms: Room[]): Hole[] {
+  private renderRooms(rooms: Room[], roomType: RoomType): Hole[] {
     return rooms.map((room, index) => {
       const id = `tabMapRoomRoom${index}`
       return html` <sl-tree-item
         id="${id}"
-        ?selected="${index === this.selectedRoomIndex}"
-        data-index="${index}"
+        ?selected="${index === this.selectedRoom.index &&
+        this.selectedRoom.type == roomType}"
+        data-room-index="${index}"
+        data-room-type="${roomType.valueOf()}"
       >
         ${room.name}
       </sl-tree-item>`
@@ -123,17 +143,24 @@ export class TabMapRooms {
   }
 
   private roomSelection = (event: CustomEvent): void => {
-    this.notifyRoomSelected(parseInt(event.detail.selection[0].dataset.index))
+    this.notifyRoomSelected(
+      new SelectedRoom(
+        event.detail.selection[0].dataset.roomType,
+        parseInt(event.detail.selection[0].dataset.roomIndex),
+      ),
+    )
   }
 
   private moveUp = (): void => {
-    const rooms = this.editor.tower.standardRooms
-    const currentRoom = rooms[this.selectedRoomIndex]
-    const targetRoom = rooms[this.selectedRoomIndex - 1]
-    rooms[this.selectedRoomIndex] = targetRoom
-    rooms[this.selectedRoomIndex - 1] = currentRoom
+    const rooms = this.editor.tower.getRooms(this.selectedRoom.type)
+    const currentRoom = rooms[this.selectedRoom.index]
+    const targetRoom = rooms[this.selectedRoom.index - 1]
+    rooms[this.selectedRoom.index] = targetRoom
+    rooms[this.selectedRoom.index - 1] = currentRoom
     this.editor.tower.saveRooms()
-    this.notifyRoomSelected(this.selectedRoomIndex - 1)
+    this.notifyRoomSelected(
+      new SelectedRoom(this.selectedRoom.type, this.selectedRoom.index - 1),
+    )
     this.render()
   }
 
@@ -142,34 +169,56 @@ export class TabMapRooms {
   }
 
   private moveDown = (): void => {
-    const rooms = this.editor.tower.standardRooms
-    const currentRoom = rooms[this.selectedRoomIndex]
-    const targetRoom = rooms[this.selectedRoomIndex + 1]
-    rooms[this.selectedRoomIndex] = targetRoom
-    rooms[this.selectedRoomIndex + 1] = currentRoom
+    const rooms = this.editor.tower.getRooms(this.selectedRoom.type)
+    const currentRoom = rooms[this.selectedRoom.index]
+    const targetRoom = rooms[this.selectedRoom.index + 1]
+    rooms[this.selectedRoom.index] = targetRoom
+    rooms[this.selectedRoom.index + 1] = currentRoom
     this.editor.tower.saveRooms()
-    this.notifyRoomSelected(this.selectedRoomIndex + 1)
+    this.notifyRoomSelected(
+      new SelectedRoom(this.selectedRoom.type, this.selectedRoom.index + 1),
+    )
     this.render()
   }
 
-  private addRoom = (): void => {
+  private addRoomStandard = (): void => {
+    this.addRoom(RoomType.standard)
+  }
+
+  private addRoomNexus = (): void => {
+    this.addRoom(RoomType.nexus)
+  }
+
+  private addRoom(roomType: RoomType): void {
     console.debug("TabMapRooms", "add room")
     const room: Room = new Room()
     room.name = "New room"
-    this.editor.tower.standardRooms.push(room)
+    this.editor.tower.getRooms(roomType).push(room)
     this.editor.tower.saveRooms()
-    this.notifyRoomSelected(this.editor.tower.standardRooms.length - 1)
+    this.notifyRoomSelected(
+      new SelectedRoom(
+        this.selectedRoom.type,
+        this.editor.tower.getRooms(roomType).length - 1,
+      ),
+    )
     this.render()
   }
 
-  private deleteDialogConfirm = (): void => {
-    this.deleteDialog.hide()
-    if (this.selectedRoomIndex != null) {
-      console.debug("TabMapRooms", "delete room", this.selectedRoomIndex)
-      this.editor.tower.standardRooms.splice(this.selectedRoomIndex, 1)
+  private deleteDialogConfirm = async (): Promise<any> => {
+    await this.deleteDialog.hide()
+    if (this.selectedRoom != null) {
+      console.debug("TabMapRooms", "delete room", this.selectedRoom)
+      this.editor.tower
+        .getRooms(this.selectedRoom.type)
+        .splice(this.selectedRoom.index, 1)
       this.editor.tower.saveRooms()
       this.notifyRoomSelected(
-        this.editor.tower.standardRooms.length === 0 ? null : 0,
+        new SelectedRoom(
+          this.selectedRoom.type,
+          this.editor.tower.getRooms(this.selectedRoom.type).length === 0
+            ? null
+            : 0,
+        ),
       )
       this.render()
     }
@@ -180,23 +229,25 @@ export class TabMapRooms {
   }
 
   private nameChanged = (): void => {
-    if (this.selectedRoomIndex != null) {
-      this.editor.tower.standardRooms[this.selectedRoomIndex].name =
-        this.roomNameInput.value
+    if (this.selectedRoom != null) {
+      this.editor.tower.getRooms(this.selectedRoom.type)[
+        this.selectedRoom.index
+      ].name = this.roomNameInput.value
       this.editor.tower.saveRooms()
       this.render()
     }
   }
 
-  private roomSelected(selectedRoomIndex: number): void {
-    console.debug("TabMapRooms", "roomSelected", selectedRoomIndex)
-    this.selectedRoomIndex = selectedRoomIndex
-    if (selectedRoomIndex != null) {
-      this.roomNameInput.value =
-        this.editor.tower.standardRooms[this.selectedRoomIndex].name
-      this.buttonUp.disabled = selectedRoomIndex === 0
+  private roomSelected(selectedRoom: SelectedRoom): void {
+    console.debug("TabMapRooms", "roomSelected", selectedRoom)
+    this.selectedRoom = selectedRoom
+    if (selectedRoom != null) {
+      this.roomNameInput.value = this.editor.tower.getRooms(selectedRoom.type)[
+        this.selectedRoom.index
+      ].name
+      this.buttonUp.disabled = selectedRoom.index === 0
       this.buttonDown.disabled =
-        selectedRoomIndex === this.editor.tower.standardRooms.length - 1
+        selectedRoom.index === this.editor.tower.standardRooms.length - 1
     } else {
       this.roomNameInput.value = ""
       this.buttonUp.disabled = true

@@ -7,6 +7,8 @@ import { TabMapMap } from "./tabMapMap"
 import { TabMapElements } from "./tabMapElements"
 import { TabMapRooms } from "./tabMapRooms"
 import SlSplitPanel from "@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component"
+import { LOCAL_STORAGE_CURRENT_ROOM } from "../../behavior/io/localStorage"
+import { ROOM_TYPES, RoomType, SelectedRoom } from "./selectedRoom"
 
 export class TabMap {
   private readonly editor: Editor
@@ -70,6 +72,10 @@ export class TabMap {
     this.tabMapRooms.init()
     this.tabMapElement.init()
     this.tabMapMap.postInit()
+    this.loadInitRoom()
+    this.editor.eventManager.registerRoomSelected((selectedRoom) =>
+      this.roomSelected(selectedRoom),
+    )
   }
 
   render(): void {
@@ -92,5 +98,63 @@ export class TabMap {
       window.innerWidth * splitPanel1Percent * splitPanel2Percent - 20
     const number = Math.min(height, width)
     this.tabMapMap.resize(number)
+  }
+
+  private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = "type"
+  private static readonly ATTRIBUTE_SELECTED_ROOM_INDEX = "index"
+
+  private loadInitRoom(): void {
+    console.debug("TabMap", "loadInitRoom")
+    const selectedRoomString = localStorage.getItem(LOCAL_STORAGE_CURRENT_ROOM)
+
+    if (selectedRoomString == null) {
+      this.editor.eventManager.notifyRoomSelected(null)
+      return
+    }
+
+    const selectedRoomParsed = JSON.parse(selectedRoomString)
+    const roomType = selectedRoomParsed[TabMap.ATTRIBUTE_SELECTED_ROOM_INDEX]
+    if (!ROOM_TYPES.includes(roomType)) {
+      this.editor.eventManager.notifyRoomSelected(null)
+      return
+    }
+
+    const selectedRoom = new SelectedRoom(
+      roomType,
+      parseInt(selectedRoomParsed[TabMap.ATTRIBUTE_SELECTED_ROOM_TYPE]),
+    )
+
+    if (selectedRoom.index < this.editor.tower.getRooms(roomType).length) {
+      this.editor.eventManager.notifyRoomSelected(selectedRoom)
+      return
+    } else if (this.editor.tower.standardRooms.length >= 0) {
+      this.editor.eventManager.notifyRoomSelected(
+        new SelectedRoom(RoomType.standard, 0),
+      )
+      return
+    } else if (this.editor.tower.nexusRooms.length >= 0) {
+      this.editor.eventManager.notifyRoomSelected(
+        new SelectedRoom(RoomType.nexus, 0),
+      )
+      return
+    } else {
+      this.editor.eventManager.notifyRoomSelected(null)
+      return
+    }
+  }
+
+  private roomSelected(selectedRoom: SelectedRoom | null): void {
+    console.debug("TabMap", "roomSelected", selectedRoom)
+    if (selectedRoom == null) {
+      localStorage.removeItem(LOCAL_STORAGE_CURRENT_ROOM)
+      return
+    }
+    localStorage.setItem(
+      LOCAL_STORAGE_CURRENT_ROOM,
+      JSON.stringify({
+        [TabMap.ATTRIBUTE_SELECTED_ROOM_TYPE]: selectedRoom.type,
+        [TabMap.ATTRIBUTE_SELECTED_ROOM_INDEX]: selectedRoom.index,
+      }),
+    )
   }
 }

@@ -169,8 +169,7 @@ export class StartingPositionTile implements Tile {
   }
 }
 
-export const STARTING_POSITION_TILE: StartingPositionTile =
-  new StartingPositionTile()
+export const STARTING_POSITION_TILE: StartingPositionTile = new StartingPositionTile()
 
 export class WallTile implements Tile {
   getType(): TileType {

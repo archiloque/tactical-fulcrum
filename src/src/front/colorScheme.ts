@@ -4,10 +4,7 @@ export const enum ColorScheme {
 }
 
 export function currentColorScheme(): ColorScheme {
-  if (
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  ) {
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
     return ColorScheme.dark
   } else {
     return ColorScheme.light

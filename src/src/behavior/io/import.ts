@@ -32,12 +32,10 @@ export class Import extends IOOperation {
       if (this.parsedValueInvalid(enemies)) {
         this.errors.push("Enemies value is invalid")
       } else {
-        tower.enemies = enemies.map(
-          (value: Record<string, string | number | null>, index: number) => {
-            IoEnemy.validateEnemyImport(value, index + 1, this.errors)
-            return IoEnemyFromAttributes.fromAttributes(value)
-          },
-        )
+        tower.enemies = enemies.map((value: Record<string, string | number | null>, index: number) => {
+          IoEnemy.validateEnemyImport(value, index + 1, this.errors)
+          return IoEnemyFromAttributes.fromAttributes(value)
+        })
         IoEnemy.validateEnemiesImport(enemies, this.errors)
       }
       const rooms = parsedData[IOOperation.ATTRIBUTE_ROOMS]
@@ -46,12 +44,10 @@ export class Import extends IOOperation {
         if (this.parsedValueInvalid(standardRooms)) {
           this.errors.push("Standard rooms value is invalid")
         } else {
-          tower.standardRooms = standardRooms.map(
-            (value: Record<string, string | any>, index: number) => {
-              IoRoom.validateRoomImport(value, index + 1, this.errors)
-              return IoRoomFromAttributes.fromAttributes(value, enemies)
-            },
-          )
+          tower.standardRooms = standardRooms.map((value: Record<string, string | any>, index: number) => {
+            IoRoom.validateRoomImport(value, index + 1, this.errors)
+            return IoRoomFromAttributes.fromAttributes(value, enemies)
+          })
           IoRoom.validateRoomsImport(standardRooms, this.errors)
         }
       }
@@ -60,12 +56,10 @@ export class Import extends IOOperation {
         if (this.parsedValueInvalid(nexusRooms)) {
           this.errors.push("Nexus rooms value is invalid")
         } else {
-          tower.nexusRooms = nexusRooms.map(
-            (value: Record<string, string | any>, index: number) => {
-              IoRoom.validateRoomImport(value, index + 1, this.errors)
-              return IoRoomFromAttributes.fromAttributes(value, enemies)
-            },
-          )
+          tower.nexusRooms = nexusRooms.map((value: Record<string, string | any>, index: number) => {
+            IoRoom.validateRoomImport(value, index + 1, this.errors)
+            return IoRoomFromAttributes.fromAttributes(value, enemies)
+          })
           IoRoom.validateRoomsImport(nexusRooms, this.errors)
         }
       }

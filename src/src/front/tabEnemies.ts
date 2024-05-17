@@ -25,24 +25,14 @@ export class TabEnemies {
   private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
     const drops: Hole[] = DROPS.map(
       (item: string, index: number) =>
-        html` <sl-option value="${index + 1}"
-          >${item == null ? "<Nothing>" : item}</sl-option
-        >`,
+        html` <sl-option value="${index + 1}">${item == null ? "<Nothing>" : item}</sl-option>`,
     )
     const dropValue = DROPS.indexOf(enemy.drop)
     const enemyTypes = ENEMY_TYPES.map(
-      (enemyType: string) =>
-        html` <sl-option value="${enemyType}">${enemyType}</sl-option>`,
+      (enemyType: string) => html` <sl-option value="${enemyType}">${enemyType}</sl-option>`,
     )
     return html` <div data-index="${enemyIndex}" class="enemyLine">
-      <sl-select
-        @sl-input="${this.typeChange}"
-        class="type"
-        placeholder="Type"
-        hoist
-        value="${enemy.type}"
-        required
-      >
+      <sl-select @sl-input="${this.typeChange}" class="type" placeholder="Type" hoist value="${enemy.type}" required>
         ${enemyTypes}
       </sl-select>
       <sl-input
@@ -105,14 +95,7 @@ export class TabEnemies {
         value="${enemy.exp}"
         required
       ></sl-input>
-      <sl-select
-        @sl-input="${this.dropChange}"
-        class="drop"
-        placeholder="Drop"
-        hoist
-        value="${dropValue}"
-        required
-      >
+      <sl-select @sl-input="${this.dropChange}" class="drop" placeholder="Drop" hoist value="${dropValue}" required>
         ${drops}
       </sl-select>
 
@@ -138,9 +121,7 @@ export class TabEnemies {
           <sl-tag variant="neutral" class="drop" size="large">Drop</sl-tag>
           <sl-tag variant="neutral" class="delete" size="large">Delete</sl-tag>
         </div>
-        ${this.tower.enemies.map((enemy: Enemy, enemyIndex: number) =>
-          this.renderEnemy(enemy, enemyIndex),
-        )}
+        ${this.tower.enemies.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
         <div class="addButtonDiv">
           <sl-button variant="primary" onclick="${this.addEnemy}">
             <sl-icon name="plus-circle"></sl-icon>
@@ -149,22 +130,14 @@ export class TabEnemies {
         <sl-dialog label="Delete enemy" id="tabEnemiesDeleteDialog">
           <div id="tabEnemiesDeleteDialogMessage"></div>
           <div slot="footer">
-            <sl-button onclick="${this.deleteDialogCancel}" variant="neutral"
-              >No</sl-button
-            >
-            <sl-button onclick="${this.deleteDialogConfirm}" variant="danger"
-              >Yes</sl-button
-            >
+            <sl-button onclick="${this.deleteDialogCancel}" variant="neutral">No</sl-button>
+            <sl-button onclick="${this.deleteDialogConfirm}" variant="danger">Yes</sl-button>
           </div>
         </sl-dialog>
       `,
     )
-    this.deleteDialog = <SlDialog>(
-      document.getElementById("tabEnemiesDeleteDialog")
-    )
-    this.deleteDialogMessage = document.getElementById(
-      "tabEnemiesDeleteDialogMessage",
-    )
+    this.deleteDialog = <SlDialog>document.getElementById("tabEnemiesDeleteDialog")
+    this.deleteDialogMessage = document.getElementById("tabEnemiesDeleteDialogMessage")
   }
 
   private addEnemy = (): void => {
@@ -179,9 +152,7 @@ export class TabEnemies {
       // @ts-ignore
       event.currentTarget.parentElement.dataset.index,
     )
-    const enemiesCount = this.editor.tower.countEnemies(
-      this.tower.enemies[this.enemyDeletionIndex],
-    )
+    const enemiesCount = this.editor.tower.countEnemies(this.tower.enemies[this.enemyDeletionIndex])
     const dialogMessage = `Are you sure you want to delete this enemy? ${enemiesCount == 0 ? "It is currently unused." : `It is currently used ${enemiesCount} time(s), deleting it will remove it from the map(s).`}`
     this.deleteDialogMessage.innerText = dialogMessage
     await this.deleteDialog.show()
@@ -261,9 +232,7 @@ export class TabEnemies {
 
   private getInputValue = (event: CustomEvent): [number, string] => {
     const currentTarget = event.currentTarget as SlInput
-    const enemyIndex = parseInt(
-      (currentTarget.parentElement as HTMLElement).dataset.index,
-    )
+    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
     return [enemyIndex, currentTarget.value]
   }
 }

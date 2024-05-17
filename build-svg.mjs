@@ -1,14 +1,7 @@
 import fs from "fs"
 import path from "path"
 
-const MONOCHROMES = [
-  "enemy",
-  "item",
-  "staircase-down",
-  "staircase-up",
-  "starting-position",
-  "wall",
-]
+const MONOCHROMES = ["enemy", "item", "staircase-down", "staircase-up", "starting-position", "wall"]
 
 const COLORIZE = ["key", "door"]
 
@@ -57,14 +50,8 @@ for (const monochromes of MONOCHROMES) {
 
 for (const colorize of COLORIZE) {
   const source = path.join(IN_DIR, `${colorize}.svg`)
-  const destYellowLight = path.join(
-    OUT_DIR,
-    `${colorize}-yellow${LIGHT_SUFFIX}.svg`,
-  )
-  const destYellowDark = path.join(
-    OUT_DIR,
-    `${colorize}-yellow${DARK_SUFFIX}.svg`,
-  )
+  const destYellowLight = path.join(OUT_DIR, `${colorize}-yellow${LIGHT_SUFFIX}.svg`)
+  const destYellowDark = path.join(OUT_DIR, `${colorize}-yellow${DARK_SUFFIX}.svg`)
   console.info("From", source, "to", destYellowLight)
   fs.copyFileSync(source, destYellowLight)
   const sourceContent = fs.readFileSync(source, { encoding: "utf8" })
@@ -75,21 +62,12 @@ for (const colorize of COLORIZE) {
   whiten(darkContent, destYellowDark)
 
   for (const [colorName, colorTo] of Object.entries(COLORS_TO)) {
-    const destLight = path.join(
-      OUT_DIR,
-      `${colorize}-${colorName}${LIGHT_SUFFIX}.svg`,
-    )
-    const destDark = path.join(
-      OUT_DIR,
-      `${colorize}-${colorName}${DARK_SUFFIX}.svg`,
-    )
+    const destLight = path.join(OUT_DIR, `${colorize}-${colorName}${LIGHT_SUFFIX}.svg`)
+    const destDark = path.join(OUT_DIR, `${colorize}-${colorName}${DARK_SUFFIX}.svg`)
     let colorizedLight = sourceContent
     let colorizedDark = sourceContent
     for (const yellow of YELLOWS) {
-      colorizedLight = colorizedLight.replaceAll(
-        `${yellow};`,
-        `${colorTo.light};`,
-      )
+      colorizedLight = colorizedLight.replaceAll(`${yellow};`, `${colorTo.light};`)
       colorizedDark = colorizedDark.replaceAll(`${yellow};`, `${colorTo.dark};`)
     }
     console.info("From", source, "to", destLight)

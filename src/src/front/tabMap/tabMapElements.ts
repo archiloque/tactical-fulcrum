@@ -21,10 +21,7 @@ import {
   TileType,
   WALL_TILE,
 } from "../../behavior/tile"
-import {
-  STAIRCASE_DIRECTIONS,
-  StaircaseDirection,
-} from "../../data/staircaseDirection"
+import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircaseDirection"
 import { SCORE_TYPES, ScoreType } from "../../data/scoreType"
 import { findEnum } from "../../behavior/functions"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
@@ -41,85 +38,54 @@ export class TabMapElements {
 
   constructor(editor: Editor) {
     this.editor = editor
-    this.editor.eventManager.registerTileSelection(
-      (selectedTile, updateElementTree) =>
-        this.tileSelected(selectedTile, updateElementTree),
+    this.editor.eventManager.registerTileSelection((selectedTile, updateElementTree) =>
+      this.tileSelected(selectedTile, updateElementTree),
     )
   }
 
   hole(): Hole {
     console.debug("TabMapElements", "hole")
     const keys: Hole[] = COLORS.map(
-      (c) =>
-        html` <sl-tree-item data-type="${TileType.key}" data-color="${c}"
-          >${capitalize(c)} key</sl-tree-item
-        >`,
+      (c) => html` <sl-tree-item data-type="${TileType.key}" data-color="${c}">${capitalize(c)} key</sl-tree-item>`,
     )
 
     const doors: Hole[] = COLORS.map(
-      (c) =>
-        html` <sl-tree-item data-type="${TileType.door}" data-color="${c}"
-          >${capitalize(c)} door</sl-tree-item
-        >`,
+      (c) => html` <sl-tree-item data-type="${TileType.door}" data-color="${c}">${capitalize(c)} door</sl-tree-item>`,
     )
 
     const items: Hole[] = ITEMS.map(
-      (i) =>
-        html` <sl-tree-item
-          data-type="${TileType.item}"
-          data-name="${i.valueOf()}"
-          >${i}</sl-tree-item
-        >`,
+      (i) => html` <sl-tree-item data-type="${TileType.item}" data-name="${i.valueOf()}">${i}</sl-tree-item>`,
     )
 
     const staircases: Hole[] = STAIRCASE_DIRECTIONS.map(
       (s) =>
-        html` <sl-tree-item
-          data-type="${TileType.staircase}"
-          data-direction="${s.valueOf()}"
+        html` <sl-tree-item data-type="${TileType.staircase}" data-direction="${s.valueOf()}"
           >Staircase ${s}
         </sl-tree-item>`,
     )
 
     const scores: Hole[] = SCORE_TYPES.map(
-      (s) =>
-        html` <sl-tree-item
-          data-type="${TileType.score}"
-          data-score="${s.valueOf()}"
-          >Score ${s}</sl-tree-item
-        >`,
+      (s) => html` <sl-tree-item data-type="${TileType.score}" data-score="${s.valueOf()}">Score ${s}</sl-tree-item>`,
     )
 
     return html`<h2>Element</h2>
-      <sl-tree
-        id="${TabMapElements.treeId}"
-        selection="leaf"
-        @sl-selection-change="${this.selectionChanged}"
-      >
-        <sl-tree-item data-type="${TileType.empty}" selected
-          >Empty</sl-tree-item
-        >
+      <sl-tree id="${TabMapElements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
+        <sl-tree-item data-type="${TileType.empty}" selected>Empty</sl-tree-item>
         <sl-tree-item data-type="${TileType.wall}">Wall</sl-tree-item>
-        <sl-tree-item id="${TabMapElements.enemiesSubTreeId}"
-          >Enemy
-        </sl-tree-item>
+        <sl-tree-item id="${TabMapElements.enemiesSubTreeId}">Enemy </sl-tree-item>
         <sl-tree-item>Key ${keys} </sl-tree-item>
         <sl-tree-item>Door ${doors} </sl-tree-item>
         <sl-tree-item>Item ${items} </sl-tree-item>
         <sl-tree-item>Staircase ${staircases} </sl-tree-item>
         <sl-tree-item>Score ${scores} </sl-tree-item>
-        <sl-tree-item data-type="${TileType.startingPosition}"
-          >Starting position</sl-tree-item
-        >
+        <sl-tree-item data-type="${TileType.startingPosition}">Starting position</sl-tree-item>
       </sl-tree>`
   }
 
   init(): void {
     console.debug("TabMapElements", "init")
     this.tabMapTree = document.getElementById(TabMapElements.treeId) as SlTree
-    this.tabMapEnemies = document.getElementById(
-      TabMapElements.enemiesSubTreeId,
-    ) as SlTreeItem
+    this.tabMapEnemies = document.getElementById(TabMapElements.enemiesSubTreeId) as SlTreeItem
   }
 
   render(): void {
@@ -152,20 +118,15 @@ export class TabMapElements {
         break
       }
       case TileType.enemy.valueOf(): {
-        const enemyType: EnemyType | null = findEnum(
-          ENEMY_TYPES,
-          slTreeItem.dataset.enemyType,
-        )
+        const enemyType: EnemyType | null = findEnum(ENEMY_TYPES, slTreeItem.dataset.enemyType)
         const enemyLevel: number = parseInt(slTreeItem.dataset.enemyLevel)
         const enemy = this.editor.tower.enemies.find((enemy) => {
           return enemy.type === enemyType && enemy.level === enemyLevel
         })
         if (enemy != null) {
-          this.editor.eventManager.notifyTileSelection(
-            new EnemyTile(enemy),
-            false,
-          )
+          this.editor.eventManager.notifyTileSelection(new EnemyTile(enemy), false)
         }
+        break
       }
       case TileType.item.valueOf(): {
         const item: Item = findEnum(ITEMS, slTreeItem.dataset.name)
@@ -184,29 +145,17 @@ export class TabMapElements {
         break
       }
       case TileType.score.valueOf(): {
-        const scoreType: ScoreType = findEnum(
-          SCORE_TYPES,
-          slTreeItem.dataset.score,
-        )
+        const scoreType: ScoreType = findEnum(SCORE_TYPES, slTreeItem.dataset.score)
         if (scoreType != null) {
-          this.editor.eventManager.notifyTileSelection(
-            SCORE_TILES[scoreType],
-            false,
-          )
+          this.editor.eventManager.notifyTileSelection(SCORE_TILES[scoreType], false)
           return
         }
         break
       }
       case TileType.staircase.valueOf(): {
-        const staircaseDirection: StaircaseDirection = findEnum(
-          STAIRCASE_DIRECTIONS,
-          slTreeItem.dataset.direction,
-        )
+        const staircaseDirection: StaircaseDirection = findEnum(STAIRCASE_DIRECTIONS, slTreeItem.dataset.direction)
         if (staircaseDirection != null) {
-          this.editor.eventManager.notifyTileSelection(
-            STAIRCASE_TILES[staircaseDirection],
-            false,
-          )
+          this.editor.eventManager.notifyTileSelection(STAIRCASE_TILES[staircaseDirection], false)
           return
         }
         break
@@ -216,19 +165,12 @@ export class TabMapElements {
         return
       }
       default: {
-        console.error(
-          "TabMapElements",
-          "selectionChanged",
-          "Unknown tile",
-          slTreeItem,
-        )
+        console.error("TabMapElements", "selectionChanged", "Unknown tile", slTreeItem)
       }
     }
   }
 
-  private findTreeItemFromValue(
-    attributes: Record<string, string | number>,
-  ): SlTreeItem {
+  private findTreeItemFromValue(attributes: Record<string, string | number>): SlTreeItem {
     const filters = []
     Object.entries(attributes).forEach(([key, value]) => {
       filters.push(`[data-${key}="${value}"]`)

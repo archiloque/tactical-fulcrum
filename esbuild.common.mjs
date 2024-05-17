@@ -1,20 +1,11 @@
 import fs from "fs"
 import path from "path"
 
-const icons = [
-  "arrow-up",
-  "arrow-down",
-  "check2-circle",
-  "exclamation-triangle",
-  "plus-circle",
-  "trash",
-]
+const icons = ["arrow-up", "arrow-down", "check2-circle", "exclamation-triangle", "plus-circle", "trash"]
 
 const themes = ["light", "dark"]
 
-const sprites = fs
-  .readdirSync("src/assets/sprites/out")
-  .filter((s) => path.extname(s) === ".svg")
+const sprites = fs.readdirSync("src/assets/sprites/out").filter((s) => path.extname(s) === ".svg")
 
 const entryPoints = [
   { out: "editor", in: "src/editor.ts" },

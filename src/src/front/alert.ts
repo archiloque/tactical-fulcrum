@@ -1,12 +1,12 @@
 import { SlAlert } from "@shoelace-style/shoelace"
 
-export function showAlert(
+export async function showAlert(
   message: string,
   variant: string = "primary",
   icon: string = "info-circle",
   duration: number = 3000,
   closable: boolean = true,
-): void {
+): Promise<any> {
   const alert: SlAlert = Object.assign(document.createElement("sl-alert"), {
     variant,
     closable: closable,
@@ -17,5 +17,5 @@ export function showAlert(
 `,
   })
   document.body.append(alert)
-  alert.toast()
+  await alert.toast()
 }

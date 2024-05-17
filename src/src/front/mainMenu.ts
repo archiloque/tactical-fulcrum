@@ -15,22 +15,14 @@ export class MainMenu {
     this.editor = editor
 
     const tabs: Hole[] = MainMenu.tabNames.map(
-      (it) =>
-        html` <sl-tab slot="nav" panel="${it[0].valueOf()}">${it[1]}</sl-tab>`,
+      (it) => html` <sl-tab slot="nav" panel="${it[0].valueOf()}">${it[1]}</sl-tab>`,
     )
     const tabPanels: Hole[] = MainMenu.tabNames.map(
-      (it) =>
-        html` <sl-tab-panel id="${it[0].valueOf()}" name="${it[0].valueOf()}"
-          >${it[1]}</sl-tab-panel
-        >`,
+      (it) => html` <sl-tab-panel id="${it[0].valueOf()}" name="${it[0].valueOf()}">${it[1]}</sl-tab-panel>`,
     )
     render(
       document.getElementById("content"),
-      html`
-        <sl-tab-group @sl-tab-show="${this.tabShown}">
-          ${tabs} ${tabPanels}
-        </sl-tab-group>
-      `,
+      html` <sl-tab-group @sl-tab-show="${this.tabShown}"> ${tabs} ${tabPanels} </sl-tab-group> `,
     )
   }
 

@@ -1,20 +1,9 @@
 import { Room } from "../../room"
 import { IoRoom } from "./ioRoom"
-import {
-  DoorTile,
-  EnemyTile,
-  ItemTile,
-  KeyTile,
-  ScoreTile,
-  StaircaseTile,
-  Tile,
-  TileType,
-} from "../../tile"
+import { DoorTile, EnemyTile, ItemTile, KeyTile, ScoreTile, StaircaseTile, Tile, TileType } from "../../tile"
 
 export class IoRoomToAttributes {
-  static toAttributes(
-    room: Room,
-  ): Record<string, string | Record<string, string | number>[][]> {
+  static toAttributes(room: Room): Record<string, string | Record<string, string | number>[][]> {
     return {
       [IoRoom.ATTRIBUTE_NAME]: room.name,
       [IoRoom.ATTRIBUTE_TILES]: room.tiles.map((tilesLine) =>

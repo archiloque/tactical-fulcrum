@@ -6,14 +6,7 @@ export class Spriter {
   private tileSize: number
 
   async reload(tileSize: number, colorScheme: ColorScheme): Promise<any> {
-    console.debug(
-      "Spriter",
-      "reload",
-      "size",
-      tileSize,
-      "color scheme",
-      colorScheme,
-    )
+    console.debug("Spriter", "reload", "size", tileSize, "color scheme", colorScheme)
     this.tileSize = tileSize
     Assets.cache.reset()
     return Assets.load(

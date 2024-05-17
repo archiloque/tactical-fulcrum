@@ -7,11 +7,4 @@ export const enum Color {
   yellow = "yellow",
 }
 
-export const COLORS: Color[] = [
-  Color.blue,
-  Color.crimson,
-  Color.greenBlue,
-  Color.platinum,
-  Color.violet,
-  Color.yellow,
-]
+export const COLORS: Color[] = [Color.blue, Color.crimson, Color.greenBlue, Color.platinum, Color.violet, Color.yellow]

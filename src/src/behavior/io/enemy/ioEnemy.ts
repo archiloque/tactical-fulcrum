@@ -23,31 +23,14 @@ export class IoEnemy {
     IoEnemy.ATTRIBUTE_DROP,
   ]
 
-  static validateEnemyImport(
-    enemy: Record<string, string | number | null>,
-    index: number,
-    errors: string[],
-  ): void {
+  static validateEnemyImport(enemy: Record<string, string | number | null>, index: number, errors: string[]): void {
     for (const attributeName in enemy) {
       if (IoEnemy.ATTRIBUTES.indexOf(attributeName) === -1) {
-        errors.push(
-          `Enemy ${index + 1} has an unknown [${attributeName}] attribute`,
-        )
+        errors.push(`Enemy ${index + 1} has an unknown [${attributeName}] attribute`)
       }
     }
-    IO.checkEnum(
-      enemy[IoEnemy.ATTRIBUTE_TYPE],
-      ENEMY_TYPES,
-      true,
-      `Enemy ${index} type is invalid`,
-      errors,
-    )
-    IO.checkNumber(
-      enemy[IoEnemy.ATTRIBUTE_LEVEL],
-      `Enemy ${index} level [${enemy.level}] is invalid`,
-      false,
-      errors,
-    )
+    IO.checkEnum(enemy[IoEnemy.ATTRIBUTE_TYPE], ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
+    IO.checkNumber(enemy[IoEnemy.ATTRIBUTE_LEVEL], `Enemy ${index} level [${enemy.level}] is invalid`, false, errors)
     const name = enemy[IoEnemy.ATTRIBUTE_NAME]
     IO.checkNotEmpty(name, `Enemy ${index} name [${name}] is invalid`, errors)
     const hp = enemy[IoEnemy.ATTRIBUTE_HP]
@@ -59,75 +42,21 @@ export class IoEnemy {
     const exp = enemy[IoEnemy.ATTRIBUTE_EXP]
     IO.checkNumber(exp, `Enemy ${index} exp [${exp}] is invalid`, true, errors)
     const drop = enemy[IoEnemy.ATTRIBUTE_DROP]
-    IO.checkEnum(
-      drop,
-      DROPS,
-      false,
-      `Enemy ${index} drop [${drop}] is invalid`,
-      errors,
-    )
+    IO.checkEnum(drop, DROPS, false, `Enemy ${index} drop [${drop}] is invalid`, errors)
   }
 
-  static validateEnemyExport(
-    enemy: Enemy,
-    index: number,
-    errors: string[],
-  ): void {
-    IO.checkEnum(
-      enemy.type,
-      ENEMY_TYPES,
-      true,
-      `Enemy ${index} type is invalid`,
-      errors,
-    )
-    IO.checkNumber(
-      enemy.level,
-      `Enemy ${index} level [${enemy.level}] is invalid`,
-      false,
-      errors,
-    )
-    IO.checkNotEmpty(
-      enemy.name,
-      `Enemy ${index} name [${enemy.name}] is invalid`,
-      errors,
-    )
-    IO.checkNumber(
-      enemy.hp,
-      `Enemy ${index} hp [${enemy.hp}] is invalid`,
-      false,
-      errors,
-    )
-    IO.checkNumber(
-      enemy.atk,
-      `Enemy ${index} atk [${enemy.atk}] is invalid`,
-      true,
-      errors,
-    )
-    IO.checkNumber(
-      enemy.def,
-      `Enemy ${index} def [${enemy.def}] is invalid`,
-      true,
-      errors,
-    )
-    IO.checkNumber(
-      enemy.exp,
-      `Enemy ${index} exp [${enemy.exp}] is invalid`,
-      true,
-      errors,
-    )
-    IO.checkEnum(
-      enemy.drop,
-      DROPS,
-      false,
-      `Enemy ${index} drop [${enemy.drop}] is invalid`,
-      errors,
-    )
+  static validateEnemyExport(enemy: Enemy, index: number, errors: string[]): void {
+    IO.checkEnum(enemy.type, ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
+    IO.checkNumber(enemy.level, `Enemy ${index} level [${enemy.level}] is invalid`, false, errors)
+    IO.checkNotEmpty(enemy.name, `Enemy ${index} name [${enemy.name}] is invalid`, errors)
+    IO.checkNumber(enemy.hp, `Enemy ${index} hp [${enemy.hp}] is invalid`, false, errors)
+    IO.checkNumber(enemy.atk, `Enemy ${index} atk [${enemy.atk}] is invalid`, true, errors)
+    IO.checkNumber(enemy.def, `Enemy ${index} def [${enemy.def}] is invalid`, true, errors)
+    IO.checkNumber(enemy.exp, `Enemy ${index} exp [${enemy.exp}] is invalid`, true, errors)
+    IO.checkEnum(enemy.drop, DROPS, false, `Enemy ${index} drop [${enemy.drop}] is invalid`, errors)
   }
 
-  static validateEnemiesImport(
-    enemies: Record<string, string | number | null>[],
-    errors: string[],
-  ): void {
+  static validateEnemiesImport(enemies: Record<string, string | number | null>[], errors: string[]): void {
     const knownEnemies = []
     enemies.forEach((enemy, index) => {
       const enemyIdentifier = `${enemy.level}|${enemy.type}`

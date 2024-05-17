@@ -2,6 +2,7 @@ import { IO } from "../io"
 import { Room } from "../../room"
 import { TILE_TYPES } from "../../tile"
 import { TILES_IN_ROW } from "../../../data/map"
+import { RoomType } from "../../../front/tabMap/selectedRoom"
 
 export class IoRoom {
   static readonly ATTRIBUTE_NAME = "name"
@@ -12,29 +13,16 @@ export class IoRoom {
   static readonly ATTRIBUTE_ENEMY_LEVEL = "level"
   static readonly ATTRIBUTE_DIRECTION = "direction"
   static readonly ATTRIBUTE_SCORE = "score"
-  static readonly ATTRIBUTES: string[] = [
-    IoRoom.ATTRIBUTE_NAME,
-    IoRoom.ATTRIBUTE_TILES,
-  ]
+  static readonly ATTRIBUTES: string[] = [IoRoom.ATTRIBUTE_NAME, IoRoom.ATTRIBUTE_TILES]
 
   static validateRoomExport(room: Room, index: number, errors: string[]): void {
-    IO.checkNotEmpty(
-      room.name,
-      `Room ${index} name [${room.name}] is invalid`,
-      errors,
-    )
+    IO.checkNotEmpty(room.name, `Room ${index} name [${room.name}] is invalid`, errors)
   }
 
-  static validateRoomImport(
-    attributes: Record<string, string | any>,
-    index: number,
-    errors: string[],
-  ): void {
+  static validateRoomImport(attributes: Record<string, string | any>, index: number, errors: string[]): void {
     for (const attributeName in attributes) {
       if (IoRoom.ATTRIBUTES.indexOf(attributeName) === -1) {
-        errors.push(
-          `Room ${index + 1} has an unknown [${attributeName}] attribute`,
-        )
+        errors.push(`Room ${index + 1} has an unknown [${attributeName}] attribute`)
       }
     }
     const tilesArrayArray = attributes[IoRoom.ATTRIBUTE_TILES]
@@ -58,24 +46,17 @@ export class IoRoom {
           tilesArray.forEach((tile) => {
             const type = tile[IoRoom.ATTRIBUTE_TYPE]
             if (TILE_TYPES.map((it) => it.valueOf()).indexOf(type) === -1) {
-              errors.push(
-                `Room ${index + 1} has an invalid tile type [${type}]`,
-              )
+              errors.push(`Room ${index + 1} has an invalid tile type [${type}]`)
             }
           })
         }
       })
     } else {
-      errors.push(
-        `Room ${index + 1} tiles ${IoRoom.ATTRIBUTE_TILES} attribute [${tilesArrayArray}] is not an array`,
-      )
+      errors.push(`Room ${index + 1} tiles ${IoRoom.ATTRIBUTE_TILES} attribute [${tilesArrayArray}] is not an array`)
     }
   }
 
-  static validateRoomsImport(
-    rooms: Record<string, string | any>[],
-    errors: string[],
-  ): void {
+  static validateRoomsImport(rooms: Record<string, string | any>[], errors: string[]): void {
     const knownRooms: string[] = []
     rooms.forEach((room, index) => {
       const roomName = room[IoRoom.ATTRIBUTE_NAME]
@@ -89,11 +70,11 @@ export class IoRoom {
     })
   }
 
-  static validateRoomsExport(rooms: Room[], errors: string[]): void {
+  static validateRoomsExport(rooms: Room[], roomType: RoomType, errors: string[]): void {
     const knownRooms: string[] = []
     rooms.forEach((room, index) => {
       if (knownRooms.indexOf(room.name) !== -1) {
-        errors.push(`Room ${index} is duplicated (same name)`)
+        errors.push(`Room ${index} ${roomType} is duplicated (same name)`)
       } else {
         knownRooms.push(room.name)
       }

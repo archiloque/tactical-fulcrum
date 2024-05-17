@@ -22,35 +22,21 @@ export class TabImportExport {
       this.tabElement,
       html`
         <div class="topButtons">
-          <sl-button
-            onclick="${this.export}"
-            variant="primary"
-            size="large"
-            outline
-            >Export to text
-          </sl-button>
-          <sl-button
-            onclick="${this.import}"
-            variant="primary"
-            size="large"
-            outline
-            >Import from text
-          </sl-button>
+          <sl-button onclick="${this.export}" variant="primary" size="large" outline>Export to text </sl-button>
+          <sl-button onclick="${this.import}" variant="primary" size="large" outline>Import from text </sl-button>
         </div>
         <sl-textarea class="textArea" resize="auto" size="small"></sl-textarea>
       `,
     )
   }
 
-  private import = (): void => {
+  private import = async (): Promise<any> => {
     const textArea: SlTextarea = <SlTextarea>(
-      document
-        .getElementById(Tab.importExport)
-        .getElementsByClassName("textArea")[0]
+      document.getElementById(Tab.importExport).getElementsByClassName("textArea")[0]
     )
     const stringData = textArea.value
     const importResult = new Import().import(stringData)
-    TabImportExport.processIOResult(importResult, "Import")
+    await TabImportExport.processIOResult(importResult, "Import")
     this.editor.tower.enemies = importResult.content.enemies
     this.editor.tower.saveEnemies()
     this.editor.tower.standardRooms = importResult.content.standardRooms
@@ -58,25 +44,20 @@ export class TabImportExport {
     this.editor.tower.saveRooms()
   }
 
-  private export = (): void => {
+  private export = async (): Promise<any> => {
     const textArea: SlTextarea = <SlTextarea>(
-      document
-        .getElementById(Tab.importExport.valueOf())
-        .getElementsByClassName("textArea")[0]
+      document.getElementById(Tab.importExport.valueOf()).getElementsByClassName("textArea")[0]
     )
     const exportResult = new Export().export(this.editor.tower)
-    TabImportExport.processIOResult(exportResult, "Export")
+    await TabImportExport.processIOResult(exportResult, "Export")
     textArea.value = exportResult.content
   }
 
-  private static processIOResult(
-    ioResult: IOResult,
-    operationName: string,
-  ): void {
+  private static async processIOResult(ioResult: IOResult, operationName: string): Promise<any> {
     if (ioResult.errors.length === 0) {
-      showAlert(`${operationName} done`, "success", "check2-circle")
+      await showAlert(`${operationName} done`, "success", "check2-circle")
     } else {
-      showAlert(
+      await showAlert(
         `${operationName} done but there are errors:
                     <ul>
                         ${ioResult.errors

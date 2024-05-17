@@ -1,23 +1,8 @@
-import {
-  Application,
-  Container,
-  FederatedPointerEvent,
-  Graphics,
-  Point,
-  Sprite,
-} from "pixi.js"
+import { Application, Container, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/map"
 import { Spriter } from "./spriter"
 import { Editor } from "../../../editor"
-import {
-  DoorTile,
-  EnemyTile,
-  ItemTile,
-  KeyTile,
-  StaircaseTile,
-  Tile,
-  TileType,
-} from "../../behavior/tile"
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../behavior/tile"
 import { StaircaseDirection } from "../../data/staircaseDirection"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 import { Color } from "../../data/color"
@@ -52,36 +37,24 @@ export class TabMapMap {
     this.app = new Application()
     this.background = new Sprite()
     this.background.eventMode = "dynamic"
-    this.cursor = new Graphics()
-      .rect(0, 0, this.tileSize, this.tileSize)
-      .stroke({
-        width: 1,
-        color: 0xff0000,
-        alignment: 1,
-      })
+    this.cursor = new Graphics().rect(0, 0, this.tileSize, this.tileSize).stroke({
+      width: 1,
+      color: 0xff0000,
+      alignment: 1,
+    })
     this.cursor.eventMode = "none"
     this.editor = editor
-    this.editor.eventManager.registerRoomSelected((selectedRoom) =>
-      this.roomSelected(selectedRoom),
-    )
-    this.editor.eventManager.registerTileSelection((selectedTile) =>
-      this.tileSelected(selectedTile),
-    )
-    this.editor.eventManager.registerSchemeChangeListener((colorScheme) =>
-      this.schemeChanged(colorScheme),
-    )
+    this.editor.eventManager.registerRoomSelected((selectedRoom) => this.roomSelected(selectedRoom))
+    this.editor.eventManager.registerTileSelection((selectedTile) => this.tileSelected(selectedTile))
+    this.editor.eventManager.registerSchemeChangeListener((colorScheme) => this.schemeChanged(colorScheme))
   }
 
   async init(): Promise<any> {
     console.debug("TabMapMap", "init")
     this.background.on("pointerenter", () => this.pointerEnter())
     this.background.on("pointerleave", () => this.pointerLeave())
-    this.background.on("pointermove", (e: FederatedPointerEvent) =>
-      this.pointerMove(e),
-    )
-    this.background.on("pointertap", (e: FederatedPointerEvent) =>
-      this.pointerTap(e),
-    )
+    this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
+    this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
     document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
     document.addEventListener("keyup", (e: KeyboardEvent) => this.keyUp(e))
 
@@ -100,9 +73,7 @@ export class TabMapMap {
   postInit(): void {
     console.debug("TabMapMap", "postInit")
     this.mapToolTip = document.getElementById("tabMapMapToolTip")
-    this.mapToolTipTip = document.getElementById(
-      "tabMapMapToolTipTip",
-    ) as SlTooltip
+    this.mapToolTipTip = document.getElementById("tabMapMapToolTipTip") as SlTooltip
   }
 
   resize(elementSize: number): void {
@@ -147,21 +118,11 @@ export class TabMapMap {
 
   private pointerTap(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
-    console.debug(
-      "TabMapMap",
-      "pointerTap",
-      "position",
-      tilePosition,
-      "shift",
-      e.shiftKey,
-    )
+    console.debug("TabMapMap", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
     if (this.selectedRoom != null) {
-      const currentRoom: Room = this.editor.tower.getRooms(
-        this.selectedRoom.type,
-      )[this.selectedRoom.index]
+      const currentRoom: Room = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       if (e.shiftKey) {
-        const selectedTile: Tile =
-          currentRoom.tiles[tilePosition.y][tilePosition.x]
+        const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
         this.editor.eventManager.notifyTileSelection(selectedTile, true)
       } else {
         currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
@@ -203,11 +164,8 @@ export class TabMapMap {
       clearTimeout(this.toolTipTimeout)
     }
     if (this.selectedRoom != null) {
-      const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[
-        this.selectedRoom.index
-      ]
-      const currentTile: Tile =
-        currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
+      const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
+      const currentTile: Tile = currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
       const toolTipText = this.getToolTipText(currentTile)
       if (toolTipText != null) {
         this.mapToolTipTip.content = toolTipText
@@ -251,9 +209,7 @@ export class TabMapMap {
     }
     this.tiles = new Container()
     if (this.selectedRoom != null) {
-      const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[
-        this.selectedRoom.index
-      ]
+      const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
         for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
           const currentTile = currentRoom.tiles[lineIndex][columnIndex]
@@ -329,17 +285,14 @@ export class TabMapMap {
             return Sprites.staircaseDown
         }
         break
+      case TileType.score:
+        return Sprites.score
       case TileType.startingPosition:
         return Sprites.startingPosition
       case TileType.wall:
         return Sprites.wall
     }
-    console.error(
-      "TabMapMap",
-      "spriteNameFromTile",
-      "Unknown tile",
-      tile.getType(),
-    )
+    console.error("TabMapMap", "spriteNameFromTile", "Unknown tile", tile.getType())
     return null
   }
 }

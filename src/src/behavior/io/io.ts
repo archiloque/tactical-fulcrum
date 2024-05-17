@@ -1,12 +1,6 @@
 export class IO {
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  static checkEnum(
-    value: any,
-    values: string[],
-    mandatory: boolean,
-    message: string,
-    errors: string[],
-  ): void {
+  static checkEnum(value: any, values: string[], mandatory: boolean, message: string, errors: string[]): void {
     if (value == null || value === "") {
       if (mandatory) {
         errors.push(message)
@@ -18,11 +12,7 @@ export class IO {
     }
   }
 
-  static checkNotEmpty(
-    value: string | number | null,
-    message: string,
-    errors: string[],
-  ): void {
+  static checkNotEmpty(value: string | number | null, message: string, errors: string[]): void {
     if (value == null) {
       errors.push(message)
     } else if (typeof value === "number") {
@@ -31,12 +21,7 @@ export class IO {
     }
   }
 
-  static checkNumber(
-    value: string | number | null,
-    message: string,
-    zeroAuthorized: boolean,
-    errors: string[],
-  ): void {
+  static checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean, errors: string[]): void {
     if (value == null) {
       errors.push(message)
     } else if (typeof value === "number") {

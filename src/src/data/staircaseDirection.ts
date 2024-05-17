@@ -3,7 +3,4 @@ export const enum StaircaseDirection {
   down = "down",
 }
 
-export const STAIRCASE_DIRECTIONS = [
-  StaircaseDirection.down,
-  StaircaseDirection.up,
-]
+export const STAIRCASE_DIRECTIONS = [StaircaseDirection.down, StaircaseDirection.up]

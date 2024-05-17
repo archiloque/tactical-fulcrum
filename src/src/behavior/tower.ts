@@ -4,10 +4,7 @@ import { IoEnemyFromAttributes } from "./io/enemy/ioEnemyFromAttributes"
 import { IoRoomFromAttributes } from "./io/room/ioRoomFromAttributes"
 import { IoEnemyToAttributes } from "./io/enemy/ioEnemyToAttributes"
 import { IoRoomToAttributes } from "./io/room/ioRoomToAttributes"
-import {
-  LOCAL_STORAGE_KEY_ENEMIES,
-  LOCAL_STORAGE_KEY_ROOMS,
-} from "./io/localStorage"
+import { LOCAL_STORAGE_KEY_ENEMIES, LOCAL_STORAGE_KEY_ROOMS } from "./io/localStorage"
 import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
 import { IOOperation } from "./io/importExport"
 import { RoomType } from "../front/tabMap/selectedRoom"
@@ -37,10 +34,7 @@ export class Tower {
   }
 
   countEnemies(enemy: Enemy): number {
-    return (
-      this.countEnemiesInRooms(enemy, this.standardRooms) +
-      this.countEnemiesInRooms(enemy, this.nexusRooms)
-    )
+    return this.countEnemiesInRooms(enemy, this.standardRooms) + this.countEnemiesInRooms(enemy, this.nexusRooms)
   }
 
   private countEnemiesInRooms(enemy: Enemy, rooms: Room[]): number {
@@ -48,10 +42,7 @@ export class Tower {
     for (const room of rooms) {
       for (const tileLines of room.tiles) {
         for (const tile of tileLines) {
-          if (
-            tile.getType() === TileType.enemy &&
-            (tile as EnemyTile).enemy.equals(enemy)
-          ) {
+          if (tile.getType() === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
             result += 1
           }
         }
@@ -72,10 +63,7 @@ export class Tower {
     for (const room of rooms) {
       for (const tileLines of room.tiles) {
         tileLines.forEach((tile, index) => {
-          if (
-            tile.getType() === TileType.enemy &&
-            (tile as EnemyTile).enemy.equals(enemy)
-          ) {
+          if (tile.getType() === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
             tileLines[index] = EMPTY_TILE
           }
         })
@@ -87,9 +75,7 @@ export class Tower {
     console.debug("Tower", "saveEnemies")
     localStorage.setItem(
       LOCAL_STORAGE_KEY_ENEMIES,
-      JSON.stringify(
-        this.enemies.map((e) => IoEnemyToAttributes.toAttributes(e)),
-      ),
+      JSON.stringify(this.enemies.map((e) => IoEnemyToAttributes.toAttributes(e))),
     )
   }
 
@@ -118,19 +104,12 @@ export class Tower {
   private loadRooms(): void {
     const roomsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ROOMS)
     if (roomsRaw != null) {
-      const roomsJson: Record<
-        string,
-        Record<string, string | number | null>
-      >[] = JSON.parse(roomsRaw)
+      const roomsJson: Record<string, Record<string, string | number | null>>[] = JSON.parse(roomsRaw)
       if (roomsJson[IOOperation.ATTRIBUTE_STANDARD] != null) {
-        this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map(
-          (value) => IoRoomFromAttributes.fromAttributes(value, this.enemies),
+        this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map((value) =>
+          IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )
-        console.debug(
-          "Tower",
-          this.standardRooms.length,
-          "standard rooms loaded",
-        )
+        console.debug("Tower", this.standardRooms.length, "standard rooms loaded")
       }
       if (roomsJson[IOOperation.ATTRIBUTE_NEXUS] != null) {
         this.nexusRooms = roomsJson[IOOperation.ATTRIBUTE_NEXUS].map((value) =>
@@ -144,11 +123,8 @@ export class Tower {
   private loadEnemies(): void {
     const enemiesRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ENEMIES)
     if (enemiesRaw != null) {
-      const enemiesJson: Record<string, string | number | null>[] =
-        JSON.parse(enemiesRaw)
-      this.enemies = enemiesJson.map((value) =>
-        IoEnemyFromAttributes.fromAttributes(value),
-      )
+      const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
+      this.enemies = enemiesJson.map((value) => IoEnemyFromAttributes.fromAttributes(value))
       console.debug("Tower", this.enemies.length, "enemies loaded")
     }
   }

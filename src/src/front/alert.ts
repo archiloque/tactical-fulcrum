@@ -1,4 +1,4 @@
-import { SlAlert } from "@shoelace-style/shoelace"
+import SlAlert from "@shoelace-style/shoelace/cdn/components/alert/alert.component"
 
 export const enum AlertVariant {
   primary = "primary",

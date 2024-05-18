@@ -17,7 +17,7 @@ class ColorPair {
   }
 }
 
-const COLOR_GREEN = new ColorPair("green", "#65ff00", "#65ff00")
+const COLOR_GREEN = new ColorPair("green", "#65ff00", "#3d9900")
 
 const COLORS_CRIMSON_BLUE = [
   new ColorPair("blue", "#2563eb", "#1E40AF"),
@@ -28,7 +28,7 @@ const COLORS_ALL = COLORS_CRIMSON_BLUE.concat([
   new ColorPair("greenBlue", "#14b8a6", "#084a42"),
   new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
   new ColorPair("violet", "#a855f7", "#44067f"),
-  new ColorPair("yellow", "#ffff00", "#9c9c00"),
+  new ColorPair("yellow", "#ffff00", "#999900"),
 ])
 
 const SPRITES_MONOCHROMES = [

@@ -1,13 +1,12 @@
 import fs from "fs"
 import path from "path"
+import { optimize } from "svgo"
 
 const BLACKS = ["#000000", "#000"]
 
 const COLOR_WHITE = "#cccccc"
 
 const YELLOWS = ["#ffff00", "#ffff0", "#ffff0", "#ff0"]
-
-const CRIMSONS = ["#ff0000", "#f00"]
 
 class ColorPair {
   constructor(name, light, dark) {
@@ -65,11 +64,18 @@ const LIGHT_SUFFIX = "-light"
 fs.rmSync(OUT_DIR, { recursive: true, force: true })
 fs.mkdirSync(OUT_DIR)
 
+function optimizeSvg(content) {
+  const result = optimize(content, {
+    multipass: true, // all other config fields are available here
+  })
+  return result.data
+}
+
 function whiten(content, dest) {
   for (const black of BLACKS) {
     content = content.replaceAll(`${black};`, `${COLOR_WHITE};`)
   }
-  fs.writeFileSync(dest, content)
+  fs.writeFileSync(dest, optimizeSvg(content))
 }
 
 for (const monochromes of SPRITES_MONOCHROMES) {
@@ -79,7 +85,6 @@ for (const monochromes of SPRITES_MONOCHROMES) {
   console.info("From", source, "to", destLight)
   fs.copyFileSync(source, destLight)
   console.info("From", source, "to", destDark)
-  let whitened = fs.readFileSync(source, { encoding: "utf8" })
   whiten(fs.readFileSync(source, { encoding: "utf8" }), destDark)
 }
 
@@ -99,7 +104,7 @@ function colorizeSprites(sprites) {
         colorizedDark = colorizedDark.replaceAll(`${initialColor};`, `${colorPair.dark};`)
       }
       console.info("From", source, "to", destLight)
-      fs.writeFileSync(destLight, colorizedLight)
+      fs.writeFileSync(destLight, optimizeSvg(colorizedLight))
       console.info("From", source, "to", destDark)
       whiten(colorizedDark, destDark)
     }

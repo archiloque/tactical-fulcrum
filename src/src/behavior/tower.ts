@@ -8,6 +8,7 @@ import { LOCAL_STORAGE_KEY_ENEMIES, LOCAL_STORAGE_KEY_ROOMS } from "./io/localSt
 import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
 import { IOOperation } from "./io/importExport"
 import { RoomType } from "../front/tabMap/selectedRoom"
+import { ScoreType } from "../data/scoreType"
 
 export class Tower {
   enemies: Enemy[]
@@ -30,6 +31,18 @@ export class Tower {
         return this.standardRooms
       case RoomType.nexus:
         return this.nexusRooms
+    }
+  }
+
+  public removeScore(roomType: RoomType, scoreType: ScoreType): void {
+    const rooms = this.getRooms(roomType)
+    for (const room of rooms) {
+      const selectedScoreIndex = room.scores.findIndex((score) => {
+        return score.type === scoreType
+      })
+      if (selectedScoreIndex !== -1) {
+        room.scores.splice(selectedScoreIndex, 1)
+      }
     }
   }
 

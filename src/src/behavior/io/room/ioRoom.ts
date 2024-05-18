@@ -5,15 +5,18 @@ import { TILES_IN_ROW } from "../../../data/map"
 import { RoomType } from "../../../front/tabMap/selectedRoom"
 
 export class IoRoom {
+  static readonly ATTRIBUTE_COLOR = "color"
+  static readonly ATTRIBUTE_COLUMN = "column"
+  static readonly ATTRIBUTE_DIRECTION = "direction"
+  static readonly ATTRIBUTE_ENEMY_LEVEL = "level"
+  static readonly ATTRIBUTE_ENEMY_TYPE = "enemyType"
+  static readonly ATTRIBUTE_LINE = "line"
   static readonly ATTRIBUTE_NAME = "name"
+  static readonly ATTRIBUTE_SCORE = "score"
+  static readonly ATTRIBUTE_SCORES = "scores"
   static readonly ATTRIBUTE_TILES = "tiles"
   static readonly ATTRIBUTE_TYPE = "type"
-  static readonly ATTRIBUTE_COLOR = "color"
-  static readonly ATTRIBUTE_ENEMY_TYPE = "enemyType"
-  static readonly ATTRIBUTE_ENEMY_LEVEL = "level"
-  static readonly ATTRIBUTE_DIRECTION = "direction"
-  static readonly ATTRIBUTE_SCORE = "score"
-  static readonly ATTRIBUTES: string[] = [IoRoom.ATTRIBUTE_NAME, IoRoom.ATTRIBUTE_TILES]
+  static readonly ATTRIBUTES: string[] = [IoRoom.ATTRIBUTE_NAME, IoRoom.ATTRIBUTE_TILES, IoRoom.ATTRIBUTE_SCORES]
 
   static validateRoomExport(room: Room, index: number, errors: string[]): void {
     IO.checkNotEmpty(room.name, `Room ${index} name [${room.name}] is invalid`, errors)

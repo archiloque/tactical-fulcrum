@@ -20,11 +20,11 @@ export class TabMapRooms {
 
   constructor(editor: Editor) {
     this.editor = editor
-    editor.eventManager.registerRoomSelected((selectedRoom) => this.roomSelected(selectedRoom))
+    editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
   }
 
   private notifyRoomSelected(selectedRoom: SelectedRoom | null): void {
-    this.editor.eventManager.notifyRoomSelected(selectedRoom)
+    this.editor.eventManager.notifyRoomSelection(selectedRoom)
   }
 
   hole(): Hole {

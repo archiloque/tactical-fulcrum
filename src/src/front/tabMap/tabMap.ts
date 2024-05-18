@@ -8,6 +8,8 @@ import { TabMapRooms } from "./tabMapRooms"
 import SlSplitPanel from "@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component"
 import { LOCAL_STORAGE_CURRENT_ROOM } from "../../behavior/io/localStorage"
 import { ROOM_TYPES, RoomType, SelectedRoom } from "./selectedRoom"
+import { TabMapLayer } from "./tabMapLayer"
+import { TabMapScores } from "./tabMapScores"
 
 export class TabMap {
   private readonly editor: Editor
@@ -15,17 +17,24 @@ export class TabMap {
   private splitPanel1: SlSplitPanel
   private splitPanel2: SlSplitPanel
   private tabMapMap: TabMapMap
-  private tabMapElement: TabMapElements
+  private tabMapLayer: TabMapLayer
+  private tabMapElements: TabMapElements
+  private tabMapScores: TabMapScores
   private tabMapRooms: TabMapRooms
   private selectedRoom: SelectedRoom | null
 
   constructor(editor: Editor) {
     settings.RESOLUTION = window.devicePixelRatio || 1
     this.editor = editor
-    this.tabMapElement = new TabMapElements(editor)
-    this.tabMapRooms = new TabMapRooms(editor)
+
     this.tabElement = document.getElementById(Tab.map)
+
+    this.tabMapLayer = new TabMapLayer(editor)
+    this.tabMapElements = new TabMapElements(editor)
+    this.tabMapScores = new TabMapScores(editor)
+
     this.tabMapMap = new TabMapMap(editor)
+    this.tabMapRooms = new TabMapRooms(editor)
     window.addEventListener("resize", () => {
       this.resize()
     })
@@ -42,7 +51,7 @@ export class TabMap {
           </sl-tooltip>
         </div>
         <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
-          <div slot="start">${this.tabMapElement.hole()}</div>
+          <div slot="start">${this.tabMapLayer.hole()}${this.tabMapScores.hole()}${this.tabMapElements.hole()}</div>
           <div slot="end">
             <sl-split-panel id="tabMapSplitPanel2" position="75">
               <div id="tabMapMap" slot="start"></div>
@@ -55,16 +64,18 @@ export class TabMap {
     this.splitPanel2 = <SlSplitPanel>document.getElementById("tabMapSplitPanel2")
     document.getElementById("tabMapMap").appendChild(this.tabMapMap.app.canvas)
     this.tabMapRooms.init()
-    this.tabMapElement.init()
+    this.tabMapElements.init()
+    this.tabMapLayer.init()
+    this.tabMapScores.init()
     this.tabMapMap.postInit()
     this.loadInitRoom()
-    this.editor.eventManager.registerRoomSelected((selectedRoom) => this.roomSelected(selectedRoom))
+    this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
   }
 
   render(): void {
     console.debug("TabMap", "render")
     this.calculateRealSelectedRoom(this.selectedRoom)
-    this.tabMapElement.render()
+    this.tabMapElements.render()
     this.tabMapRooms.render()
     this.resize()
   }
@@ -90,14 +101,14 @@ export class TabMap {
     const selectedRoomString = localStorage.getItem(LOCAL_STORAGE_CURRENT_ROOM)
 
     if (selectedRoomString == null) {
-      this.editor.eventManager.notifyRoomSelected(null)
+      this.editor.eventManager.notifyRoomSelection(null)
       return
     }
 
     const selectedRoomParsed = JSON.parse(selectedRoomString)
     const roomType = selectedRoomParsed[TabMap.ATTRIBUTE_SELECTED_ROOM_INDEX]
     if (!ROOM_TYPES.includes(roomType)) {
-      this.editor.eventManager.notifyRoomSelected(null)
+      this.editor.eventManager.notifyRoomSelection(null)
       return
     }
 
@@ -111,24 +122,24 @@ export class TabMap {
   private calculateRealSelectedRoom(selectedRoom: SelectedRoom | null): void {
     if (selectedRoom == null) {
       if (this.editor.tower.standardRooms.length > 0) {
-        this.editor.eventManager.notifyRoomSelected(new SelectedRoom(RoomType.standard, 0))
+        this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.standard, 0))
       } else if (this.editor.tower.nexusRooms.length > 0) {
-        this.editor.eventManager.notifyRoomSelected(new SelectedRoom(RoomType.nexus, 0))
+        this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.nexus, 0))
       } else {
-        this.editor.eventManager.notifyRoomSelected(null)
+        this.editor.eventManager.notifyRoomSelection(null)
       }
       return
     } else if (selectedRoom.index < this.editor.tower.getRooms(selectedRoom.type).length) {
-      this.editor.eventManager.notifyRoomSelected(selectedRoom)
+      this.editor.eventManager.notifyRoomSelection(selectedRoom)
       return
     } else if (this.editor.tower.standardRooms.length >= 0) {
-      this.editor.eventManager.notifyRoomSelected(new SelectedRoom(RoomType.standard, 0))
+      this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.standard, 0))
       return
     } else if (this.editor.tower.nexusRooms.length >= 0) {
-      this.editor.eventManager.notifyRoomSelected(new SelectedRoom(RoomType.nexus, 0))
+      this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.nexus, 0))
       return
     } else {
-      this.editor.eventManager.notifyRoomSelected(null)
+      this.editor.eventManager.notifyRoomSelection(null)
       return
     }
   }

@@ -13,8 +13,15 @@ import { ColorScheme, currentColorScheme } from "../colorScheme"
 import { SelectedRoom } from "./selectedRoom"
 import { ScoreType } from "../../data/scoreType"
 import { Item } from "../../data/item"
+import { RoomLayer } from "../roomLayer"
+import { Score } from "../../behavior/score"
 
 export class TabMapMap {
+  private static readonly BACKGROUND_COLORS = {
+    [ColorScheme.dark]: "#000000",
+    [ColorScheme.light]: "#FFFFFF",
+  }
+
   readonly app: Application
   private readonly background: Sprite
   private readonly cursor: Graphics
@@ -24,16 +31,14 @@ export class TabMapMap {
   private sprites: Spriter = new Spriter()
   private readonly editor: Editor
   private selectedRoom: SelectedRoom | null = null
-  private tiles: Container
+  private standardTiles: Container
+  private scoreTiles: Container
   private mapToolTip: HTMLElement
   private toolTipTimeout: number = null
   private mapToolTipTip: SlTooltip
   private selectedTile: Tile
-
-  private static readonly BACKGROUND_COLORS = {
-    [ColorScheme.dark]: "#000000",
-    [ColorScheme.light]: "#FFFFFF",
-  }
+  private selectedLayer: RoomLayer = RoomLayer.standard
+  private selectedScore: ScoreType
 
   constructor(editor: Editor) {
     this.app = new Application()
@@ -46,9 +51,11 @@ export class TabMapMap {
     })
     this.cursor.eventMode = "none"
     this.editor = editor
-    this.editor.eventManager.registerRoomSelected((selectedRoom) => this.roomSelected(selectedRoom))
+    this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
     this.editor.eventManager.registerTileSelection((selectedTile) => this.tileSelected(selectedTile))
-    this.editor.eventManager.registerSchemeChangeListener((colorScheme) => this.schemeChanged(colorScheme))
+    this.editor.eventManager.registerScoreSelection((scoreType) => this.scoreSelected(scoreType))
+    this.editor.eventManager.registerSchemeChange((colorScheme) => this.schemeChanged(colorScheme))
+    this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
   }
 
   async init(): Promise<any> {
@@ -104,6 +111,11 @@ export class TabMapMap {
     })
   }
 
+  private layerSelected(layer: RoomLayer): void {
+    this.selectedLayer = layer
+    this.repaint()
+  }
+
   private keyDown(e: KeyboardEvent): void {
     console.debug("TabMapMap", "keyDown", e)
     if (e.key == SHIFT) {
@@ -123,13 +135,41 @@ export class TabMapMap {
     console.debug("TabMapMap", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
     if (this.selectedRoom != null) {
       const currentRoom: Room = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
-      if (e.shiftKey) {
-        const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
-        this.editor.eventManager.notifyTileSelection(selectedTile, true)
-      } else {
-        currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
-        this.editor.tower.saveRooms()
-        this.repaint()
+      switch (this.selectedLayer) {
+        case RoomLayer.standard: {
+          if (e.shiftKey) {
+            const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
+            this.editor.eventManager.notifyTileSelection(selectedTile, true)
+          } else {
+            currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
+            this.editor.tower.saveRooms()
+            this.repaint()
+          }
+          break
+        }
+        // TODO
+        case RoomLayer.score:
+          if (e.shiftKey) {
+            const selectedScore = currentRoom.scores.find((score) => {
+              return score.line == tilePosition.y && score.column === tilePosition.x
+            })
+            this.editor.eventManager.notifyScoreSelection(selectedScore == null ? null : selectedScore.type, true)
+          } else {
+            if (this.selectedScore == null) {
+              const selectedScoreIndex = currentRoom.scores.findIndex((score) => {
+                return score.line == tilePosition.y && score.column === tilePosition.x
+              })
+              if (selectedScoreIndex !== -1) {
+                currentRoom.scores.splice(selectedScoreIndex, 1)
+              }
+            } else {
+              this.editor.tower.removeScore(this.selectedRoom.type, this.selectedScore)
+              currentRoom.scores.push(new Score(tilePosition.y, tilePosition.x, this.selectedScore))
+            }
+            this.editor.tower.saveRooms()
+            this.repaint()
+          }
+          break
       }
     }
   }
@@ -204,28 +244,68 @@ export class TabMapMap {
     this.selectedTile = tileSelected
   }
 
+  private scoreSelected(scoreType: ScoreType): void {
+    this.selectedScore = scoreType
+  }
+
   private repaint(): void {
-    if (this.tiles != null) {
-      this.app.stage.removeChild(this.tiles)
-      this.tiles.destroy()
+    if (this.standardTiles != null) {
+      this.app.stage.removeChild(this.standardTiles)
+      this.standardTiles.destroy()
     }
-    this.tiles = new Container()
+    if (this.scoreTiles != null) {
+      this.app.stage.removeChild(this.scoreTiles)
+      this.scoreTiles.destroy()
+    }
+    this.createScoreTiles()
+    this.createStandardTiles()
+    switch (this.selectedLayer) {
+      case RoomLayer.standard: {
+        this.scoreTiles.alpha = 0.2
+        this.app.stage.addChild(this.standardTiles)
+        this.app.stage.addChild(this.scoreTiles)
+        break
+      }
+      case RoomLayer.score: {
+        this.standardTiles.alpha = 0.2
+        this.app.stage.addChild(this.scoreTiles)
+        this.app.stage.addChild(this.standardTiles)
+        break
+      }
+    }
+  }
+
+  private createStandardTiles(): void {
+    this.standardTiles = new Container()
     if (this.selectedRoom != null) {
       const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
         for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
           const currentTile = currentRoom.tiles[lineIndex][columnIndex]
-          const sheetName = this.spriteNameFromTile(currentTile)
-          if (sheetName != null) {
-            const sprite = this.sprites.getSprite(sheetName)
+          const spriteName = this.spriteNameFromTile(currentTile)
+          if (spriteName != null) {
+            const sprite = this.sprites.getSprite(spriteName)
             sprite.x = this.tileSize * columnIndex
             sprite.y = this.tileSize * lineIndex
-            this.tiles.addChild(sprite)
+            this.standardTiles.addChild(sprite)
           }
         }
       }
     }
-    this.app.stage.addChild(this.tiles)
+  }
+
+  private createScoreTiles(): void {
+    this.scoreTiles = new Container()
+    if (this.selectedRoom != null) {
+      const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
+      for (const score of currentRoom.scores) {
+        const spriteName = this.spriteNameFromScore(score.type)
+        const sprite = this.sprites.getSprite(spriteName)
+        sprite.x = this.tileSize * score.column
+        sprite.y = this.tileSize * score.line
+        this.scoreTiles.addChild(sprite)
+      }
+    }
   }
 
   private getToolTipText(tile: Tile): string | null {
@@ -237,6 +317,17 @@ export class TabMapMap {
         return (tile as ItemTile).item.valueOf()
     }
     return null
+  }
+
+  private spriteNameFromScore(score: ScoreType): Sprites {
+    switch (score) {
+      case ScoreType.check:
+        return Sprites.scoreCheck
+      case ScoreType.crown:
+        return Sprites.scoreCrown
+      case ScoreType.star:
+        return Sprites.scoreStar
+    }
   }
 
   private spriteNameFromTile(tile: Tile): Sprites | null {

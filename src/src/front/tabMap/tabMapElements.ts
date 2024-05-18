@@ -23,24 +23,29 @@ import {
 } from "../../behavior/tile"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircaseDirection"
 import { SCORE_TYPES, ScoreType } from "../../data/scoreType"
-import { findEnum } from "../../behavior/functions"
+import { findEnum, findTreeItemFromValue } from "../../behavior/functions"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import { Enemy } from "../../behavior/enemy"
 import { ENEMY_TYPES, EnemyType } from "../../data/enemyType"
+import { RoomLayer } from "../roomLayer"
 
 export class TabMapElements {
   private readonly editor: Editor
-  private tabMapEnemies: SlTreeItem
-  private tabMapTree: SlTree
+  private enemiesSubTree: SlTreeItem
+  private tree: SlTree
   private selectedTile: Tile = null
+
+  private static readonly divId = "tabMapElements"
   private static readonly treeId = "tabMapElementsTree"
   private static readonly enemiesSubTreeId = "tabMapElementsTreeEnemies"
+  private div: HTMLElement
 
   constructor(editor: Editor) {
     this.editor = editor
     this.editor.eventManager.registerTileSelection((selectedTile, updateElementTree) =>
       this.tileSelected(selectedTile, updateElementTree),
     )
+    this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
   }
 
   hole(): Hole {
@@ -68,24 +73,27 @@ export class TabMapElements {
       (s) => html` <sl-tree-item data-type="${TileType.score}" data-score="${s.valueOf()}">Score ${s}</sl-tree-item>`,
     )
 
-    return html`<h2>Element</h2>
+    return html` <div id="${TabMapElements.divId}">
+      <h2>Element</h2>
       <sl-tree id="${TabMapElements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
         <sl-tree-item data-type="${TileType.empty}" selected>Empty</sl-tree-item>
         <sl-tree-item data-type="${TileType.wall}">Wall</sl-tree-item>
-        <sl-tree-item id="${TabMapElements.enemiesSubTreeId}">Enemy </sl-tree-item>
-        <sl-tree-item>Key ${keys} </sl-tree-item>
-        <sl-tree-item>Door ${doors} </sl-tree-item>
-        <sl-tree-item>Item ${items} </sl-tree-item>
-        <sl-tree-item>Staircase ${staircases} </sl-tree-item>
-        <sl-tree-item>Score ${scores} </sl-tree-item>
+        <sl-tree-item id="${TabMapElements.enemiesSubTreeId}">Enemy</sl-tree-item>
+        <sl-tree-item>Key ${keys}</sl-tree-item>
+        <sl-tree-item>Door ${doors}</sl-tree-item>
+        <sl-tree-item>Item ${items}</sl-tree-item>
+        <sl-tree-item>Staircase ${staircases}</sl-tree-item>
+        <sl-tree-item>Score ${scores}</sl-tree-item>
         <sl-tree-item data-type="${TileType.startingPosition}">Starting position</sl-tree-item>
-      </sl-tree>`
+      </sl-tree>
+    </div>`
   }
 
   init(): void {
     console.debug("TabMapElements", "init")
-    this.tabMapTree = document.getElementById(TabMapElements.treeId) as SlTree
-    this.tabMapEnemies = document.getElementById(TabMapElements.enemiesSubTreeId) as SlTreeItem
+    this.div = document.getElementById(TabMapElements.divId)
+    this.tree = document.getElementById(TabMapElements.treeId) as SlTree
+    this.enemiesSubTree = document.getElementById(TabMapElements.enemiesSubTreeId) as SlTreeItem
   }
 
   render(): void {
@@ -99,7 +107,7 @@ export class TabMapElements {
         >${enemyName}
       </sl-tree-item>`
     })
-    render(this.tabMapEnemies, html`Enemy ${enemies}`)
+    render(this.enemiesSubTree, html`Enemy ${enemies}`)
   }
 
   private selectionChanged = (event: CustomEvent): void => {
@@ -171,12 +179,7 @@ export class TabMapElements {
   }
 
   private findTreeItemFromValue(attributes: Record<string, string | number>): SlTreeItem {
-    const filters = []
-    Object.entries(attributes).forEach(([key, value]) => {
-      filters.push(`[data-${key}="${value}"]`)
-    })
-    const selectors = `sl-tree-item${filters.join("")}`
-    return this.tabMapTree.querySelector(selectors) as SlTreeItem
+    return findTreeItemFromValue(this.tree, attributes)
   }
 
   private findTreeItem(tile: Tile): SlTreeItem {
@@ -226,6 +229,17 @@ export class TabMapElements {
         })
       case TileType.wall:
         return this.findTreeItemFromValue({ type: TileType.wall.valueOf() })
+    }
+  }
+
+  private layerSelected(layer: RoomLayer): void {
+    switch (layer) {
+      case RoomLayer.standard:
+        this.div.classList.remove("hidden")
+        break
+      case RoomLayer.score:
+        this.div.classList.add("hidden")
+        break
     }
   }
 

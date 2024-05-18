@@ -2,11 +2,15 @@ import { EventEmitter } from "pixi.js"
 import { Tile } from "../behavior/tile"
 import { ColorScheme } from "./colorScheme"
 import { SelectedRoom } from "./tabMap/selectedRoom"
+import { RoomLayer } from "./roomLayer"
+import { ScoreType } from "../data/scoreType"
 
 export class EventManager {
   private static EVENT_ROOM_SELECTION = "roomSelection"
   private static EVENT_TILE_SELECTION = "tileSelection"
+  private static EVENT_SCORE_SELECTION = "scoreSelection"
   private static EVENT_SCHEME_CHANGE = "schemeChange"
+  private static EVENT_LAYER_CHANGE = "layerChange"
   private eventEmitter: EventEmitter
 
   constructor() {
@@ -18,12 +22,12 @@ export class EventManager {
     })
   }
 
-  public registerRoomSelected(callBack: (selectedRoom: SelectedRoom | null) => void): void {
+  public registerRoomSelection(callBack: (selectedRoom: SelectedRoom | null) => void): void {
     this.eventEmitter.on(EventManager.EVENT_ROOM_SELECTION, (selectedRoom) => callBack(selectedRoom))
   }
 
-  public notifyRoomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug("EventManager", "notifyRoomSelected", selectedRoom)
+  public notifyRoomSelection(selectedRoom: SelectedRoom | null): void {
+    console.debug("EventManager", "notifyRoomSelection", selectedRoom)
     this.eventEmitter.emit(EventManager.EVENT_ROOM_SELECTION, selectedRoom)
   }
 
@@ -38,7 +42,27 @@ export class EventManager {
     this.eventEmitter.emit(EventManager.EVENT_TILE_SELECTION, selectedTile, updateElementTree)
   }
 
-  public registerSchemeChangeListener(callBack: (colorScheme: ColorScheme) => void): void {
+  public registerLayerSelection(callBack: (layer: RoomLayer) => void): void {
+    this.eventEmitter.on(EventManager.EVENT_LAYER_CHANGE, (layer) => callBack(layer))
+  }
+
+  public notifyLayerSelection(layer: RoomLayer): void {
+    console.debug("EventManager", "notifyLayerSelection", layer)
+    this.eventEmitter.emit(EventManager.EVENT_LAYER_CHANGE, layer)
+  }
+
+  public registerScoreSelection(callBack: (scoreType: ScoreType | null, updateElementTree: boolean) => void): void {
+    this.eventEmitter.on(EventManager.EVENT_SCORE_SELECTION, (scoreType, updateScoreTree) =>
+      callBack(scoreType, updateScoreTree),
+    )
+  }
+
+  public notifyScoreSelection(scoreType: ScoreType | null, updateScoreTree: boolean): void {
+    console.debug("EventManager", "notifyScoreSelection", scoreType, updateScoreTree)
+    this.eventEmitter.emit(EventManager.EVENT_SCORE_SELECTION, scoreType, updateScoreTree)
+  }
+
+  public registerSchemeChange(callBack: (colorScheme: ColorScheme) => void): void {
     this.eventEmitter.on(EventManager.EVENT_SCHEME_CHANGE, (colorScheme) => callBack(colorScheme))
   }
 }

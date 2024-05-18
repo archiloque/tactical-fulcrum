@@ -89,11 +89,13 @@ sl-tab-group::part(nav) {
   padding-top: 0.5em;
 }
 
+#tabMapLayerRadionGroup,
 #tabMapLevelName,
 #tabMapRoomButtons {
   padding: 0.5em;
 }
 
+#tabMapLayerRadionGroup,
 #tabMapRoomButtons,
 #tabMapRoomAdd {
   display: block;

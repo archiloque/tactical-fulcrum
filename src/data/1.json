@@ -967,7 +967,8 @@
        "type": "empty"
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_1_2",
@@ -1792,7 +1793,8 @@
        "color": "blue"
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_1_3",
@@ -2695,7 +2697,8 @@
        "level": 19
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_1_4",
@@ -3456,6 +3459,13 @@
        "type": "empty"
       }
      ]
+    ],
+    "scores": [
+     {
+      "line": 7,
+      "column": 7,
+      "type": "check"
+     }
     ]
    },
    {
@@ -4327,7 +4337,8 @@
        "level": 18
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_1_6",
@@ -5208,7 +5219,8 @@
        "color": "violet"
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_1_7",
@@ -5932,6 +5944,13 @@
        "type": "empty"
       }
      ]
+    ],
+    "scores": [
+     {
+      "line": 7,
+      "column": 7,
+      "type": "star"
+     }
     ]
    }
   ],
@@ -6645,7 +6664,8 @@
        "type": "empty"
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_1_2_n",
@@ -7359,7 +7379,8 @@
        "type": "empty"
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_1_3_n",
@@ -8070,7 +8091,8 @@
        "type": "empty"
       }
      ]
-    ]
+    ],
+    "scores": []
    }
   ]
  }

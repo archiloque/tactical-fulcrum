@@ -1516,6 +1516,13 @@
        "name": "Life Crown"
       }
      ]
+    ],
+    "scores": [
+     {
+      "line": 0,
+      "column": 7,
+      "type": "crown"
+     }
     ]
    }
   ],

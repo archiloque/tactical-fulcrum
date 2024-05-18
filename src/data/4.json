@@ -726,7 +726,8 @@
        "type": "empty"
       }
      ]
-    ]
+    ],
+    "scores": []
    },
    {
     "name": "level_4_2",
@@ -1443,6 +1444,18 @@
        "type": "empty"
       }
      ]
+    ],
+    "scores": [
+     {
+      "line": 1,
+      "column": 2,
+      "type": "star"
+     },
+     {
+      "line": 0,
+      "column": 2,
+      "type": "check"
+     }
     ]
    }
   ],

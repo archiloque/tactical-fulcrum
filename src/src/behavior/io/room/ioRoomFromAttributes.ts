@@ -22,6 +22,7 @@ import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../../data/staircas
 import { SCORE_TYPES, ScoreType } from "../../../data/scoreType"
 import { IoRoom } from "./ioRoom"
 import { findEnum } from "../../functions"
+import { Score } from "../../score"
 
 export class IoRoomFromAttributes {
   static fromAttributes(value: Record<string, string | any>, enemies: Enemy[]): Room {
@@ -43,6 +44,14 @@ export class IoRoomFromAttributes {
             }
           }
         }
+      }
+    }
+    const scores = value[IoRoom.ATTRIBUTE_SCORES]
+    if (Array.isArray(scores)) {
+      for (const score of scores) {
+        const scoreType: ScoreType = findEnum(SCORE_TYPES, score[IoRoom.ATTRIBUTE_TYPE] as string)
+        if (scoreType != null)
+          result.scores.push(new Score(score[IoRoom.ATTRIBUTE_LINE], score[IoRoom.ATTRIBUTE_COLUMN], scoreType))
       }
     }
 

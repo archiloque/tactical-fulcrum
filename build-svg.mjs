@@ -5,17 +5,9 @@ const BLACKS = ["#000000", "#000"]
 
 const COLOR_WHITE = "#cccccc"
 
-const YELLOWS = [
-  "#ffff00",
-  "#ffff0",
-  "#ffff0",
-  "#ff0",
-]
+const YELLOWS = ["#ffff00", "#ffff0", "#ffff0", "#ff0"]
 
-const CRIMSONS = [
-  "#ff0000",
-  "#f00",
-]
+const CRIMSONS = ["#ff0000", "#f00"]
 
 class ColorPair {
   constructor(name, light, dark) {
@@ -33,11 +25,11 @@ const COLORS_CRIMSON_BLUE = [
 ]
 
 const COLORS_ALL = COLORS_CRIMSON_BLUE.concat([
-    new ColorPair("greenBlue", "#14b8a6", "#084a42"),
-    new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
-    new ColorPair("violet", "#a855f7", "#44067f"),
-    new ColorPair("yellow", "#ffff00", "#9c9c00"),
-  ])
+  new ColorPair("greenBlue", "#14b8a6", "#084a42"),
+  new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
+  new ColorPair("violet", "#a855f7", "#44067f"),
+  new ColorPair("yellow", "#ffff00", "#9c9c00"),
+])
 
 const SPRITES_MONOCHROMES = [
   "enemy",

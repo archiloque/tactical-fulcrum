@@ -1,7 +1,45 @@
 import fs from "fs"
 import path from "path"
 
-const MONOCHROMES = [
+const BLACKS = ["#000000", "#000"]
+
+const COLOR_WHITE = "#cccccc"
+
+const YELLOWS = [
+  "#ffff00",
+  "#ffff0",
+  "#ffff0",
+  "#ff0",
+]
+
+const CRIMSONS = [
+  "#ff0000",
+  "#f00",
+]
+
+class ColorPair {
+  constructor(name, light, dark) {
+    this.name = name
+    this.dark = dark
+    this.light = light
+  }
+}
+
+const COLOR_GREEN = new ColorPair("green", "#65ff00", "#65ff00")
+
+const COLORS_CRIMSON_BLUE = [
+  new ColorPair("blue", "#2563eb", "#1E40AF"),
+  new ColorPair("crimson", "#ff0000", "#660000"),
+]
+
+const COLORS_ALL = COLORS_CRIMSON_BLUE.concat([
+    new ColorPair("greenBlue", "#14b8a6", "#084a42"),
+    new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
+    new ColorPair("violet", "#a855f7", "#44067f"),
+    new ColorPair("yellow", "#ffff00", "#9c9c00"),
+  ])
+
+const SPRITES_MONOCHROMES = [
   "enemy",
   "item",
   "score-check",
@@ -13,23 +51,18 @@ const MONOCHROMES = [
   "wall",
 ]
 
-const COLORIZE = ["key", "door"]
-
-const BLACKS = ["#000000", "#000"]
-
-const COLOR_WHITE = "#cccccc"
-
-const YELLOWS = ["#ffff00", "#ffff0", "#ffff0", "#ff0"]
-
-const COLOR_DARK_YELLOW = "#9c9c00"
-
-const COLORS_TO = {
-  blue: { light: "#2563eb", dark: "#1E40AF" },
-  crimson: { light: "#ff0000", dark: "#660000" },
-  greenBlue: { light: "#14b8a6", dark: "#084a42" },
-  platinum: { light: "#8E8E8E", dark: "#8E8E8E" },
-  violet: { light: "#a855f7", dark: "#44067f" },
+class Sprite {
+  constructor(name, targetColors) {
+    this.name = name
+    this.targetColors = targetColors
+  }
 }
+
+const SPRITES_ALL_COLORS = [
+  new Sprite("door", COLORS_ALL),
+  new Sprite("key", COLORS_ALL),
+  new Sprite("potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN])),
+]
 
 const IN_DIR = "src/assets/sprites/in"
 const OUT_DIR = "src/assets/sprites/out"
@@ -47,7 +80,7 @@ function whiten(content, dest) {
   fs.writeFileSync(dest, content)
 }
 
-for (const monochromes of MONOCHROMES) {
+for (const monochromes of SPRITES_MONOCHROMES) {
   const source = path.join(IN_DIR, `${monochromes}.svg`)
   const destLight = path.join(OUT_DIR, `${monochromes}${LIGHT_SUFFIX}.svg`)
   const destDark = path.join(OUT_DIR, `${monochromes}${DARK_SUFFIX}.svg`)
@@ -58,31 +91,27 @@ for (const monochromes of MONOCHROMES) {
   whiten(fs.readFileSync(source, { encoding: "utf8" }), destDark)
 }
 
-for (const colorize of COLORIZE) {
-  const source = path.join(IN_DIR, `${colorize}.svg`)
-  const destYellowLight = path.join(OUT_DIR, `${colorize}-yellow${LIGHT_SUFFIX}.svg`)
-  const destYellowDark = path.join(OUT_DIR, `${colorize}-yellow${DARK_SUFFIX}.svg`)
-  console.info("From", source, "to", destYellowLight)
-  fs.copyFileSync(source, destYellowLight)
-  const sourceContent = fs.readFileSync(source, { encoding: "utf8" })
-  let darkContent = sourceContent
-  for (const yellow of YELLOWS) {
-    darkContent = darkContent.replaceAll(`${yellow};`, `${COLOR_DARK_YELLOW};`)
-  }
-  whiten(darkContent, destYellowDark)
+function colorizeSprites(sprites) {
+  for (const sprite of sprites) {
+    const spriteName = sprite.name
+    const source = path.join(IN_DIR, `${spriteName}.svg`)
+    const sourceContent = fs.readFileSync(source, { encoding: "utf8" })
 
-  for (const [colorName, colorTo] of Object.entries(COLORS_TO)) {
-    const destLight = path.join(OUT_DIR, `${colorize}-${colorName}${LIGHT_SUFFIX}.svg`)
-    const destDark = path.join(OUT_DIR, `${colorize}-${colorName}${DARK_SUFFIX}.svg`)
-    let colorizedLight = sourceContent
-    let colorizedDark = sourceContent
-    for (const yellow of YELLOWS) {
-      colorizedLight = colorizedLight.replaceAll(`${yellow};`, `${colorTo.light};`)
-      colorizedDark = colorizedDark.replaceAll(`${yellow};`, `${colorTo.dark};`)
+    for (const colorPair of sprite.targetColors) {
+      const destLight = path.join(OUT_DIR, `${spriteName}-${colorPair.name}${LIGHT_SUFFIX}.svg`)
+      const destDark = path.join(OUT_DIR, `${spriteName}-${colorPair.name}${DARK_SUFFIX}.svg`)
+      let colorizedLight = sourceContent
+      let colorizedDark = sourceContent
+      for (const initialColor of YELLOWS) {
+        colorizedLight = colorizedLight.replaceAll(`${initialColor};`, `${colorPair.light};`)
+        colorizedDark = colorizedDark.replaceAll(`${initialColor};`, `${colorPair.dark};`)
+      }
+      console.info("From", source, "to", destLight)
+      fs.writeFileSync(destLight, colorizedLight)
+      console.info("From", source, "to", destDark)
+      whiten(colorizedDark, destDark)
     }
-    console.info("From", source, "to", destLight)
-    fs.writeFileSync(destLight, colorizedLight)
-    console.info("From", source, "to", destDark)
-    whiten(colorizedDark, destDark)
   }
 }
+
+colorizeSprites(SPRITES_ALL_COLORS)

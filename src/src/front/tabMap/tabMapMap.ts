@@ -12,6 +12,7 @@ import { SHIFT } from "../keys"
 import { ColorScheme, currentColorScheme } from "../colorScheme"
 import { SelectedRoom } from "./selectedRoom"
 import { ScoreType } from "../../data/scoreType"
+import { Item } from "../../data/item"
 
 export class TabMapMap {
   readonly app: Application
@@ -258,6 +259,8 @@ export class TabMapMap {
             return Sprites.doorYellow
         }
         break
+      case TileType.enemy:
+        return Sprites.enemy
       case TileType.key:
         switch ((tile as KeyTile).color) {
           case Color.blue:
@@ -274,10 +277,17 @@ export class TabMapMap {
             return Sprites.keyYellow
         }
         break
-      case TileType.enemy:
-        return Sprites.enemy
       case TileType.item:
-        return Sprites.item
+        switch ((tile as ItemTile).item) {
+          case Item.blue_potion:
+            return Sprites.itemBluePotion
+          case Item.life_potion:
+            return Sprites.itemLifePotion
+          case Item.red_potion:
+            return Sprites.itemRedPotion
+          default:
+            return Sprites.item
+        }
       case TileType.staircase:
         switch ((tile as StaircaseTile).direction) {
           case StaircaseDirection.down:

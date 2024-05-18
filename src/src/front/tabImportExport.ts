@@ -4,12 +4,14 @@ import { html, render } from "uhtml"
 import { Tab } from "./tab"
 import { Import } from "../behavior/io/import"
 import { Export } from "../behavior/io/export"
-import { SlTextarea } from "@shoelace-style/shoelace"
-import { showAlert } from "./alert"
+import { AlertVariant, showAlert } from "./alert"
 
 export class TabImportExport {
   private readonly editor: Editor
   private readonly tabElement: HTMLElement
+  private exportFileName: string = "tactical-fulcrum-level.json"
+  private importInput: HTMLInputElement
+  private tabImportExportLink: HTMLLinkElement
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -22,20 +24,60 @@ export class TabImportExport {
       this.tabElement,
       html`
         <div class="topButtons">
-          <sl-button onclick="${this.export}" variant="primary" size="large" outline>Export to text </sl-button>
-          <sl-button onclick="${this.import}" variant="primary" size="large" outline>Import from text </sl-button>
+          <sl-button ondragover=${this.onDragOver} ondrop="${this.dropImportFile}" size="large"
+            >Drop file to import
+          </sl-button>
+          <input
+            type="file"
+            onchange="${this.selectImportFile}"
+            id="tabImportImportInput"
+            accept="application/json"
+            class="hidden"
+          />
+          <sl-button onclick="${this.clickImportFile}" size="large">Select file to import</sl-button>
+          <sl-button onclick="${this.export}" size="large">Export</sl-button>
+          <a type="file" id="tabImportExportLink" class="hidden" />
         </div>
-        <sl-textarea class="textArea" resize="auto" size="small"></sl-textarea>
       `,
     )
+    this.importInput = document.getElementById("tabImportImportInput") as HTMLInputElement
+    this.tabImportExportLink = document.getElementById("tabImportExportLink") as HTMLLinkElement
   }
 
-  private import = async (): Promise<any> => {
-    const textArea: SlTextarea = <SlTextarea>(
-      document.getElementById(Tab.importExport).getElementsByClassName("textArea")[0]
-    )
-    const stringData = textArea.value
-    const importResult = new Import().import(stringData)
+  private clickImportFile = (): void => {
+    this.importInput.click()
+  }
+
+  private onDragOver = (event: DragEvent): void => {
+    event.preventDefault()
+  }
+
+  private selectImportFile = async (): Promise<any> => {
+    await this.processImportFiles(this.importInput.files)
+  }
+
+  private dropImportFile = async (event: DragEvent): Promise<any> => {
+    event.preventDefault()
+    await this.processImportFiles(event.dataTransfer.files)
+  }
+
+  private async processImportFiles(filesList: FileList): Promise<any> {
+    const goodFiles: File[] = []
+    for (const file of filesList) {
+      if (file.type == "application/json") {
+        goodFiles.push(file)
+      }
+    }
+    if (goodFiles.length == 0) {
+      await showAlert(`Import failed: no JSON file found`, AlertVariant.danger, "check2-circle")
+      return
+    } else if (goodFiles.length > 1) {
+      await showAlert(`Import failed: several JSON files found`, AlertVariant.danger, "check2-circle")
+      return
+    }
+    this.exportFileName = goodFiles[0].name
+    const fileContent = await goodFiles[0].text()
+    const importResult = new Import().import(fileContent)
     await TabImportExport.processIOResult(importResult, "Import")
     this.editor.tower.enemies = importResult.content.enemies
     this.editor.tower.saveEnemies()
@@ -45,17 +87,19 @@ export class TabImportExport {
   }
 
   private export = async (): Promise<any> => {
-    const textArea: SlTextarea = <SlTextarea>(
-      document.getElementById(Tab.importExport.valueOf()).getElementsByClassName("textArea")[0]
-    )
     const exportResult = new Export().export(this.editor.tower)
+    this.tabImportExportLink.setAttribute(
+      "href",
+      "data:application/json;charset=utf-8," + encodeURIComponent(exportResult.content),
+    )
+    this.tabImportExportLink.setAttribute("download", this.exportFileName)
+    this.tabImportExportLink.click()
     await TabImportExport.processIOResult(exportResult, "Export")
-    textArea.value = exportResult.content
   }
 
   private static async processIOResult(ioResult: IOResult, operationName: string): Promise<any> {
     if (ioResult.errors.length === 0) {
-      await showAlert(`${operationName} done`, "success", "check2-circle")
+      await showAlert(`${operationName} done`, AlertVariant.success, "exclamation-octagon")
     } else {
       await showAlert(
         `${operationName} done but there are errors:
@@ -65,7 +109,7 @@ export class TabImportExport {
                           .map((message) => `<li>${message}</li>`)
                           .join("\n")}
                     </ul>`,
-        "warning",
+        AlertVariant.warning,
         "exclamation-triangle",
         30000,
         true,

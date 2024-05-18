@@ -1,8 +1,16 @@
 import { SlAlert } from "@shoelace-style/shoelace"
 
+export const enum AlertVariant {
+  primary = "primary",
+  success = "success",
+  neutral = "neutral",
+  warning = "warning",
+  danger = "danger",
+}
+
 export async function showAlert(
   message: string,
-  variant: string = "primary",
+  variant: AlertVariant = AlertVariant.primary,
   icon: string = "info-circle",
   duration: number = 3000,
   closable: boolean = true,

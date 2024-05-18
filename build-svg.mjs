@@ -1,7 +1,17 @@
 import fs from "fs"
 import path from "path"
 
-const MONOCHROMES = ["enemy", "item", "staircase-down", "staircase-up", "starting-position", "wall"]
+const MONOCHROMES = [
+  "enemy",
+  "item",
+  "score-check",
+  "score-crown",
+  "score-star",
+  "staircase-down",
+  "staircase-up",
+  "starting-position",
+  "wall",
+]
 
 const COLORIZE = ["key", "door"]
 

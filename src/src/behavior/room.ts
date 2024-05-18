@@ -1,6 +1,6 @@
 import { EMPTY_TILE, Tile } from "./tile"
-import { TILES_IN_ROW } from "../data/map"
 import { Score } from "./score"
+import { TILES_IN_ROW } from "../data/map"
 
 export class Room {
   name: string

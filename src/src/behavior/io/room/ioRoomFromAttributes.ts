@@ -1,4 +1,4 @@
-import { Room } from "../../room"
+import { COLORS, Color } from "../../../data/color"
 import {
   DOOR_TILES,
   EMPTY_TILE,
@@ -7,21 +7,21 @@ import {
   KEY_TILES,
   STAIRCASE_TILES,
   STARTING_POSITION_TILE,
-  Tile,
   TILE_TYPES,
+  Tile,
   TileType,
   WALL_TILE,
 } from "../../tile"
-import { TILES_IN_ROW } from "../../../data/map"
-import { Color, COLORS } from "../../../data/color"
-import { Item, ITEMS } from "../../../data/item"
 import { ENEMY_TYPES, EnemyType } from "../../../data/enemyType"
-import { Enemy } from "../../enemy"
-import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../../data/staircaseDirection"
+import { ITEMS, Item } from "../../../data/item"
 import { SCORE_TYPES, ScoreType } from "../../../data/scoreType"
+import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../../data/staircaseDirection"
+import { Enemy } from "../../enemy"
 import { IoRoom } from "./ioRoom"
-import { findEnum } from "../../functions"
+import { Room } from "../../room"
 import { Score } from "../../score"
+import { TILES_IN_ROW } from "../../../data/map"
+import { findEnum } from "../../functions"
 
 export class IoRoomFromAttributes {
   static fromAttributes(value: Record<string, string | any>, enemies: Enemy[]): Room {

@@ -1,5 +1,5 @@
-import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
+import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 
 export function findEnum<T>(enumList: T[], value: string): T | null {
   return enumList.find((s) => s.valueOf() === value)

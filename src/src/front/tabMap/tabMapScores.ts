@@ -1,10 +1,10 @@
-import { Editor } from "../../../editor"
 import { Hole, html } from "uhtml"
-import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 import { SCORE_TYPES, ScoreType } from "../../data/scoreType"
 import { findEnum, findTreeItemFromValue } from "../../behavior/functions"
-import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
+import { Editor } from "../../../editor"
 import { RoomLayer } from "../roomLayer"
+import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
+import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 import { TileType } from "../../behavior/tile"
 
 export class TabMapScores {

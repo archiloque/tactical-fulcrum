@@ -1,6 +1,6 @@
+import { Hole, html, render } from "uhtml"
 import { Editor } from "../../editor"
 import { Tab } from "./tab"
-import { Hole, html, render } from "uhtml"
 
 export class MainMenu {
   private readonly editor: Editor

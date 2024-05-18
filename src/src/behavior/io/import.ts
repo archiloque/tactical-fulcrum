@@ -1,9 +1,9 @@
-import { Tower } from "../tower"
+import { IOOperation, IOResult } from "./importExport"
 import { IoEnemy } from "./enemy/ioEnemy"
 import { IoEnemyFromAttributes } from "./enemy/ioEnemyFromAttributes"
 import { IoRoom } from "./room/ioRoom"
 import { IoRoomFromAttributes } from "./room/ioRoomFromAttributes"
-import { IOOperation, IOResult } from "./importExport"
+import { Tower } from "../tower"
 
 export class ImportResult extends IOResult {
   readonly content: Tower

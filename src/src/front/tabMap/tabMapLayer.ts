@@ -1,6 +1,6 @@
-import { Editor } from "../../../editor"
 import { Hole, html } from "uhtml"
 import { ROOM_LAYERS, RoomLayer } from "../roomLayer"
+import { Editor } from "../../../editor"
 import SlRadioGroup from "@shoelace-style/shoelace/cdn/components/radio-group/radio-group.component"
 import { findEnum } from "../../behavior/functions"
 

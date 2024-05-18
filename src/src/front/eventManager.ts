@@ -1,9 +1,9 @@
-import { EventEmitter } from "pixi.js"
-import { Tile } from "../behavior/tile"
 import { ColorScheme } from "./colorScheme"
-import { SelectedRoom } from "./tabMap/selectedRoom"
+import { EventEmitter } from "pixi.js"
 import { RoomLayer } from "./roomLayer"
 import { ScoreType } from "../data/scoreType"
+import { SelectedRoom } from "./tabMap/selectedRoom"
+import { Tile } from "../behavior/tile"
 
 export class EventManager {
   private static EVENT_ROOM_SELECTION = "roomSelection"

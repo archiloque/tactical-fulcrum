@@ -1,6 +1,6 @@
-import { Enemy } from "../../enemy"
-import { ENEMY_TYPES } from "../../../data/enemyType"
 import { DROPS } from "../../../data/drop"
+import { ENEMY_TYPES } from "../../../data/enemyType"
+import { Enemy } from "../../enemy"
 import { IoEnemy } from "./ioEnemy"
 
 export class IoEnemyFromAttributes {

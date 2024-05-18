@@ -1,6 +1,6 @@
-import { Room } from "../../room"
-import { IoRoom } from "./ioRoom"
 import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../tile"
+import { IoRoom } from "./ioRoom"
+import { Room } from "../../room"
 import { Score } from "../../score"
 
 export class IoRoomToAttributes {

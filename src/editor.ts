@@ -20,15 +20,15 @@ import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js"
 import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
-import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
+import { EMPTY_TILE } from "./src/behavior/tile"
+import { EventManager } from "./src/front/eventManager"
 import { MainMenu } from "./src/front/mainMenu"
-import { Tower } from "./src/behavior/tower"
+import { Tab } from "./src/front/tab"
 import { TabEnemies } from "./src/front/tabEnemies"
 import { TabImportExport } from "./src/front/tabImportExport"
-import { Tab } from "./src/front/tab"
 import { TabMap } from "./src/front/tabMap/tabMap"
-import { EventManager } from "./src/front/eventManager"
-import { EMPTY_TILE } from "./src/behavior/tile"
+import { Tower } from "./src/behavior/tower"
+import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
 
 const rootUrl = document.location.origin
 setBasePath(rootUrl)

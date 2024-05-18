@@ -1,11 +1,11 @@
-import { Editor } from "../../../editor"
 import { Hole, html, render } from "uhtml"
-import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
-import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
-import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
+import { RoomType, SelectedRoom } from "./selectedRoom"
+import { Editor } from "../../../editor"
 import { Room } from "../../behavior/room"
 import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
-import { RoomType, SelectedRoom } from "./selectedRoom"
+import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
+import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
+import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 
 export class TabMapRooms {
   private readonly editor: Editor

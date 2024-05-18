@@ -1,10 +1,10 @@
-import { Editor } from "../../editor"
-import { IOResult } from "../behavior/io/importExport"
-import { html, render } from "uhtml"
-import { Tab } from "./tab"
-import { Import } from "../behavior/io/import"
-import { Export } from "../behavior/io/export"
 import { AlertVariant, showAlert } from "./alert"
+import { html, render } from "uhtml"
+import { Editor } from "../../editor"
+import { Export } from "../behavior/io/export"
+import { IOResult } from "../behavior/io/importExport"
+import { Import } from "../behavior/io/import"
+import { Tab } from "./tab"
 
 export class TabImportExport {
   private readonly editor: Editor

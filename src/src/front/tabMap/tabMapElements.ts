@@ -1,9 +1,4 @@
-import { Editor } from "../../../editor"
-import { Hole, html, render } from "uhtml"
-import { Color, COLORS } from "../../data/color"
-import { capitalize } from "../../behavior/utils"
-import { Item, ITEMS } from "../../data/item"
-import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
+import { COLORS, Color } from "../../data/color"
 import {
   DOOR_TILES,
   DoorTile,
@@ -19,12 +14,17 @@ import {
   TileType,
   WALL_TILE,
 } from "../../behavior/tile"
+import { ENEMY_TYPES, EnemyType } from "../../data/enemyType"
+import { Hole, html, render } from "uhtml"
+import { ITEMS, Item } from "../../data/item"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircaseDirection"
 import { findEnum, findTreeItemFromValue } from "../../behavior/functions"
-import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
+import { Editor } from "../../../editor"
 import { Enemy } from "../../behavior/enemy"
-import { ENEMY_TYPES, EnemyType } from "../../data/enemyType"
 import { RoomLayer } from "../roomLayer"
+import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
+import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
+import { capitalize } from "../../behavior/utils"
 
 export class TabMapElements {
   private readonly editor: Editor

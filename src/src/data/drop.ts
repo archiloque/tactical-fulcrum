@@ -1,5 +1,5 @@
-import { ITEMS } from "./item"
 import { COLORS } from "./color"
+import { ITEMS } from "./item"
 import { capitalize } from "../behavior/utils"
 
 export const DROP_KEYS: string[] = COLORS.map((c) => `${capitalize(c)} key`)

@@ -1,12 +1,14 @@
+import { ENEMY_TYPES, EnemyType } from "../data/enemyType"
+import { Hole, html, render } from "uhtml"
+import { DROPS } from "../data/drop"
 import { Editor } from "../../editor"
 import { Enemy } from "../behavior/enemy"
-import { Hole, html, render } from "uhtml"
-import { ENEMY_TYPES, EnemyType } from "../data/enemyType"
-import { Tab } from "./tab"
-import { Tower } from "../behavior/tower"
-import { DROPS } from "../data/drop"
+import { Item } from "../data/item"
 import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
 import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
+import SlSelect from "@shoelace-style/shoelace/cdn/components/select/select.component"
+import { Tab } from "./tab"
+import { Tower } from "../behavior/tower"
 
 export class TabEnemies {
   private readonly editor: Editor
@@ -25,7 +27,7 @@ export class TabEnemies {
   private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
     const drops: Hole[] = DROPS.map(
       (item: string, index: number) =>
-        html` <sl-option value="${index + 1}">${item == null ? "<Nothing>" : item}</sl-option>`,
+        html` <sl-option value="${index}">${item == null ? "<Nothing>" : item}</sl-option>`,
     )
     const dropValue = DROPS.indexOf(enemy.drop)
     const enemyTypes = ENEMY_TYPES.map(
@@ -211,16 +213,17 @@ export class TabEnemies {
   }
 
   private typeChange = (event: CustomEvent): void => {
-    const [enemyIndex, value] = this.getInputValue(event)
+    const [enemyIndex, value] = this.getInputValueFromList(event)
     console.debug("TabEnemies", "typeChange", enemyIndex, value)
-    this.tower.enemies[enemyIndex].type = value === "" ? null : <EnemyType>value
+    this.tower.enemies[enemyIndex].type = value === "" ? null : (value as EnemyType)
     this.editor.tower.saveEnemies()
   }
 
   private dropChange = (event: CustomEvent): void => {
-    const [enemyIndex, value] = this.getInputValue(event)
-    console.debug("TabEnemies", "dropChange", enemyIndex, value)
-    this.tower.enemies[enemyIndex].drop = DROPS[parseInt(value)]
+    const [enemyIndex, value] = this.getInputValueFromList(event)
+    const drop = DROPS[parseInt(value)] as Item
+    console.debug("TabEnemies", "dropChange", enemyIndex, drop)
+    this.tower.enemies[enemyIndex].drop = drop
     this.editor.tower.saveEnemies()
   }
 
@@ -234,5 +237,12 @@ export class TabEnemies {
     const currentTarget = event.currentTarget as SlInput
     const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
     return [enemyIndex, currentTarget.value]
+  }
+
+  private getInputValueFromList = (event: CustomEvent): [number, string] => {
+    const currentTarget = event.currentTarget as SlSelect
+    debugger
+    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
+    return [enemyIndex, currentTarget.value as string]
   }
 }

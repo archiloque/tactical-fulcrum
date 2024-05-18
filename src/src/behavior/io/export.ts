@@ -1,12 +1,12 @@
-import { Tower } from "../tower"
+import { IOOperation, IOResult } from "./importExport"
 import { Enemy } from "../enemy"
 import { IoEnemy } from "./enemy/ioEnemy"
-import { Room } from "../room"
-import { IoRoom } from "./room/ioRoom"
-import { IOOperation, IOResult } from "./importExport"
-import { IoRoomToAttributes } from "./room/ioRoomToAttributes"
 import { IoEnemyToAttributes } from "./enemy/ioEnemyToAttributes"
+import { IoRoom } from "./room/ioRoom"
+import { IoRoomToAttributes } from "./room/ioRoomToAttributes"
+import { Room } from "../room"
 import { RoomType } from "../../front/tabMap/selectedRoom"
+import { Tower } from "../tower"
 
 export class ExportResult extends IOResult {
   readonly content: string

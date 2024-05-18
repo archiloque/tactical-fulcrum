@@ -1,8 +1,8 @@
 import { IO } from "../io"
 import { Room } from "../../room"
-import { TILE_TYPES } from "../../tile"
-import { TILES_IN_ROW } from "../../../data/map"
 import { RoomType } from "../../../front/tabMap/selectedRoom"
+import { TILES_IN_ROW } from "../../../data/map"
+import { TILE_TYPES } from "../../tile"
 
 export class IoRoom {
   static readonly ATTRIBUTE_COLOR = "color"
@@ -12,7 +12,6 @@ export class IoRoom {
   static readonly ATTRIBUTE_ENEMY_TYPE = "enemyType"
   static readonly ATTRIBUTE_LINE = "line"
   static readonly ATTRIBUTE_NAME = "name"
-  static readonly ATTRIBUTE_SCORE = "score"
   static readonly ATTRIBUTE_SCORES = "scores"
   static readonly ATTRIBUTE_TILES = "tiles"
   static readonly ATTRIBUTE_TYPE = "type"

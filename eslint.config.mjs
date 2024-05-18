@@ -19,6 +19,7 @@ export default [
       "@typescript-eslint/ban-ts-comment": ["off"],
       "@typescript-eslint/no-explicit-any": ["off"],
       "@typescript-eslint/explicit-function-return-type": ["error"],
+      "sort-imports": ["error"],
     },
   },
 ]

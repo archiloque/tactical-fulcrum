@@ -17,6 +17,7 @@ export class TabMap {
   private tabMapMap: TabMapMap
   private tabMapElement: TabMapElements
   private tabMapRooms: TabMapRooms
+  private selectedRoom: SelectedRoom | null
 
   constructor(editor: Editor) {
     settings.RESOLUTION = window.devicePixelRatio || 1
@@ -62,6 +63,7 @@ export class TabMap {
 
   render(): void {
     console.debug("TabMap", "render")
+    this.calculateRealSelectedRoom(this.selectedRoom)
     this.tabMapElement.render()
     this.tabMapRooms.render()
     this.resize()
@@ -99,9 +101,24 @@ export class TabMap {
       return
     }
 
-    const selectedRoom = new SelectedRoom(roomType, parseInt(selectedRoomParsed[TabMap.ATTRIBUTE_SELECTED_ROOM_TYPE]))
+    const selectedRoom: SelectedRoom = new SelectedRoom(
+      roomType,
+      parseInt(selectedRoomParsed[TabMap.ATTRIBUTE_SELECTED_ROOM_TYPE]),
+    )
+    this.calculateRealSelectedRoom(selectedRoom)
+  }
 
-    if (selectedRoom.index < this.editor.tower.getRooms(roomType).length) {
+  private calculateRealSelectedRoom(selectedRoom: SelectedRoom | null): void {
+    if (selectedRoom == null) {
+      if (this.editor.tower.standardRooms.length > 0) {
+        this.editor.eventManager.notifyRoomSelected(new SelectedRoom(RoomType.standard, 0))
+      } else if (this.editor.tower.nexusRooms.length > 0) {
+        this.editor.eventManager.notifyRoomSelected(new SelectedRoom(RoomType.nexus, 0))
+      } else {
+        this.editor.eventManager.notifyRoomSelected(null)
+      }
+      return
+    } else if (selectedRoom.index < this.editor.tower.getRooms(selectedRoom.type).length) {
       this.editor.eventManager.notifyRoomSelected(selectedRoom)
       return
     } else if (this.editor.tower.standardRooms.length >= 0) {
@@ -118,6 +135,7 @@ export class TabMap {
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
     console.debug("TabMap", "roomSelected", selectedRoom)
+    this.selectedRoom = selectedRoom
     if (selectedRoom == null) {
       localStorage.removeItem(LOCAL_STORAGE_CURRENT_ROOM)
       return

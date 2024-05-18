@@ -79,9 +79,6 @@ export class TabMapRooms {
   }
 
   render(): void {
-    if (this.editor.tower.standardRooms.length === 0) {
-      this.notifyRoomSelected(null)
-    }
     console.debug("TabMapRooms", "render with selected room index", this.selectedRoom)
     const standardRooms = this.renderRooms(this.editor.tower.standardRooms, RoomType.standard)
     render(this.standardRooms, html`Standard ${standardRooms}`)

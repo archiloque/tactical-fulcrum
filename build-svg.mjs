@@ -27,7 +27,7 @@ const COLORS_TO = {
   blue: { light: "#2563eb", dark: "#1E40AF" },
   crimson: { light: "#ff0000", dark: "#660000" },
   greenBlue: { light: "#14b8a6", dark: "#084a42" },
-  platinum: { light: "#a1a1aa", dark: "#3f3f46" },
+  platinum: { light: "#8E8E8E", dark: "#8E8E8E" },
   violet: { light: "#a855f7", dark: "#44067f" },
 }
 

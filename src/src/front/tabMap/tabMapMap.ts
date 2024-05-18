@@ -372,6 +372,8 @@ export class TabMapMap {
         switch ((tile as ItemTile).item) {
           case Item.blue_potion:
             return Sprites.itemBluePotion
+          case Item.golden_feather:
+            return Sprites.goldenFeather
           case Item.guard_card:
             return Sprites.itemGuardCard
           case Item.guard_deck:

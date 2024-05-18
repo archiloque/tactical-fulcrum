@@ -2,7 +2,7 @@ import { Application, Container, FederatedPointerEvent, Graphics, Point, Sprite 
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/map"
 import { Spriter } from "./spriter"
 import { Editor } from "../../../editor"
-import { DoorTile, EnemyTile, ItemTile, KeyTile, ScoreTile, StaircaseTile, Tile, TileType } from "../../behavior/tile"
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../behavior/tile"
 import { StaircaseDirection } from "../../data/staircaseDirection"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 import { Color } from "../../data/color"
@@ -385,16 +385,6 @@ export class TabMapMap {
             return Sprites.staircaseUp
           case StaircaseDirection.up:
             return Sprites.staircaseDown
-        }
-        break
-      case TileType.score:
-        switch ((tile as ScoreTile).score) {
-          case ScoreType.check:
-            return Sprites.scoreCheck
-          case ScoreType.crown:
-            return Sprites.scoreCrown
-          case ScoreType.star:
-            return Sprites.scoreStar
         }
         break
       case TileType.startingPosition:

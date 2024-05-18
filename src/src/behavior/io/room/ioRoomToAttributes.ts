@@ -1,14 +1,30 @@
 import { Room } from "../../room"
 import { IoRoom } from "./ioRoom"
-import { DoorTile, EnemyTile, ItemTile, KeyTile, ScoreTile, StaircaseTile, Tile, TileType } from "../../tile"
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../tile"
+import { Score } from "../../score"
 
 export class IoRoomToAttributes {
-  static toAttributes(room: Room): Record<string, string | Record<string, string | number>[][]> {
+  static toAttributes(room: Room): {
+    [IoRoom.ATTRIBUTE_TILES]: Record<string, string | number>[][]
+    [IoRoom.ATTRIBUTE_SCORES]: Record<string, string | number>[]
+    [IoRoom.ATTRIBUTE_NAME]: string
+  } {
     return {
       [IoRoom.ATTRIBUTE_NAME]: room.name,
       [IoRoom.ATTRIBUTE_TILES]: room.tiles.map((tilesLine) =>
         tilesLine.map((tile) => IoRoomToAttributes.createTile(tile)),
       ),
+      [IoRoom.ATTRIBUTE_SCORES]: room.scores.map((score) => {
+        return IoRoomToAttributes.createScore(score)
+      }),
+    }
+  }
+
+  private static createScore(score: Score): Record<string, string | number> {
+    return {
+      [IoRoom.ATTRIBUTE_LINE]: score.line,
+      [IoRoom.ATTRIBUTE_COLUMN]: score.column,
+      [IoRoom.ATTRIBUTE_TYPE]: score.type.valueOf(),
     }
   }
 
@@ -42,12 +58,6 @@ export class IoRoomToAttributes {
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.key,
           [IoRoom.ATTRIBUTE_COLOR]: key.color.valueOf(),
-        }
-      case TileType.score:
-        const score = tile as ScoreTile
-        return {
-          [IoRoom.ATTRIBUTE_TYPE]: TileType.score,
-          [IoRoom.ATTRIBUTE_SCORE]: score.score,
         }
       case TileType.staircase:
         const staircase = tile as StaircaseTile

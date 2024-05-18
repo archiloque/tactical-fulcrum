@@ -13,8 +13,6 @@ import {
   ItemTile,
   KEY_TILES,
   KeyTile,
-  SCORE_TILES,
-  ScoreTile,
   STAIRCASE_TILES,
   StaircaseTile,
   Tile,
@@ -22,7 +20,6 @@ import {
   WALL_TILE,
 } from "../../behavior/tile"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircaseDirection"
-import { SCORE_TYPES, ScoreType } from "../../data/scoreType"
 import { findEnum, findTreeItemFromValue } from "../../behavior/functions"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import { Enemy } from "../../behavior/enemy"
@@ -69,10 +66,6 @@ export class TabMapElements {
         </sl-tree-item>`,
     )
 
-    const scores: Hole[] = SCORE_TYPES.map(
-      (s) => html` <sl-tree-item data-type="${TileType.score}" data-score="${s.valueOf()}">Score ${s}</sl-tree-item>`,
-    )
-
     return html` <div id="${TabMapElements.divId}">
       <h2>Element</h2>
       <sl-tree id="${TabMapElements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
@@ -83,7 +76,6 @@ export class TabMapElements {
         <sl-tree-item>Door ${doors}</sl-tree-item>
         <sl-tree-item>Item ${items}</sl-tree-item>
         <sl-tree-item>Staircase ${staircases}</sl-tree-item>
-        <sl-tree-item>Score ${scores}</sl-tree-item>
         <sl-tree-item data-type="${TileType.startingPosition}">Starting position</sl-tree-item>
       </sl-tree>
     </div>`
@@ -152,14 +144,6 @@ export class TabMapElements {
         }
         break
       }
-      case TileType.score.valueOf(): {
-        const scoreType: ScoreType = findEnum(SCORE_TYPES, slTreeItem.dataset.score)
-        if (scoreType != null) {
-          this.editor.eventManager.notifyTileSelection(SCORE_TILES[scoreType], false)
-          return
-        }
-        break
-      }
       case TileType.staircase.valueOf(): {
         const staircaseDirection: StaircaseDirection = findEnum(STAIRCASE_DIRECTIONS, slTreeItem.dataset.direction)
         if (staircaseDirection != null) {
@@ -210,12 +194,6 @@ export class TabMapElements {
         return this.findTreeItemFromValue({
           type: TileType.key.valueOf(),
           color: keyTile.color.valueOf(),
-        })
-      case TileType.score:
-        const scoreTile = tile as ScoreTile
-        return this.findTreeItemFromValue({
-          type: TileType.item.valueOf(),
-          score: scoreTile.score.valueOf(),
         })
       case TileType.staircase:
         const staircaseTile = tile as StaircaseTile

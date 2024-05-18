@@ -2,7 +2,6 @@ import { Color } from "../data/color"
 import { Enemy } from "./enemy"
 import { Item } from "../data/item"
 import { StaircaseDirection } from "../data/staircaseDirection"
-import { ScoreType } from "../data/scoreType"
 
 export const enum TileType {
   door = "door",
@@ -10,7 +9,6 @@ export const enum TileType {
   enemy = "enemy",
   item = "item",
   key = "key",
-  score = "score",
   staircase = "staircase",
   startingPosition = "startingPosition",
   wall = "wall",
@@ -22,7 +20,6 @@ export const TILE_TYPES: TileType[] = [
   TileType.enemy,
   TileType.item,
   TileType.key,
-  TileType.score,
   TileType.staircase,
   TileType.startingPosition,
   TileType.wall,
@@ -126,24 +123,6 @@ export const KEY_TILES: Record<Color, KeyTile> = {
   [Color.platinum]: new KeyTile(Color.platinum),
   [Color.violet]: new KeyTile(Color.violet),
   [Color.yellow]: new KeyTile(Color.yellow),
-}
-
-export class ScoreTile implements Tile {
-  readonly score: ScoreType
-
-  constructor(score: ScoreType) {
-    this.score = score
-  }
-
-  getType(): TileType {
-    return TileType.score
-  }
-}
-
-export const SCORE_TILES: Record<ScoreType, ScoreTile> = {
-  [ScoreType.check]: new ScoreTile(ScoreType.check),
-  [ScoreType.crown]: new ScoreTile(ScoreType.crown),
-  [ScoreType.star]: new ScoreTile(ScoreType.star),
 }
 
 export class StaircaseTile implements Tile {

@@ -5,7 +5,6 @@ import {
   EnemyTile,
   ITEM_TILES,
   KEY_TILES,
-  SCORE_TILES,
   STAIRCASE_TILES,
   STARTING_POSITION_TILE,
   Tile,
@@ -72,8 +71,6 @@ export class IoRoomFromAttributes {
           return IoRoomFromAttributes.createTileItem(tile)
         case TileType.key:
           return IoRoomFromAttributes.createTileKey(tile)
-        case TileType.score:
-          return IoRoomFromAttributes.createTileScore(tile)
         case TileType.staircase:
           return IoRoomFromAttributes.createTileStaircase(tile)
         case TileType.startingPosition:
@@ -96,16 +93,6 @@ export class IoRoomFromAttributes {
       return EMPTY_TILE
     } else {
       return STAIRCASE_TILES[staircaseDirection]
-    }
-  }
-
-  private static createTileScore(tile: Record<string, string | number>): Tile {
-    const scoreType: ScoreType = findEnum(SCORE_TYPES, tile[IoRoom.ATTRIBUTE_SCORE] as string)
-    if (scoreType === undefined) {
-      console.error("IoRoomFromAttributes", "createTileScore", "unknown score", tile)
-      return EMPTY_TILE
-    } else {
-      return SCORE_TILES[scoreType]
     }
   }
 

@@ -1,16 +1,16 @@
-import { ROOM_TYPES, RoomType, SelectedRoom } from "./selectedRoom"
-import { html, render } from "uhtml"
-import { Editor } from "../../../editor"
-import { LOCAL_STORAGE_CURRENT_ROOM } from "../../behavior/io/localStorage"
-import SlSplitPanel from "@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component"
-import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
-import { Tab } from "../tab"
-import { TabMapElements } from "./tabMapElements"
-import { TabMapLayer } from "./tabMapLayer"
-import { TabMapMap } from "./tabMapMap"
-import { TabMapRooms } from "./tabMapRooms"
-import { TabMapScores } from "./tabMapScores"
-import { settings } from "@pixi/settings"
+import {ROOM_TYPES, RoomType, SelectedRoom} from './selectedRoom'
+import {html, render} from 'uhtml'
+import {Editor} from '../../editor'
+import {LOCAL_STORAGE_CURRENT_ROOM} from '../../behavior/io/localStorage'
+import SlSplitPanel from '@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component'
+import SlTabPanel from '@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component'
+import {Tab} from '../tab'
+import {TabMapElements} from './tabMapElements'
+import {TabMapLayer} from './tabMapLayer'
+import {TabMapMap} from './tabMapMap'
+import {TabMapRooms} from './tabMapRooms'
+import {TabMapScores} from './tabMapScores'
+import {settings} from '@pixi/settings'
 
 export class TabMap {
   private readonly editor: Editor
@@ -36,13 +36,15 @@ export class TabMap {
 
     this.tabMapMap = new TabMapMap(editor)
     this.tabMapRooms = new TabMapRooms(editor)
-    window.addEventListener("resize", () => {
-      this.resize()
+    window.addEventListener('resize', () => {
+      if (editor.displayedTab === Tab.map) {
+        this.resize()
+      }
     })
   }
 
   async init(): Promise<any> {
-    console.debug("TabMap", "init")
+    console.debug('TabMap', 'init')
     await this.tabMapMap.init()
     render(
       this.tabElement,
@@ -61,20 +63,20 @@ export class TabMap {
           </div>
         </sl-split-panel>`,
     )
-    this.splitPanel1 = <SlSplitPanel>document.getElementById("tabMapSplitPanel1")
-    this.splitPanel2 = <SlSplitPanel>document.getElementById("tabMapSplitPanel2")
-    document.getElementById("tabMapMap").appendChild(this.tabMapMap.app.canvas)
+    this.splitPanel1 = <SlSplitPanel>document.getElementById('tabMapSplitPanel1')
+    this.splitPanel2 = <SlSplitPanel>document.getElementById('tabMapSplitPanel2')
+    document.getElementById('tabMapMap').appendChild(this.tabMapMap.app.canvas)
     this.tabMapRooms.init()
     this.tabMapElements.init()
     this.tabMapLayer.init()
     this.tabMapScores.init()
     this.tabMapMap.postInit()
     this.loadInitRoom()
-    this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
+    this.editor.eventManager.registerRoomSelection(selectedRoom => this.roomSelected(selectedRoom))
   }
 
   render(): void {
-    console.debug("TabMap", "render")
+    console.debug('TabMap', 'render')
     this.calculateRealSelectedRoom(this.selectedRoom)
     this.tabMapElements.render()
     this.tabMapRooms.render()
@@ -85,20 +87,21 @@ export class TabMap {
     this.resize()
   }
 
-  private resize(): void {
+  private async resize(): Promise<any> {
     const height = window.innerHeight - this.splitPanel1.getBoundingClientRect().top - 10
     const splitPanel1Percent = 1 - this.splitPanel1.position / 100
     const splitPanel2Percent = this.splitPanel2.position / 100
     const width = window.innerWidth * splitPanel1Percent * splitPanel2Percent - 20
     const number = Math.min(height, width)
-    this.tabMapMap.resize(number)
+    await this.tabMapMap.resize(number)
+    this.tabMapMap.repaint()
   }
 
-  private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = "type"
-  private static readonly ATTRIBUTE_SELECTED_ROOM_INDEX = "index"
+  private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = 'type'
+  private static readonly ATTRIBUTE_SELECTED_ROOM_INDEX = 'index'
 
   private loadInitRoom(): void {
-    console.debug("TabMap", "loadInitRoom")
+    console.debug('TabMap', 'loadInitRoom')
     const selectedRoomString = localStorage.getItem(LOCAL_STORAGE_CURRENT_ROOM)
 
     if (selectedRoomString == null) {
@@ -124,29 +127,35 @@ export class TabMap {
     if (selectedRoom == null) {
       if (this.editor.tower.standardRooms.length > 0) {
         this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.standard, 0))
-      } else if (this.editor.tower.nexusRooms.length > 0) {
+      }
+ else if (this.editor.tower.nexusRooms.length > 0) {
         this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.nexus, 0))
-      } else {
+      }
+ else {
         this.editor.eventManager.notifyRoomSelection(null)
       }
       return
-    } else if (selectedRoom.index < this.editor.tower.getRooms(selectedRoom.type).length) {
+    }
+ else if (selectedRoom.index < this.editor.tower.getRooms(selectedRoom.type).length) {
       this.editor.eventManager.notifyRoomSelection(selectedRoom)
       return
-    } else if (this.editor.tower.standardRooms.length >= 0) {
+    }
+ else if (this.editor.tower.standardRooms.length >= 0) {
       this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.standard, 0))
       return
-    } else if (this.editor.tower.nexusRooms.length >= 0) {
+    }
+ else if (this.editor.tower.nexusRooms.length >= 0) {
       this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.nexus, 0))
       return
-    } else {
+    }
+ else {
       this.editor.eventManager.notifyRoomSelection(null)
       return
     }
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug("TabMap", "roomSelected", selectedRoom)
+    console.debug('TabMap', 'roomSelected', selectedRoom)
     this.selectedRoom = selectedRoom
     if (selectedRoom == null) {
       localStorage.removeItem(LOCAL_STORAGE_CURRENT_ROOM)

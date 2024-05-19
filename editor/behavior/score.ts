@@ -1,4 +1,4 @@
-import { ScoreType } from "../data/scoreType"
+import {ScoreType} from '../data/scoreType'
 
 export class Score {
   line: number

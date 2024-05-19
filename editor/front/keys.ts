@@ -1,1 +1,1 @@
-export const SHIFT = "Shift"
+export const SHIFT = 'Shift'

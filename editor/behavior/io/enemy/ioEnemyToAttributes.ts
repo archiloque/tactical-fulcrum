@@ -1,5 +1,5 @@
-import { Enemy } from "../../enemy"
-import { IoEnemy } from "./ioEnemy"
+import {Enemy} from '../../enemy'
+import {IoEnemy} from './ioEnemy'
 
 export class IoEnemyToAttributes {
   static toAttributes(enemy: Enemy): Record<string, string | number | null> {
@@ -11,7 +11,7 @@ export class IoEnemyToAttributes {
       [IoEnemy.ATTRIBUTE_ATK]: enemy.atk,
       [IoEnemy.ATTRIBUTE_DEF]: enemy.def,
       [IoEnemy.ATTRIBUTE_EXP]: enemy.exp,
-      [IoEnemy.ATTRIBUTE_DROP]: enemy.drop ? enemy.drop : "",
+      [IoEnemy.ATTRIBUTE_DROP]: enemy.drop ? enemy.drop : '',
     }
   }
 }

@@ -1,4 +1,4 @@
-import { COLORS, Color } from "../../data/color"
+import {COLORS, Color} from '../../data/color'
 import {
   DOOR_TILES,
   DoorTile,
@@ -13,18 +13,18 @@ import {
   Tile,
   TileType,
   WALL_TILE,
-} from "../../behavior/tile"
-import { ENEMY_TYPES, EnemyType } from "../../data/enemyType"
-import { Hole, html, render } from "uhtml"
-import { ITEMS, Item } from "../../data/item"
-import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircaseDirection"
-import { findEnum, findTreeItemFromValue } from "../../behavior/functions"
-import { Editor } from "../../../editor"
-import { Enemy } from "../../behavior/enemy"
-import { RoomLayer } from "../roomLayer"
-import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
-import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
-import { capitalize } from "../../behavior/utils"
+} from '../../behavior/tile'
+import {ENEMY_TYPES, EnemyType} from '../../data/enemyType'
+import {Hole, html, render} from 'uhtml'
+import {ITEMS, Item} from '../../data/item'
+import {STAIRCASE_DIRECTIONS, StaircaseDirection} from '../../data/staircaseDirection'
+import {findEnum, findTreeItemFromValue} from '../../behavior/functions'
+import {Editor} from '../../editor'
+import {Enemy} from '../../behavior/enemy'
+import {RoomLayer} from '../roomLayer'
+import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
+import SlTreeItem from '@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component'
+import {capitalize} from '../../behavior/utils'
 
 export class TabMapElements {
   private readonly editor: Editor
@@ -32,9 +32,9 @@ export class TabMapElements {
   private tree: SlTree
   private selectedTile: Tile = null
 
-  private static readonly divId = "tabMapElements"
-  private static readonly treeId = "tabMapElementsTree"
-  private static readonly enemiesSubTreeId = "tabMapElementsTreeEnemies"
+  private static readonly divId = 'tabMapElements'
+  private static readonly treeId = 'tabMapElementsTree'
+  private static readonly enemiesSubTreeId = 'tabMapElementsTreeEnemies'
   private div: HTMLElement
 
   constructor(editor: Editor) {
@@ -42,25 +42,25 @@ export class TabMapElements {
     this.editor.eventManager.registerTileSelection((selectedTile, updateElementTree) =>
       this.tileSelected(selectedTile, updateElementTree),
     )
-    this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
+    this.editor.eventManager.registerLayerSelection(layer => this.layerSelected(layer))
   }
 
   hole(): Hole {
-    console.debug("TabMapElements", "hole")
+    console.debug('TabMapElements', 'hole')
     const keys: Hole[] = COLORS.map(
-      (c) => html` <sl-tree-item data-type="${TileType.key}" data-color="${c}">${capitalize(c)} key</sl-tree-item>`,
+      c => html` <sl-tree-item data-type="${TileType.key}" data-color="${c}">${capitalize(c)} key</sl-tree-item>`,
     )
 
     const doors: Hole[] = COLORS.map(
-      (c) => html` <sl-tree-item data-type="${TileType.door}" data-color="${c}">${capitalize(c)} door</sl-tree-item>`,
+      c => html` <sl-tree-item data-type="${TileType.door}" data-color="${c}">${capitalize(c)} door</sl-tree-item>`,
     )
 
     const items: Hole[] = ITEMS.map(
-      (i) => html` <sl-tree-item data-type="${TileType.item}" data-name="${i.valueOf()}">${i}</sl-tree-item>`,
+      i => html` <sl-tree-item data-type="${TileType.item}" data-name="${i.valueOf()}">${i}</sl-tree-item>`,
     )
 
     const staircases: Hole[] = STAIRCASE_DIRECTIONS.map(
-      (s) =>
+      s =>
         html` <sl-tree-item data-type="${TileType.staircase}" data-direction="${s.valueOf()}"
           >Staircase ${s}
         </sl-tree-item>`,
@@ -82,20 +82,20 @@ export class TabMapElements {
   }
 
   init(): void {
-    console.debug("TabMapElements", "init")
+    console.debug('TabMapElements', 'init')
     this.div = document.getElementById(TabMapElements.divId)
     this.tree = document.getElementById(TabMapElements.treeId) as SlTree
     this.enemiesSubTree = document.getElementById(TabMapElements.enemiesSubTreeId) as SlTreeItem
   }
 
   render(): void {
-    console.debug("TabMapElements", "render")
+    console.debug('TabMapElements', 'render')
     const enemies: Hole[] = this.editor.tower.enemies.map((enemy: Enemy) => {
-      const enemyName = `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
+      const enemyName = `${enemy.type == null || enemy.type.length === 0 ? '??' : enemy.type} ${enemy.level == null ? '??' : enemy.level} (${enemy.name})`
       return html` <sl-tree-item
         data-type="${TileType.enemy.valueOf()}"
-        data-enemy-type="${enemy.type ? enemy.type.valueOf() : ""}"
-        data-enemy-level="${enemy.level ? enemy.level : ""}"
+        data-enemy-type="${enemy.type ? enemy.type.valueOf() : ''}"
+        data-enemy-level="${enemy.level ? enemy.level : ''}"
         >${enemyName}
       </sl-tree-item>`
     })
@@ -157,7 +157,7 @@ export class TabMapElements {
         return
       }
       default: {
-        console.error("TabMapElements", "selectionChanged", "Unknown tile", slTreeItem)
+        console.error('TabMapElements', 'selectionChanged', 'Unknown tile', slTreeItem)
       }
     }
   }
@@ -175,13 +175,13 @@ export class TabMapElements {
           color: doorTile.color.valueOf(),
         })
       case TileType.empty:
-        return this.findTreeItemFromValue({ type: TileType.empty.valueOf() })
+        return this.findTreeItemFromValue({type: TileType.empty.valueOf()})
       case TileType.enemy:
         const enemyTile = tile as EnemyTile
         return this.findTreeItemFromValue({
-          type: TileType.enemy.valueOf(),
-          "enemy-type": enemyTile.enemy.type.valueOf(),
-          "enemy-level": enemyTile.enemy.level,
+          'type': TileType.enemy.valueOf(),
+          'enemy-type': enemyTile.enemy.type.valueOf(),
+          'enemy-level': enemyTile.enemy.level,
         })
       case TileType.item:
         const itemTile = tile as ItemTile
@@ -206,17 +206,17 @@ export class TabMapElements {
           type: TileType.startingPosition.valueOf(),
         })
       case TileType.wall:
-        return this.findTreeItemFromValue({ type: TileType.wall.valueOf() })
+        return this.findTreeItemFromValue({type: TileType.wall.valueOf()})
     }
   }
 
   private layerSelected(layer: RoomLayer): void {
     switch (layer) {
       case RoomLayer.standard:
-        this.div.classList.remove("hidden")
+        this.div.classList.remove('hidden')
         break
       case RoomLayer.score:
-        this.div.classList.add("hidden")
+        this.div.classList.add('hidden')
         break
     }
   }
@@ -233,7 +233,8 @@ export class TabMapElements {
       if (parent.id != TabMapElements.treeId) {
         ;(parent as SlTreeItem).expanded = true
       }
-    } else {
+    }
+ else {
       this.selectedTile = selectedTile
     }
   }

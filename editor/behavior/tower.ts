@@ -1,14 +1,14 @@
-import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
-import { LOCAL_STORAGE_KEY_ENEMIES, LOCAL_STORAGE_KEY_NAME, LOCAL_STORAGE_KEY_ROOMS } from "./io/localStorage"
-import { Enemy } from "./enemy"
-import { IOOperation } from "./io/importExport"
-import { IoEnemyFromAttributes } from "./io/enemy/ioEnemyFromAttributes"
-import { IoEnemyToAttributes } from "./io/enemy/ioEnemyToAttributes"
-import { IoRoomFromAttributes } from "./io/room/ioRoomFromAttributes"
-import { IoRoomToAttributes } from "./io/room/ioRoomToAttributes"
-import { Room } from "./room"
-import { RoomType } from "../front/tabMap/selectedRoom"
-import { ScoreType } from "../data/scoreType"
+import {EMPTY_TILE, EnemyTile, TileType} from './tile'
+import {LOCAL_STORAGE_KEY_ENEMIES, LOCAL_STORAGE_KEY_NAME, LOCAL_STORAGE_KEY_ROOMS} from './io/localStorage'
+import {Enemy} from './enemy'
+import {IOOperation} from './io/importExport'
+import {IoEnemyFromAttributes} from './io/enemy/ioEnemyFromAttributes'
+import {IoEnemyToAttributes} from './io/enemy/ioEnemyToAttributes'
+import {IoRoomFromAttributes} from './io/room/ioRoomFromAttributes'
+import {IoRoomToAttributes} from './io/room/ioRoomToAttributes'
+import {Room} from './room'
+import {RoomType} from '../front/tabMap/selectedRoom'
+import {ScoreType} from '../data/scoreType'
 
 export class Tower {
   name: string
@@ -18,11 +18,11 @@ export class Tower {
 
   constructor() {
     this.enemies = []
-    this.name = "Unnamed tower"
+    this.name = 'Unnamed tower'
     const standardRoom = new Room()
-    standardRoom.name = "Standard room"
+    standardRoom.name = 'Standard room'
     const nexusRoom = new Room()
-    nexusRoom.name = "Nexus room"
+    nexusRoom.name = 'Nexus room'
     this.standardRooms = [standardRoom]
     this.nexusRooms = [nexusRoom]
   }
@@ -87,20 +87,20 @@ export class Tower {
   }
 
   saveEnemies(): void {
-    console.debug("Tower", "saveEnemies")
+    console.debug('Tower', 'saveEnemies')
     localStorage.setItem(
       LOCAL_STORAGE_KEY_ENEMIES,
-      JSON.stringify(this.enemies.map((e) => IoEnemyToAttributes.toAttributes(e))),
+      JSON.stringify(this.enemies.map(e => IoEnemyToAttributes.toAttributes(e))),
     )
   }
 
   saveName(): void {
-    console.debug("Tower", "saveName")
+    console.debug('Tower', 'saveName')
     localStorage.setItem(LOCAL_STORAGE_KEY_NAME, this.name)
   }
 
   saveRooms(): void {
-    console.debug("Tower", "saveRooms")
+    console.debug('Tower', 'saveRooms')
     localStorage.setItem(
       LOCAL_STORAGE_KEY_ROOMS,
       JSON.stringify({
@@ -115,7 +115,7 @@ export class Tower {
   }
 
   load(): void {
-    console.groupCollapsed("Tower", "load")
+    console.groupCollapsed('Tower', 'load')
     this.loadEnemies()
     this.loadName()
     this.loadRooms()
@@ -126,8 +126,8 @@ export class Tower {
     const enemiesRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ENEMIES)
     if (enemiesRaw != null) {
       const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
-      this.enemies = enemiesJson.map((value) => IoEnemyFromAttributes.fromAttributes(value))
-      console.debug("Tower", this.enemies.length, "enemies loaded")
+      this.enemies = enemiesJson.map(value => IoEnemyFromAttributes.fromAttributes(value))
+      console.debug('Tower', this.enemies.length, 'enemies loaded')
     }
   }
 
@@ -136,16 +136,16 @@ export class Tower {
     if (roomsRaw != null) {
       const roomsJson: Record<string, Record<string, string | number | null>>[] = JSON.parse(roomsRaw)
       if (roomsJson[IOOperation.ATTRIBUTE_STANDARD] != null) {
-        this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map((value) =>
+        this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map(value =>
           IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )
-        console.debug("Tower", this.standardRooms.length, "standard rooms loaded")
+        console.debug('Tower', this.standardRooms.length, 'standard rooms loaded')
       }
       if (roomsJson[IOOperation.ATTRIBUTE_NEXUS] != null) {
-        this.nexusRooms = roomsJson[IOOperation.ATTRIBUTE_NEXUS].map((value) =>
+        this.nexusRooms = roomsJson[IOOperation.ATTRIBUTE_NEXUS].map(value =>
           IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )
-        console.debug("Tower", this.standardRooms.length, "nexus rooms loaded")
+        console.debug('Tower', this.standardRooms.length, 'nexus rooms loaded')
       }
     }
   }

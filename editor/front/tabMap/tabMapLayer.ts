@@ -1,12 +1,12 @@
-import { Hole, html } from "uhtml"
-import { ROOM_LAYERS, RoomLayer } from "../roomLayer"
-import { Editor } from "../../../editor"
-import SlRadioGroup from "@shoelace-style/shoelace/cdn/components/radio-group/radio-group.component"
-import { findEnum } from "../../behavior/functions"
+import {Hole, html} from 'uhtml'
+import {ROOM_LAYERS, RoomLayer} from '../roomLayer'
+import {Editor} from '../../editor'
+import SlRadioGroup from '@shoelace-style/shoelace/cdn/components/radio-group/radio-group.component'
+import {findEnum} from '../../behavior/functions'
 
 export class TabMapLayer {
   private readonly editor: Editor
-  private static readonly radioGroupId = "tabMapLayerRadioGroup"
+  private static readonly radioGroupId = 'tabMapLayerRadioGroup'
   private radioGroup: SlRadioGroup
 
   constructor(editor: Editor) {
@@ -14,7 +14,7 @@ export class TabMapLayer {
   }
 
   hole(): Hole {
-    console.debug("TabMapLayer", "hole")
+    console.debug('TabMapLayer', 'hole')
     return html`<h2>Layer</h2>
       <sl-radio-group
         id="${TabMapLayer.radioGroupId}"
@@ -27,7 +27,7 @@ export class TabMapLayer {
   }
 
   init(): void {
-    console.debug("TabMapLayer", "init")
+    console.debug('TabMapLayer', 'init')
     this.radioGroup = document.getElementById(TabMapLayer.radioGroupId) as SlRadioGroup
   }
 

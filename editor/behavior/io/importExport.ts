@@ -13,9 +13,9 @@ export abstract class IOOperation {
     this.errors = []
   }
 
-  static readonly ATTRIBUTE_ENEMIES = 'enemies'
-  static readonly ATTRIBUTE_NAME = 'name'
-  static readonly ATTRIBUTE_NEXUS = 'nexus'
-  static readonly ATTRIBUTE_ROOMS = 'rooms'
-  static readonly ATTRIBUTE_STANDARD = 'standard'
+  static readonly ATTRIBUTE_ENEMIES = "enemies"
+  static readonly ATTRIBUTE_NAME = "name"
+  static readonly ATTRIBUTE_NEXUS = "nexus"
+  static readonly ATTRIBUTE_ROOMS = "rooms"
+  static readonly ATTRIBUTE_STANDARD = "standard"
 }

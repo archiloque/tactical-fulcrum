@@ -1,6 +1,6 @@
-import {EMPTY_TILE, Tile} from './tile'
-import {Score} from './score'
-import {TILES_IN_ROW} from '../data/constants'
+import { EMPTY_TILE, Tile } from "./tile"
+import { Score } from "./score"
+import { TILES_IN_ROW } from "../data/constants"
 
 export class Room {
   name: string

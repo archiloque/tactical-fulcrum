@@ -1,25 +1,25 @@
-import {Application, Container, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
-import {ColorScheme, currentColorScheme} from '../colorScheme'
-import {DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType} from '../../behavior/tile'
-import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/constants'
-import {Color} from '../../data/color'
-import {Editor} from '../../editor'
-import {Item} from '../../data/item'
-import {Room} from '../../behavior/room'
-import {RoomLayer} from '../roomLayer'
-import {SHIFT} from '../keys'
-import {Score} from '../../behavior/score'
-import {ScoreType} from '../../data/scoreType'
-import {SelectedRoom} from './selectedRoom'
-import SlTooltip from '@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component'
-import {Spriter} from './spriter'
-import {Sprites} from './sprites'
-import {StaircaseDirection} from '../../data/staircaseDirection'
+import { Application, Container, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
+import { ColorScheme, currentColorScheme } from "../colorScheme"
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../behavior/tile"
+import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
+import { Color } from "../../data/color"
+import { Editor } from "../../editor"
+import { Item } from "../../data/item"
+import { Room } from "../../behavior/room"
+import { RoomLayer } from "../roomLayer"
+import { SHIFT } from "../keys"
+import { Score } from "../../behavior/score"
+import { ScoreType } from "../../data/scoreType"
+import { SelectedRoom } from "./selectedRoom"
+import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
+import { Spriter } from "./spriter"
+import { Sprites } from "./sprites"
+import { StaircaseDirection } from "../../data/staircaseDirection"
 
 export class TabMapMap {
   private static readonly BACKGROUND_COLORS = {
-    [ColorScheme.dark]: '#000000',
-    [ColorScheme.light]: '#FFFFFF',
+    [ColorScheme.dark]: "#000000",
+    [ColorScheme.light]: "#FFFFFF",
   }
 
   readonly app: Application
@@ -43,29 +43,29 @@ export class TabMapMap {
   constructor(editor: Editor) {
     this.app = new Application()
     this.background = new Sprite()
-    this.background.eventMode = 'dynamic'
+    this.background.eventMode = "dynamic"
     this.cursor = new Graphics().rect(0, 0, this.tileSize, this.tileSize).stroke({
       width: 1,
       color: 0xff0000,
       alignment: 1,
     })
-    this.cursor.eventMode = 'none'
+    this.cursor.eventMode = "none"
     this.editor = editor
-    this.editor.eventManager.registerRoomSelection(selectedRoom => this.roomSelected(selectedRoom))
-    this.editor.eventManager.registerTileSelection(selectedTile => this.tileSelected(selectedTile))
-    this.editor.eventManager.registerScoreSelection(scoreType => this.scoreSelected(scoreType))
-    this.editor.eventManager.registerSchemeChange(colorScheme => this.schemeChanged(colorScheme))
-    this.editor.eventManager.registerLayerSelection(layer => this.layerSelected(layer))
+    this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
+    this.editor.eventManager.registerTileSelection((selectedTile) => this.tileSelected(selectedTile))
+    this.editor.eventManager.registerScoreSelection((scoreType) => this.scoreSelected(scoreType))
+    this.editor.eventManager.registerSchemeChange((colorScheme) => this.schemeChanged(colorScheme))
+    this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
   }
 
   async init(): Promise<any> {
-    console.debug('TabMapMap', 'init')
-    this.background.on('pointerenter', () => this.pointerEnter())
-    this.background.on('pointerleave', () => this.pointerLeave())
-    this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
-    this.background.on('pointertap', (e: FederatedPointerEvent) => this.pointerTap(e))
-    document.addEventListener('keydown', (e: KeyboardEvent) => this.keyDown(e))
-    document.addEventListener('keyup', (e: KeyboardEvent) => this.keyUp(e))
+    console.debug("TabMapMap", "init")
+    this.background.on("pointerenter", () => this.pointerEnter())
+    this.background.on("pointerleave", () => this.pointerLeave())
+    this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
+    this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
+    document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
+    document.addEventListener("keyup", (e: KeyboardEvent) => this.keyUp(e))
 
     return Promise.all([
       this.app.init({
@@ -80,13 +80,13 @@ export class TabMapMap {
   }
 
   postInit(): void {
-    console.debug('TabMapMap', 'postInit')
-    this.mapToolTip = document.getElementById('tabMapMapToolTip')
-    this.mapToolTipTip = document.getElementById('tabMapMapToolTipTip') as SlTooltip
+    console.debug("TabMapMap", "postInit")
+    this.mapToolTip = document.getElementById("tabMapMapToolTip")
+    this.mapToolTipTip = document.getElementById("tabMapMapToolTipTip") as SlTooltip
   }
 
   async resize(elementSize: number): Promise<any> {
-    console.debug('TabMapMap', 'resize')
+    console.debug("TabMapMap", "resize")
     const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
     if (newTileSize !== this.tileSize) {
       this.tileSize = newTileSize
@@ -116,22 +116,22 @@ export class TabMapMap {
   }
 
   private keyDown(e: KeyboardEvent): void {
-    console.debug('TabMapMap', 'keyDown', e)
+    console.debug("TabMapMap", "keyDown", e)
     if (e.key == SHIFT) {
-      this.app.canvas.style.cursor = 'copy'
+      this.app.canvas.style.cursor = "copy"
     }
   }
 
   private keyUp(e: KeyboardEvent): void {
-    console.debug('TabMapMap', 'keyUp', e)
+    console.debug("TabMapMap", "keyUp", e)
     if (e.key == SHIFT) {
-      this.app.canvas.style.cursor = 'auto'
+      this.app.canvas.style.cursor = "auto"
     }
   }
 
   private pointerTap(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
-    console.debug('TabMapMap', 'pointerTap', 'position', tilePosition, 'shift', e.shiftKey)
+    console.debug("TabMapMap", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
     if (this.selectedRoom != null) {
       const currentRoom: Room = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       switch (this.selectedLayer) {
@@ -139,8 +139,7 @@ export class TabMapMap {
           if (e.shiftKey) {
             const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
             this.editor.eventManager.notifyTileSelection(selectedTile, true)
-          }
- else {
+          } else {
             currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
             this.editor.tower.saveRooms()
             this.repaint()
@@ -154,8 +153,7 @@ export class TabMapMap {
               return score.line == tilePosition.y && score.column === tilePosition.x
             })
             this.editor.eventManager.notifyScoreSelection(selectedScore == null ? null : selectedScore.type, true)
-          }
- else {
+          } else {
             if (this.selectedScore == null) {
               const selectedScoreIndex = currentRoom.scores.findIndex((score) => {
                 return score.line == tilePosition.y && score.column === tilePosition.x
@@ -163,8 +161,7 @@ export class TabMapMap {
               if (selectedScoreIndex !== -1) {
                 currentRoom.scores.splice(selectedScoreIndex, 1)
               }
-            }
- else {
+            } else {
               this.editor.tower.removeScore(this.selectedRoom.type, this.selectedScore)
               currentRoom.scores.push(new Score(tilePosition.y, tilePosition.x, this.selectedScore))
             }
@@ -179,7 +176,7 @@ export class TabMapMap {
   private pointerMove(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
     if (!this.lastMouseTile.equals(tilePosition)) {
-      console.debug('TabMapMap', 'pointerMove', tilePosition)
+      console.debug("TabMapMap", "pointerMove", tilePosition)
       this.lastMouseTile = tilePosition
       if (this.mapToolTipTip.open) {
         this.mapToolTipTip.open = false
@@ -237,7 +234,7 @@ export class TabMapMap {
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug('TabMapMap', 'roomSelected', selectedRoom)
+    console.debug("TabMapMap", "roomSelected", selectedRoom)
     this.selectedRoom = selectedRoom
     this.repaint()
   }
@@ -314,7 +311,7 @@ export class TabMapMap {
     switch (tile.getType()) {
       case TileType.enemy:
         const enemy = (tile as EnemyTile).enemy
-        return `${enemy.type == null || enemy.type.length === 0 ? '??' : enemy.type} ${enemy.level == null ? '??' : enemy.level} (${enemy.name})`
+        return `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
       case TileType.item:
         return (tile as ItemTile).item.valueOf()
     }
@@ -404,7 +401,7 @@ export class TabMapMap {
       case TileType.wall:
         return Sprites.wall
     }
-    console.error('TabMapMap', 'spriteNameFromTile', 'Unknown tile', tile.getType())
+    console.error("TabMapMap", "spriteNameFromTile", "Unknown tile", tile.getType())
     return null
   }
 }

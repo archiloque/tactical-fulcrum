@@ -1,11 +1,11 @@
-import {Hole, html, render} from 'uhtml'
-import {RoomType, SelectedRoom} from './selectedRoom'
-import {Editor} from '../../editor'
-import {Room} from '../../behavior/room'
-import SlButton from '@shoelace-style/shoelace/cdn/components/button/button.component'
-import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
-import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
-import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
+import { Hole, html, render } from "uhtml"
+import { RoomType, SelectedRoom } from "./selectedRoom"
+import { Editor } from "../../editor"
+import { Room } from "../../behavior/room"
+import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
+import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
+import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
+import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 
 export class TabMapRooms {
   private readonly editor: Editor
@@ -20,7 +20,7 @@ export class TabMapRooms {
 
   constructor(editor: Editor) {
     this.editor = editor
-    editor.eventManager.registerRoomSelection(selectedRoom => this.roomSelected(selectedRoom))
+    editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
   }
 
   private notifyRoomSelected(selectedRoom: SelectedRoom | null): void {
@@ -28,7 +28,7 @@ export class TabMapRooms {
   }
 
   hole(): Hole {
-    console.debug('TabMapRooms', 'hole')
+    console.debug("TabMapRooms", "hole")
     return html`<h2>Room</h2>
       <sl-input id="tabMapRoomName" @sl-input="${this.nameChanged}" placeholder="Name"></sl-input>
       <div id="tabMapRoomButtons">
@@ -68,18 +68,18 @@ export class TabMapRooms {
   }
 
   init(): void {
-    console.debug('TabMapRooms', 'init')
-    this.standardRooms = document.getElementById('tabMapRoomStandardRooms') as SlTree
-    this.nexusRooms = document.getElementById('tabMapRoomNexusRooms') as SlTree
-    this.roomNameInput = document.getElementById('tabMapRoomName') as SlInput
-    this.deleteDialog = document.getElementById('tabMapRoomDeleteDialog') as SlDialog
-    this.addDialog = document.getElementById('tabMapRoomAddDialog') as SlDialog
-    this.buttonUp = document.getElementById('tabMapRoomButtonUp') as SlButton
-    this.buttonDown = document.getElementById('tabMapRoomButtonDown') as SlButton
+    console.debug("TabMapRooms", "init")
+    this.standardRooms = document.getElementById("tabMapRoomStandardRooms") as SlTree
+    this.nexusRooms = document.getElementById("tabMapRoomNexusRooms") as SlTree
+    this.roomNameInput = document.getElementById("tabMapRoomName") as SlInput
+    this.deleteDialog = document.getElementById("tabMapRoomDeleteDialog") as SlDialog
+    this.addDialog = document.getElementById("tabMapRoomAddDialog") as SlDialog
+    this.buttonUp = document.getElementById("tabMapRoomButtonUp") as SlButton
+    this.buttonDown = document.getElementById("tabMapRoomButtonDown") as SlButton
   }
 
   render(): void {
-    console.debug('TabMapRooms', 'render with selected room index', this.selectedRoom)
+    console.debug("TabMapRooms", "render with selected room index", this.selectedRoom)
     const standardRooms = this.renderRooms(this.editor.tower.standardRooms, RoomType.standard)
     render(this.standardRooms, html`Standard ${standardRooms}`)
     const nexusRooms = this.renderRooms(this.editor.tower.nexusRooms, RoomType.nexus)
@@ -89,8 +89,8 @@ export class TabMapRooms {
   private renderRooms(rooms: Room[], roomType: RoomType): Hole[] {
     return rooms.map((room, index) => {
       const id = `tabMapRoomRoom${index}`
-      const selected
-        = this.selectedRoom != null && index === this.selectedRoom.index && this.selectedRoom.type == roomType
+      const selected =
+        this.selectedRoom != null && index === this.selectedRoom.index && this.selectedRoom.type == roomType
       return html` <sl-tree-item
         id="${id}"
         ?selected="${selected}"
@@ -150,10 +150,10 @@ export class TabMapRooms {
   }
 
   private async addRoom(roomType: RoomType): Promise<any> {
-    console.debug('TabMapRooms', 'add room')
+    console.debug("TabMapRooms", "add room")
     await this.addDialog.hide()
     const room: Room = new Room()
-    room.name = 'New room'
+    room.name = "New room"
     this.editor.tower.getRooms(roomType).push(room)
     this.editor.tower.saveRooms()
     this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, this.editor.tower.getRooms(roomType).length - 1))
@@ -163,13 +163,12 @@ export class TabMapRooms {
   private deleteDialogConfirm = async (): Promise<any> => {
     await this.deleteDialog.hide()
     if (this.selectedRoom != null) {
-      console.debug('TabMapRooms', 'delete room', this.selectedRoom)
+      console.debug("TabMapRooms", "delete room", this.selectedRoom)
       this.editor.tower.getRooms(this.selectedRoom.type).splice(this.selectedRoom.index, 1)
       this.editor.tower.saveRooms()
       if (this.editor.tower.getRooms(this.selectedRoom.type).length === 0) {
         this.notifyRoomSelected(null)
-      }
- else {
+      } else {
         this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, 0))
       }
       this.render()
@@ -189,15 +188,14 @@ export class TabMapRooms {
   }
 
   private roomSelected(selectedRoom: SelectedRoom): void {
-    console.debug('TabMapRooms', 'roomSelected', selectedRoom)
+    console.debug("TabMapRooms", "roomSelected", selectedRoom)
     this.selectedRoom = selectedRoom
     if (selectedRoom != null) {
       this.roomNameInput.value = this.editor.tower.getRooms(selectedRoom.type)[this.selectedRoom.index].name
       this.buttonUp.disabled = selectedRoom.index === 0
       this.buttonDown.disabled = selectedRoom.index === this.editor.tower.standardRooms.length - 1
-    }
- else {
-      this.roomNameInput.value = ''
+    } else {
+      this.roomNameInput.value = ""
       this.buttonUp.disabled = true
       this.buttonDown.disabled = true
     }

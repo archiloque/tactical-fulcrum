@@ -1,6 +1,19 @@
 import fs from "fs"
 import path from "path"
 
+function createEntryPoints(fromPath, toPath, type) {
+  let candidates = fs.readdirSync(fromPath)
+  if (type != null) {
+    candidates = candidates.filter((fileName) => path.parse(fileName).ext === type)
+  }
+  return candidates.map((fileName) => {
+    return {
+      in: `${fromPath}/${fileName}`,
+      out: `${toPath}/${path.parse(fileName).name}`,
+    }
+  })
+}
+
 const editorIcons = [
   "arrow-up",
   "arrow-down",
@@ -11,95 +24,48 @@ const editorIcons = [
   "trash",
 ]
 
-const fonts = [
-  "JetBrainsMono-Medium.woff2",
-  "JetBrainsMonoNL-Regular.ttf",
-]
+export default function createConfig(entity) {
+  let entryPoints = createEntryPoints("node_modules/@shoelace-style/shoelace/dist/themes", "themes", ".css")
+    .concat(createEntryPoints("assets/sprites/out", "sprites", ".svg"))
+    .concat(createEntryPoints("assets/fonts", "fonts"))
+  if (entity === "game") {
+    entryPoints = entryPoints.concat([
+      { out: "game", in: "game/game.ts" },
+      { out: "index", in: "game/index.html" },
+    ])
+  } else {
+    entryPoints = entryPoints
+      .concat([
+        { out: "editor", in: "editor/editor.ts" },
+        { out: "index", in: "editor/index.html" },
+      ])
+      .concat(
+        editorIcons.map((icon) => {
+          return {
+            out: `assets/icons/${icon}`,
+            in: `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${icon}.svg`,
+          }
+        }),
+      )
+  }
 
-const themes = ["light", "dark"]
-
-const sprites = fs.readdirSync("assets/sprites/out").filter((s) => path.extname(s) === ".svg")
-
-const entryPoints = [
-  { out: "game/game", in: "game/game.ts" },
-  { out: "game/index", in: "game/index.html" },
-  { out: "editor/editor", in: "editor/editor.ts" },
-  { out: "editor/index", in: "editor/index.html" },
-]
-  .concat(
-    editorIcons.map((icon) => {
-      return {
-        out: `editor/assets/icons/${icon}`,
-        in: `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${icon}.svg`,
-      }
-    }),
-  )
-  .concat(
-    themes.map((theme) => {
-      return {
-        out: `editor/themes/${theme}`,
-        in: `node_modules/@shoelace-style/shoelace/dist/themes/${theme}.css`,
-      }
-    }),
-  )
-  .concat(
-    themes.map((theme) => {
-      return {
-        out: `game/themes/${theme}`,
-        in: `node_modules/@shoelace-style/shoelace/dist/themes/${theme}.css`,
-      }
-    }),
-  )
-  .concat(
-    sprites.map((asset) => {
-      return {
-        out: `editor/sprites/${path.parse(asset).name}`,
-        in: `assets/sprites/out/${asset}`,
-      }
-    }),
-  )
-  .concat(
-    sprites.map((asset) => {
-      return {
-        out: `game/sprites/${path.parse(asset).name}`,
-        in: `assets/sprites/out/${asset}`,
-      }
-    }),
-  )
-  .concat(
-    fonts.map((asset) => {
-      return {
-        out: `editor/fonts/${path.parse(asset).name}`,
-        in: `assets/fonts/${asset}`,
-      }
-    }))
-  .concat(
-    fonts.map((asset) => {
-      return {
-        out: `game/fonts/${path.parse(asset).name}`,
-        in: `assets/fonts/${asset}`,
-      }
-    }),
-  )
-
-export default {
-  entryPoints: entryPoints,
-  external: [
-    "fonts/JetBrainsMonoNL-Regular.ttf",
-    "fonts/JetBrainsMono-Medium.woff2",
-  ],
-  bundle: true,
-  minify: true,
-  sourcemap: true,
-  outdir: "out",
-  logLevel: "debug",
-  loader: {
-    ".html": "copy",
-    ".svg": "copy",
-    ".ttf": "copy",
-    ".woff2": "copy",
-    ".png": "copy",
-    ".json": "copy",
-  },
-  target: ["es2015"],
+  return {
+    entryPoints: entryPoints,
+    external: ["fonts/JetBrainsMonoNL-Regular.ttf", "fonts/JetBrainsMono-Medium.woff2"],
+    bundle: true,
+    minify: true,
+    sourcemap: true,
+    outdir: `out/${entity}`,
+    logLevel: "debug",
+    loader: {
+      ".html": "copy",
+      ".svg": "copy",
+      ".ttf": "copy",
+      ".woff2": "copy",
+      ".png": "copy",
+      ".json": "copy",
+    },
+    target: ["es2015"],
+    format: "esm",
+  }
 }

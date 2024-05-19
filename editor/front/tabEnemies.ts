@@ -1,14 +1,14 @@
-import {ENEMY_TYPES, EnemyType} from '../data/enemyType'
-import {Hole, html, render} from 'uhtml'
-import {DROPS} from '../data/drop'
-import {Editor} from '../editor'
-import {Enemy} from '../behavior/enemy'
-import {Item} from '../data/item'
-import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
-import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
-import SlSelect from '@shoelace-style/shoelace/cdn/components/select/select.component'
-import SlTabPanel from '@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component'
-import {Tab} from './tab'
+import { ENEMY_TYPES, EnemyType } from "../data/enemyType"
+import { Hole, html, render } from "uhtml"
+import { DROPS } from "../data/drop"
+import { Editor } from "../editor"
+import { Enemy } from "../behavior/enemy"
+import { Item } from "../data/item"
+import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
+import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
+import SlSelect from "@shoelace-style/shoelace/cdn/components/select/select.component"
+import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
+import { Tab } from "./tab"
 
 export class TabEnemies {
   private readonly editor: Editor
@@ -25,7 +25,7 @@ export class TabEnemies {
   private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
     const drops: Hole[] = DROPS.map(
       (item: string, index: number) =>
-        html` <sl-option value="${index}">${item == null ? '<Nothing>' : item}</sl-option>`,
+        html` <sl-option value="${index}">${item == null ? "<Nothing>" : item}</sl-option>`,
     )
     const dropValue = DROPS.indexOf(enemy.drop)
     const enemyTypes = ENEMY_TYPES.map(
@@ -106,7 +106,7 @@ export class TabEnemies {
   }
 
   render(): void {
-    console.debug('TabEnemies', 'render')
+    console.debug("TabEnemies", "render")
     render(
       this.tabElement,
       html`
@@ -136,12 +136,12 @@ export class TabEnemies {
         </sl-dialog>
       `,
     )
-    this.deleteDialog = <SlDialog>document.getElementById('tabEnemiesDeleteDialog')
-    this.deleteDialogMessage = document.getElementById('tabEnemiesDeleteDialogMessage')
+    this.deleteDialog = <SlDialog>document.getElementById("tabEnemiesDeleteDialog")
+    this.deleteDialogMessage = document.getElementById("tabEnemiesDeleteDialogMessage")
   }
 
   private addEnemy = (): void => {
-    console.debug('TabEnemies', 'add enemy')
+    console.debug("TabEnemies", "add enemy")
     this.editor.tower.enemies.push(new Enemy())
     this.render()
     this.editor.tower.saveEnemies()
@@ -153,7 +153,7 @@ export class TabEnemies {
       event.currentTarget.parentElement.dataset.index,
     )
     const enemiesCount = this.editor.tower.countEnemies(this.editor.tower.enemies[this.enemyDeletionIndex])
-    const dialogMessage = `Are you sure you want to delete this enemy? ${enemiesCount == 0 ? 'It is currently unused.' : `It is currently used ${enemiesCount} time(s), deleting it will remove it from the map(s).`}`
+    const dialogMessage = `Are you sure you want to delete this enemy? ${enemiesCount == 0 ? "It is currently unused." : `It is currently used ${enemiesCount} time(s), deleting it will remove it from the map(s).`}`
     this.deleteDialogMessage.innerText = dialogMessage
     await this.deleteDialog.show()
   }
@@ -170,57 +170,57 @@ export class TabEnemies {
 
   private atkChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug('TabEnemies', 'atkChange', enemyIndex, value)
+    console.debug("TabEnemies", "atkChange", enemyIndex, value)
     this.editor.tower.enemies[enemyIndex].atk = value
     this.editor.tower.saveEnemies()
   }
 
   private defChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug('TabEnemies', 'defChange', enemyIndex, value)
+    console.debug("TabEnemies", "defChange", enemyIndex, value)
     this.editor.tower.enemies[enemyIndex].def = value
     this.editor.tower.saveEnemies()
   }
 
   private expChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug('TabEnemies', 'expChange', enemyIndex, value)
+    console.debug("TabEnemies", "expChange", enemyIndex, value)
     this.editor.tower.enemies[enemyIndex].exp = value
     this.editor.tower.saveEnemies()
   }
 
   private hpChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug('TabEnemies', 'hpChange', enemyIndex, value)
+    console.debug("TabEnemies", "hpChange", enemyIndex, value)
     this.editor.tower.enemies[enemyIndex].hp = value
     this.editor.tower.saveEnemies()
   }
 
   private roomChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug('TabEnemies', 'roomChange', enemyIndex, value)
+    console.debug("TabEnemies", "roomChange", enemyIndex, value)
     this.editor.tower.enemies[enemyIndex].level = value
     this.editor.tower.saveEnemies()
   }
 
   private nameChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValue(event)
-    console.debug('TabEnemies', 'nameChange', enemyIndex, value)
-    this.editor.tower.enemies[enemyIndex].name = value === '' ? null : value
+    console.debug("TabEnemies", "nameChange", enemyIndex, value)
+    this.editor.tower.enemies[enemyIndex].name = value === "" ? null : value
     this.editor.tower.saveEnemies()
   }
 
   private typeChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueFromList(event)
-    console.debug('TabEnemies', 'typeChange', enemyIndex, value)
-    this.editor.tower.enemies[enemyIndex].type = value === '' ? null : (value as EnemyType)
+    console.debug("TabEnemies", "typeChange", enemyIndex, value)
+    this.editor.tower.enemies[enemyIndex].type = value === "" ? null : (value as EnemyType)
     this.editor.tower.saveEnemies()
   }
 
   private dropChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueFromList(event)
     const drop = DROPS[parseInt(value)] as Item
-    console.debug('TabEnemies', 'dropChange', enemyIndex, drop)
+    console.debug("TabEnemies", "dropChange", enemyIndex, drop)
     this.editor.tower.enemies[enemyIndex].drop = drop
     this.editor.tower.saveEnemies()
   }

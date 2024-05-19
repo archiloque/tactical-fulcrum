@@ -1,44 +1,44 @@
-import '../assets/css/reset.css'
-import '../assets/css/common.css'
-import './editor.css'
+import "../assets/css/reset.css"
+import "../common/common.css"
+import "./editor.css"
 
-import '@shoelace-style/shoelace/dist/components/alert/alert.js'
-import '@shoelace-style/shoelace/dist/components/button/button.js'
-import '@shoelace-style/shoelace/dist/components/button-group/button-group.js'
-import '@shoelace-style/shoelace/dist/components/dialog/dialog.js'
-import '@shoelace-style/shoelace/dist/components/icon/icon.js'
-import '@shoelace-style/shoelace/dist/components/input/input.js'
-import '@shoelace-style/shoelace/dist/components/option/option.js'
-import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js'
-import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js'
-import '@shoelace-style/shoelace/dist/components/select/select.js'
-import '@shoelace-style/shoelace/dist/components/split-panel/split-panel.js'
-import '@shoelace-style/shoelace/dist/components/tab/tab.js'
-import '@shoelace-style/shoelace/dist/components/tag/tag.js'
-import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js'
-import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js'
-import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js'
-import '@shoelace-style/shoelace/dist/components/tree/tree.js'
-import '@shoelace-style/shoelace/dist/components/tree-item/tree-item.js'
+import "@shoelace-style/shoelace/dist/components/alert/alert.js"
+import "@shoelace-style/shoelace/dist/components/button/button.js"
+import "@shoelace-style/shoelace/dist/components/button-group/button-group.js"
+import "@shoelace-style/shoelace/dist/components/dialog/dialog.js"
+import "@shoelace-style/shoelace/dist/components/icon/icon.js"
+import "@shoelace-style/shoelace/dist/components/input/input.js"
+import "@shoelace-style/shoelace/dist/components/option/option.js"
+import "@shoelace-style/shoelace/dist/components/radio-button/radio-button.js"
+import "@shoelace-style/shoelace/dist/components/radio-group/radio-group.js"
+import "@shoelace-style/shoelace/dist/components/select/select.js"
+import "@shoelace-style/shoelace/dist/components/split-panel/split-panel.js"
+import "@shoelace-style/shoelace/dist/components/tab/tab.js"
+import "@shoelace-style/shoelace/dist/components/tag/tag.js"
+import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js"
+import "@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js"
+import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js"
+import "@shoelace-style/shoelace/dist/components/tree/tree.js"
+import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
-import {EMPTY_TILE} from './behavior/tile'
-import {EventManager} from './front/eventManager'
-import {MainMenu} from './front/mainMenu'
-import {Tab} from './front/tab'
-import {TabEnemies} from './front/tabEnemies'
-import {TabImportExport} from './front/tabImportExport'
-import {TabInfo} from './front/tabInfo'
-import {TabMap} from './front/tabMap/tabMap'
-import {Tower} from './behavior/tower'
-import {setBasePath} from '@shoelace-style/shoelace/dist/utilities/base-path.js'
+import { EMPTY_TILE } from "./behavior/tile"
+import { EventManager } from "./front/eventManager"
+import { MainMenu } from "./front/mainMenu"
+import { Tab } from "./front/tab"
+import { TabEnemies } from "./front/tabEnemies"
+import { TabImportExport } from "./front/tabImportExport"
+import { TabInfo } from "./front/tabInfo"
+import { TabMap } from "./front/tabMap/tabMap"
+import { Tower } from "./behavior/tower"
+import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
 
 /**
  * @license
  * Copyright 2014 Julien Kirch
  * SPDX-License-Identifier: GPL-3.0
-*/
+ */
 const rootUrl = document.location.origin
-setBasePath(rootUrl + '/editor/')
+setBasePath(rootUrl + "/editor/")
 
 export class Editor {
   readonly tower: Tower
@@ -50,7 +50,7 @@ export class Editor {
   displayedTab: Tab
 
   constructor() {
-    console.debug('Editor starting')
+    console.debug("Editor starting")
     this.tower = new Tower()
     this.tower.load()
     this.eventManager = new EventManager()

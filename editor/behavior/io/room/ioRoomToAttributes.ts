@@ -1,7 +1,7 @@
-import {DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType} from '../../tile'
-import {IoRoom} from './ioRoom'
-import {Room} from '../../room'
-import {Score} from '../../score'
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../tile"
+import { IoRoom } from "./ioRoom"
+import { Room } from "../../room"
+import { Score } from "../../score"
 
 export class IoRoomToAttributes {
   static toAttributes(room: Room): {
@@ -11,8 +11,8 @@ export class IoRoomToAttributes {
   } {
     return {
       [IoRoom.ATTRIBUTE_NAME]: room.name,
-      [IoRoom.ATTRIBUTE_TILES]: room.tiles.map(tilesLine =>
-        tilesLine.map(tile => IoRoomToAttributes.createTile(tile)),
+      [IoRoom.ATTRIBUTE_TILES]: room.tiles.map((tilesLine) =>
+        tilesLine.map((tile) => IoRoomToAttributes.createTile(tile)),
       ),
       [IoRoom.ATTRIBUTE_SCORES]: room.scores.map((score) => {
         return IoRoomToAttributes.createScore(score)

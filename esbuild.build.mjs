@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import * as esbuild from "esbuild"
-import defaultConfig from "./esbuild.common.mjs"
+import createConfig from "./esbuild.common.mjs"
 
-const result = await esbuild.build(defaultConfig)
-console.log(result)
+console.log(await esbuild.build(await createConfig("game")))
+console.log(await esbuild.build(await createConfig("editor")))

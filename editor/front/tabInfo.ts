@@ -1,8 +1,8 @@
-import {html, render} from 'uhtml'
-import {Editor} from '../editor'
-import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
-import SlTabPanel from '@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component'
-import {Tab} from './tab'
+import { html, render } from "uhtml"
+import { Editor } from "../editor"
+import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
+import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
+import { Tab } from "./tab"
 
 export class TabInfo {
   private readonly editor: Editor
@@ -14,7 +14,7 @@ export class TabInfo {
   }
 
   render(): void {
-    console.debug('TabInfo', 'render')
+    console.debug("TabInfo", "render")
     render(
       this.tabInfo,
       html` <sl-tag variant="neutral" size="large">Tower name</sl-tag>

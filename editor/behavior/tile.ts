@@ -1,17 +1,17 @@
-import {Color} from '../data/color'
-import {Enemy} from './enemy'
-import {Item} from '../data/item'
-import {StaircaseDirection} from '../data/staircaseDirection'
+import { Color } from "../data/color"
+import { Enemy } from "./enemy"
+import { Item } from "../data/item"
+import { StaircaseDirection } from "../data/staircaseDirection"
 
 export const enum TileType {
-  door = 'door',
-  empty = 'empty',
-  enemy = 'enemy',
-  item = 'item',
-  key = 'key',
-  staircase = 'staircase',
-  startingPosition = 'startingPosition',
-  wall = 'wall',
+  door = "door",
+  empty = "empty",
+  enemy = "enemy",
+  item = "item",
+  key = "key",
+  staircase = "staircase",
+  startingPosition = "startingPosition",
+  wall = "wall",
 }
 
 export const TILE_TYPES: TileType[] = [

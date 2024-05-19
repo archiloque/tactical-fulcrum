@@ -6,7 +6,8 @@
   "license": "GPL-3.0-only",
   "scripts": {
     "build": "node esbuild.build.mjs",
-    "serve": "node esbuild.serve.mjs",
+    "serve-editor": "node esbuild.serve-editor.mjs",
+    "serve-game": "node esbuild.serve-game.mjs",
     "lint": "npx eslint --fix 'editor/**/*.ts'",
     "svg": "node build-svg.mjs",
     "prettier": "npx prettier . --write"
@@ -20,6 +21,7 @@
     "@stylistic/eslint-plugin": "^1.7.2",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "esbuild": "0.20.2",
+    "esbuild-minify-templates": "^0.11.0",
     "esbuild-plugin-copy": "^2.1.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
@@ -29,10 +31,9 @@
     "globals": "^15.0.0",
     "pixi.js": "^8.1.0",
     "prettier": "3.2.5",
+    "svgo": "^3.3.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.1",
-    "uhtml": "^4.5.8",
-    "svgo": "^3.3.2"
-  },
-  "dependencies": {}
+    "uhtml": "^4.5.8"
+  }
 }

@@ -64,6 +64,7 @@ export class Export extends IOOperation {
     return new ExportResult(
       JSON.stringify(
         {
+          [IOOperation.ATTRIBUTE_NAME]: tower.name,
           [IOOperation.ATTRIBUTE_ENEMIES]: enemies,
           [IOOperation.ATTRIBUTE_ROOMS]: {
             [IOOperation.ATTRIBUTE_STANDARD]: standardRooms,

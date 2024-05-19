@@ -28,6 +28,12 @@ export class Import extends IOOperation {
     const tower: Tower = new Tower()
     try {
       const parsedData: any = JSON.parse(stringData)
+      const towerName = parsedData[IOOperation.ATTRIBUTE_NAME]
+      if (towerName != null) {
+        tower.name = towerName
+      } else {
+        this.errors.push("Tower name is missing")
+      }
       const enemies = parsedData[IOOperation.ATTRIBUTE_ENEMIES]
       if (this.parsedValueInvalid(enemies)) {
         this.errors.push("Enemies value is invalid")

@@ -1,7 +1,7 @@
 import { IO } from "../io"
 import { Room } from "../../room"
 import { RoomType } from "../../../front/tabMap/selectedRoom"
-import { TILES_IN_ROW } from "../../../data/map"
+import { TILES_IN_ROW } from "../../../data/constants"
 import { TILE_TYPES } from "../../tile"
 
 export class IoRoom {

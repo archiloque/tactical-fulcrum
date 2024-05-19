@@ -1,7 +1,7 @@
 import { Application, Container, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
 import { ColorScheme, currentColorScheme } from "../colorScheme"
 import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../behavior/tile"
-import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/map"
+import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
 import { Color } from "../../data/color"
 import { Editor } from "../../../editor"
 import { Item } from "../../data/item"

@@ -20,7 +20,7 @@ import { Enemy } from "../../enemy"
 import { IoRoom } from "./ioRoom"
 import { Room } from "../../room"
 import { Score } from "../../score"
-import { TILES_IN_ROW } from "../../../data/map"
+import { TILES_IN_ROW } from "../../../data/constants"
 import { findEnum } from "../../functions"
 
 export class IoRoomFromAttributes {

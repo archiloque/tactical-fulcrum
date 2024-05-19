@@ -4,18 +4,19 @@ import { Editor } from "../../editor"
 import { Export } from "../behavior/io/export"
 import { IOResult } from "../behavior/io/importExport"
 import { Import } from "../behavior/io/import"
+import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
 import { Tab } from "./tab"
 
 export class TabImportExport {
   private readonly editor: Editor
-  private readonly tabElement: HTMLElement
+  private readonly tabElement: SlTabPanel
   private exportFileName: string = "tactical-fulcrum-level.json"
   private importInput: HTMLInputElement
   private tabImportExportLink: HTMLLinkElement
 
   constructor(editor: Editor) {
     this.editor = editor
-    this.tabElement = document.getElementById(Tab.importExport)
+    this.tabElement = document.getElementById(Tab.importExport) as SlTabPanel
   }
 
   render(): void {

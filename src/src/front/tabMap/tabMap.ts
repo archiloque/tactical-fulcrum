@@ -3,6 +3,7 @@ import { html, render } from "uhtml"
 import { Editor } from "../../../editor"
 import { LOCAL_STORAGE_CURRENT_ROOM } from "../../behavior/io/localStorage"
 import SlSplitPanel from "@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component"
+import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
 import { Tab } from "../tab"
 import { TabMapElements } from "./tabMapElements"
 import { TabMapLayer } from "./tabMapLayer"
@@ -13,7 +14,7 @@ import { settings } from "@pixi/settings"
 
 export class TabMap {
   private readonly editor: Editor
-  private readonly tabElement: HTMLElement
+  private readonly tabElement: SlTabPanel
   private splitPanel1: SlSplitPanel
   private splitPanel2: SlSplitPanel
   private tabMapMap: TabMapMap
@@ -27,7 +28,7 @@ export class TabMap {
     settings.RESOLUTION = window.devicePixelRatio || 1
     this.editor = editor
 
-    this.tabElement = document.getElementById(Tab.map)
+    this.tabElement = document.getElementById(Tab.map) as SlTabPanel
 
     this.tabMapLayer = new TabMapLayer(editor)
     this.tabMapElements = new TabMapElements(editor)

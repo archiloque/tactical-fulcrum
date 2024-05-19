@@ -69,10 +69,16 @@ sl-tab-group::part(nav) {
   }
 }
 
+#tabInfo {
+  text-align: center;
+  sl-input {
+    display: inline-block;
+  }
+}
+
 #tabImportExport {
   .topButtons {
     text-align: center;
-    padding-bottom: 1em;
   }
 
   #tabImportExportExportAlert {
@@ -89,13 +95,13 @@ sl-tab-group::part(nav) {
   padding-top: 0.5em;
 }
 
-#tabMapLayerRadionGroup,
+#tabMapLayerRadioGroup,
 #tabMapLevelName,
 #tabMapRoomButtons {
   padding: 0.5em;
 }
 
-#tabMapLayerRadionGroup,
+#tabMapLayerRadioGroup,
 #tabMapRoomButtons,
 #tabMapRoomAdd {
   display: block;

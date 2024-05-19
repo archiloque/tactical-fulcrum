@@ -26,6 +26,7 @@ import { MainMenu } from "./src/front/mainMenu"
 import { Tab } from "./src/front/tab"
 import { TabEnemies } from "./src/front/tabEnemies"
 import { TabImportExport } from "./src/front/tabImportExport"
+import { TabInfo } from "./src/front/tabInfo"
 import { TabMap } from "./src/front/tabMap/tabMap"
 import { Tower } from "./src/behavior/tower"
 import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
@@ -39,6 +40,7 @@ export class Editor {
   private readonly tabEnemies: TabEnemies
   private readonly tabImportExport: TabImportExport
   private readonly tabMap: TabMap
+  private readonly tabInfo: TabInfo
 
   constructor() {
     console.debug("Editor starting")
@@ -49,6 +51,7 @@ export class Editor {
     this.tabEnemies = new TabEnemies(this)
     this.tabImportExport = new TabImportExport(this)
     this.tabMap = new TabMap(this)
+    this.tabInfo = new TabInfo(this)
     this.tabMap.init().then(() => {
       setTimeout(() => {
         this.tabMap.render()
@@ -63,6 +66,7 @@ export class Editor {
         this.tabMap.render()
         break
       case Tab.info:
+        this.tabInfo.render()
         break
       case Tab.enemies:
         this.tabEnemies.render()

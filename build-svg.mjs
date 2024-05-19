@@ -33,7 +33,7 @@ const COLORS_CRIMSON_BLUE = [
 const COLORS_ALL = [
   new ColorPair("blue", "#2563eb", "#1E40AF"),
   new ColorPair("crimson", "#ff0000", "#660000"),
-  new ColorPair("greenBlue", "#14b8a6", "#084a42"),
+  new ColorPair("greenblue", "#14b8a6", "#084a42"),
   new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
   new ColorPair("violet", "#a855f7", "#44067f"),
   new ColorPair("yellow", "#ffff00", "#999900"),
@@ -41,7 +41,7 @@ const COLORS_ALL = [
 
 const SPRITES_MONOCHROMES = [
   "enemy",
-  "feather",
+  "golden-feather",
   "item",
   "score-check",
   "score-crown",

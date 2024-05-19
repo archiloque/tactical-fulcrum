@@ -6,7 +6,7 @@ import { findEnum } from "../../behavior/functions"
 
 export class TabMapLayer {
   private readonly editor: Editor
-  private static readonly radioGroupId = "tabMapLayerRadionGroup"
+  private static readonly radioGroupId = "tabMapLayerRadioGroup"
   private radioGroup: SlRadioGroup
 
   constructor(editor: Editor) {

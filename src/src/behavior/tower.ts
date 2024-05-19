@@ -1,5 +1,5 @@
 import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
-import { LOCAL_STORAGE_KEY_ENEMIES, LOCAL_STORAGE_KEY_ROOMS } from "./io/localStorage"
+import { LOCAL_STORAGE_KEY_ENEMIES, LOCAL_STORAGE_KEY_NAME, LOCAL_STORAGE_KEY_ROOMS } from "./io/localStorage"
 import { Enemy } from "./enemy"
 import { IOOperation } from "./io/importExport"
 import { IoEnemyFromAttributes } from "./io/enemy/ioEnemyFromAttributes"
@@ -11,12 +11,14 @@ import { RoomType } from "../front/tabMap/selectedRoom"
 import { ScoreType } from "../data/scoreType"
 
 export class Tower {
+  name: string
   enemies: Enemy[]
   standardRooms: Room[]
   nexusRooms: Room[]
 
   constructor() {
     this.enemies = []
+    this.name = "Unnamed tower"
     const standardRoom = new Room()
     standardRoom.name = "Standard room"
     const nexusRoom = new Room()
@@ -92,6 +94,11 @@ export class Tower {
     )
   }
 
+  saveName(): void {
+    console.debug("Tower", "saveName")
+    localStorage.setItem(LOCAL_STORAGE_KEY_NAME, this.name)
+  }
+
   saveRooms(): void {
     console.debug("Tower", "saveRooms")
     localStorage.setItem(
@@ -110,8 +117,18 @@ export class Tower {
   load(): void {
     console.groupCollapsed("Tower", "load")
     this.loadEnemies()
+    this.loadName()
     this.loadRooms()
     console.groupEnd()
+  }
+
+  private loadEnemies(): void {
+    const enemiesRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ENEMIES)
+    if (enemiesRaw != null) {
+      const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
+      this.enemies = enemiesJson.map((value) => IoEnemyFromAttributes.fromAttributes(value))
+      console.debug("Tower", this.enemies.length, "enemies loaded")
+    }
   }
 
   private loadRooms(): void {
@@ -133,12 +150,10 @@ export class Tower {
     }
   }
 
-  private loadEnemies(): void {
-    const enemiesRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ENEMIES)
-    if (enemiesRaw != null) {
-      const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
-      this.enemies = enemiesJson.map((value) => IoEnemyFromAttributes.fromAttributes(value))
-      console.debug("Tower", this.enemies.length, "enemies loaded")
+  private loadName(): void {
+    const nameRaw = localStorage.getItem(LOCAL_STORAGE_KEY_NAME)
+    if (nameRaw != null) {
+      this.name = nameRaw
     }
   }
 }

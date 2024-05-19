@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node esbuild.build.mjs",
     "serve": "node esbuild.serve.mjs",
-    "lint": "npx eslint --fix 'src/**/*.ts'",
+    "lint": "npx eslint --fix 'editor/**/*.ts'",
     "svg": "node build-svg.mjs",
     "prettier": "npx prettier . --write"
   },

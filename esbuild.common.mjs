@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 
-const icons = [
+const editorIcons = [
   "arrow-up",
   "arrow-down",
   "check2-circle",
@@ -11,18 +11,23 @@ const icons = [
   "trash",
 ]
 
+const fonts = [
+  "JetBrainsMono-Medium.woff2",
+  "JetBrainsMonoNL-Regular.ttf"
+]
+
 const themes = ["light", "dark"]
 
-const sprites = fs.readdirSync("src/assets/sprites/out").filter((s) => path.extname(s) === ".svg")
+const sprites = fs.readdirSync("assets/sprites/out").filter((s) => path.extname(s) === ".svg")
 
 const entryPoints = [
-  { out: "editor", in: "src/editor.ts" },
-  { out: "index", in: "src/index.html" },
+  { out: "editor/editor", in: "editor/editor.ts" },
+  { out: "editor/editor", in: "editor/editor.html" },
 ]
   .concat(
-    icons.map((icon) => {
+    editorIcons.map((icon) => {
       return {
-        out: `assets/icons/${icon}`,
+        out: `editor/assets/icons/${icon}`,
         in: `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${icon}.svg`,
       }
     }),
@@ -30,7 +35,7 @@ const entryPoints = [
   .concat(
     themes.map((theme) => {
       return {
-        out: `assets/theme/${theme}`,
+        out: `editor/themes/${theme}`,
         in: `node_modules/@shoelace-style/shoelace/dist/themes/${theme}.css`,
       }
     }),
@@ -38,14 +43,26 @@ const entryPoints = [
   .concat(
     sprites.map((asset) => {
       return {
-        out: `assets/sprites/${path.parse(asset).name}`,
-        in: `src/assets/sprites/out/${asset}`,
+        out: `editor/sprites/${path.parse(asset).name}`,
+        in: `assets/sprites/out/${asset}`,
+      }
+    }),
+  )
+  .concat(
+    fonts.map((asset) => {
+      return {
+        out: `editor/fonts/${path.parse(asset).name}`,
+        in: `assets/fonts/${asset}`,
       }
     }),
   )
 
 export default {
   entryPoints: entryPoints,
+  external: [
+    "fonts/JetBrainsMonoNL-Regular.ttf",
+    "fonts/JetBrainsMono-Medium.woff2",
+  ],
   bundle: true,
   minify: true,
   sourcemap: true,

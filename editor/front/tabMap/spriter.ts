@@ -13,7 +13,7 @@ export class Spriter {
       SPRITES.map((sprite) => {
         return {
           alias: sprite.valueOf(),
-          src: `./assets/sprites/${sprite.valueOf()}-${colorScheme.valueOf()}.svg`,
+          src: `./sprites/${sprite.valueOf()}-${colorScheme.valueOf()}.svg`,
           data: {
             height: tileSize * window.devicePixelRatio,
             width: tileSize * window.devicePixelRatio,

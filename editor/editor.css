@@ -1,8 +1,8 @@
 @font-face {
   font-family: "JetBrains Mono";
   src:
-    url(assets/JetBrainsMono-Medium.woff2) format("woff"),
-    url(assets/JetBrainsMonoNL-Regular.ttf) format("truetype");
+    url(fonts/JetBrainsMono-Medium.woff2) format("woff"),
+    url(fonts/JetBrainsMonoNL-Regular.ttf) format("truetype");
 }
 
 body {

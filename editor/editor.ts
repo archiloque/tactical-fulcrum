@@ -20,19 +20,19 @@ import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js"
 import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
-import { EMPTY_TILE } from "./src/behavior/tile"
-import { EventManager } from "./src/front/eventManager"
-import { MainMenu } from "./src/front/mainMenu"
-import { Tab } from "./src/front/tab"
-import { TabEnemies } from "./src/front/tabEnemies"
-import { TabImportExport } from "./src/front/tabImportExport"
-import { TabInfo } from "./src/front/tabInfo"
-import { TabMap } from "./src/front/tabMap/tabMap"
-import { Tower } from "./src/behavior/tower"
+import { EMPTY_TILE } from "./behavior/tile"
+import { EventManager } from "./front/eventManager"
+import { MainMenu } from "./front/mainMenu"
+import { Tab } from "./front/tab"
+import { TabEnemies } from "./front/tabEnemies"
+import { TabImportExport } from "./front/tabImportExport"
+import { TabInfo } from "./front/tabInfo"
+import { TabMap } from "./front/tabMap/tabMap"
+import { Tower } from "./behavior/tower"
 import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
 
 const rootUrl = document.location.origin
-setBasePath(rootUrl)
+setBasePath(rootUrl + "/editor/")
 
 export class Editor {
   readonly tower: Tower

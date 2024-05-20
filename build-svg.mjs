@@ -41,6 +41,7 @@ const COLORS_ALL = [
 
 const SPRITES_MONOCHROMES = [
   "enemy",
+  "enemy-sword",
   "golden-feather",
   "item",
   "score-check",
@@ -60,8 +61,8 @@ const SPRITES_ALL_COLORS = [
   new Sprite("potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN])),
 ]
 
-const IN_DIR = "src/assets/sprites/in"
-const OUT_DIR = "src/assets/sprites/out"
+const IN_DIR = "assets/sprites/in"
+const OUT_DIR = "assets/sprites/out"
 
 const DARK_SUFFIX = "-dark"
 const LIGHT_SUFFIX = "-light"

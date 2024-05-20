@@ -5,7 +5,7 @@ export const enum Sprites {
   doorPlatinum = "door-platinum",
   doorViolet = "door-violet",
   doorYellow = "door-yellow",
-  enemy = "enemy",
+  enemy = "enemy-sword",
   goldenFeather = "golden-feather",
   item = "item",
   itemBluePotion = "potion-blue",

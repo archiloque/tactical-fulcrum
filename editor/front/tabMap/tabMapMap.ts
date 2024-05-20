@@ -96,9 +96,8 @@ export class TabMapMap {
       this.background.height = appSize
       this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
       this.sprites = new Spriter()
-      await this.sprites.reload(this.tileSize, currentColorScheme())
-      this.repaint()
       this.mapToolTip.style.width = `${newTileSize}px`
+      return this.sprites.reload(this.tileSize, currentColorScheme()).then(() => this.repaint())
     }
   }
 

@@ -75,16 +75,16 @@ export class TabMap {
     this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
   }
 
-  render(): void {
+  async render(): Promise<any> {
     console.debug("TabMap", "render")
     this.calculateRealSelectedRoom(this.selectedRoom)
     this.tabMapElements.render()
     this.tabMapRooms.render()
-    this.resize()
+    await this.resize()
   }
 
-  private reposition = (): void => {
-    this.resize()
+  private reposition = async (): Promise<any> => {
+    await this.resize()
   }
 
   private async resize(): Promise<any> {
@@ -93,8 +93,7 @@ export class TabMap {
     const splitPanel2Percent = this.splitPanel2.position / 100
     const width = window.innerWidth * splitPanel1Percent * splitPanel2Percent - 20
     const number = Math.min(height, width)
-    await this.tabMapMap.resize(number)
-    this.tabMapMap.repaint()
+    this.tabMapMap.resize(number).then(() => this.tabMapMap.repaint())
   }
 
   private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = "type"

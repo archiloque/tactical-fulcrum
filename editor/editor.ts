@@ -68,11 +68,11 @@ export class Editor {
     this.displayedTab = Tab.map
   }
 
-  public tabShown(tab: Tab): void {
+  public async tabShown(tab: Tab): Promise<any> {
     this.displayedTab = tab
     switch (tab) {
       case Tab.map:
-        this.tabMap.render()
+        await this.tabMap.render()
         break
       case Tab.info:
         this.tabInfo.render()

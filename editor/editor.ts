@@ -38,7 +38,7 @@ import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.j
  * SPDX-License-Identifier: GPL-3.0
  */
 const rootUrl = document.location.origin
-setBasePath(rootUrl + "/editor/")
+setBasePath(rootUrl)
 
 export class Editor {
   readonly tower: Tower

@@ -10,7 +10,7 @@ body {
   margin: 0;
 }
 
-:root {
+:root, :host, .sl-theme-dark, .sl-theme-light {
   --sl-font-sans: "JetBrains Mono", monospace;
   --sl-font-serif: "JetBrains Mono", monospace;
   --sl-font-mono: "JetBrains Mono", monospace;

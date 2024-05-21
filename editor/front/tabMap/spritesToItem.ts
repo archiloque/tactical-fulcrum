@@ -27,10 +27,14 @@ export class SpritesToItem {
 
   private static spriteNameFromEnemy(tile: EnemyTile): Sprites {
     switch (tile.enemy.type) {
+      case EnemyType.burgeoner:
+        return Sprites.enemyBurgeoner
       case EnemyType.fighter:
         return Sprites.enemyFighter
       case EnemyType.ranger:
         return Sprites.enemyRanger
+      case EnemyType.shadow:
+        return Sprites.enemyShadow
     }
   }
 

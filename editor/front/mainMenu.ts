@@ -29,6 +29,6 @@ export class MainMenu {
   private tabShown = async (event: CustomEvent): Promise<any> => {
     const tab: string = event.detail.name
     console.debug("MainMenu: tab", tab, "shown")
-    await this.editor.tabShown(tab as Tab)
+    return this.editor.tabShown(tab as Tab)
   }
 }

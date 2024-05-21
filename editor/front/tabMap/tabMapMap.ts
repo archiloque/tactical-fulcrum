@@ -75,7 +75,6 @@ export class TabMapMap {
     ]).then(() => {
       this.app.stage.addChild(this.background)
       this.app.stage.addChild(this.cursor)
-      this.repaint()
     })
   }
 

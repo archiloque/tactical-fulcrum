@@ -123,7 +123,7 @@ export class TabMapRooms {
   }
 
   private delete = async (): Promise<any> => {
-    await this.deleteDialog.show()
+    return this.deleteDialog.show()
   }
 
   private moveDown = (): void => {
@@ -138,41 +138,43 @@ export class TabMapRooms {
   }
 
   private addRoomButton = async (): Promise<any> => {
-    await this.addDialog.show()
+    return this.addDialog.show()
   }
 
   private addRoomStandard = async (): Promise<any> => {
-    await this.addRoom(RoomType.standard)
+    return this.addRoom(RoomType.standard)
   }
 
   private addRoomNexus = async (): Promise<any> => {
-    await this.addRoom(RoomType.nexus)
+    return this.addRoom(RoomType.nexus)
   }
 
   private async addRoom(roomType: RoomType): Promise<any> {
     console.debug("TabMapRooms", "add room")
-    await this.addDialog.hide()
-    const room: Room = new Room()
-    room.name = "New room"
-    this.editor.tower.getRooms(roomType).push(room)
-    this.editor.tower.saveRooms()
-    this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, this.editor.tower.getRooms(roomType).length - 1))
-    this.render()
+    this.addDialog.hide().then(() => {
+      const room: Room = new Room()
+      room.name = "New room"
+      this.editor.tower.getRooms(roomType).push(room)
+      this.editor.tower.saveRooms()
+      this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, this.editor.tower.getRooms(roomType).length - 1))
+      this.render()
+    })
   }
 
   private deleteDialogConfirm = async (): Promise<any> => {
-    await this.deleteDialog.hide()
-    if (this.selectedRoom != null) {
-      console.debug("TabMapRooms", "delete room", this.selectedRoom)
-      this.editor.tower.getRooms(this.selectedRoom.type).splice(this.selectedRoom.index, 1)
-      this.editor.tower.saveRooms()
-      if (this.editor.tower.getRooms(this.selectedRoom.type).length === 0) {
-        this.notifyRoomSelected(null)
-      } else {
-        this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, 0))
+    this.deleteDialog.hide().then(() => {
+      if (this.selectedRoom != null) {
+        console.debug("TabMapRooms", "delete room", this.selectedRoom)
+        this.editor.tower.getRooms(this.selectedRoom.type).splice(this.selectedRoom.index, 1)
+        this.editor.tower.saveRooms()
+        if (this.editor.tower.getRooms(this.selectedRoom.type).length === 0) {
+          this.notifyRoomSelected(null)
+        } else {
+          this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, 0))
+        }
+        this.render()
       }
-      this.render()
-    }
+    })
   }
 
   private deleteDialogCancel = (): void => {

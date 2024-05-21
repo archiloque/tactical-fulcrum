@@ -25,5 +25,5 @@ export async function showAlert(
 `,
   })
   document.body.append(alert)
-  await alert.toast()
+  return alert.toast()
 }

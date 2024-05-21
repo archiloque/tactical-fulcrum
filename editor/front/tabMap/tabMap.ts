@@ -38,41 +38,43 @@ export class TabMap {
     this.tabMapRooms = new TabMapRooms(editor)
     window.addEventListener("resize", () => {
       if (editor.displayedTab === Tab.map) {
-        this.resize()
+        return this.resize()
       }
     })
   }
 
   async init(): Promise<any> {
     console.debug("TabMap", "init")
-    await this.tabMapMap.init()
-    render(
-      this.tabElement,
-      html` <div id="tabMapMapToolTip">
-          <sl-tooltip id="tabMapMapToolTipTip" trigger="manual" hoist content="This is a tooltip">
-            <div id="tabMapMapToolTipElement"></div>
-          </sl-tooltip>
-        </div>
-        <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
-          <div slot="start">${this.tabMapLayer.hole()}${this.tabMapScores.hole()}${this.tabMapElements.hole()}</div>
-          <div slot="end">
-            <sl-split-panel id="tabMapSplitPanel2" position="75">
-              <div id="tabMapMap" slot="start"></div>
-              <div slot="end">${this.tabMapRooms.hole()}</div>
-            </sl-split-panel>
+    return this.tabMapMap.init().then(() => {
+      render(
+        this.tabElement,
+        html` <div id="tabMapMapToolTip">
+            <sl-tooltip id="tabMapMapToolTipTip" trigger="manual" hoist content="This is a tooltip">
+              <div id="tabMapMapToolTipElement"></div>
+            </sl-tooltip>
           </div>
-        </sl-split-panel>`,
-    )
-    this.splitPanel1 = <SlSplitPanel>document.getElementById("tabMapSplitPanel1")
-    this.splitPanel2 = <SlSplitPanel>document.getElementById("tabMapSplitPanel2")
-    document.getElementById("tabMapMap").appendChild(this.tabMapMap.app.canvas)
-    this.tabMapRooms.init()
-    this.tabMapElements.init()
-    this.tabMapLayer.init()
-    this.tabMapScores.init()
-    this.tabMapMap.postInit()
-    this.loadInitRoom()
-    this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
+          <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
+            <div slot="start">${this.tabMapLayer.hole()}${this.tabMapScores.hole()}${this.tabMapElements.hole()}</div>
+            <div slot="end">
+              <sl-split-panel id="tabMapSplitPanel2" position="75">
+                <div id="tabMapMap" slot="start"></div>
+                <div slot="end">${this.tabMapRooms.hole()}</div>
+              </sl-split-panel>
+            </div>
+          </sl-split-panel>`,
+      )
+      this.splitPanel1 = <SlSplitPanel>document.getElementById("tabMapSplitPanel1")
+      this.splitPanel2 = <SlSplitPanel>document.getElementById("tabMapSplitPanel2")
+      document.getElementById("tabMapMap").appendChild(this.tabMapMap.app.canvas)
+      this.tabMapRooms.init()
+      this.tabMapElements.init()
+      this.tabMapLayer.init()
+      this.tabMapScores.init()
+      this.tabMapMap.postInit()
+      this.loadInitRoom()
+      this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
+      console.debug("TabMap", "ended init")
+    })
   }
 
   async render(): Promise<any> {
@@ -80,20 +82,22 @@ export class TabMap {
     this.calculateRealSelectedRoom(this.selectedRoom)
     this.tabMapElements.render()
     this.tabMapRooms.render()
-    await this.resize()
+    return this.resize()
   }
 
   private reposition = async (): Promise<any> => {
-    await this.resize()
+    console.debug("TabMap", "reposition")
+    return this.resize()
   }
 
   private async resize(): Promise<any> {
+    console.debug("TabMap", "resize")
     const height = window.innerHeight - this.splitPanel1.getBoundingClientRect().top - 10
     const splitPanel1Percent = 1 - this.splitPanel1.position / 100
     const splitPanel2Percent = this.splitPanel2.position / 100
     const width = window.innerWidth * splitPanel1Percent * splitPanel2Percent - 20
     const number = Math.min(height, width)
-    this.tabMapMap.resize(number).then(() => this.tabMapMap.repaint())
+    return this.tabMapMap.resize(number).then(() => this.tabMapMap.repaint())
   }
 
   private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = "type"

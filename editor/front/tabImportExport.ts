@@ -54,12 +54,12 @@ export class TabImportExport {
   }
 
   private selectImportFile = async (): Promise<any> => {
-    await this.processImportFiles(this.importInput.files)
+    return this.processImportFiles(this.importInput.files)
   }
 
   private dropImportFile = async (event: DragEvent): Promise<any> => {
     event.preventDefault()
-    await this.processImportFiles(event.dataTransfer.files)
+    return this.processImportFiles(event.dataTransfer.files)
   }
 
   private async processImportFiles(filesList: FileList): Promise<any> {
@@ -70,23 +70,22 @@ export class TabImportExport {
       }
     }
     if (goodFiles.length == 0) {
-      await showAlert(`Import failed: no JSON file found`, AlertVariant.danger, "check2-circle")
-      return
+      return showAlert(`Import failed: no JSON file found`, AlertVariant.danger, "check2-circle")
     } else if (goodFiles.length > 1) {
-      await showAlert(`Import failed: several JSON files found`, AlertVariant.danger, "check2-circle")
-      return
+      return showAlert(`Import failed: several JSON files found`, AlertVariant.danger, "check2-circle")
     }
     this.exportFileName = goodFiles[0].name
-    const fileContent = await goodFiles[0].text()
-    const importResult = new Import().import(fileContent)
-    this.editor.tower.enemies = importResult.tower.enemies
-    this.editor.tower.saveEnemies()
-    this.editor.tower.standardRooms = importResult.tower.standardRooms
-    this.editor.tower.nexusRooms = importResult.tower.nexusRooms
-    this.editor.tower.saveRooms()
-    this.editor.tower.name = importResult.tower.name
-    this.editor.tower.saveName()
-    await TabImportExport.processIOResult(importResult, "Import")
+    goodFiles[0].text().then((fileContent: string) => {
+      const importResult = new Import().import(fileContent)
+      this.editor.tower.enemies = importResult.tower.enemies
+      this.editor.tower.saveEnemies()
+      this.editor.tower.standardRooms = importResult.tower.standardRooms
+      this.editor.tower.nexusRooms = importResult.tower.nexusRooms
+      this.editor.tower.saveRooms()
+      this.editor.tower.name = importResult.tower.name
+      this.editor.tower.saveName()
+      TabImportExport.processIOResult(importResult, "Import")
+    })
   }
 
   private export = async (): Promise<any> => {
@@ -97,14 +96,14 @@ export class TabImportExport {
     )
     this.tabImportExportLink.setAttribute("download", this.exportFileName)
     this.tabImportExportLink.click()
-    await TabImportExport.processIOResult(exportResult, "Export")
+    return TabImportExport.processIOResult(exportResult, "Export")
   }
 
   private static async processIOResult(ioResult: IOResult, operationName: string): Promise<any> {
     if (ioResult.errors.length === 0) {
-      await showAlert(`${operationName} done`, AlertVariant.success, "exclamation-octagon")
+      return showAlert(`${operationName} done`, AlertVariant.success, "exclamation-octagon")
     } else {
-      await showAlert(
+      return showAlert(
         `${operationName} done but there are errors:
                     <ul>
                         ${ioResult.errors

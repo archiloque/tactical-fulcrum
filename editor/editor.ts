@@ -61,7 +61,7 @@ export class Editor {
     this.tabInfo = new TabInfo(this)
     this.tabMap.init().then(() => {
       setTimeout(() => {
-        this.tabMap.render()
+        return this.tabMap.render()
       }, 10)
     })
     this.eventManager.notifyTileSelection(EMPTY_TILE, false)
@@ -72,17 +72,13 @@ export class Editor {
     this.displayedTab = tab
     switch (tab) {
       case Tab.map:
-        await this.tabMap.render()
-        break
+        return this.tabMap.render()
       case Tab.info:
-        this.tabInfo.render()
-        break
+        return this.tabInfo.render()
       case Tab.enemies:
-        this.tabEnemies.render()
-        break
+        return this.tabEnemies.render()
       case Tab.importExport:
-        this.tabImportExport.render()
-        break
+        return this.tabImportExport.render()
       default:
         throw new Error(`Unknown tab [${tab}]`)
     }

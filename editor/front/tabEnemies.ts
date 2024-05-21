@@ -155,17 +155,18 @@ export class TabEnemies {
     const enemiesCount = this.editor.tower.countEnemies(this.editor.tower.enemies[this.enemyDeletionIndex])
     const dialogMessage = `Are you sure you want to delete this enemy? ${enemiesCount == 0 ? "It is currently unused." : `It is currently used ${enemiesCount} time(s), deleting it will remove it from the map(s).`}`
     this.deleteDialogMessage.innerText = dialogMessage
-    await this.deleteDialog.show()
+    return this.deleteDialog.show()
   }
 
   private deleteDialogConfirm = async (): Promise<any> => {
-    await this.deleteDialog.hide()
-    this.editor.tower.deleteEnemy(this.editor.tower.enemies[this.enemyDeletionIndex])
-    this.render()
+    this.deleteDialog.hide().then(() => {
+      this.editor.tower.deleteEnemy(this.editor.tower.enemies[this.enemyDeletionIndex])
+      this.render()
+    })
   }
 
   private deleteDialogCancel = async (): Promise<any> => {
-    await this.deleteDialog.hide()
+    return this.deleteDialog.hide()
   }
 
   private atkChange = (event: CustomEvent): void => {
@@ -239,7 +240,6 @@ export class TabEnemies {
 
   private getInputValueFromList = (event: CustomEvent): [number, string] => {
     const currentTarget = event.currentTarget as SlSelect
-    debugger
     const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
     return [enemyIndex, currentTarget.value as string]
   }

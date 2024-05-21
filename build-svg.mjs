@@ -41,6 +41,7 @@ const COLORS_ALL = [
 
 const SPRITES_MONOCHROMES = [
   "enemy",
+  "enemy-arrow",
   "enemy-sword",
   "golden-feather",
   "item",

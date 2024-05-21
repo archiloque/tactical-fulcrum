@@ -1,10 +1,8 @@
-import { Application, Container, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
+import { Application, Container, FederatedPointerEvent, Graphics, Point, Sprite, Text } from "pixi.js"
 import { ColorScheme, currentColorScheme } from "../colorScheme"
-import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../behavior/tile"
+import { EnemyTile, ItemTile, Tile, TileType } from "../../behavior/tile"
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
-import { Color } from "../../data/color"
 import { Editor } from "../../editor"
-import { Item } from "../../data/item"
 import { Room } from "../../behavior/room"
 import { RoomLayer } from "../roomLayer"
 import { SHIFT } from "../keys"
@@ -13,13 +11,16 @@ import { ScoreType } from "../../data/scoreType"
 import { SelectedRoom } from "./selectedRoom"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 import { Spriter } from "./spriter"
-import { Sprites } from "./sprites"
-import { StaircaseDirection } from "../../data/staircaseDirection"
+import { SpritesToItem } from "./spritesToItem"
 
 export class TabMapMap {
   private static readonly BACKGROUND_COLORS = {
     [ColorScheme.dark]: "#000000",
     [ColorScheme.light]: "#FFFFFF",
+  }
+  private static readonly FOREGROUND_COLORS = {
+    [ColorScheme.dark]: "#cccccc",
+    [ColorScheme.light]: "#000000",
   }
 
   readonly app: Application
@@ -39,6 +40,7 @@ export class TabMapMap {
   private selectedTile: Tile
   private selectedLayer: RoomLayer = RoomLayer.standard
   private selectedScore: ScoreType
+  private colorScheme: ColorScheme = currentColorScheme()
 
   constructor(editor: Editor) {
     this.app = new Application()
@@ -101,6 +103,7 @@ export class TabMapMap {
   }
 
   private schemeChanged(colorScheme: ColorScheme): void {
+    this.colorScheme = colorScheme
     // @ts-ignore
     this.app.setBackgroundColor(TabMapMap.BACKGROUND_COLORS[colorScheme])
     this.sprites.reload(this.tileSize, colorScheme).then(() => {
@@ -144,7 +147,6 @@ export class TabMapMap {
           }
           break
         }
-        // TODO
         case RoomLayer.score:
           if (e.shiftKey) {
             const selectedScore = currentRoom.scores.find((score) => {
@@ -279,12 +281,28 @@ export class TabMapMap {
       for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
         for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
           const currentTile = currentRoom.tiles[lineIndex][columnIndex]
-          const spriteName = this.spriteNameFromTile(currentTile)
+          const spriteName = SpritesToItem.spriteNameFromTile(currentTile)
           if (spriteName != null) {
             const sprite = this.sprites.getSprite(spriteName)
             sprite.x = this.tileSize * columnIndex
             sprite.y = this.tileSize * lineIndex
             this.standardTiles.addChild(sprite)
+          }
+          if(currentTile.getType() === TileType.enemy) {
+            const enemyTile = currentTile as EnemyTile
+            const text = new Text({
+              text: enemyTile.enemy.level,
+              style: {
+                fontFamily: 'JetBrains Mono',
+                fontSize: this.tileSize / 2,
+                fill: TabMapMap.FOREGROUND_COLORS[this.colorScheme],
+                align: 'center',
+              }
+            });
+            text.x = this.tileSize * (columnIndex + 0.5)
+            text.y = this.tileSize * (lineIndex + 0.4)
+            text.anchor.x = 0.5;
+            this.standardTiles.addChild(text)
           }
         }
       }
@@ -296,7 +314,7 @@ export class TabMapMap {
     if (this.selectedRoom != null) {
       const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       for (const score of currentRoom.scores) {
-        const spriteName = this.spriteNameFromScore(score.type)
+        const spriteName = SpritesToItem.spriteNameFromScore(score.type)
         const sprite = this.sprites.getSprite(spriteName)
         sprite.x = this.tileSize * score.column
         sprite.y = this.tileSize * score.line
@@ -316,90 +334,4 @@ export class TabMapMap {
     return null
   }
 
-  private spriteNameFromScore(score: ScoreType): Sprites {
-    switch (score) {
-      case ScoreType.check:
-        return Sprites.scoreCheck
-      case ScoreType.crown:
-        return Sprites.scoreCrown
-      case ScoreType.star:
-        return Sprites.scoreStar
-    }
-  }
-
-  private spriteNameFromTile(tile: Tile): Sprites | null {
-    switch (tile.getType()) {
-      case TileType.empty:
-        return null
-      case TileType.door:
-        switch ((tile as DoorTile).color) {
-          case Color.blue:
-            return Sprites.doorBlue
-          case Color.crimson:
-            return Sprites.doorCrimson
-          case Color.greenBlue:
-            return Sprites.doorGreenBlue
-          case Color.platinum:
-            return Sprites.doorPlatinum
-          case Color.violet:
-            return Sprites.doorViolet
-          case Color.yellow:
-            return Sprites.doorYellow
-        }
-        break
-      case TileType.enemy:
-        return Sprites.enemy
-      case TileType.key:
-        switch ((tile as KeyTile).color) {
-          case Color.blue:
-            return Sprites.keyBlue
-          case Color.crimson:
-            return Sprites.keyCrimson
-          case Color.greenBlue:
-            return Sprites.keyGreenBlue
-          case Color.platinum:
-            return Sprites.keyPlatinum
-          case Color.violet:
-            return Sprites.keyViolet
-          case Color.yellow:
-            return Sprites.keyYellow
-        }
-        break
-      case TileType.item:
-        switch ((tile as ItemTile).item) {
-          case Item.blue_potion:
-            return Sprites.itemBluePotion
-          case Item.golden_feather:
-            return Sprites.goldenFeather
-          case Item.guard_card:
-            return Sprites.itemGuardCard
-          case Item.guard_deck:
-            return Sprites.itemGuardDeck
-          case Item.life_potion:
-            return Sprites.itemLifePotion
-          case Item.power_card:
-            return Sprites.itemPowerCard
-          case Item.power_deck:
-            return Sprites.itemPowerDeck
-          case Item.red_potion:
-            return Sprites.itemRedPotion
-          default:
-            return Sprites.item
-        }
-      case TileType.staircase:
-        switch ((tile as StaircaseTile).direction) {
-          case StaircaseDirection.down:
-            return Sprites.staircaseUp
-          case StaircaseDirection.up:
-            return Sprites.staircaseDown
-        }
-        break
-      case TileType.startingPosition:
-        return Sprites.startingPosition
-      case TileType.wall:
-        return Sprites.wall
-    }
-    console.error("TabMapMap", "spriteNameFromTile", "Unknown tile", tile.getType())
-    return null
-  }
 }

@@ -136,7 +136,7 @@ export class TabEnemies {
         </sl-dialog>
       `,
     )
-    this.deleteDialog = <SlDialog>document.getElementById("tabEnemiesDeleteDialog")
+    this.deleteDialog = document.getElementById("tabEnemiesDeleteDialog") as SlDialog
     this.deleteDialogMessage = document.getElementById("tabEnemiesDeleteDialogMessage")
   }
 

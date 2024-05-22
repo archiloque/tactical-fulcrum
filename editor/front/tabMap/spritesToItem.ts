@@ -35,6 +35,8 @@ export class SpritesToItem {
         return Sprites.enemyRanger
       case EnemyType.shadow:
         return Sprites.enemyShadow
+      case EnemyType.slasher:
+        return Sprites.enemySlasher
     }
   }
 
@@ -60,7 +62,7 @@ export class SpritesToItem {
       case Item.blue_potion:
         return Sprites.itemBluePotion
       case Item.golden_feather:
-        return Sprites.goldenFeather
+        return Sprites.itemGoldenFeather
       case Item.guard_card:
         return Sprites.itemGuardCard
       case Item.guard_deck:

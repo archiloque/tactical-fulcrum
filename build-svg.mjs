@@ -40,28 +40,33 @@ const COLORS_ALL = [
 ]
 
 const SPRITES_MONOCHROMES = [
-  "enemy",
   "enemy-arrow",
   "enemy-hammer",
   "enemy-hidden",
+  "enemy-knife",
   "enemy-sword",
-  "golden-feather",
+
   "item",
+  "item-golden-feather",
+
   "score-check",
   "score-crown",
   "score-star",
+
   "staircase-down",
   "staircase-up",
+
   "starting-position",
+
   "wall",
 ]
 
 const SPRITES_ALL_COLORS = [
-  new Sprite("card", COLORS_CRIMSON_BLUE),
-  new Sprite("cards", COLORS_CRIMSON_BLUE),
   new Sprite("door", COLORS_ALL),
   new Sprite("key", COLORS_ALL),
-  new Sprite("potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN])),
+  new Sprite("item-card", COLORS_CRIMSON_BLUE),
+  new Sprite("item-cards", COLORS_CRIMSON_BLUE),
+  new Sprite("item-potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN])),
 ]
 
 const IN_DIR = "assets/sprites/in"

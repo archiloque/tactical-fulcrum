@@ -66,6 +66,7 @@ const SPRITES_ALL_COLORS = [
   new Sprite("key", COLORS_ALL),
   new Sprite("item-card", COLORS_CRIMSON_BLUE),
   new Sprite("item-cards", COLORS_CRIMSON_BLUE),
+  new Sprite("item-jug", COLORS_CRIMSON_BLUE),
   new Sprite("item-potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN])),
 ]
 

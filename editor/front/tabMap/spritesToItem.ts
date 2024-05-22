@@ -67,12 +67,16 @@ export class SpritesToItem {
         return Sprites.itemGuardCard
       case Item.guard_deck:
         return Sprites.itemGuardDeck
+      case Item.guard_potion:
+        return Sprites.itemGuardPotion
       case Item.life_potion:
         return Sprites.itemLifePotion
       case Item.power_card:
         return Sprites.itemPowerCard
       case Item.power_deck:
         return Sprites.itemPowerDeck
+      case Item.power_potion:
+        return Sprites.itemPowerPotion
       case Item.red_potion:
         return Sprites.itemRedPotion
       default:

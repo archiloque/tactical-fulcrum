@@ -1,5 +1,4 @@
 export class IO {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   static checkEnum(value: any, values: string[], mandatory: boolean, message: string, errors: string[]): void {
     if (value == null || value === "") {
       if (mandatory) {

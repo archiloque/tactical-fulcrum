@@ -11,13 +11,13 @@ export class IoEnemyFromAttributes {
     if (result.type === undefined) {
       result.type = null
     }
-    result.level = <number>value[IoEnemy.ATTRIBUTE_LEVEL]
-    result.name = <string>value[IoEnemy.ATTRIBUTE_NAME]
-    result.hp = <number>value[IoEnemy.ATTRIBUTE_HP]
-    result.atk = <number>value[IoEnemy.ATTRIBUTE_ATK]
-    result.def = <number>value[IoEnemy.ATTRIBUTE_DEF]
-    result.exp = <number>value[IoEnemy.ATTRIBUTE_EXP]
-    let drop: string = <string>value[IoEnemy.ATTRIBUTE_DROP]
+    result.level = value[IoEnemy.ATTRIBUTE_LEVEL] as number
+    result.name = value[IoEnemy.ATTRIBUTE_NAME] as string
+    result.hp = value[IoEnemy.ATTRIBUTE_HP] as number
+    result.atk = value[IoEnemy.ATTRIBUTE_ATK] as number
+    result.def = value[IoEnemy.ATTRIBUTE_DEF] as number
+    result.exp = value[IoEnemy.ATTRIBUTE_EXP] as number
+    let drop: string = value[IoEnemy.ATTRIBUTE_DROP] as string
     if (drop === "") {
       drop = null
     }

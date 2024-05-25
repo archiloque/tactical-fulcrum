@@ -1,7 +1,4 @@
-export enum RoomType {
-  standard = "standard",
-  nexus = "nexus",
-}
+import { RoomType } from "../../data/roomType"
 
 export const ROOM_TYPES: string[] = [RoomType.standard.valueOf(), RoomType.nexus.valueOf()]
 

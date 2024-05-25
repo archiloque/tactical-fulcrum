@@ -1,6 +1,7 @@
 export enum Tab {
   map = "tabMap",
-  enemies = "tabEnemies",
+  enemy = "tabEnemy",
+  level = "tabLevel",
   info = "tabInfo",
   importExport = "tabImportExport",
 }

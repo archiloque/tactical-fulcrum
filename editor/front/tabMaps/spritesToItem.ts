@@ -1,13 +1,12 @@
 import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../behavior/tile"
 import { Color } from "../../data/color"
+import { EnemyType } from "../../data/enemyType"
 import { Item } from "../../data/item"
 import { ScoreType } from "../../data/scoreType"
 import { Sprites } from "./sprites"
 import { StaircaseDirection } from "../../data/staircaseDirection"
-import { EnemyType } from "../../data/enemyType"
 
 export class SpritesToItem {
-
   private static spriteNameFromDoor(tile: DoorTile): Sprites {
     switch (tile.color) {
       case Color.blue:

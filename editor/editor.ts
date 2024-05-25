@@ -28,13 +28,14 @@ import { Tab } from "./front/tab"
 import { TabEnemies } from "./front/tabEnemies"
 import { TabImportExport } from "./front/tabImportExport"
 import { TabInfo } from "./front/tabInfo"
-import { TabMap } from "./front/tabMap/tabMap"
+import { TabLevels } from "./front/tabLevels"
+import { TabMaps } from "./front/tabMaps/tabMaps"
 import { Tower } from "./behavior/tower"
 import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
 
 /**
  * @license
- * Copyright 2014 Julien Kirch
+ * Copyright 2024 Julien Kirch
  * SPDX-License-Identifier: GPL-3.0
  */
 const rootUrl = document.location.origin
@@ -45,8 +46,9 @@ export class Editor {
   readonly eventManager: EventManager
   private readonly tabEnemies: TabEnemies
   private readonly tabImportExport: TabImportExport
-  private readonly tabMap: TabMap
+  private readonly tabMaps: TabMaps
   private readonly tabInfo: TabInfo
+  private readonly tabLevels: TabLevels
   displayedTab: Tab
 
   constructor() {
@@ -55,13 +57,14 @@ export class Editor {
     this.tower.load()
     this.eventManager = new EventManager()
     new MainMenu(this)
+    this.tabMaps = new TabMaps(this)
+    this.tabInfo = new TabInfo(this)
+    this.tabLevels = new TabLevels(this)
     this.tabEnemies = new TabEnemies(this)
     this.tabImportExport = new TabImportExport(this)
-    this.tabMap = new TabMap(this)
-    this.tabInfo = new TabInfo(this)
-    this.tabMap.init().then(() => {
+    this.tabMaps.init().then(() => {
       setTimeout(() => {
-        return this.tabMap.render()
+        return this.tabMaps.render()
       }, 10)
     })
     this.eventManager.notifyTileSelection(EMPTY_TILE, false)
@@ -72,11 +75,13 @@ export class Editor {
     this.displayedTab = tab
     switch (tab) {
       case Tab.map:
-        return this.tabMap.render()
+        return this.tabMaps.render()
       case Tab.info:
         return this.tabInfo.render()
-      case Tab.enemies:
+      case Tab.enemy:
         return this.tabEnemies.render()
+      case Tab.level:
+        return this.tabLevels.render()
       case Tab.importExport:
         return this.tabImportExport.render()
       default:

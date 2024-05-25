@@ -3,8 +3,9 @@ sl-tab-group::part(nav) {
   justify-content: center;
 }
 
-#tabEnemies {
-  .enemyLine {
+#tabEnemy,
+#tabLevel {
+  .elementLine {
     text-align: center;
     padding-bottom: 0.5em;
 
@@ -26,18 +27,20 @@ sl-tab-group::part(nav) {
       width: 7%;
     }
 
-    .level {
+    .narrow {
       width: 4%;
     }
 
-    .name,
-    .type,
-    .drop {
+    .wide {
       width: 15%;
     }
 
     .delete {
       width: 3%;
+    }
+
+    .level {
+      width: 10%;
     }
   }
 
@@ -90,12 +93,12 @@ sl-tab-group::part(nav) {
   text-align: center;
 }
 
-#tabMapMapToolTip {
-  position: absolute;
-}
-
 #tabMapRoomAdd {
   padding: 0.1em;
+}
+
+#mapToolTip {
+  position: absolute;
 }
 
 sl-input[data-user-invalid]::part(base),

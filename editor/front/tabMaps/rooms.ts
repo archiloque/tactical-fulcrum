@@ -1,22 +1,23 @@
 import { Hole, html, render } from "uhtml"
-import { RoomType, SelectedRoom } from "./selectedRoom"
 import { Editor } from "../../editor"
 import { Room } from "../../behavior/room"
+import { RoomType } from "../../data/roomType"
+import { SelectedRoom } from "./selectedRoom"
 import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
 import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
 import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 
-export class TabMapRooms {
-  private readonly editor: Editor
-  private standardRooms: SlTree
-  private nexusRooms: SlTree
-  private roomNameInput: SlInput
-  private deleteDialog: SlDialog
-  private selectedRoom: SelectedRoom | null = null
-  private buttonUp: SlButton
-  private buttonDown: SlButton
+export class Rooms {
   private addDialog: SlDialog
+  private buttonDown: SlButton
+  private buttonUp: SlButton
+  private deleteDialog: SlDialog
+  private nexusRooms: SlTree
+  private readonly editor: Editor
+  private roomNameInput: SlInput
+  private selectedRoom: SelectedRoom | null = null
+  private standardRooms: SlTree
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -28,7 +29,7 @@ export class TabMapRooms {
   }
 
   hole(): Hole {
-    console.debug("TabMapRooms", "hole")
+    console.debug("Rooms", "hole")
     return html`<h2>Room</h2>
       <sl-input id="tabMapRoomName" @sl-input="${this.nameChanged}" placeholder="Name"></sl-input>
       <div id="tabMapRoomButtons">
@@ -68,7 +69,7 @@ export class TabMapRooms {
   }
 
   init(): void {
-    console.debug("TabMapRooms", "init")
+    console.debug("Rooms", "init")
     this.standardRooms = document.getElementById("tabMapRoomStandardRooms") as SlTree
     this.nexusRooms = document.getElementById("tabMapRoomNexusRooms") as SlTree
     this.roomNameInput = document.getElementById("tabMapRoomName") as SlInput
@@ -79,7 +80,7 @@ export class TabMapRooms {
   }
 
   render(): void {
-    console.debug("TabMapRooms", "render with selected room index", this.selectedRoom)
+    console.debug("Rooms", "render with selected room index", this.selectedRoom)
     const standardRooms = this.renderRooms(this.editor.tower.standardRooms, RoomType.standard)
     render(this.standardRooms, html`Standard ${standardRooms}`)
     const nexusRooms = this.renderRooms(this.editor.tower.nexusRooms, RoomType.nexus)
@@ -150,7 +151,7 @@ export class TabMapRooms {
   }
 
   private async addRoom(roomType: RoomType): Promise<any> {
-    console.debug("TabMapRooms", "add room")
+    console.debug("Rooms", "add room")
     this.addDialog.hide().then(() => {
       const room: Room = new Room()
       room.name = "New room"
@@ -164,7 +165,7 @@ export class TabMapRooms {
   private deleteDialogConfirm = async (): Promise<any> => {
     this.deleteDialog.hide().then(() => {
       if (this.selectedRoom != null) {
-        console.debug("TabMapRooms", "delete room", this.selectedRoom)
+        console.debug("Rooms", "delete room", this.selectedRoom)
         this.editor.tower.getRooms(this.selectedRoom.type).splice(this.selectedRoom.index, 1)
         this.editor.tower.saveRooms()
         if (this.editor.tower.getRooms(this.selectedRoom.type).length === 0) {
@@ -190,7 +191,7 @@ export class TabMapRooms {
   }
 
   private roomSelected(selectedRoom: SelectedRoom): void {
-    console.debug("TabMapRooms", "roomSelected", selectedRoom)
+    console.debug("Rooms", "roomSelected", selectedRoom)
     this.selectedRoom = selectedRoom
     if (selectedRoom != null) {
       this.roomNameInput.value = this.editor.tower.getRooms(selectedRoom.type)[this.selectedRoom.index].name

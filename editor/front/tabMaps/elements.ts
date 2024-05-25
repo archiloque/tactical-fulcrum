@@ -26,7 +26,7 @@ import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 import { capitalize } from "../../behavior/utils"
 
-export class TabMapElements {
+export class Elements {
   private readonly editor: Editor
   private enemiesSubTree: SlTreeItem
   private tree: SlTree
@@ -46,7 +46,7 @@ export class TabMapElements {
   }
 
   hole(): Hole {
-    console.debug("TabMapElements", "hole")
+    console.debug("Elements", "hole")
     const keys: Hole[] = COLORS.map(
       (c) => html` <sl-tree-item data-type="${TileType.key}" data-color="${c}">${capitalize(c)} key</sl-tree-item>`,
     )
@@ -66,12 +66,12 @@ export class TabMapElements {
         </sl-tree-item>`,
     )
 
-    return html` <div id="${TabMapElements.divId}">
+    return html` <div id="${Elements.divId}">
       <h2>Element</h2>
-      <sl-tree id="${TabMapElements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
+      <sl-tree id="${Elements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
         <sl-tree-item data-type="${TileType.empty}" selected>Empty</sl-tree-item>
         <sl-tree-item data-type="${TileType.wall}">Wall</sl-tree-item>
-        <sl-tree-item id="${TabMapElements.enemiesSubTreeId}">Enemy</sl-tree-item>
+        <sl-tree-item id="${Elements.enemiesSubTreeId}">Enemy</sl-tree-item>
         <sl-tree-item>Key ${keys}</sl-tree-item>
         <sl-tree-item>Door ${doors}</sl-tree-item>
         <sl-tree-item>Item ${items}</sl-tree-item>
@@ -82,14 +82,14 @@ export class TabMapElements {
   }
 
   init(): void {
-    console.debug("TabMapElements", "init")
-    this.div = document.getElementById(TabMapElements.divId)
-    this.tree = document.getElementById(TabMapElements.treeId) as SlTree
-    this.enemiesSubTree = document.getElementById(TabMapElements.enemiesSubTreeId) as SlTreeItem
+    console.debug("Elements", "init")
+    this.div = document.getElementById(Elements.divId)
+    this.tree = document.getElementById(Elements.treeId) as SlTree
+    this.enemiesSubTree = document.getElementById(Elements.enemiesSubTreeId) as SlTreeItem
   }
 
   render(): void {
-    console.debug("TabMapElements", "render")
+    console.debug("Elements", "render")
     const enemies: Hole[] = this.editor.tower.enemies.map((enemy: Enemy) => {
       const enemyName = `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
       return html` <sl-tree-item
@@ -230,7 +230,7 @@ export class TabMapElements {
       const selectedTreeItem = this.findTreeItem(this.selectedTile)
       selectedTreeItem.selected = true
       const parent = selectedTreeItem.parentElement
-      if (parent.id != TabMapElements.treeId) {
+      if (parent.id != Elements.treeId) {
         ;(parent as SlTreeItem).expanded = true
       }
     } else {

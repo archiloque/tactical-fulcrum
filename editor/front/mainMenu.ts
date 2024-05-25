@@ -5,8 +5,9 @@ import { Tab } from "./tab"
 export class MainMenu {
   private readonly editor: Editor
   private static readonly tabNames = [
-    [Tab.map, "Map"],
-    [Tab.enemies, "Enemies"],
+    [Tab.map, "Maps"],
+    [Tab.enemy, "Enemies"],
+    [Tab.level, "Levels"],
     [Tab.info, "Info"],
     [Tab.importExport, "Import/Export"],
   ]

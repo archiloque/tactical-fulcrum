@@ -2,7 +2,7 @@ import { ColorScheme } from "./colorScheme"
 import { EventEmitter } from "pixi.js"
 import { RoomLayer } from "./roomLayer"
 import { ScoreType } from "../data/scoreType"
-import { SelectedRoom } from "./tabMap/selectedRoom"
+import { SelectedRoom } from "./tabMaps/selectedRoom"
 import { Tile } from "../behavior/tile"
 
 export class EventManager {

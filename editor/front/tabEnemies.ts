@@ -1,16 +1,19 @@
 import { ENEMY_TYPES, EnemyType } from "../data/enemyType"
 import { Hole, html, render } from "uhtml"
+import { AbstractTab } from "./abstractTab"
 import { DROPS } from "../data/drop"
 import { Editor } from "../editor"
 import { Enemy } from "../behavior/enemy"
 import { Item } from "../data/item"
 import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
-import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
 import SlSelect from "@shoelace-style/shoelace/cdn/components/select/select.component"
 import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
 import { Tab } from "./tab"
 
-export class TabEnemies {
+export class TabEnemies extends AbstractTab {
+  private static readonly deleteDialogId = "tabEnemiesDeleteDialog"
+  private static readonly deleteDialogMessageId = "tabEnemiesDeleteDialogMessage"
+
   private readonly editor: Editor
   private readonly tabElement: SlTabPanel
   private enemyDeletionIndex = -1
@@ -18,8 +21,9 @@ export class TabEnemies {
   private deleteDialogMessage: HTMLElement
 
   constructor(editor: Editor) {
+    super()
     this.editor = editor
-    this.tabElement = document.getElementById(Tab.enemies) as SlTabPanel
+    this.tabElement = document.getElementById(Tab.enemy) as SlTabPanel
   }
 
   private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
@@ -31,71 +35,23 @@ export class TabEnemies {
     const enemyTypes = ENEMY_TYPES.map(
       (enemyType: string) => html` <sl-option value="${enemyType}">${enemyType}</sl-option>`,
     )
-    return html` <div data-index="${enemyIndex}" class="enemyLine">
-      <sl-select @sl-input="${this.typeChange}" class="type" placeholder="Type" hoist value="${enemy.type}" required>
+    return html` <div data-index="${enemyIndex}" class="elementLine">
+      <sl-select @sl-input="${this.typeChange}" class="wide" placeholder="Type" hoist value="${enemy.type}" required>
         ${enemyTypes}
       </sl-select>
-      <sl-input
-        @sl-input="${this.roomChange}"
-        class="room"
-        type="number"
-        min="1"
-        pattern="[0-9]+"
-        placeholder="Lv"
-        no-spin-buttons
-        value="${enemy.level}"
-        required
-      ></sl-input>
+      ${this.numberInput(enemy.level, this.levelChange, 1, "Lvl", "narrow")}
       <sl-input
         @sl-input="${this.nameChange}"
         minlength="1"
-        class="name"
+        class="wide"
         type="text"
         placeholder="Name"
         value="${enemy.name}"
         required
       ></sl-input>
-      <sl-input
-        @sl-input="${this.hpChange}"
-        type="number"
-        min="1"
-        pattern="[0-9]+"
-        placeholder="HP"
-        no-spin-buttons
-        value="${enemy.hp}"
-        required
-      ></sl-input>
-      <sl-input
-        @sl-input="${this.atkChange}"
-        type="number"
-        min="1"
-        pattern="[0-9]+"
-        placeholder="Atk"
-        no-spin-buttons
-        value="${enemy.atk}"
-        required
-      ></sl-input>
-      <sl-input
-        @sl-input="${this.defChange}"
-        type="number"
-        min="1"
-        pattern="[0-9]+"
-        placeholder="Def"
-        no-spin-buttons
-        value="${enemy.def}"
-        required
-      ></sl-input>
-      <sl-input
-        @sl-input="${this.expChange}"
-        type="number"
-        min="1"
-        pattern="[0-9]+"
-        placeholder="Exp"
-        no-spin-buttons
-        value="${enemy.exp}"
-        required
-      ></sl-input>
-      <sl-select @sl-input="${this.dropChange}" class="drop" placeholder="Drop" hoist value="${dropValue}" required>
+      ${this.numberInput(enemy.hp, this.hpChange, 1, "HP")} ${this.numberInput(enemy.atk, this.atkChange, 0, "Atk")}
+      ${this.numberInput(enemy.def, this.defChange, 0, "Def")} ${this.numberInput(enemy.exp, this.expChange, 0, "Exp")}
+      <sl-select @sl-input="${this.dropChange}" class="wide" placeholder="Drop" hoist value="${dropValue}" required>
         ${drops}
       </sl-select>
 
@@ -110,16 +66,10 @@ export class TabEnemies {
     render(
       this.tabElement,
       html`
-        <div class="enemyLine validity-styles">
-          <sl-tag class="type" variant="neutral" size="large">Type</sl-tag>
-          <sl-tag variant="neutral" class="room" size="large">Lv</sl-tag>
-          <sl-tag variant="neutral" class="name" size="large">Name</sl-tag>
-          <sl-tag variant="neutral" size="large">HP</sl-tag>
-          <sl-tag variant="neutral" size="large">Atk</sl-tag>
-          <sl-tag variant="neutral" size="large">Def</sl-tag>
-          <sl-tag variant="neutral" size="large">Exp</sl-tag>
-          <sl-tag variant="neutral" class="drop" size="large">Drop</sl-tag>
-          <sl-tag variant="neutral" class="delete" size="large">Delete</sl-tag>
+        <div class="elementLine validity-styles">
+          <sl-tag class="wide" variant="neutral" size="large">Type</sl-tag>
+          ${this.tag("Lv", "narrow")} ${this.tag("Name", "wide")} ${this.tag("HP")} ${this.tag("Atk")}
+          ${this.tag("Def")} ${this.tag("Exp")} ${this.tag("Drop", "wide")} ${this.tag("Delete", "delete")}
         </div>
         ${this.editor.tower.enemies.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
         <div class="addButtonDiv">
@@ -127,8 +77,8 @@ export class TabEnemies {
             <sl-icon name="plus-circle"></sl-icon>
           </sl-button>
         </div>
-        <sl-dialog label="Delete enemy" id="tabEnemiesDeleteDialog">
-          <div id="tabEnemiesDeleteDialogMessage"></div>
+        <sl-dialog label="Delete enemy" id="${TabEnemies.deleteDialogId}">
+          <div id="${TabEnemies.deleteDialogMessageId}"></div>
           <div slot="footer">
             <sl-button onclick="${this.deleteDialogCancel}" variant="neutral">No</sl-button>
             <sl-button onclick="${this.deleteDialogConfirm}" variant="danger">Yes</sl-button>
@@ -136,8 +86,8 @@ export class TabEnemies {
         </sl-dialog>
       `,
     )
-    this.deleteDialog = document.getElementById("tabEnemiesDeleteDialog") as SlDialog
-    this.deleteDialogMessage = document.getElementById("tabEnemiesDeleteDialogMessage")
+    this.deleteDialog = document.getElementById(TabEnemies.deleteDialogId) as SlDialog
+    this.deleteDialogMessage = document.getElementById(TabEnemies.deleteDialogMessageId)
   }
 
   private addEnemy = (): void => {
@@ -169,39 +119,31 @@ export class TabEnemies {
     return this.deleteDialog.hide()
   }
 
-  private atkChange = (event: CustomEvent): void => {
+  private intValueChanged = (event: CustomEvent, attrName: string): void => {
     const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug("TabEnemies", "atkChange", enemyIndex, value)
-    this.editor.tower.enemies[enemyIndex].atk = value
+    console.debug("TabEnemies", "intValueChanged", enemyIndex, attrName, value)
+    this.editor.tower.enemies[enemyIndex][attrName] = value
     this.editor.tower.saveEnemies()
+  }
+
+  private atkChange = (event: CustomEvent): void => {
+    this.intValueChanged(event, "atk")
   }
 
   private defChange = (event: CustomEvent): void => {
-    const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug("TabEnemies", "defChange", enemyIndex, value)
-    this.editor.tower.enemies[enemyIndex].def = value
-    this.editor.tower.saveEnemies()
+    this.intValueChanged(event, "def")
   }
 
   private expChange = (event: CustomEvent): void => {
-    const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug("TabEnemies", "expChange", enemyIndex, value)
-    this.editor.tower.enemies[enemyIndex].exp = value
-    this.editor.tower.saveEnemies()
+    this.intValueChanged(event, "exp")
   }
 
   private hpChange = (event: CustomEvent): void => {
-    const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug("TabEnemies", "hpChange", enemyIndex, value)
-    this.editor.tower.enemies[enemyIndex].hp = value
-    this.editor.tower.saveEnemies()
+    this.intValueChanged(event, "hp")
   }
 
-  private roomChange = (event: CustomEvent): void => {
-    const [enemyIndex, value] = this.getInputValueInt(event)
-    console.debug("TabEnemies", "roomChange", enemyIndex, value)
-    this.editor.tower.enemies[enemyIndex].level = value
-    this.editor.tower.saveEnemies()
+  private levelChange = (event: CustomEvent): void => {
+    this.intValueChanged(event, "level")
   }
 
   private nameChange = (event: CustomEvent): void => {
@@ -224,18 +166,6 @@ export class TabEnemies {
     console.debug("TabEnemies", "dropChange", enemyIndex, drop)
     this.editor.tower.enemies[enemyIndex].drop = drop
     this.editor.tower.saveEnemies()
-  }
-
-  private getInputValueInt = (event: CustomEvent): [number, number | null] => {
-    const [enemyIndex, stringValue] = this.getInputValue(event)
-    const value: number = parseInt(stringValue)
-    return [enemyIndex, isNaN(value) ? null : value]
-  }
-
-  private getInputValue = (event: CustomEvent): [number, string] => {
-    const currentTarget = event.currentTarget as SlInput
-    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
-    return [enemyIndex, currentTarget.value]
   }
 
   private getInputValueFromList = (event: CustomEvent): [number, string] => {

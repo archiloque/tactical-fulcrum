@@ -12,12 +12,14 @@ import { SelectedRoom } from "./selectedRoom"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 import { Spriter } from "./spriter"
 import { SpritesToItem } from "./spritesToItem"
+import { TabMaps } from "./tabMaps"
 
-export class TabMapMap {
+export class Map {
   private static readonly BACKGROUND_COLORS = {
     [ColorScheme.dark]: "#000000",
     [ColorScheme.light]: "#FFFFFF",
   }
+
   private static readonly FOREGROUND_COLORS = {
     [ColorScheme.dark]: "#cccccc",
     [ColorScheme.light]: "#000000",
@@ -26,21 +28,21 @@ export class TabMapMap {
   readonly app: Application
   private readonly background: Sprite
   private readonly cursor: Graphics
-  private tileSize: number = TILES_DEFAULT_SIZE
-  private readonly lastMousePosition: Point = new Point()
-  private lastMouseTile: Point = new Point(-1, -1)
-  private sprites: Spriter = new Spriter()
   private readonly editor: Editor
-  private selectedRoom: SelectedRoom | null = null
-  private standardTiles: Container
-  private scoreTiles: Container
-  private mapToolTip: HTMLElement
-  private toolTipTimeout: number = null
-  private mapToolTipTip: SlTooltip
-  private selectedTile: Tile
-  private selectedLayer: RoomLayer = RoomLayer.standard
-  private selectedScore: ScoreType
   private colorScheme: ColorScheme = currentColorScheme()
+  private lastMouseTile: Point = new Point(-1, -1)
+  private toolTip: HTMLElement
+  private tooltipTip: SlTooltip
+  private readonly lastMousePosition: Point = new Point()
+  private scoreTiles: Container
+  private selectedLayer: RoomLayer = RoomLayer.standard
+  private selectedRoom: SelectedRoom | null = null
+  private selectedScore: ScoreType
+  private selectedTile: Tile
+  private sprites: Spriter = new Spriter()
+  private standardTiles: Container
+  private tileSize: number = TILES_DEFAULT_SIZE
+  private toolTipTimeout: number = null
 
   constructor(editor: Editor) {
     this.app = new Application()
@@ -61,7 +63,7 @@ export class TabMapMap {
   }
 
   async init(): Promise<any> {
-    console.debug("TabMapMap", "init")
+    console.debug("Map", "init")
     this.background.on("pointerenter", () => this.pointerEnter())
     this.background.on("pointerleave", () => this.pointerLeave())
     this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
@@ -71,7 +73,7 @@ export class TabMapMap {
 
     return Promise.all([
       this.app.init({
-        background: TabMapMap.BACKGROUND_COLORS[currentColorScheme()],
+        background: Map.BACKGROUND_COLORS[currentColorScheme()],
       }),
       this.sprites.reload(this.tileSize, currentColorScheme()),
     ]).then(() => {
@@ -81,13 +83,13 @@ export class TabMapMap {
   }
 
   postInit(): void {
-    console.debug("TabMapMap", "postInit")
-    this.mapToolTip = document.getElementById("tabMapMapToolTip")
-    this.mapToolTipTip = document.getElementById("tabMapMapToolTipTip") as SlTooltip
+    console.debug("Map", "postInit")
+    this.toolTip = document.getElementById(TabMaps.tooltipId)
+    this.tooltipTip = document.getElementById(TabMaps.tooltipTipId) as SlTooltip
   }
 
   async resize(elementSize: number): Promise<any> {
-    console.debug("TabMapMap", "resize")
+    console.debug("Map", "resize")
     const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
     if (newTileSize !== this.tileSize) {
       this.tileSize = newTileSize
@@ -97,7 +99,7 @@ export class TabMapMap {
       this.background.height = appSize
       this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
       this.sprites = new Spriter()
-      this.mapToolTip.style.width = `${newTileSize}px`
+      this.toolTip.style.width = `${newTileSize}px`
       return this.sprites.reload(this.tileSize, currentColorScheme()).then(() => this.repaint())
     }
   }
@@ -105,7 +107,7 @@ export class TabMapMap {
   private schemeChanged(colorScheme: ColorScheme): void {
     this.colorScheme = colorScheme
     // @ts-ignore
-    this.app.setBackgroundColor(TabMapMap.BACKGROUND_COLORS[colorScheme])
+    this.app.setBackgroundColor(Map.BACKGROUND_COLORS[colorScheme])
     this.sprites.reload(this.tileSize, colorScheme).then(() => {
       this.repaint()
     })
@@ -117,14 +119,14 @@ export class TabMapMap {
   }
 
   private keyDown(e: KeyboardEvent): void {
-    console.debug("TabMapMap", "keyDown", e)
+    console.debug("Map", "keyDown", e)
     if (e.key == SHIFT) {
       this.app.canvas.style.cursor = "copy"
     }
   }
 
   private keyUp(e: KeyboardEvent): void {
-    console.debug("TabMapMap", "keyUp", e)
+    console.debug("Map", "keyUp", e)
     if (e.key == SHIFT) {
       this.app.canvas.style.cursor = "auto"
     }
@@ -132,7 +134,7 @@ export class TabMapMap {
 
   private pointerTap(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
-    console.debug("TabMapMap", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
+    console.debug("Map", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
     if (this.selectedRoom != null) {
       const currentRoom: Room = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       switch (this.selectedLayer) {
@@ -176,10 +178,10 @@ export class TabMapMap {
   private pointerMove(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
     if (!this.lastMouseTile.equals(tilePosition)) {
-      console.debug("TabMapMap", "pointerMove", tilePosition)
+      console.debug("Map", "pointerMove", tilePosition)
       this.lastMouseTile = tilePosition
-      if (this.mapToolTipTip.open) {
-        this.mapToolTipTip.open = false
+      if (this.tooltipTip.open) {
+        this.tooltipTip.open = false
       }
       this.repositionCursor()
       if (this.toolTipTimeout != null) {
@@ -209,13 +211,13 @@ export class TabMapMap {
       const currentTile: Tile = currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
       const toolTipText = this.getToolTipText(currentTile)
       if (toolTipText != null) {
-        this.mapToolTipTip.content = toolTipText
+        this.tooltipTip.content = toolTipText
         const cursorPosition = this.cursor.getGlobalPosition()
         const top = this.app.canvas.offsetTop + cursorPosition.y
         const left = this.app.canvas.offsetLeft + cursorPosition.x
-        this.mapToolTip.style.top = `${top}px`
-        this.mapToolTip.style.left = `${left}px`
-        this.mapToolTipTip.open = true
+        this.toolTip.style.top = `${top}px`
+        this.toolTip.style.left = `${left}px`
+        this.tooltipTip.open = true
       }
     }
   }
@@ -234,7 +236,7 @@ export class TabMapMap {
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug("TabMapMap", "roomSelected", selectedRoom)
+    console.debug("Map", "roomSelected", selectedRoom)
     this.selectedRoom = selectedRoom
     this.repaint()
   }
@@ -288,20 +290,20 @@ export class TabMapMap {
             sprite.y = this.tileSize * lineIndex
             this.standardTiles.addChild(sprite)
           }
-          if(currentTile.getType() === TileType.enemy) {
+          if (currentTile.getType() === TileType.enemy) {
             const enemyTile = currentTile as EnemyTile
             const text = new Text({
               text: enemyTile.enemy.level,
               style: {
-                fontFamily: 'JetBrains Mono',
+                fontFamily: "JetBrains Mono",
                 fontSize: this.tileSize / 2,
-                fill: TabMapMap.FOREGROUND_COLORS[this.colorScheme],
-                align: 'center',
-              }
-            });
+                fill: Map.FOREGROUND_COLORS[this.colorScheme],
+                align: "center",
+              },
+            })
             text.x = this.tileSize * (columnIndex + 0.5)
             text.y = this.tileSize * (lineIndex + 0.4)
-            text.anchor.x = 0.5;
+            text.anchor.x = 0.5
             this.standardTiles.addChild(text)
           }
         }
@@ -333,5 +335,4 @@ export class TabMapMap {
     }
     return null
   }
-
 }

@@ -7,14 +7,14 @@ import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 import { TileType } from "../../behavior/tile"
 
-export class TabMapScores {
+export class Scores {
   private static readonly divId = "tabMapScores"
   private static readonly treeId = "tabMapScoresTree"
 
+  private div: HTMLElement
   private readonly editor: Editor
   private scoresTree: SlTree
   private selectedScore: ScoreType = null
-  private div: HTMLElement
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -25,10 +25,10 @@ export class TabMapScores {
   }
 
   hole(): Hole {
-    console.debug("TabMapScores", "hole")
-    return html` <div id="${TabMapScores.divId}" class="hidden">
+    console.debug("Scores", "hole")
+    return html` <div id="${Scores.divId}" class="hidden">
       <h2>Score</h2>
-      <sl-tree id="${TabMapScores.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
+      <sl-tree id="${Scores.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
         <sl-tree-item data-type="${TileType.empty}">Empty</sl-tree-item>
         <sl-tree-item data-type="${ScoreType.check}">Check</sl-tree-item>
         <sl-tree-item data-type="${ScoreType.star}">Star</sl-tree-item>
@@ -38,9 +38,9 @@ export class TabMapScores {
   }
 
   init(): void {
-    console.debug("TabMapScores", "init")
-    this.div = document.getElementById(TabMapScores.divId)
-    this.scoresTree = document.getElementById(TabMapScores.treeId) as SlTree
+    console.debug("Scores", "init")
+    this.div = document.getElementById(Scores.divId)
+    this.scoresTree = document.getElementById(Scores.treeId) as SlTree
   }
 
   private selectionChanged = (event: CustomEvent): void => {

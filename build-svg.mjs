@@ -36,7 +36,7 @@ const COLORS_ALL = [
   new ColorPair("greenblue", "#14b8a6", "#084a42"),
   new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
   new ColorPair("violet", "#a855f7", "#44067f"),
-  new ColorPair("yellow", "#ffff00", "#999900"),
+  new ColorPair("yellow", "#ffff00", "#AAAA00"),
 ]
 
 const SPRITES_MONOCHROMES = [

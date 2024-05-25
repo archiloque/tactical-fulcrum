@@ -1,13 +1,21 @@
 import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
-import { LOCAL_STORAGE_KEY_ENEMIES, LOCAL_STORAGE_KEY_NAME, LOCAL_STORAGE_KEY_ROOMS } from "./io/localStorage"
+import {
+  LOCAL_STORAGE_KEY_ENEMIES,
+  LOCAL_STORAGE_KEY_LEVELS,
+  LOCAL_STORAGE_KEY_NAME,
+  LOCAL_STORAGE_KEY_ROOMS,
+} from "./io/localStorage"
 import { Enemy } from "./enemy"
 import { IOOperation } from "./io/importExport"
 import { IoEnemyFromAttributes } from "./io/enemy/ioEnemyFromAttributes"
 import { IoEnemyToAttributes } from "./io/enemy/ioEnemyToAttributes"
+import { IoLevelFromAttributes } from "./io/level/ioLevelFromAttributes"
+import { IoLevelToAttributes } from "./io/level/ioLevelToAttributes"
 import { IoRoomFromAttributes } from "./io/room/ioRoomFromAttributes"
 import { IoRoomToAttributes } from "./io/room/ioRoomToAttributes"
+import { Level } from "./level"
 import { Room } from "./room"
-import { RoomType } from "../front/tabMap/selectedRoom"
+import { RoomType } from "../data/roomType"
 import { ScoreType } from "../data/scoreType"
 
 export class Tower {
@@ -15,6 +23,7 @@ export class Tower {
   enemies: Enemy[]
   standardRooms: Room[]
   nexusRooms: Room[]
+  levels: Level[]
 
   constructor() {
     this.enemies = []
@@ -25,6 +34,7 @@ export class Tower {
     nexusRoom.name = "Nexus room"
     this.standardRooms = [standardRoom]
     this.nexusRooms = [nexusRoom]
+    this.levels = []
   }
 
   public getRooms(roomType: RoomType): Room[] {
@@ -94,6 +104,19 @@ export class Tower {
     )
   }
 
+  deleteLevel(level: Level): void {
+    this.levels.splice(this.levels.indexOf(level), 1)
+    this.saveLevels()
+  }
+
+  saveLevels(): void {
+    console.debug("Tower", "saveLevels")
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY_LEVELS,
+      JSON.stringify(this.levels.map((e) => IoLevelToAttributes.toAttributes(e))),
+    )
+  }
+
   saveName(): void {
     console.debug("Tower", "saveName")
     localStorage.setItem(LOCAL_STORAGE_KEY_NAME, this.name)
@@ -118,6 +141,7 @@ export class Tower {
     console.groupCollapsed("Tower", "load")
     this.loadEnemies()
     this.loadName()
+    this.loadLevels()
     this.loadRooms()
     console.groupEnd()
   }
@@ -128,6 +152,15 @@ export class Tower {
       const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
       this.enemies = enemiesJson.map((value) => IoEnemyFromAttributes.fromAttributes(value))
       console.debug("Tower", this.enemies.length, "enemies loaded")
+    }
+  }
+
+  private loadLevels(): void {
+    const levelsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_LEVELS)
+    if (levelsRaw != null) {
+      const levelsJson: Record<string, number | null>[] = JSON.parse(levelsRaw)
+      this.levels = levelsJson.map((value) => IoLevelFromAttributes.fromAttributes(value))
+      console.debug("Tower", this.levels.length, "levels loaded")
     }
   }
 

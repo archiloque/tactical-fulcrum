@@ -76,10 +76,10 @@
       "Level": {
         "type": "object",
         "properties": {
-"atkAdd": {
-  "type": "number",
-  "minimum": 0
-},
+          "atkAdd": {
+            "type": "number",
+            "minimum": 0
+          },
           "atkMul": {
             "type": "number",
             "minimum": 0
@@ -234,7 +234,6 @@
           "Slasher"
         ]
       },
-
       "ScoreType": {
         "type": "string",
         "enum": [
@@ -410,7 +409,8 @@
       "value": "tower-schema.json"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "enemies": {
       "type": "array",
@@ -423,7 +423,6 @@
       "items": {
         "$ref": "#/definitions/classes/Level"
       }
-
     },
     "rooms": {
       "type": "object",

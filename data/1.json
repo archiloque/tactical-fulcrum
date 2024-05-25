@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema/tower-schema.json",
+  "$schema": "tower-schema.json",
   "name": "1-1 Tactical tutorial",
   "enemies": [
     {

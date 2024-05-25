@@ -1,5 +1,5 @@
 {
- "$schema": "../schema/tower-schema.json",
+ "$schema": "tower-schema.json",
  "enemies": [
   {
    "type": "Burgeoner",
@@ -7162,5 +7162,7 @@
    }
   ],
   "nexus": []
- }
+ },
+ "name": "",
+ "levels": []
 }

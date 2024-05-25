@@ -8,6 +8,8 @@ import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-pa
 import { Tab } from "./tab"
 
 export class TabImportExport {
+  private static readonly importInputId = "tabImportImportInput"
+  private static readonly exportLinkId = "tabImportExportLink"
   private readonly editor: Editor
   private readonly tabElement: SlTabPanel
   private exportFileName: string = "tactical-fulcrum-level.json"
@@ -31,18 +33,18 @@ export class TabImportExport {
           <input
             type="file"
             onchange="${this.selectImportFile}"
-            id="tabImportImportInput"
+            id="${TabImportExport.importInputId}"
             accept="application/json"
             class="hidden"
           />
           <sl-button onclick="${this.clickImportFile}" size="large">Select file to import</sl-button>
           <sl-button onclick="${this.export}" size="large">Export</sl-button>
-          <a type="file" id="tabImportExportLink" class="hidden" />
+          <a type="file" id="${TabImportExport.exportLinkId}" class="hidden" />
         </div>
       `,
     )
-    this.importInput = document.getElementById("tabImportImportInput") as HTMLInputElement
-    this.tabImportExportLink = document.getElementById("tabImportExportLink") as HTMLLinkElement
+    this.importInput = document.getElementById(TabImportExport.importInputId) as HTMLInputElement
+    this.tabImportExportLink = document.getElementById(TabImportExport.exportLinkId) as HTMLLinkElement
   }
 
   private clickImportFile = (): void => {

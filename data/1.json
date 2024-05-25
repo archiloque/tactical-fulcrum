@@ -1,4 +1,5 @@
 {
+  "$schema": "../schema/tower-schema.json",
   "name": "1-1 Tactical tutorial",
   "enemies": [
     {
@@ -8106,5 +8107,8 @@
         "scores": []
       }
     ]
-  }
+  },
+  "levels": [
+
+  ]
 }

@@ -1,0 +1,453 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tower",
+  "type": "object",
+  "definitions": {
+    "classes": {
+      "Enemy": {
+        "type": "object",
+        "properties": {
+          "atk": {
+            "type": "number",
+            "minimum": 0
+          },
+          "def": {
+            "type": "number",
+            "minimum": 0
+          },
+          "exp": {
+            "type": "number",
+            "minimum": 0
+          },
+          "drop": {
+            "type": "string",
+            "enum": [
+              null,
+              "",
+              "Blue potion",
+              "Drop of dream ocean",
+              "Golden feather",
+              "Guard card",
+              "Guard deck",
+              "Guard gem",
+              "Guard piece",
+              "Guard potion",
+              "Heavenly potion",
+              "Life Crown",
+              "Life potion",
+              "Power card",
+              "Power deck",
+              "Power gem",
+              "Power piece",
+              "Power potion",
+              "Pulse book <Shield>",
+              "Pulse book <Sword>",
+              "Red potion"
+            ]
+          },
+          "hp": {
+            "type": "number",
+            "minimum": 1
+          },
+          "level": {
+            "type": "number",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "$ref": "#/definitions/enums/EnemyType"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "atk",
+          "def",
+          "drop",
+          "exp",
+          "hp",
+          "level",
+          "name",
+          "type"
+        ]
+      },
+      "Level": {
+        "type": "object",
+        "properties": {
+"atkAdd": {
+  "type": "number",
+  "minimum": 0
+},
+          "atkMul": {
+            "type": "number",
+            "minimum": 0
+          },
+          "defAdd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "defMul": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hpAdd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hpMul": {
+            "type": "number",
+            "minimum": 0
+          },
+          "blueKey": {
+            "type": "number",
+            "minimum": 0
+          },
+          "crimsonKey": {
+            "type": "number",
+            "minimum": 0
+          },
+          "yellowKey": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "atkAdd",
+          "atkMul",
+          "defAdd",
+          "defMul",
+          "hpAdd",
+          "hpMul",
+          "blueKey",
+          "crimsonKey",
+          "yellowKey"
+        ]
+      },
+      "Rooms": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "tiles": {
+              "type": "array",
+              "minItems": 15,
+              "maxItems": 15,
+              "items": {
+                "type": "array",
+                "minItems": 15,
+                "maxItems": 15,
+                "items": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/definitions/tiles/DoorTile"
+                    },
+                    {
+                      "$ref": "#/definitions/tiles/EnemyTile"
+                    },
+                    {
+                      "$ref": "#/definitions/tiles/EmptyTile"
+                    },
+                    {
+                      "$ref": "#/definitions/tiles/ItemTile"
+                    },
+                    {
+                      "$ref": "#/definitions/tiles/KeyTile"
+                    },
+                    {
+                      "$ref": "#/definitions/tiles/StaircaseTile"
+                    },
+                    {
+                      "$ref": "#/definitions/tiles/StartingPositionTile"
+                    },
+                    {
+                      "$ref": "#/definitions/tiles/WallTile"
+                    }
+                  ]
+                }
+              }
+            },
+            "scores": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/classes/Score"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "tiles",
+            "scores"
+          ]
+        }
+      },
+      "Score": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 14
+          },
+          "column": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 14
+          },
+          "type": {
+            "$ref": "#/definitions/enums/ScoreType"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "line",
+          "column",
+          "type"
+        ]
+      }
+    },
+    "enums": {
+      "Color": {
+        "type": "string",
+        "enum": [
+          "blue",
+          "crimson",
+          "greenBlue",
+          "platinum",
+          "violet",
+          "yellow"
+        ]
+      },
+      "EnemyType": {
+        "type": "string",
+        "enum": [
+          "Burgeoner",
+          "Fighter",
+          "Ranger",
+          "Shadow",
+          "Slasher"
+        ]
+      },
+
+      "ScoreType": {
+        "type": "string",
+        "enum": [
+          "check",
+          "crown",
+          "star"
+        ]
+      },
+      "StaircaseDirection": {
+        "type": "string",
+        "enum": [
+          "down",
+          "up"
+        ]
+      }
+    },
+    "tiles": {
+      "DoorTile": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "$ref": "#/definitions/enums/Color"
+          },
+          "type": {
+            "type": "string",
+            "const": "door"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "color",
+          "type"
+        ]
+      },
+      "EmptyTile": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "empty"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "type"
+        ]
+      },
+      "EnemyTile": {
+        "type": "object",
+        "properties": {
+          "enemyType": {
+            "$ref": "#/definitions/enums/EnemyType"
+          },
+          "level": {
+            "type": "number",
+            "minimum": 1
+          },
+          "type": {
+            "type": "string",
+            "const": "enemy"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "enemyType",
+          "level",
+          "type"
+        ]
+      },
+      "ItemTile": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "Blue potion",
+              "Drop of dream ocean",
+              "Golden feather",
+              "Guard card",
+              "Guard deck",
+              "Guard gem",
+              "Guard piece",
+              "Guard potion",
+              "Heavenly potion",
+              "Life Crown",
+              "Life potion",
+              "Power card",
+              "Power deck",
+              "Power gem",
+              "Power piece",
+              "Power potion",
+              "Pulse book <Shield>",
+              "Pulse book <Sword>",
+              "Red potion"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "const": "item"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "KeyTile": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "$ref": "#/definitions/enums/Color"
+          },
+          "type": {
+            "type": "string",
+            "const": "key"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "color",
+          "type"
+        ]
+      },
+      "StaircaseTile": {
+        "type": "object",
+        "properties": {
+          "direction": {
+            "$ref": "#/definitions/enums/StaircaseDirection"
+          },
+          "type": {
+            "type": "string",
+            "const": "staircase"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "direction",
+          "type"
+        ]
+      },
+      "StartingPositionTile": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "startingPosition"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "type"
+        ]
+      },
+      "WallTile": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "wall"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "type"
+        ]
+      }
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "value": "tower-schema.json"
+    },
+    "name": {
+      "type": "string"
+    },
+    "enemies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/classes/Enemy"
+      }
+    },
+    "levels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/classes/Level"
+      }
+
+    },
+    "rooms": {
+      "type": "object",
+      "properties": {
+        "standard": {
+          "$ref": "#/definitions/classes/Rooms"
+        },
+        "nexus": {
+          "$ref": "#/definitions/classes/Rooms"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "nexus",
+        "standard"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "name",
+    "enemies",
+    "levels",
+    "rooms"
+  ]
+}

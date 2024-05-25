@@ -1,4 +1,5 @@
 {
+ "$schema": "../schema/tower-schema.json",
  "enemies": [
   {
    "type": "Fighter",

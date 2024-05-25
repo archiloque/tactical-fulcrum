@@ -10,7 +10,8 @@
     "serve-game": "node esbuild.serve-game.mjs",
     "lint": "npx eslint --fix 'editor/**/*.ts'",
     "svg": "node build-svg.mjs",
-    "prettier": "npx prettier . --write"
+    "prettier": "npx prettier . --write",
+    "json-schema": "npx quicktype --src schema/tower-schema.json --src-lang schema --lang typescript --out common/jsonTower.ts --top-level Tower"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
@@ -27,14 +28,13 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
+    "globals": "^15.3.0",
     "pixi.js": "^8.1.0",
     "prettier": "^3.2.5",
+    "quicktype": "^23.0.168",
     "svgo": "^3.3.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.1",
     "uhtml": "^4.5.8"
-  },
-  "dependencies": {
-    "globals": "^15.3.0"
   }
 }

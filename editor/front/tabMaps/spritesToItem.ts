@@ -58,8 +58,14 @@ export class SpritesToItem {
 
   private static spriteNameFromItem(tile: ItemTile): Sprites {
     switch (tile.item) {
+      case Item.pulse_book_shield:
+        return Sprites.itemBookShield
+      case Item.pulse_book_sword:
+        return Sprites.itemBookSword
       case Item.blue_potion:
         return Sprites.itemBluePotion
+      case Item.drop_of_dream_ocean:
+        return Sprites.itemDropOfDreamOcean
       case Item.golden_feather:
         return Sprites.itemGoldenFeather
       case Item.guard_card:
@@ -74,6 +80,8 @@ export class SpritesToItem {
         return Sprites.itemGuardPotion
       case Item.heavenly_potion:
         return Sprites.itemHeavenlyPotion
+      case Item.life_crown:
+        return Sprites.itemLifeCrown
       case Item.life_potion:
         return Sprites.itemLifePotion
       case Item.power_card:
@@ -88,8 +96,6 @@ export class SpritesToItem {
         return Sprites.itemPowerPotion
       case Item.red_potion:
         return Sprites.itemRedPotion
-      default:
-        return Sprites.item
     }
   }
 

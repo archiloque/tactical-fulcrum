@@ -49,8 +49,9 @@ const SPRITES_MONOCHROMES = [
   "enemy-knife",
   "enemy-sword",
 
-  "item",
-  "item-golden-feather",
+  "item-feather",
+  "item-book-shield",
+  "item-book-sword",
 
   "score-check",
   "score-crown",
@@ -73,6 +74,8 @@ const SPRITES_ALL_COLORS = [
   new Sprite("item-jug", COLORS_CRIMSON_BLUE),
   new Sprite("item-piece", COLORS_CRIMSON_BLUE),
   new Sprite("item-potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN, COLOR_YELLOW])),
+  new Sprite("item-drop", [COLOR_BLUE]),
+  new Sprite("item-crown", [COLOR_CRIMSON]),
 ]
 
 const IN_DIR = "assets/sprites/in"

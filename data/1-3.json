@@ -1,0 +1,1584 @@
+{
+  "$schema": "tower-schema.json",
+  "name": "Chapter 1-5 Tactical trip mini",
+  "enemies": [
+    {
+      "type": "Burgeoner",
+      "level": 3,
+      "name": "Junior Burgeoner",
+      "hp": 100,
+      "atk": 15,
+      "def": 0,
+      "exp": 30,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 6,
+      "name": "Burgeoner",
+      "hp": 200,
+      "atk": 25,
+      "def": 0,
+      "exp": 40,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 9,
+      "name": "Master Burgeoner",
+      "hp": 300,
+      "atk": 40,
+      "def": 10,
+      "exp": 50,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 12,
+      "name": "Great Burgeoner",
+      "hp": 500,
+      "atk": 60,
+      "def": 10,
+      "exp": 60,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 15,
+      "name": "Fine Burgeoner",
+      "hp": 999,
+      "atk": 80,
+      "def": 20,
+      "exp": 70,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 18,
+      "name": "Master Burgeoner",
+      "hp": 1400,
+      "atk": 100,
+      "def": 30,
+      "exp": 80,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 21,
+      "name": "General Burgeoner",
+      "hp": 1800,
+      "atk": 140,
+      "def": 40,
+      "exp": 90,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 24,
+      "name": "Legendary Burgeoner",
+      "hp": 2200,
+      "atk": 180,
+      "def": 40,
+      "exp": 100,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 32,
+      "name": "Star Burgeoner",
+      "hp": 5000,
+      "atk": 360,
+      "def": 70,
+      "exp": 120,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 40,
+      "name": "Final Burgeoner",
+      "hp": 9999,
+      "atk": 600,
+      "def": 200,
+      "exp": 140,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 50,
+      "name": "Chronicle Burgeoner",
+      "hp": 18000,
+      "atk": 999,
+      "def": 255,
+      "exp": 160,
+      "drop": ""
+    },
+    {
+      "type": "Burgeoner",
+      "level": 70,
+      "name": "Dreamer",
+      "hp": 44444,
+      "atk": 1800,
+      "def": 500,
+      "exp": 300,
+      "drop": ""
+    },
+    {
+      "type": "Fighter",
+      "level": 1,
+      "name": "Junior Fighter",
+      "hp": 20,
+      "atk": 10,
+      "def": 0,
+      "exp": 3,
+      "drop": "Guard piece"
+    },
+    {
+      "type": "Fighter",
+      "level": 3,
+      "name": "Fighter",
+      "hp": 30,
+      "atk": 20,
+      "def": 0,
+      "exp": 4,
+      "drop": "Guard piece"
+    },
+    {
+      "type": "Fighter",
+      "level": 5,
+      "name": "Elder Fighter",
+      "hp": 60,
+      "atk": 30,
+      "def": 10,
+      "exp": 5,
+      "drop": "Guard gem"
+    },
+    {
+      "type": "Fighter",
+      "level": 7,
+      "name": "Great Fighter",
+      "hp": 100,
+      "atk": 40,
+      "def": 20,
+      "exp": 6,
+      "drop": "Guard gem"
+    },
+    {
+      "type": "Fighter",
+      "level": 9,
+      "name": "Fine Fighter",
+      "hp": 200,
+      "atk": 70,
+      "def": 30,
+      "exp": 7,
+      "drop": "Guard potion"
+    },
+    {
+      "type": "Fighter",
+      "level": 11,
+      "name": "Master Fighter",
+      "hp": 350,
+      "atk": 90,
+      "def": 40,
+      "exp": 8,
+      "drop": "Guard potion"
+    },
+    {
+      "type": "Fighter",
+      "level": 15,
+      "name": "General Fighter",
+      "hp": 550,
+      "atk": 120,
+      "def": 60,
+      "exp": 9,
+      "drop": "Guard card"
+    },
+    {
+      "type": "Fighter",
+      "level": 22,
+      "name": "Legendary Fighter",
+      "hp": 800,
+      "atk": 160,
+      "def": 90,
+      "exp": 10,
+      "drop": "Guard card"
+    },
+    {
+      "type": "Fighter",
+      "level": 32,
+      "name": "Star Fighter",
+      "hp": 2000,
+      "atk": 280,
+      "def": 150,
+      "exp": 12,
+      "drop": "Guard card"
+    },
+    {
+      "type": "Fighter",
+      "level": 40,
+      "name": "Final Fighter",
+      "hp": 3000,
+      "atk": 450,
+      "def": 250,
+      "exp": 15,
+      "drop": "Guard deck"
+    },
+    {
+      "type": "Fighter",
+      "level": 45,
+      "name": "Chronicle Fighter",
+      "hp": 6000,
+      "atk": 900,
+      "def": 350,
+      "exp": 19,
+      "drop": "Guard deck"
+    },
+    {
+      "type": "Fighter",
+      "level": 65,
+      "name": "Eraser",
+      "hp": 16000,
+      "atk": 1400,
+      "def": 600,
+      "exp": 200,
+      "drop": ""
+    },
+    {
+      "type": "Ranger",
+      "level": 1,
+      "name": "Junior Ranger",
+      "hp": 20,
+      "atk": 15,
+      "def": 0,
+      "exp": 3,
+      "drop": "Red potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 3,
+      "name": "Ranger",
+      "hp": 20,
+      "atk": 30,
+      "def": 10,
+      "exp": 4,
+      "drop": "Red potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 5,
+      "name": "Elder Ranger",
+      "hp": 80,
+      "atk": 40,
+      "def": 10,
+      "exp": 5,
+      "drop": "Blue potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 7,
+      "name": "Great Ranger",
+      "hp": 80,
+      "atk": 70,
+      "def": 10,
+      "exp": 6,
+      "drop": "Blue potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 9,
+      "name": "Fine Ranger",
+      "hp": 80,
+      "atk": 100,
+      "def": 20,
+      "exp": 7,
+      "drop": "Blue potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 11,
+      "name": "Master Ranger",
+      "hp": 200,
+      "atk": 100,
+      "def": 30,
+      "exp": 8,
+      "drop": "Life potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 15,
+      "name": "General Ranger",
+      "hp": 200,
+      "atk": 160,
+      "def": 50,
+      "exp": 9,
+      "drop": "Life potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 22,
+      "name": "Legendary Ranger",
+      "hp": 300,
+      "atk": 220,
+      "def": 80,
+      "exp": 10,
+      "drop": "Heavenly potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 26,
+      "name": "Star Ranger",
+      "hp": 300,
+      "atk": 300,
+      "def": 120,
+      "exp": 12,
+      "drop": "Heavenly potion"
+    },
+    {
+      "type": "Ranger",
+      "level": 35,
+      "name": "Final Ranger",
+      "hp": 999,
+      "atk": 500,
+      "def": 160,
+      "exp": 15,
+      "drop": "Drop of dream ocean"
+    },
+    {
+      "type": "Ranger",
+      "level": 52,
+      "name": "Chronicle Ranger",
+      "hp": 999,
+      "atk": 2500,
+      "def": 250,
+      "exp": 19,
+      "drop": "Drop of dream ocean"
+    },
+    {
+      "type": "Ranger",
+      "level": 60,
+      "name": "Agent",
+      "hp": 20000,
+      "atk": 2000,
+      "def": 200,
+      "exp": 200,
+      "drop": "Golden feather"
+    },
+    {
+      "type": "Slasher",
+      "level": 1,
+      "name": "Junior Slasher",
+      "hp": 20,
+      "atk": 10,
+      "def": 0,
+      "exp": 3,
+      "drop": "Power piece"
+    },
+    {
+      "type": "Slasher",
+      "level": 3,
+      "name": "Slasher",
+      "hp": 40,
+      "atk": 20,
+      "def": 0,
+      "exp": 4,
+      "drop": "Power piece"
+    },
+    {
+      "type": "Slasher",
+      "level": 5,
+      "name": "Elder Slasher",
+      "hp": 80,
+      "atk": 50,
+      "def": 0,
+      "exp": 5,
+      "drop": "Power gem"
+    },
+    {
+      "type": "Slasher",
+      "level": 7,
+      "name": "Great Slasher",
+      "hp": 160,
+      "atk": 60,
+      "def": 5,
+      "exp": 6,
+      "drop": "Power gem"
+    },
+    {
+      "type": "Slasher",
+      "level": 9,
+      "name": "Fine Slasher",
+      "hp": 200,
+      "atk": 100,
+      "def": 10,
+      "exp": 7,
+      "drop": "Power potion"
+    },
+    {
+      "type": "Slasher",
+      "level": 11,
+      "name": "Master Slasher",
+      "hp": 320,
+      "atk": 150,
+      "def": 15,
+      "exp": 8,
+      "drop": "Power potion"
+    },
+    {
+      "type": "Slasher",
+      "level": 15,
+      "name": "General Slasher",
+      "hp": 500,
+      "atk": 210,
+      "def": 20,
+      "exp": 9,
+      "drop": "Power card"
+    },
+    {
+      "type": "Slasher",
+      "level": 22,
+      "name": "Legendary Slasher",
+      "hp": 800,
+      "atk": 300,
+      "def": 40,
+      "exp": 10,
+      "drop": "Power card"
+    },
+    {
+      "type": "Slasher",
+      "level": 32,
+      "name": "Star Slasher",
+      "hp": 1200,
+      "atk": 400,
+      "def": 75,
+      "exp": 12,
+      "drop": "Power card"
+    },
+    {
+      "type": "Slasher",
+      "level": 40,
+      "name": "Final Slasher",
+      "hp": 2500,
+      "atk": 650,
+      "def": 140,
+      "exp": 15,
+      "drop": "Power deck"
+    },
+    {
+      "type": "Slasher",
+      "level": 45,
+      "name": "Chronicle Slasher",
+      "hp": 4000,
+      "atk": 1200,
+      "def": 210,
+      "exp": 19,
+      "drop": "Power deck"
+    },
+    {
+      "type": "Slasher",
+      "level": 60,
+      "name": "Pioneer",
+      "hp": 8000,
+      "atk": 1850,
+      "def": 300,
+      "exp": 200,
+      "drop": ""
+    }
+  ],
+  "levels": [
+    {
+      "atkAdd": 0,
+      "atkMul": 1,
+      "defAdd": 0,
+      "defMul": 0,
+      "hpAdd": 10,
+      "hpMul": 0,
+      "blueKey": 0,
+      "crimsonKey": 0,
+      "yellowKey": 0
+    },
+    {
+      "atkAdd": 0,
+      "atkMul": 0,
+      "defAdd": 0,
+      "defMul": 1,
+      "hpAdd": 0,
+      "hpMul": 0,
+      "blueKey": 0,
+      "crimsonKey": 0,
+      "yellowKey": 0
+    },
+    {
+      "atkAdd": 0,
+      "atkMul": 0,
+      "defAdd": 0,
+      "defMul": 0,
+      "hpAdd": 0,
+      "hpMul": 0,
+      "blueKey": 0,
+      "crimsonKey": 0,
+      "yellowKey": 3
+    },
+    {
+      "atkAdd": 0,
+      "atkMul": 0,
+      "defAdd": 0,
+      "defMul": 0,
+      "hpAdd": 0,
+      "hpMul": 50,
+      "blueKey": 0,
+      "crimsonKey": 1,
+      "yellowKey": 0
+    }
+  ],
+  "rooms": {
+    "standard": [
+      {
+        "name": "Modest adventure",
+        "tiles": [
+          [
+            {
+              "type": "item",
+              "name": "Golden feather"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life Crown"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 22
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Golden feather"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Golden feather"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life Crown"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Golden feather"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 40
+            },
+            {
+              "type": "item",
+              "name": "Life Crown"
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 24
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 60
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 45
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 70
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 45
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 65
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 26
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 40
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 40
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 15
+            },
+            {
+              "type": "item",
+              "name": "Power deck"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 45
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 52
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 52
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 45
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 26
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 35
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 32
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 22
+            },
+            {
+              "type": "item",
+              "name": "Heavenly potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 45
+            },
+            {
+              "type": "item",
+              "name": "Drop of dream ocean"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 45
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 40
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 21
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 52
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 52
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 40
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 26
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 32
+            }
+          ],
+          [
+            {
+              "type": "item",
+              "name": "Life Crown"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 11
+            },
+            {
+              "type": "item",
+              "name": "Power potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 3
+            },
+            {
+              "type": "item",
+              "name": "Guard potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 5
+            },
+            {
+              "type": "item",
+              "name": "Red potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 50
+            },
+            {
+              "type": "item",
+              "name": "Red potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 3
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Power potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 5
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            }
+          ],
+          [
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Blue potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 3
+            },
+            {
+              "type": "item",
+              "name": "Power gem"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 5
+            },
+            {
+              "type": "item",
+              "name": "Power piece"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 1
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 1
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 1
+            },
+            {
+              "type": "item",
+              "name": "Power gem"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 7
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 5
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 5
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 5
+            },
+            {
+              "type": "wall"
+            }
+          ],
+          [
+            {
+              "type": "item",
+              "name": "Golden feather"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 6
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 3
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 3
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 3
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 3
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "startingPosition"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 6
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 5
+            },
+            {
+              "type": "item",
+              "name": "Blue potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 7
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 9
+            },
+            {
+              "type": "item",
+              "name": "Golden feather"
+            }
+          ],
+          [
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 5
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 3
+            },
+            {
+              "type": "item",
+              "name": "Guard gem"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 3
+            },
+            {
+              "type": "item",
+              "name": "Guard piece"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 1
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 1
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 1
+            },
+            {
+              "type": "item",
+              "name": "Guard gem"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 7
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 5
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 5
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 5
+            },
+            {
+              "type": "wall"
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 15
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 1
+            },
+            {
+              "type": "item",
+              "name": "Power piece"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 12
+            },
+            {
+              "type": "item",
+              "name": "Power piece"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 7
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Guard potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 24
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 7
+            },
+            {
+              "type": "item",
+              "name": "Heavenly potion"
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 9
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 11
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 11
+            },
+            {
+              "type": "item",
+              "name": "Heavenly potion"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 9
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 7
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 9
+            },
+            {
+              "type": "item",
+              "name": "Life Crown"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 22
+            },
+            {
+              "type": "wall"
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 9
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 18
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 11
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 7
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 9
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 32
+            },
+            {
+              "type": "item",
+              "name": "Golden feather"
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 9
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Golden feather"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 11
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 7
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 9
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 9
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 22
+            },
+            {
+              "type": "item",
+              "name": "Heavenly potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 26
+            },
+            {
+              "type": "wall"
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 9
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 11
+            },
+            {
+              "type": "item",
+              "name": "Heavenly potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 9
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Burgeoner",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 9
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 15
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 22
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 26
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 35
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 32
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 60
+            }
+          ],
+          [
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 9
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Fighter",
+              "level": 9
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Ranger",
+              "level": 11
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life potion"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Golden feather"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life Crown"
+            },
+            {
+              "type": "enemy",
+              "enemyType": "Slasher",
+              "level": 22
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Power deck"
+            },
+            {
+              "type": "wall"
+            },
+            {
+              "type": "item",
+              "name": "Life Crown"
+            }
+          ]
+        ],
+        "scores": [
+          {
+            "line": 0,
+            "column": 7,
+            "type": "crown"
+          }
+        ]
+      }
+    ],
+    "nexus": []
+  },
+  "startingStats": {
+    "atk": 10,
+    "def": 0,
+    "hp": 100
+  }
+}

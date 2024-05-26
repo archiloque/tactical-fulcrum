@@ -84,6 +84,8 @@ export class TabImportExport {
       this.editor.tower.standardRooms = importResult.tower.standardRooms
       this.editor.tower.nexusRooms = importResult.tower.nexusRooms
       this.editor.tower.saveRooms()
+      this.editor.tower.levels = importResult.tower.levels
+      this.editor.tower.saveLevels()
       this.editor.tower.name = importResult.tower.name
       this.editor.tower.saveName()
       TabImportExport.processIOResult(importResult, "Import")

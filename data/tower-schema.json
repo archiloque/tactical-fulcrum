@@ -216,6 +216,29 @@
           "column",
           "type"
         ]
+      },
+      "StartingStats": {
+        "type": "object",
+        "properties": {
+          "atk": {
+            "type": "number",
+            "minimum": 0
+          },
+          "def": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hp": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "atk",
+          "def",
+          "hp"
+        ]
       }
     },
     "enums": {
@@ -445,6 +468,12 @@
         "nexus",
         "standard"
       ]
+    },
+    "startingStats":{
+      "type": "object",
+      "items": {
+        "$ref": "#/definitions/classes/StartingStats"
+      }
     }
   },
   "additionalProperties": false,
@@ -453,6 +482,7 @@
     "name",
     "enemies",
     "levels",
-    "rooms"
+    "rooms",
+    "startingStats"
   ]
 }

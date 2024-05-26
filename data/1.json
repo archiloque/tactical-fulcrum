@@ -215,13 +215,57 @@
   ],
   "levels": [
     {
-      "atkAdd": 0,
-      "atkMul": 0,
+      "atkAdd": 4,
+      "atkMul": 1,
       "defAdd": 0,
       "defMul": 0,
       "hpAdd": 10,
       "hpMul": 0,
       "blueKey": 0,
+      "crimsonKey": 0,
+      "yellowKey": 0
+    },
+    {
+      "atkAdd": 0,
+      "atkMul": 0,
+      "defAdd": 4,
+      "defMul": 2,
+      "hpAdd": 0,
+      "hpMul": 0,
+      "blueKey": 0,
+      "crimsonKey": 0,
+      "yellowKey": 0
+    },
+    {
+      "atkAdd": 0,
+      "atkMul": 0,
+      "defAdd": 0,
+      "defMul": 0,
+      "hpAdd": 0,
+      "hpMul": 0,
+      "blueKey": 0,
+      "crimsonKey": 0,
+      "yellowKey": 3
+    },
+    {
+      "atkAdd": 0,
+      "atkMul": 0,
+      "defAdd": 0,
+      "defMul": 0,
+      "hpAdd": 0,
+      "hpMul": 0,
+      "blueKey": 0,
+      "crimsonKey": 1,
+      "yellowKey": 0
+    },
+    {
+      "atkAdd": 0,
+      "atkMul": 0,
+      "defAdd": 0,
+      "defMul": 0,
+      "hpAdd": 0,
+      "hpMul": 0,
+      "blueKey": 2,
       "crimsonKey": 0,
       "yellowKey": 0
     }

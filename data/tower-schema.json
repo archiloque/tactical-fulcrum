@@ -230,7 +230,7 @@
           },
           "hp": {
             "type": "number",
-            "minimum": 0
+            "minimum": 1
           }
         },
         "additionalProperties": false,

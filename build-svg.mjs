@@ -20,18 +20,14 @@ class Sprite {
 const BLACKS = ["#000000", "#000"]
 
 const COLOR_WHITE = "#cccccc"
-const COLOR_BLUE =new ColorPair("blue", "#2563eb", "#1E40AF")
+const COLOR_BLUE = new ColorPair("blue", "#2563eb", "#1E40AF")
 const COLOR_CRIMSON = new ColorPair("crimson", "#ff0000", "#660000")
 const COLOR_GREEN = new ColorPair("green", "#65ff00", "#3d9900")
 const COLOR_YELLOW = new ColorPair("yellow", "#ffff00", "#AAAA00")
 
 const YELLOWS = ["#ffff00", "#ffff0", "#ffff0", "#ff0"]
 
-
-const COLORS_CRIMSON_BLUE = [
-  COLOR_BLUE,
-  COLOR_CRIMSON,
-]
+const COLORS_CRIMSON_BLUE = [COLOR_BLUE, COLOR_CRIMSON]
 
 const COLORS_ALL = [
   COLOR_BLUE,

@@ -24,7 +24,9 @@
             "enum": [
               null,
               "",
+              "Blue key",
               "Blue potion",
+              "Crimson key",
               "Drop of dream ocean",
               "Golden feather",
               "Guard card",
@@ -32,9 +34,11 @@
               "Guard gem",
               "Guard piece",
               "Guard potion",
+              "Green blue key",
               "Heavenly potion",
               "Life Crown",
               "Life potion",
+              "Platinum key",
               "Power card",
               "Power deck",
               "Power gem",
@@ -42,7 +46,9 @@
               "Power potion",
               "Pulse book <Shield>",
               "Pulse book <Sword>",
-              "Red potion"
+              "Red potion",
+              "Violet key",
+              "Yellow key"
             ]
           },
           "hp": {

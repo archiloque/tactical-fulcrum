@@ -49,6 +49,7 @@ export class Export extends IOOperation {
     return new ExportResult(
       JSON.stringify(
         {
+          "$schema": "tower-schema.json",
           [IOOperation.ATTRIBUTE_NAME]: tower.name,
           [IOOperation.ATTRIBUTE_ENEMIES]: enemies,
           [IOOperation.ATTRIBUTE_LEVELS]: levels,

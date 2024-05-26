@@ -89,7 +89,7 @@ export const ITEM_TILES: Record<Item, ItemTile> = {
   [Item.guard_card]: new ItemTile(Item.guard_card),
   [Item.guard_deck]: new ItemTile(Item.guard_deck),
   [Item.guard_gem]: new ItemTile(Item.guard_gem),
-  [Item.guard_piece]: new ItemTile(Item.guard_potion),
+  [Item.guard_piece]: new ItemTile(Item.guard_piece),
   [Item.guard_potion]: new ItemTile(Item.guard_potion),
   [Item.heavenly_potion]: new ItemTile(Item.heavenly_potion),
   [Item.life_crown]: new ItemTile(Item.life_crown),

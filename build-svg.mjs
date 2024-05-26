@@ -20,23 +20,26 @@ class Sprite {
 const BLACKS = ["#000000", "#000"]
 
 const COLOR_WHITE = "#cccccc"
+const COLOR_BLUE =new ColorPair("blue", "#2563eb", "#1E40AF")
+const COLOR_CRIMSON = new ColorPair("crimson", "#ff0000", "#660000")
+const COLOR_GREEN = new ColorPair("green", "#65ff00", "#3d9900")
+const COLOR_YELLOW = new ColorPair("yellow", "#ffff00", "#AAAA00")
 
 const YELLOWS = ["#ffff00", "#ffff0", "#ffff0", "#ff0"]
 
-const COLOR_GREEN = new ColorPair("green", "#65ff00", "#3d9900")
 
 const COLORS_CRIMSON_BLUE = [
-  new ColorPair("blue", "#2563eb", "#1E40AF"),
-  new ColorPair("crimson", "#ff0000", "#660000"),
+  COLOR_BLUE,
+  COLOR_CRIMSON,
 ]
 
 const COLORS_ALL = [
-  new ColorPair("blue", "#2563eb", "#1E40AF"),
-  new ColorPair("crimson", "#ff0000", "#660000"),
+  COLOR_BLUE,
+  COLOR_CRIMSON,
   new ColorPair("greenblue", "#14b8a6", "#084a42"),
   new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
   new ColorPair("violet", "#a855f7", "#44067f"),
-  new ColorPair("yellow", "#ffff00", "#AAAA00"),
+  COLOR_YELLOW,
 ]
 
 const SPRITES_MONOCHROMES = [
@@ -66,8 +69,10 @@ const SPRITES_ALL_COLORS = [
   new Sprite("key", COLORS_ALL),
   new Sprite("item-card", COLORS_CRIMSON_BLUE),
   new Sprite("item-cards", COLORS_CRIMSON_BLUE),
+  new Sprite("item-gem", COLORS_CRIMSON_BLUE),
   new Sprite("item-jug", COLORS_CRIMSON_BLUE),
-  new Sprite("item-potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN])),
+  new Sprite("item-piece", COLORS_CRIMSON_BLUE),
+  new Sprite("item-potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN, COLOR_YELLOW])),
 ]
 
 const IN_DIR = "assets/sprites/in"
@@ -98,10 +103,11 @@ for (const monochromes of SPRITES_MONOCHROMES) {
   console.group(monochromes, source)
   const destLight = path.join(OUT_DIR, `${monochromes}${LIGHT_SUFFIX}.svg`)
   const destDark = path.join(OUT_DIR, `${monochromes}${DARK_SUFFIX}.svg`)
+  const sourceContent = fs.readFileSync(source, { encoding: "utf8" })
   console.info(destLight)
-  fs.copyFileSync(source, destLight)
+  fs.writeFileSync(destLight, optimizeSvg(sourceContent))
   console.info(destDark)
-  whiten(fs.readFileSync(source, { encoding: "utf8" }), destDark)
+  whiten(sourceContent, destDark)
   console.groupEnd()
 }
 

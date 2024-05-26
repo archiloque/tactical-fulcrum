@@ -143,6 +143,7 @@ export class Map {
             const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
             this.editor.eventManager.notifyTileSelection(selectedTile, true)
           } else {
+            console.debug("Map", "set tile", this.selectedTile)
             currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
             this.editor.tower.saveRooms()
             this.repaint()

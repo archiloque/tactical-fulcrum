@@ -16,7 +16,7 @@ import {
 } from "../../models/tile"
 import { ENEMY_TYPES, EnemyType } from "../../data/enemy-type"
 import { Hole, html, render } from "uhtml"
-import { ITEMS, Item } from "../../data/item"
+import { ITEM_NAMES, ItemName } from "../../data/item-name"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircase-direction"
 import { findEnum, findTreeItemFromValue } from "../../models/functions"
 import { Editor } from "../../editor"
@@ -55,7 +55,7 @@ export class Elements {
       (c) => html` <sl-tree-item data-type="${TileType.door}" data-color="${c}">${capitalize(c)} door</sl-tree-item>`,
     )
 
-    const items: Hole[] = ITEMS.map(
+    const items: Hole[] = ITEM_NAMES.map(
       (i) => html` <sl-tree-item data-type="${TileType.item}" data-name="${i.valueOf()}">${i}</sl-tree-item>`,
     )
 
@@ -129,7 +129,7 @@ export class Elements {
         break
       }
       case TileType.item.valueOf(): {
-        const item: Item = findEnum(ITEMS, slTreeItem.dataset.name)
+        const item: ItemName = findEnum(ITEM_NAMES, slTreeItem.dataset.name)
         if (item != null) {
           this.editor.eventManager.notifyTileSelection(ITEM_TILES[item], false)
           return

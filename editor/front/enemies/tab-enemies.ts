@@ -4,7 +4,7 @@ import { AbstractTab } from "../abstract-tab"
 import { DROPS } from "../../data/drop"
 import { Editor } from "../../editor"
 import { Enemy } from "../../models/enemy"
-import { Item } from "../../data/item"
+import { ItemName } from "../../data/item-name"
 import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
 import SlSelect from "@shoelace-style/shoelace/cdn/components/select/select.component"
 import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
@@ -162,7 +162,7 @@ export class TabEnemies extends AbstractTab {
 
   private dropChange = (event: CustomEvent): void => {
     const [enemyIndex, value] = this.getInputValueFromList(event)
-    const drop = DROPS[parseInt(value)] as Item
+    const drop = DROPS[parseInt(value)] as ItemName
     console.debug("TabEnemies", "dropChange", enemyIndex, drop)
     this.editor.tower.enemies[enemyIndex].drop = drop
     this.editor.tower.saveEnemies()

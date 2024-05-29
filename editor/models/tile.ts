@@ -1,6 +1,6 @@
 import { Color } from "../data/color"
 import { Enemy } from "./enemy"
-import { Item } from "../data/item"
+import { ItemName } from "../data/item-name"
 import { StaircaseDirection } from "../data/staircase-direction"
 
 export const enum TileType {
@@ -71,9 +71,9 @@ export class EnemyTile implements Tile {
 }
 
 export class ItemTile implements Tile {
-  readonly item: Item
+  readonly item: ItemName
 
-  constructor(item: Item) {
+  constructor(item: ItemName) {
     this.item = item
   }
 
@@ -82,26 +82,26 @@ export class ItemTile implements Tile {
   }
 }
 
-export const ITEM_TILES: Record<Item, ItemTile> = {
-  [Item.blue_potion]: new ItemTile(Item.blue_potion),
-  [Item.drop_of_dream_ocean]: new ItemTile(Item.drop_of_dream_ocean),
-  [Item.golden_feather]: new ItemTile(Item.golden_feather),
-  [Item.guard_card]: new ItemTile(Item.guard_card),
-  [Item.guard_deck]: new ItemTile(Item.guard_deck),
-  [Item.guard_gem]: new ItemTile(Item.guard_gem),
-  [Item.guard_piece]: new ItemTile(Item.guard_piece),
-  [Item.guard_potion]: new ItemTile(Item.guard_potion),
-  [Item.heavenly_potion]: new ItemTile(Item.heavenly_potion),
-  [Item.life_crown]: new ItemTile(Item.life_crown),
-  [Item.life_potion]: new ItemTile(Item.life_potion),
-  [Item.power_card]: new ItemTile(Item.power_card),
-  [Item.power_deck]: new ItemTile(Item.power_deck),
-  [Item.power_gem]: new ItemTile(Item.power_gem),
-  [Item.power_piece]: new ItemTile(Item.power_piece),
-  [Item.power_potion]: new ItemTile(Item.power_potion),
-  [Item.pulse_book_shield]: new ItemTile(Item.pulse_book_shield),
-  [Item.pulse_book_sword]: new ItemTile(Item.pulse_book_sword),
-  [Item.red_potion]: new ItemTile(Item.red_potion),
+export const ITEM_TILES: Record<ItemName, ItemTile> = {
+  [ItemName.blue_potion]: new ItemTile(ItemName.blue_potion),
+  [ItemName.drop_of_dream_ocean]: new ItemTile(ItemName.drop_of_dream_ocean),
+  [ItemName.golden_feather]: new ItemTile(ItemName.golden_feather),
+  [ItemName.guard_card]: new ItemTile(ItemName.guard_card),
+  [ItemName.guard_deck]: new ItemTile(ItemName.guard_deck),
+  [ItemName.guard_gem]: new ItemTile(ItemName.guard_gem),
+  [ItemName.guard_piece]: new ItemTile(ItemName.guard_piece),
+  [ItemName.guard_potion]: new ItemTile(ItemName.guard_potion),
+  [ItemName.heavenly_potion]: new ItemTile(ItemName.heavenly_potion),
+  [ItemName.life_crown]: new ItemTile(ItemName.life_crown),
+  [ItemName.life_potion]: new ItemTile(ItemName.life_potion),
+  [ItemName.power_card]: new ItemTile(ItemName.power_card),
+  [ItemName.power_deck]: new ItemTile(ItemName.power_deck),
+  [ItemName.power_gem]: new ItemTile(ItemName.power_gem),
+  [ItemName.power_piece]: new ItemTile(ItemName.power_piece),
+  [ItemName.power_potion]: new ItemTile(ItemName.power_potion),
+  [ItemName.pulse_book_shield]: new ItemTile(ItemName.pulse_book_shield),
+  [ItemName.pulse_book_sword]: new ItemTile(ItemName.pulse_book_sword),
+  [ItemName.red_potion]: new ItemTile(ItemName.red_potion),
 }
 
 export class KeyTile implements Tile {

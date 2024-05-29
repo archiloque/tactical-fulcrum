@@ -1,7 +1,7 @@
 import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../models/tile"
 import { Color } from "../../data/color"
 import { EnemyType } from "../../data/enemy-type"
-import { Item } from "../../data/item"
+import { ItemName } from "../../data/item-name"
 import { ScoreType } from "../../data/score-type"
 import { Sprites } from "./sprites"
 import { StaircaseDirection } from "../../data/staircase-direction"
@@ -58,43 +58,43 @@ export class SpritesToItem {
 
   private static spriteNameFromItem(tile: ItemTile): Sprites {
     switch (tile.item) {
-      case Item.pulse_book_shield:
+      case ItemName.pulse_book_shield:
         return Sprites.itemBookShield
-      case Item.pulse_book_sword:
+      case ItemName.pulse_book_sword:
         return Sprites.itemBookSword
-      case Item.blue_potion:
+      case ItemName.blue_potion:
         return Sprites.itemBluePotion
-      case Item.drop_of_dream_ocean:
+      case ItemName.drop_of_dream_ocean:
         return Sprites.itemDropOfDreamOcean
-      case Item.golden_feather:
+      case ItemName.golden_feather:
         return Sprites.itemGoldenFeather
-      case Item.guard_card:
+      case ItemName.guard_card:
         return Sprites.itemGuardCard
-      case Item.guard_deck:
+      case ItemName.guard_deck:
         return Sprites.itemGuardDeck
-      case Item.guard_gem:
+      case ItemName.guard_gem:
         return Sprites.itemGuardGem
-      case Item.guard_piece:
+      case ItemName.guard_piece:
         return Sprites.itemGuardPiece
-      case Item.guard_potion:
+      case ItemName.guard_potion:
         return Sprites.itemGuardPotion
-      case Item.heavenly_potion:
+      case ItemName.heavenly_potion:
         return Sprites.itemHeavenlyPotion
-      case Item.life_crown:
+      case ItemName.life_crown:
         return Sprites.itemLifeCrown
-      case Item.life_potion:
+      case ItemName.life_potion:
         return Sprites.itemLifePotion
-      case Item.power_card:
+      case ItemName.power_card:
         return Sprites.itemPowerCard
-      case Item.power_deck:
+      case ItemName.power_deck:
         return Sprites.itemPowerDeck
-      case Item.power_gem:
+      case ItemName.power_gem:
         return Sprites.itemPowerGem
-      case Item.power_piece:
+      case ItemName.power_piece:
         return Sprites.itemPowerPiece
-      case Item.power_potion:
+      case ItemName.power_potion:
         return Sprites.itemPowerPotion
-      case Item.red_potion:
+      case ItemName.red_potion:
         return Sprites.itemRedPotion
     }
   }

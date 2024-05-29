@@ -13,7 +13,7 @@ import {
   WALL_TILE,
 } from "../../models/tile"
 import { ENEMY_TYPES, EnemyType } from "../../data/enemy-type"
-import { ITEMS, Item } from "../../data/item"
+import { ITEM_NAMES, ItemName } from "../../data/item-name"
 import { SCORE_TYPES, ScoreType } from "../../data/score-type"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircase-direction"
 import { Enemy } from "../../models/enemy"
@@ -107,7 +107,7 @@ export class IoRoomFromAttributes {
   }
 
   private static createTileItem(tile: Record<string, string | number>): Tile {
-    const itemName: Item = findEnum(ITEMS, tile[IoRoom.ATTRIBUTE_NAME] as string)
+    const itemName: ItemName = findEnum(ITEM_NAMES, tile[IoRoom.ATTRIBUTE_NAME] as string)
     if (itemName === undefined) {
       console.error("IoRoomFromAttributes", "createTileItem", "unknown item", tile)
       return EMPTY_TILE

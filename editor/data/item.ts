@@ -1,43 +1,50 @@
-export const enum Item {
-  blue_potion = 'Blue potion',
-  drop_of_dream_ocean = 'Drop of dream ocean',
-  golden_feather = 'Golden feather',
-  guard_card = 'Guard card',
-  guard_deck = 'Guard deck',
-  guard_gem = 'Guard gem',
-  guard_piece = 'Guard piece',
-  guard_potion = 'Guard potion',
-  heavenly_potion = 'Heavenly potion',
-  life_crown = 'Life Crown',
-  life_potion = 'Life potion',
-  power_card = 'Power card',
-  power_deck = 'Power deck',
-  power_gem = 'Power gem',
-  power_piece = 'Power piece',
-  power_potion = 'Power potion',
-  pulse_book_shield = 'Pulse book <Shield>',
-  pulse_book_sword = 'Pulse book <Sword>',
-  red_potion = 'Red potion',
+import {ItemName} from './item-name'
+
+export class Item {
+  'atk': number
+  'def': number
+  'hp': number
+  'expMulAdd': number
+  'expMulMul': number
+  'hpMulAdd': number
+  'hpMulMul': number
+
+  constructor(atk: number,
+              def: number,
+              hp: number,
+              expMulAdd: number,
+              expMulMul: number,
+              hpMulAdd: number,
+              hpMulMul: number,
+  ) {
+    this.atk = atk
+    this.def = def
+    this.hp = hp
+    this.expMulAdd = expMulAdd
+    this.expMulMul = expMulMul
+    this.hpMulAdd = hpMulAdd
+    this.hpMulMul = hpMulMul
+  }
 }
 
-export const ITEMS: Item[] = [
-  Item.blue_potion,
-  Item.drop_of_dream_ocean,
-  Item.golden_feather,
-  Item.guard_card,
-  Item.guard_deck,
-  Item.guard_gem,
-  Item.guard_piece,
-  Item.guard_potion,
-  Item.heavenly_potion,
-  Item.life_crown,
-  Item.life_potion,
-  Item.power_card,
-  Item.power_deck,
-  Item.power_gem,
-  Item.power_piece,
-  Item.power_potion,
-  Item.pulse_book_shield,
-  Item.pulse_book_sword,
-  Item.red_potion,
-]
+export const DEFAULT_ITEMS: Record<ItemName, Item> = {
+  [ItemName.blue_potion]: new Item(0, 0, 800, 0, 1, 0, 1),
+  [ItemName.drop_of_dream_ocean]: new Item(5, 5, 9999, 0, 1, 0, 1),
+  [ItemName.golden_feather]: new Item(0, 0, 0, 30, 1, 0, 1),
+  [ItemName.guard_card]: new Item(0, 5, 0, 0, 1, 0, 1),
+  [ItemName.guard_deck]: new Item(0, 15, 0, 0, 1, 0, 1),
+  [ItemName.guard_gem]: new Item(0, 2, 0, 0, 1, 0, 1),
+  [ItemName.guard_piece]: new Item(0, 1, 0, 0, 1, 0, 1),
+  [ItemName.guard_potion]: new Item(0, 3, 300, 0, 1, 0, 1),
+  [ItemName.heavenly_potion]: new Item(3, 3, 3000, 0, 1, 0, 1),
+  [ItemName.life_crown]: new Item(0, 0, 0, 0, 1, 30, 1),
+  [ItemName.life_potion]: new Item(0, 0, 2000, 0, 1, 0, 1),
+  [ItemName.power_card]: new Item(5, 0, 0, 0, 1, 0, 1),
+  [ItemName.power_deck]: new Item(15, 0, 0, 0, 1, 0, 1),
+  [ItemName.power_gem]: new Item(2, 0, 0, 0, 1, 0, 1),
+  [ItemName.power_piece]: new Item(1, 0, 0, 0, 1, 0, 1),
+  [ItemName.power_potion]: new Item(3, 0, 300, 0, 1, 0, 1),
+  [ItemName.pulse_book_shield]: new Item(0, 50, 0, 0, 1, 0, 1),
+  [ItemName.pulse_book_sword]: new Item(50, 0, 0, 0, 1, 0, 1),
+  [ItemName.red_potion]: new Item(0, 0, 200, 0, 1, 0, 1),
+}

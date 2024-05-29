@@ -79,6 +79,40 @@
           "type"
         ]
       },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "atk": {
+            "type": "number",
+            "minimum": 0
+          },
+          "def": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hp": {
+            "type": "number",
+            "minimum": 0
+          },
+          "expMulAdd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "expMulMul": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hpMultAdd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hpMulMul": {
+            "type": "number",
+            "minimum": 0
+          },
+          "additionalProperties": false
+        }
+      },
       "Level": {
         "type": "object",
         "properties": {
@@ -447,6 +481,72 @@
         "$ref": "#/definitions/classes/Enemy"
       }
     },
+    "items": {
+      "type": "object",
+      "properties": {
+        "Blue potion": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Drop of dream ocean": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Golden feather": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Guard card": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Guard deck": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Guard gem": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Guard piece": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Guard potion": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Green blue key": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Heavenly potion": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Life Crown": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Life potion": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Power card": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Power deck": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Power gem": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Power piece": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Power potion": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Pulse book <Shield>": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Pulse book <Sword>": {
+          "$ref": "#/definitions/classes/Item"
+        },
+        "Red potion": {
+          "$ref": "#/definitions/classes/Item"
+        }
+      },
+      "additionalProperties": false
+    },
     "levels": {
       "type": "array",
       "items": {
@@ -469,7 +569,7 @@
         "standard"
       ]
     },
-    "startingStats":{
+    "startingStats": {
       "type": "object",
       "items": {
         "$ref": "#/definitions/classes/StartingStats"
@@ -481,6 +581,7 @@
     "$schema",
     "name",
     "enemies",
+    "items",
     "levels",
     "rooms",
     "startingStats"

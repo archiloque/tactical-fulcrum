@@ -283,6 +283,7 @@
       "drop": "Power potion"
     }
   ],
+  "items":{},
   "levels": [
     {
       "atkAdd": 0,

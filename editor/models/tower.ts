@@ -1,4 +1,6 @@
+import { DEFAULT_ITEMS, Item } from "../data/item"
 import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
+import { ITEM_NAMES, ItemName } from "../data/item-name"
 import {
   LOCAL_STORAGE_KEY_ENEMIES,
   LOCAL_STORAGE_KEY_LEVELS,
@@ -26,13 +28,19 @@ export class Tower {
   name: string
   startingStats: StartingStats
   enemies: Enemy[]
+  items: Record<ItemName, Item>
   standardRooms: Room[]
   nexusRooms: Room[]
   levels: Level[]
 
   constructor() {
-    this.enemies = []
     this.name = "Unnamed tower"
+    this.enemies = []
+    // @ts-ignore
+    this.items = {}
+    for (const itemName of ITEM_NAMES) {
+      this.items[itemName] = { ...DEFAULT_ITEMS[itemName] }
+    }
     this.startingStats = new StartingStats()
     const standardRoom = new Room()
     standardRoom.name = "Standard room"
@@ -121,6 +129,11 @@ export class Tower {
       LOCAL_STORAGE_KEY_LEVELS,
       JSON.stringify(this.levels.map((e) => IoLevelToAttributes.toAttributes(e))),
     )
+  }
+
+  saveItems(): void {
+    console.debug("Tower", "saveItems")
+    // #TODO
   }
 
   saveName(): void {

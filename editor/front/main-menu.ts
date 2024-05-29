@@ -9,6 +9,7 @@ export class MainMenu {
     [Tab.enemy, "Enemies"],
     [Tab.level, "Levels"],
     [Tab.info, "Info"],
+    [Tab.item, "Items"],
     [Tab.importExport, "Import/Export"],
   ]
 

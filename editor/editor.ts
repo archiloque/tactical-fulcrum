@@ -28,6 +28,7 @@ import { Tab } from "./front/tab"
 import { TabEnemies } from "./front/enemies/tab-enemies"
 import { TabImportExport } from "./front/import-export/tab-import-export"
 import { TabInfo } from "./front/info/tab-info"
+import { TabItems } from "./front/items/tab-items"
 import { TabLevels } from "./front/levels/tab-levels"
 import { TabMaps } from "./front/maps/tab-maps"
 import { Tower } from "./models/tower"
@@ -46,6 +47,7 @@ export class Editor {
   readonly eventManager: EventManager
   private readonly tabEnemies: TabEnemies
   private readonly tabImportExport: TabImportExport
+  private readonly tabItems: TabItems
   private readonly tabMaps: TabMaps
   private readonly tabInfo: TabInfo
   private readonly tabLevels: TabLevels
@@ -59,6 +61,7 @@ export class Editor {
     new MainMenu(this)
     this.tabMaps = new TabMaps(this)
     this.tabInfo = new TabInfo(this)
+    this.tabItems = new TabItems(this)
     this.tabLevels = new TabLevels(this)
     this.tabEnemies = new TabEnemies(this)
     this.tabImportExport = new TabImportExport(this)
@@ -80,6 +83,8 @@ export class Editor {
         return this.tabInfo.render()
       case Tab.enemy:
         return this.tabEnemies.render()
+      case Tab.item:
+        return this.tabItems.render()
       case Tab.level:
         return this.tabLevels.render()
       case Tab.importExport:

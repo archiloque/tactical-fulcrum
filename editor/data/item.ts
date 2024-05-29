@@ -1,13 +1,13 @@
 import {ItemName} from './item-name'
 
 export class Item {
-  'atk': number
-  'def': number
-  'hp': number
-  'expMulAdd': number
-  'expMulMul': number
-  'hpMulAdd': number
-  'hpMulMul': number
+  atk: number
+  def: number
+  hp: number
+  expMulAdd: number
+  expMulMul: number
+  hpMulAdd: number
+  hpMulMul: number
 
   constructor(atk: number,
               def: number,

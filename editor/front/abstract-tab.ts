@@ -9,7 +9,7 @@ export abstract class AbstractTab {
   protected numberInput(
     value: number,
     callback: (event: CustomEvent) => void,
-    min: number,
+    min: number = 0,
     placeHolder: string,
     className: string | null = null,
     label: string | null = null,

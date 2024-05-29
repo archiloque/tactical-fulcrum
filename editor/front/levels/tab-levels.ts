@@ -18,15 +18,15 @@ export class TabLevels extends AbstractTab {
 
   private renderLevel(level: Level, levelIndex: number): Hole {
     return html`<div data-index="${levelIndex}" class="elementLine">
-      ${this.numberInput(level.atkAdd, this.atkAddChange, 0, "Atk add", "level")}
-      ${this.numberInput(level.atkMul, this.atkMulChange, 0, "Atk mul", "level")}
-      ${this.numberInput(level.defAdd, this.defAddChange, 0, "Def add", "level")}
-      ${this.numberInput(level.defMul, this.defMulChange, 0, "Def mul", "level")}
-      ${this.numberInput(level.hpAdd, this.hpAddChange, 0, "HP add", "level")}
-      ${this.numberInput(level.hpMul, this.hpMulChange, 0, "HP mul", "level")}
-      ${this.numberInput(level.blueKey, this.blueKeyChange, 0, "Blue keys", "level")}
-      ${this.numberInput(level.crimsonKey, this.crimsonKeyChange, 0, "Crimson keys", "level")}
-      ${this.numberInput(level.yellowKey, this.yellowKeyChange, 0, "Yellow keys", "level")}
+      ${this.numberInput(level.atkAdd, this.atkAddChange, 0, "Atk add")}
+      ${this.numberInput(level.atkMul, this.atkMulChange, 0, "Atk mul")}
+      ${this.numberInput(level.defAdd, this.defAddChange, 0, "Def add")}
+      ${this.numberInput(level.defMul, this.defMulChange, 0, "Def mul")}
+      ${this.numberInput(level.hpAdd, this.hpAddChange, 0, "HP add")}
+      ${this.numberInput(level.hpMul, this.hpMulChange, 0, "HP mul")}
+      ${this.numberInput(level.blueKey, this.blueKeyChange, 0, "Blue keys")}
+      ${this.numberInput(level.crimsonKey, this.crimsonKeyChange, 0, "Crimson keys")}
+      ${this.numberInput(level.yellowKey, this.yellowKeyChange, 0, "Yellow keys")}
       <sl-button onclick="${this.deleteLevel}" variant="danger" class="delete">
         <sl-icon name="trash"></sl-icon>
       </sl-button>
@@ -39,10 +39,9 @@ export class TabLevels extends AbstractTab {
       this.tabElement,
       html`
         <div class="elementLine validity-styles">
-          ${this.tag("Atk add", "level")} ${this.tag("Atk mul", "level")} ${this.tag("Def add", "level")}
-          ${this.tag("Def mul", "level")} ${this.tag("Hp add", "level")} ${this.tag("Hp mul", "level")}
-          ${this.tag("Blue key", "level")} ${this.tag("Crimson key", "level")} ${this.tag("Yellow key", "level")}
-          ${this.tag("Delete", "delete")}
+          ${this.tag("Atk add")} ${this.tag("Atk mul")} ${this.tag("Def add")} ${this.tag("Def mul")}
+          ${this.tag("Hp add")} ${this.tag("Hp mul")} ${this.tag("Blue key")} ${this.tag("Crimson key")}
+          ${this.tag("Yellow key")} ${this.tag("Delete", "delete")}
         </div>
         ${this.editor.tower.levels.map((level: Level, levelIndex: number) => this.renderLevel(level, levelIndex))}
         <div class="addButtonDiv">

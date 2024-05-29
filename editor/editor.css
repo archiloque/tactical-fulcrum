@@ -4,7 +4,8 @@ sl-tab-group::part(nav) {
 }
 
 #tabEnemy,
-#tabLevel {
+#tabLevel,
+#tabItem {
   .elementLine {
     text-align: center;
     padding-bottom: 0.5em;
@@ -21,26 +22,8 @@ sl-tab-group::part(nav) {
       visibility: hidden;
     }
 
-    sl-tag,
-    sl-select,
-    sl-input {
-      width: 7%;
-    }
-
-    .narrow {
-      width: 4%;
-    }
-
-    .wide {
-      width: 15%;
-    }
-
     .delete {
       width: 3%;
-    }
-
-    .level {
-      width: 10%;
     }
   }
 
@@ -51,6 +34,42 @@ sl-tab-group::part(nav) {
     sl-button {
       width: 5%;
     }
+  }
+}
+
+#tabEnemy {
+  sl-tag,
+  sl-select,
+  sl-input {
+    width: 7%;
+  }
+
+  .narrow {
+    width: 4%;
+  }
+
+  .wide {
+    width: 15%;
+  }
+
+  .narrow {
+    width: 4%;
+  }
+
+  .wide {
+    width: 15%;
+  }
+
+  .level {
+    width: 10%;
+  }
+}
+
+#tabLevel {
+  sl-tag,
+  sl-select,
+  sl-input {
+    width: 10%;
   }
 }
 
@@ -127,6 +146,16 @@ sl-tab-group::part(nav) {
 
 #mapToolTip {
   position: absolute;
+}
+
+#tabItem {
+  sl-tag,
+  sl-input {
+    width: 10%;
+  }
+  .name {
+    width: 20%;
+  }
 }
 
 sl-input[data-user-invalid]::part(base),

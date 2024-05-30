@@ -3,6 +3,7 @@ import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
 import { ITEM_NAMES, ItemName } from "../data/item-name"
 import {
   LOCAL_STORAGE_KEY_ENEMIES,
+  LOCAL_STORAGE_KEY_ITEMS,
   LOCAL_STORAGE_KEY_LEVELS,
   LOCAL_STORAGE_KEY_NAME,
   LOCAL_STORAGE_KEY_ROOMS,
@@ -12,6 +13,8 @@ import { Enemy } from "./enemy"
 import { IOOperation } from "../io/import-export"
 import { IoEnemyFromAttributes } from "../io/enemy/io-enemy-from-attributes"
 import { IoEnemyToAttributes } from "../io/enemy/io-enemy-to-attributes"
+import { IoItemFromAttributes } from "../io/item/io-item-from-attributes"
+import { IoItemToAttributes } from "../io/item/io-item-to-attributes"
 import { IoLevelFromAttributes } from "../io/level/io-level-from-attributes"
 import { IoLevelToAttributes } from "../io/level/io-level-to-attributes"
 import { IoRoomFromAttributes } from "../io/room/io-room-from-attributes"
@@ -39,7 +42,7 @@ export class Tower {
     // @ts-ignore
     this.items = {}
     for (const itemName of ITEM_NAMES) {
-      this.items[itemName] = { ...DEFAULT_ITEMS[itemName] }
+      this.items[itemName] = DEFAULT_ITEMS[itemName].clone()
     }
     this.startingStats = new StartingStats()
     const standardRoom = new Room()
@@ -133,7 +136,7 @@ export class Tower {
 
   saveItems(): void {
     console.debug("Tower", "saveItems")
-    // #TODO
+    localStorage.setItem(LOCAL_STORAGE_KEY_ITEMS, JSON.stringify(IoItemToAttributes.toValues(this.items)))
   }
 
   saveName(): void {
@@ -167,6 +170,7 @@ export class Tower {
   load(): void {
     console.groupCollapsed("Tower", "load")
     this.loadEnemies()
+    this.loadItems()
     this.loadName()
     this.loadLevels()
     this.loadRooms()
@@ -180,6 +184,23 @@ export class Tower {
       const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
       this.enemies = enemiesJson.map((value) => IoEnemyFromAttributes.fromAttributes(value))
       console.debug("Tower", this.enemies.length, "enemies loaded")
+    }
+  }
+
+  private loadItems(): void {
+    const itemsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ITEMS)
+    if (itemsRaw != null) {
+      const itemsJson: Record<string, number>[] = JSON.parse(itemsRaw)
+
+      for (const itemName of ITEM_NAMES) {
+        const initialValue = itemsJson[itemName]
+        if (initialValue != null) {
+          this.items[itemName] = IoItemFromAttributes.fromAttributes(initialValue, DEFAULT_ITEMS[itemName])
+        } else {
+          this.items[itemName] = DEFAULT_ITEMS[itemName].clone()
+        }
+      }
+      console.debug("Tower", "items loaded")
     }
   }
 
@@ -197,7 +218,7 @@ export class Tower {
     if (roomsRaw != null) {
       const roomsJson: Record<string, Record<string, string | number | null>>[] = JSON.parse(roomsRaw)
       if (roomsJson[IOOperation.ATTRIBUTE_STANDARD] != null) {
-        this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map((value) =>
+        this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map((value: Record<string, string | any>) =>
           IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )
         console.debug("Tower", this.standardRooms.length, "standard rooms loaded")

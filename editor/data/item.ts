@@ -25,6 +25,18 @@ export class Item {
     this.hpMulAdd = hpMulAdd
     this.hpMulMul = hpMulMul
   }
+
+  public clone(): Item {
+    return new Item(
+      this.atk,
+      this.def,
+      this.hp,
+      this.expMulAdd,
+      this.expMulMul,
+      this.hpMulAdd,
+      this.hpMulMul,
+    )
+  }
 }
 
 export const DEFAULT_ITEMS: Record<ItemName, Item> = {

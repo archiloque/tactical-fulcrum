@@ -1,7 +1,11 @@
 import { IOOperation, IOResult } from "./import-export"
+import { ITEM_NAMES, ItemName } from "../data/item-name"
+import { DEFAULT_ITEMS } from "../data/item"
 import { Enemy } from "../models/enemy"
 import { IoEnemy } from "./enemy/io-enemy"
 import { IoEnemyToAttributes } from "./enemy/io-enemy-to-attributes"
+import { IoItem } from "./item/io-item"
+import { IoItemToAttributes } from "./item/io-item-to-attributes"
 import { IoLevel } from "./level/io-level"
 import { IoLevelToAttributes } from "./level/io-level-to-attributes"
 import { IoRoom } from "./room/io-room"
@@ -28,6 +32,17 @@ export class Export extends IOOperation {
   }
 
   export(tower: Tower): ExportResult {
+    // @ts-ignore
+    const items: Record<ItemName, Record<string, number>> = {}
+    for (const itemName of ITEM_NAMES) {
+      const item = tower.items[itemName]
+      IoItem.validateItemExport(itemName, item, this.errors)
+      const itemAttributes = IoItemToAttributes.toAttributes(item, DEFAULT_ITEMS[itemName])
+      if (itemAttributes != null) {
+        items[itemName] = itemAttributes
+      }
+    }
+
     IoEnemy.validateEnemiesExport(tower.enemies, this.errors)
     const enemies = tower.enemies.map((enemy: Enemy, index: number) => {
       IoEnemy.validateEnemyExport(enemy, index + 1, this.errors)
@@ -60,6 +75,7 @@ export class Export extends IOOperation {
           $schema: "tower-schema.json",
           [IOOperation.ATTRIBUTE_NAME]: tower.name,
           [IOOperation.ATTRIBUTE_ENEMIES]: enemies,
+          [IOOperation.ATTRIBUTE_ITEMS]: items,
           [IOOperation.ATTRIBUTE_LEVELS]: levels,
           [IOOperation.ATTRIBUTE_ROOMS]: {
             [IOOperation.ATTRIBUTE_STANDARD]: standardRooms,

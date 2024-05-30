@@ -79,6 +79,8 @@ export class TabImportExport {
     this.exportFileName = goodFiles[0].name
     goodFiles[0].text().then((fileContent: string) => {
       const importResult = new Import().import(fileContent)
+      this.editor.tower.items = importResult.tower.items
+      this.editor.tower.saveItems()
       this.editor.tower.enemies = importResult.tower.enemies
       this.editor.tower.saveEnemies()
       this.editor.tower.standardRooms = importResult.tower.standardRooms

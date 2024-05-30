@@ -14,6 +14,7 @@ export abstract class IOOperation {
   }
 
   static readonly ATTRIBUTE_ENEMIES = "enemies"
+  static readonly ATTRIBUTE_ITEMS = "items"
   static readonly ATTRIBUTE_LEVELS = "levels"
   static readonly ATTRIBUTE_NAME = "name"
   static readonly ATTRIBUTE_NEXUS = "nexus"

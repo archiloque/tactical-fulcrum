@@ -5,7 +5,7 @@ import { IoItem } from "./io-item"
 export class IoItemToAttributes {
   static toValues(items: Record<ItemName, Item>): Record<ItemName, Record<string, number>> {
     const result = {}
-    for (const itemName in ITEM_NAMES) {
+    for (const itemName of ITEM_NAMES) {
       const value = IoItemToAttributes.toAttributes(items[itemName], DEFAULT_ITEMS[itemName])
       if (value != null) {
         result[itemName] = value
@@ -19,7 +19,7 @@ export class IoItemToAttributes {
     const result = {}
     let hasValue = false
     for (const attribute of IoItem.ATTRIBUTES) {
-      if (item[attribute] != defaultItem[attribute]) {
+      if ((item[attribute] != defaultItem[attribute]) && (item[attribute] != null)) {
         result[attribute] = item[attribute]
         hasValue = true
       }

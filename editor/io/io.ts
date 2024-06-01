@@ -20,9 +20,11 @@ export class IO {
     }
   }
 
-  static checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean, errors: string[]): void {
+  static checkNumber(value: string | number | null, message: string, zeroAuthorized: boolean, nullAuthorized: boolean, errors: string[]): void {
     if (value == null) {
-      errors.push(message)
+      if(! nullAuthorized) {
+        errors.push(message)
+      }
     } else if (typeof value === "number") {
       if (zeroAuthorized) {
         if (value < 0) {

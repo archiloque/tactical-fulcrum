@@ -18,16 +18,16 @@ export class IoStartingStats {
       }
     }
     const atk = startingStats[IoStartingStats.ATTRIBUTE_HP]
-    IO.checkNumber(atk, `Starting stats atk [${atk}] is invalid`, false, errors)
+    IO.checkNumber(atk, `Starting stats atk [${atk}] is invalid`, false, false, errors)
     const def = startingStats[IoStartingStats.ATTRIBUTE_HP]
-    IO.checkNumber(def, `Starting stats def [${def}] is invalid`, true, errors)
+    IO.checkNumber(def, `Starting stats def [${def}] is invalid`, true, false, errors)
     const hp = startingStats[IoStartingStats.ATTRIBUTE_HP]
-    IO.checkNumber(hp, `Starting stats hp [${hp}] is invalid`, false, errors)
+    IO.checkNumber(hp, `Starting stats hp [${hp}] is invalid`, false, false, errors)
   }
 
   static validateStartingStatsExport(startingStats: StartingStats, errors: string[]): void {
-    IO.checkNumber(startingStats.atk, `Starting stats hp [${startingStats.atk}] is invalid`, false, errors)
-    IO.checkNumber(startingStats.def, `Starting stats hp [${startingStats.def}] is invalid`, true, errors)
-    IO.checkNumber(startingStats.hp, `Starting stats hp [${startingStats.hp}] is invalid`, false, errors)
+    IO.checkNumber(startingStats.atk, `Starting stats hp [${startingStats.atk}] is invalid`, false, false, errors)
+    IO.checkNumber(startingStats.def, `Starting stats hp [${startingStats.def}] is invalid`, true, false, errors)
+    IO.checkNumber(startingStats.hp, `Starting stats hp [${startingStats.hp}] is invalid`, false, false, errors)
   }
 }

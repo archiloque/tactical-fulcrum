@@ -30,29 +30,29 @@ export class IoEnemy {
       }
     }
     IO.checkEnum(enemy[IoEnemy.ATTRIBUTE_TYPE], ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
-    IO.checkNumber(enemy[IoEnemy.ATTRIBUTE_LEVEL], `Enemy ${index} level [${enemy.level}] is invalid`, false, errors)
+    IO.checkNumber(enemy[IoEnemy.ATTRIBUTE_LEVEL], `Enemy ${index} level [${enemy.level}] is invalid`, false, false, errors)
     const name = enemy[IoEnemy.ATTRIBUTE_NAME]
     IO.checkNotEmpty(name, `Enemy ${index} name [${name}] is invalid`, errors)
     const hp = enemy[IoEnemy.ATTRIBUTE_HP]
-    IO.checkNumber(hp, `Enemy ${index} hp [${hp}] is invalid`, false, errors)
+    IO.checkNumber(hp, `Enemy ${index} hp [${hp}] is invalid`, false, false, errors)
     const atk = enemy[IoEnemy.ATTRIBUTE_ATK]
-    IO.checkNumber(atk, `Enemy ${index} atk [${atk}] is invalid`, true, errors)
+    IO.checkNumber(atk, `Enemy ${index} atk [${atk}] is invalid`, true, false, errors)
     const def = enemy[IoEnemy.ATTRIBUTE_DEF]
-    IO.checkNumber(def, `Enemy ${index} def [${def}] is invalid`, true, errors)
+    IO.checkNumber(def, `Enemy ${index} def [${def}] is invalid`, true, false, errors)
     const exp = enemy[IoEnemy.ATTRIBUTE_EXP]
-    IO.checkNumber(exp, `Enemy ${index} exp [${exp}] is invalid`, true, errors)
+    IO.checkNumber(exp, `Enemy ${index} exp [${exp}] is invalid`, true, false, errors)
     const drop = enemy[IoEnemy.ATTRIBUTE_DROP]
     IO.checkEnum(drop, DROPS, false, `Enemy ${index} drop [${drop}] is invalid`, errors)
   }
 
   static validateEnemyExport(enemy: Enemy, index: number, errors: string[]): void {
     IO.checkEnum(enemy.type, ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
-    IO.checkNumber(enemy.level, `Enemy ${index} level [${enemy.level}] is invalid`, false, errors)
+    IO.checkNumber(enemy.level, `Enemy ${index} level [${enemy.level}] is invalid`, false, false, errors)
     IO.checkNotEmpty(enemy.name, `Enemy ${index} name [${enemy.name}] is invalid`, errors)
-    IO.checkNumber(enemy.hp, `Enemy ${index} hp [${enemy.hp}] is invalid`, false, errors)
-    IO.checkNumber(enemy.atk, `Enemy ${index} atk [${enemy.atk}] is invalid`, true, errors)
-    IO.checkNumber(enemy.def, `Enemy ${index} def [${enemy.def}] is invalid`, true, errors)
-    IO.checkNumber(enemy.exp, `Enemy ${index} exp [${enemy.exp}] is invalid`, true, errors)
+    IO.checkNumber(enemy.hp, `Enemy ${index} hp [${enemy.hp}] is invalid`, false, false, errors)
+    IO.checkNumber(enemy.atk, `Enemy ${index} atk [${enemy.atk}] is invalid`, true, false, errors)
+    IO.checkNumber(enemy.def, `Enemy ${index} def [${enemy.def}] is invalid`, true, false, errors)
+    IO.checkNumber(enemy.exp, `Enemy ${index} exp [${enemy.exp}] is invalid`, true, false, errors)
     IO.checkEnum(enemy.drop, DROPS, false, `Enemy ${index} drop [${enemy.drop}] is invalid`, errors)
   }
 

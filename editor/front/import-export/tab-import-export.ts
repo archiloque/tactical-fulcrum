@@ -79,17 +79,21 @@ export class TabImportExport {
     this.exportFileName = goodFiles[0].name
     goodFiles[0].text().then((fileContent: string) => {
       const importResult = new Import().import(fileContent)
-      this.editor.tower.items = importResult.tower.items
-      this.editor.tower.saveItems()
-      this.editor.tower.enemies = importResult.tower.enemies
-      this.editor.tower.saveEnemies()
-      this.editor.tower.standardRooms = importResult.tower.standardRooms
-      this.editor.tower.nexusRooms = importResult.tower.nexusRooms
-      this.editor.tower.saveRooms()
-      this.editor.tower.levels = importResult.tower.levels
-      this.editor.tower.saveLevels()
-      this.editor.tower.name = importResult.tower.name
-      this.editor.tower.saveName()
+      const editorTower = this.editor.tower
+      const importTower = importResult.tower
+      editorTower.items = importTower.items
+      editorTower.saveItems()
+      editorTower.enemies = importTower.enemies
+      editorTower.saveEnemies()
+      editorTower.standardRooms = importTower.standardRooms
+      editorTower.nexusRooms = importTower.nexusRooms
+      editorTower.saveRooms()
+      editorTower.levels = importTower.levels
+      editorTower.saveLevels()
+      editorTower.name = importTower.name
+      editorTower.saveName()
+      editorTower.startingStats = importTower.startingStats
+      editorTower.saveStartingStats()
       TabImportExport.processIOResult(importResult, "Import")
     })
   }

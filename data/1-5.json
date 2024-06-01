@@ -485,19 +485,13 @@
   ],
   "items": {
     "Blue potion": {
-      "hp": 80,
-      "hpMulMul": 1
+      "hp": 80
     },
     "Drop of dream ocean": {
-      "atk": 5,
-      "def": 5,
-      "hp": 999,
-      "expMulMul": 1,
-      "hpMulMul": 1
+      "hp": 999
     },
     "Golden feather": {
-      "expMulMul": 2,
-      "hpMulMul": 1
+      "expMulMul": 2
     }
   },
   "levels": [

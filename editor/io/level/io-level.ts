@@ -53,7 +53,13 @@ export class IoLevel {
     IO.checkNumber(level.hpAdd, `Level ${index} hp add [${level.hpAdd}] is invalid`, true, false, errors)
     IO.checkNumber(level.hpMul, `Level ${index} hp mul [${level.hpMul}] is invalid`, true, false, errors)
     IO.checkNumber(level.blueKey, `Level ${index} blue keys [${level.blueKey}] is invalid`, true, false, errors)
-    IO.checkNumber(level.crimsonKey, `Level ${index} crimson keys [${level.crimsonKey}] is invalid`, true, false, errors)
+    IO.checkNumber(
+      level.crimsonKey,
+      `Level ${index} crimson keys [${level.crimsonKey}] is invalid`,
+      true,
+      false,
+      errors,
+    )
     IO.checkNumber(level.yellowKey, `Level ${index} yellow keys [${level.yellowKey}] is invalid`, true, false, errors)
   }
 }

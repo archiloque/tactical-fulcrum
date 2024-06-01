@@ -30,7 +30,13 @@ export class IoEnemy {
       }
     }
     IO.checkEnum(enemy[IoEnemy.ATTRIBUTE_TYPE], ENEMY_TYPES, true, `Enemy ${index} type is invalid`, errors)
-    IO.checkNumber(enemy[IoEnemy.ATTRIBUTE_LEVEL], `Enemy ${index} level [${enemy.level}] is invalid`, false, false, errors)
+    IO.checkNumber(
+      enemy[IoEnemy.ATTRIBUTE_LEVEL],
+      `Enemy ${index} level [${enemy.level}] is invalid`,
+      false,
+      false,
+      errors,
+    )
     const name = enemy[IoEnemy.ATTRIBUTE_NAME]
     IO.checkNotEmpty(name, `Enemy ${index} name [${name}] is invalid`, errors)
     const hp = enemy[IoEnemy.ATTRIBUTE_HP]

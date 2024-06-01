@@ -1,6 +1,10 @@
 import { IOOperation, IOResult } from "./import-export"
+import { DEFAULT_ITEMS } from "../data/item"
+import { ITEM_NAMES } from "../data/item-name"
 import { IoEnemy } from "./enemy/io-enemy"
 import { IoEnemyFromAttributes } from "./enemy/io-enemy-from-attributes"
+import { IoItem } from "./item/io-item"
+import { IoItemFromAttributes } from "./item/io-item-from-attributes"
 import { IoLevel } from "./level/io-level"
 import { IoLevelFromAttributes } from "./level/io-level-from-attributes"
 import { IoRoom } from "./room/io-room"
@@ -8,10 +12,6 @@ import { IoRoomFromAttributes } from "./room/io-room-from-attributes"
 import { IoStartingStats } from "./starting-stats/io-starting-stats"
 import { IoStartingStatsFromAttributes } from "./starting-stats/io-starting-stats-from-attributes"
 import { Tower } from "../models/tower"
-import { ITEM_NAMES } from "../data/item-name"
-import { DEFAULT_ITEMS } from "../data/item"
-import { IoItemFromAttributes } from "./item/io-item-from-attributes"
-import { IoItem } from "./item/io-item"
 
 export class ImportResult extends IOResult {
   readonly tower: Tower
@@ -75,10 +75,10 @@ export class Import extends IOOperation {
     if (items == null) {
       this.errors.push("Items value is invalid")
     } else {
-      for(const itemName of ITEM_NAMES) {
+      for (const itemName of ITEM_NAMES) {
         const item = items[itemName]
         const defaultItem = DEFAULT_ITEMS[itemName]
-        if(item == null) {
+        if (item == null) {
           tower.items[itemName] = defaultItem
         } else {
           IoItem.validateItemImport(itemName, item, this.errors)

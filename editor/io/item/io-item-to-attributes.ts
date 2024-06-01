@@ -19,7 +19,7 @@ export class IoItemToAttributes {
     const result = {}
     let hasValue = false
     for (const attribute of IoItem.ATTRIBUTES) {
-      if ((item[attribute] != defaultItem[attribute]) && (item[attribute] != null)) {
+      if (item[attribute] != defaultItem[attribute] && item[attribute] != null) {
         result[attribute] = item[attribute]
         hasValue = true
       }

@@ -18,31 +18,29 @@ export class TabItems extends AbstractTab {
 
   private renderField(value: number, defaultValue: number, callback: (event: CustomEvent) => void): Hole {
     const realValue = value === defaultValue ? null : value
-    return html`
-      <sl-input
-        @sl-input="${callback}"
-        type="number"
-        min="0"
-        pattern="[0-9]+"
-        placeholder="${defaultValue}"
-        no-spin-buttons
-        value="${realValue}"
-      ></sl-input>`
+    return html` <sl-input
+      @sl-input="${callback}"
+      type="number"
+      min="0"
+      pattern="[0-9]+"
+      placeholder="${defaultValue}"
+      no-spin-buttons
+      value="${realValue}"
+    ></sl-input>`
   }
 
   private renderItem(itemName: ItemName, itemIndex: number): Hole {
     const item = this.editor.tower.items[itemName]
     const defaultItem = DEFAULT_ITEMS[itemName]
-    return html`
-      <div data-index="${itemIndex}" class="elementLine">
-        ${this.tag(itemName, "name")} ${this.renderField(item.atk, defaultItem.atk, this.atkChange)}
-        ${this.renderField(item.def, defaultItem.def, this.defChange)}
-        ${this.renderField(item.hp, defaultItem.hp, this.hpChange)}
-        ${this.renderField(item.expMulAdd, defaultItem.expMulAdd, this.expMulAddChange)}
-        ${this.renderField(item.expMulMul, defaultItem.expMulMul, this.expMulMulChange)}
-        ${this.renderField(item.hpMulAdd, defaultItem.hpMulAdd, this.hpMulAddChange)}
-        ${this.renderField(item.hpMulMul, defaultItem.hpMulMul, this.hpMulMulChange)}
-      </div>`
+    return html` <div data-index="${itemIndex}" class="elementLine">
+      ${this.tag(itemName, "name")} ${this.renderField(item.atk, defaultItem.atk, this.atkChange)}
+      ${this.renderField(item.def, defaultItem.def, this.defChange)}
+      ${this.renderField(item.hp, defaultItem.hp, this.hpChange)}
+      ${this.renderField(item.expMulAdd, defaultItem.expMulAdd, this.expMulAddChange)}
+      ${this.renderField(item.expMulMul, defaultItem.expMulMul, this.expMulMulChange)}
+      ${this.renderField(item.hpMulAdd, defaultItem.hpMulAdd, this.hpMulAddChange)}
+      ${this.renderField(item.hpMulMul, defaultItem.hpMulMul, this.hpMulMulChange)}
+    </div>`
   }
 
   render(): void {

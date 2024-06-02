@@ -1,4 +1,4 @@
-import { COLORS, Color } from "../../data/color"
+import { Color, COLORS } from "../../data/color"
 import {
   DOOR_TILES,
   EMPTY_TILE,
@@ -7,8 +7,8 @@ import {
   KEY_TILES,
   STAIRCASE_TILES,
   STARTING_POSITION_TILE,
-  TILE_TYPES,
   Tile,
+  TILE_TYPES,
   TileType,
   WALL_TILE,
 } from "../../models/tile"
@@ -17,11 +17,11 @@ import { ITEM_NAMES, ItemName } from "../../data/item-name"
 import { SCORE_TYPES, ScoreType } from "../../data/score-type"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircase-direction"
 import { Enemy } from "../../models/enemy"
+import { findEnum } from "../../models/functions"
 import { IoRoom } from "./io-room"
 import { Room } from "../../models/room"
 import { Score } from "../../models/score"
 import { TILES_IN_ROW } from "../../data/constants"
-import { findEnum } from "../../models/functions"
 
 export class IoRoomFromAttributes {
   static fromAttributes(value: Record<string, string | any>, enemies: Enemy[]): Room {

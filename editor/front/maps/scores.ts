@@ -1,6 +1,6 @@
+import { findEnum, findTreeItemFromValue } from "../../models/functions"
 import { Hole, html } from "uhtml"
 import { SCORE_TYPES, ScoreType } from "../../data/score-type"
-import { findEnum, findTreeItemFromValue } from "../../models/functions"
 import { Editor } from "../../editor"
 import { RoomLayer } from "../room-layer"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"

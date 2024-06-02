@@ -1,5 +1,5 @@
-import { IO } from "../io"
 import { Info } from "../../models/info"
+import { IO } from "../io"
 
 export class IoInfo {
   static readonly ATTRIBUTE_ATK = "atk"

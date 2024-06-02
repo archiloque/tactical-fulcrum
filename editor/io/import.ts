@@ -1,6 +1,5 @@
 import { IOOperation, IOResult } from "./import-export"
 import { DEFAULT_ITEMS } from "../data/item"
-import { ITEM_NAMES } from "../data/item-name"
 import { IoEnemy } from "./enemy/io-enemy"
 import { IoEnemyFromAttributes } from "./enemy/io-enemy-from-attributes"
 import { IoInfo } from "./info/io-info"
@@ -11,6 +10,7 @@ import { IoLevel } from "./level/io-level"
 import { IoLevelFromAttributes } from "./level/io-level-from-attributes"
 import { IoRoom } from "./room/io-room"
 import { IoRoomFromAttributes } from "./room/io-room-from-attributes"
+import { ITEM_NAMES } from "../data/item-name"
 import { Tower } from "../models/tower"
 
 export class ImportResult extends IOResult {

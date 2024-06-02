@@ -1,5 +1,5 @@
 import { Assets, Sprite } from "pixi.js"
-import { SPRITES, SpriteName } from "./sprites"
+import { SpriteName, SPRITES } from "./sprites"
 import { ColorScheme } from "../color-scheme"
 
 export class Spriter {

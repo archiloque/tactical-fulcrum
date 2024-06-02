@@ -24,6 +24,7 @@ import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 import { EMPTY_TILE } from "./models/tile"
 import { EventManager } from "./front/event-manager"
 import { MainMenu } from "./front/main-menu"
+import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
 import { Tab } from "./front/tab"
 import { TabEnemies } from "./front/enemies/tab-enemies"
 import { TabImportExport } from "./front/import-export/tab-import-export"
@@ -32,7 +33,6 @@ import { TabItems } from "./front/items/tab-items"
 import { TabLevels } from "./front/levels/tab-levels"
 import { TabMaps } from "./front/maps/tab-maps"
 import { Tower } from "./models/tower"
-import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
 
 /**
  * @license

@@ -1,8 +1,8 @@
 import { IO } from "../io"
 import { Room } from "../../models/room"
 import { RoomType } from "../../data/room-type"
-import { TILES_IN_ROW } from "../../data/constants"
 import { TILE_TYPES } from "../../models/tile"
+import { TILES_IN_ROW } from "../../data/constants"
 
 export class IoRoom {
   static readonly ATTRIBUTE_COLOR = "color"

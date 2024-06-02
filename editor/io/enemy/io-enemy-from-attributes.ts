@@ -1,6 +1,6 @@
 import { DROPS } from "../../data/drop"
-import { ENEMY_TYPES } from "../../data/enemy-type"
 import { Enemy } from "../../models/enemy"
+import { ENEMY_TYPES } from "../../data/enemy-type"
 import { IoEnemy } from "./io-enemy"
 
 export class IoEnemyFromAttributes {

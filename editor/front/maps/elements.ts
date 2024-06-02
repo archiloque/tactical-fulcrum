@@ -1,4 +1,4 @@
-import { COLORS, Color } from "../../data/color"
+import { Color, COLORS } from "../../data/color"
 import {
   DOOR_TILES,
   DoorTile,
@@ -15,16 +15,16 @@ import {
   WALL_TILE,
 } from "../../models/tile"
 import { ENEMY_TYPES, EnemyType } from "../../data/enemy-type"
+import { findEnum, findTreeItemFromValue } from "../../models/functions"
 import { Hole, html, render } from "uhtml"
 import { ITEM_NAMES, ItemName } from "../../data/item-name"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircase-direction"
-import { findEnum, findTreeItemFromValue } from "../../models/functions"
+import { capitalize } from "../../models/utils"
 import { Editor } from "../../editor"
 import { Enemy } from "../../models/enemy"
 import { RoomLayer } from "../room-layer"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
-import { capitalize } from "../../models/utils"
 
 export class Elements {
   private readonly editor: Editor

@@ -14,16 +14,6 @@ function createEntryPoints(fromPath, toPath, type) {
   })
 }
 
-const editorIcons = [
-  "arrow-up",
-  "arrow-down",
-  "check2-circle",
-  "exclamation-triangle",
-  "exclamation-octagon",
-  "plus-circle",
-  "trash",
-]
-
 export default function createConfig(entity) {
   let entryPoints = createEntryPoints("node_modules/@shoelace-style/shoelace/dist/themes", "themes", ".css").concat(
     createEntryPoints("assets/fonts", "fonts"),
@@ -34,19 +24,10 @@ export default function createConfig(entity) {
       { out: "index", in: "game/index.html" },
     ])
   } else {
-    entryPoints = entryPoints
-      .concat([
-        { out: "editor", in: "editor/editor.ts" },
-        { out: "index", in: "editor/index.html" },
-      ])
-      .concat(
-        editorIcons.map((icon) => {
-          return {
-            out: `assets/icons/${icon}`,
-            in: `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${icon}.svg`,
-          }
-        }),
-      )
+    entryPoints = entryPoints.concat([
+      { out: "editor", in: "editor/editor.ts" },
+      { out: "index", in: "editor/index.html" },
+    ])
   }
 
   return {

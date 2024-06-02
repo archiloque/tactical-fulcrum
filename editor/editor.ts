@@ -23,8 +23,9 @@ import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
 import { EMPTY_TILE } from "./models/tile"
 import { EventManager } from "./front/event-manager"
+import { IconSpriteContent } from "./front/icons"
 import { MainMenu } from "./front/main-menu"
-import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
+import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js"
 import { Tab } from "./front/tab"
 import { TabEnemies } from "./front/enemies/tab-enemies"
 import { TabImportExport } from "./front/import-export/tab-import-export"
@@ -39,8 +40,11 @@ import { Tower } from "./models/tower"
  * Copyright 2024 Julien Kirch
  * SPDX-License-Identifier: GPL-3.0
  */
-const rootUrl = document.location.origin
-setBasePath(rootUrl)
+
+registerIconLibrary("default", {
+  resolver: (name) =>
+    `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" ${IconSpriteContent.get(name)}</svg>`)}`,
+})
 
 export class Editor {
   readonly tower: Tower

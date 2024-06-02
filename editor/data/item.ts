@@ -1,4 +1,4 @@
-import {ItemName} from './item-name'
+import { ItemName } from "./item-name"
 
 export class Item {
   atk: number
@@ -9,13 +9,14 @@ export class Item {
   hpMulAdd: number
   hpMulMul: number
 
-  constructor(atk: number,
-              def: number,
-              hp: number,
-              expMulAdd: number,
-              expMulMul: number,
-              hpMulAdd: number,
-              hpMulMul: number,
+  constructor(
+    atk: number,
+    def: number,
+    hp: number,
+    expMulAdd: number,
+    expMulMul: number,
+    hpMulAdd: number,
+    hpMulMul: number,
   ) {
     this.atk = atk
     this.def = def
@@ -27,15 +28,7 @@ export class Item {
   }
 
   public clone(): Item {
-    return new Item(
-      this.atk,
-      this.def,
-      this.hp,
-      this.expMulAdd,
-      this.expMulMul,
-      this.hpMulAdd,
-      this.hpMulMul,
-    )
+    return new Item(this.atk, this.def, this.hp, this.expMulAdd, this.expMulMul, this.hpMulAdd, this.hpMulMul)
   }
 }
 

@@ -45,7 +45,6 @@ const SPRITES_COLORS = [
 ]
 
 const IN_DIR = "assets/sprites/in"
-const OUT_DIR = "assets/sprites/out"
 
 function optimizeSvg(content) {
   const result = optimize(content, {
@@ -71,6 +70,7 @@ function commonProcess(spriteName) {
 function constantName(spriteName) {
   return spriteName.toLocaleUpperCase().replaceAll("-", "_")
 }
+
 function spriteConstant(nameEnum, spriteName, content) {
   let svgContent = optimizeSvg(content).replaceAll('xml:space="preserve" ', "")
   if (!svgContent.startsWith(SVG_STARTING_CONTENT)) {
@@ -118,3 +118,35 @@ for (const spriteName of SPRITES_COLORS) {
 }
 colorFileContent.push("])")
 fs.writeFileSync("editor/front/maps/color-sprite-content.ts", colorFileContent.join("\n"))
+
+const EDITOR_ICONS = [
+  "arrow-up",
+  "arrow-down",
+  "check2-circle",
+  "exclamation-triangle",
+  "exclamation-octagon",
+  "plus-circle",
+  "trash",
+]
+
+const editorIconsContent = []
+
+editorIconsContent.push("export const IconSpriteContent = new Map<string, string>([")
+for (const iconName of EDITOR_ICONS) {
+  const sourcePath = `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${iconName}.svg`
+  console.info(sourcePath)
+  let content = fs.readFileSync(sourcePath, { encoding: "utf8" })
+  let svgContent = optimizeSvg(content)
+  if (!svgContent.startsWith(SVG_STARTING_CONTENT)) {
+    throw new Error(`SVG beginning unexpected [${spriteName}] [${svgContent}]`)
+  }
+  if (!svgContent.endsWith(SVG_ENDING_CONTENT)) {
+    throw new Error(`SVG ending unexpected [${spriteName}] [${svgContent}]`)
+  }
+  svgContent = svgContent.substring(SVG_STARTING_CONTENT.length)
+  svgContent = svgContent.substring(0, svgContent.length - SVG_ENDING_CONTENT.length)
+
+  editorIconsContent.push(`  ['${iconName}', '${svgContent}'],`)
+}
+editorIconsContent.push("])")
+fs.writeFileSync("editor/front/icons.ts", editorIconsContent.join("\n"))

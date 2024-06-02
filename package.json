@@ -9,7 +9,7 @@
     "serve-editor": "node esbuild.serve-editor.mjs",
     "serve-game": "node esbuild.serve-game.mjs",
     "lint": "npx eslint --fix 'editor/**/*.ts'",
-    "svg": "node build-svg.mjs",
+    "sprites": "node build-sprites.mjs",
     "prettier": "npx prettier . --write"
   },
   "devDependencies": {

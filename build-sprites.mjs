@@ -54,6 +54,9 @@ function optimizeSvg(content) {
   return result.data
 }
 
+const SVG_STARTING_CONTENT = '<svg xmlns="http://www.w3.org/2000/svg" '
+const SVG_ENDING_CONTENT = "</svg>"
+
 function commonProcess(spriteName) {
   const sourcePath = path.join(IN_DIR, `${spriteName}.svg`)
   console.info(sourcePath)
@@ -69,7 +72,16 @@ function constantName(spriteName) {
   return spriteName.toLocaleUpperCase().replaceAll("-", "_")
 }
 function spriteConstant(nameEnum, spriteName, content) {
-  return `  [${nameEnum}.${constantName(spriteName)}, '${optimizeSvg(content).replaceAll('xml:space="preserve" ', "")}'],`
+  let svgContent = optimizeSvg(content).replaceAll('xml:space="preserve" ', "")
+  if (!svgContent.startsWith(SVG_STARTING_CONTENT)) {
+    throw new Error(`SVG beginning unexpected [${spriteName}] [${svgContent}]`)
+  }
+  if (!svgContent.endsWith(SVG_ENDING_CONTENT)) {
+    throw new Error(`SVG ending unexpected [${spriteName}] [${svgContent}]`)
+  }
+  svgContent = svgContent.substring(SVG_STARTING_CONTENT.length)
+  svgContent = svgContent.substring(0, svgContent.length - SVG_ENDING_CONTENT.length)
+  return `  [${nameEnum}.${constantName(spriteName)}, '${svgContent}'],`
 }
 
 const monochromeFileContent = []

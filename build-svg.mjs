@@ -65,21 +65,35 @@ function commonProcess(spriteName) {
   return content
 }
 
-function spriteConstant(spriteName, content) {
-  const constantName = spriteName.toLocaleUpperCase().replaceAll("-", "_")
-  return `  ${constantName} = '${optimizeSvg(content).replaceAll('xml:space="preserve" ', "")}',`
+function constantName(spriteName) {
+  return spriteName.toLocaleUpperCase().replaceAll("-", "_")
+}
+function spriteConstant(nameEnum, spriteName, content) {
+  return `  [${nameEnum}.${constantName(spriteName)}, '${optimizeSvg(content).replaceAll('xml:space="preserve" ', "")}'],`
 }
 
 const monochromeFileContent = []
-monochromeFileContent.push("export const enum MonochromeSpriteContent {")
+monochromeFileContent.push("export enum MonochromeSpriteName {")
 for (const spriteName of SPRITES_MONOCHROMES) {
-  monochromeFileContent.push(spriteConstant(spriteName, commonProcess(spriteName)))
+  monochromeFileContent.push(`  ${constantName(spriteName)},`)
 }
 monochromeFileContent.push("}")
+monochromeFileContent.push("")
+monochromeFileContent.push("export const MonochromeSpriteContent = new Map<MonochromeSpriteName, string>([")
+for (const spriteName of SPRITES_MONOCHROMES) {
+  monochromeFileContent.push(spriteConstant("MonochromeSpriteName", spriteName, commonProcess(spriteName)))
+}
+monochromeFileContent.push("])")
 fs.writeFileSync("editor/front/maps/monochrome-sprite-content.ts", monochromeFileContent.join("\n"))
 
 const colorFileContent = []
-colorFileContent.push("export const enum ColorSpriteContent {")
+colorFileContent.push("export enum ColorSpriteName {")
+for (const spriteName of SPRITES_COLORS) {
+  colorFileContent.push(`  ${constantName(spriteName)},`)
+}
+colorFileContent.push("}")
+colorFileContent.push("")
+colorFileContent.push("export const ColorSpriteContent = new Map<ColorSpriteName, string>([")
 for (const spriteName of SPRITES_COLORS) {
   let content = commonProcess(spriteName)
   for (const yellow of OTHER_YELLOWS) {
@@ -88,7 +102,7 @@ for (const spriteName of SPRITES_COLORS) {
   if (!content.includes(`${YELLOW_FULL};`)) {
     throw new Error(`No yellow found in [${spriteName}]`)
   }
-  colorFileContent.push(spriteConstant(spriteName, content))
+  colorFileContent.push(spriteConstant("ColorSpriteName", spriteName, content))
 }
-colorFileContent.push("}")
+colorFileContent.push("])")
 fs.writeFileSync("editor/front/maps/color-sprite-content.ts", colorFileContent.join("\n"))

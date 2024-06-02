@@ -3,14 +3,14 @@ import { DEFAULT_ITEMS } from "../data/item"
 import { ITEM_NAMES } from "../data/item-name"
 import { IoEnemy } from "./enemy/io-enemy"
 import { IoEnemyFromAttributes } from "./enemy/io-enemy-from-attributes"
+import { IoInfo } from "./info/io-info"
+import { IoInfoFromAttributes } from "./info/io-info-from-attributes"
 import { IoItem } from "./item/io-item"
 import { IoItemFromAttributes } from "./item/io-item-from-attributes"
 import { IoLevel } from "./level/io-level"
 import { IoLevelFromAttributes } from "./level/io-level-from-attributes"
 import { IoRoom } from "./room/io-room"
 import { IoRoomFromAttributes } from "./room/io-room-from-attributes"
-import { IoStartingStats } from "./starting-stats/io-starting-stats"
-import { IoStartingStatsFromAttributes } from "./starting-stats/io-starting-stats-from-attributes"
 import { Tower } from "../models/tower"
 
 export class ImportResult extends IOResult {
@@ -46,7 +46,7 @@ export class Import extends IOOperation {
       this.importEnemies(parsedData, tower)
       this.importItems(parsedData, tower)
       this.importLevels(parsedData, tower)
-      this.importStartingStats(parsedData, tower)
+      this.importInfo(parsedData, tower)
       const rooms = parsedData[IOOperation.ATTRIBUTE_ROOMS]
       this.importStandardRooms(rooms, tower)
       this.importNexusRooms(rooms, tower)
@@ -130,13 +130,13 @@ export class Import extends IOOperation {
     }
   }
 
-  private importStartingStats(parsedData: Record<string, string | number | null>[], tower: Tower): void {
-    const startingStats = parsedData[IOOperation.ATTRIBUTE_STARTING_STATS]
-    if (startingStats == null) {
-      this.errors.push("Starting stats value is invalid")
+  private importInfo(parsedData: Record<string, string | number | null>[], tower: Tower): void {
+    const info = parsedData[IOOperation.ATTRIBUTE_INFO]
+    if (info == null) {
+      this.errors.push("Info value is invalid")
     } else {
-      IoStartingStats.validateStartingStatsImport(startingStats, this.errors)
-      tower.startingStats = IoStartingStatsFromAttributes.fromAttributes(startingStats)
+      IoInfo.validateInfoImport(info, this.errors)
+      tower.info = IoInfoFromAttributes.fromAttributes(info)
     }
   }
 }

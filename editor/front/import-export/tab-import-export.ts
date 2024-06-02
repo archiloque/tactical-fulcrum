@@ -92,8 +92,8 @@ export class TabImportExport {
       editorTower.saveLevels()
       editorTower.name = importTower.name
       editorTower.saveName()
-      editorTower.startingStats = importTower.startingStats
-      editorTower.saveStartingStats()
+      editorTower.info = importTower.info
+      editorTower.saveInfo()
       TabImportExport.processIOResult(importResult, "Import")
     })
   }

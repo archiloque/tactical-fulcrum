@@ -1,6 +1,17 @@
 {
   "$schema": "tower-schema.json",
   "name": "Chapter 1-2 Tactical tower NEW",
+  "info": {
+    "atk": 50,
+    "def": 0,
+    "hp": 1000,
+    "bronzeMedal": 0,
+    "silverMedal": 0,
+    "goldMedal": 0,
+    "platinumMedal": 0,
+    "diamondMedal": 0,
+    "moonMedal": 0
+  },
   "enemies": [
     {
       "type": "Burgeoner",
@@ -283,7 +294,7 @@
       "drop": "Power potion"
     }
   ],
-  "items":{},
+  "items": {},
   "levels": [
     {
       "atkAdd": 0,
@@ -7169,10 +7180,5 @@
       }
     ],
     "nexus": []
-  },
-  "startingStats": {
-    "atk": 50,
-    "def": 0,
-    "hp": 1000
   }
 }

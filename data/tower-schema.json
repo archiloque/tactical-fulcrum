@@ -79,6 +79,59 @@
           "type"
         ]
       },
+      "Info": {
+        "type": "object",
+        "properties": {
+          "atk": {
+            "type": "number",
+            "minimum": 0
+          },
+          "def": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hp": {
+            "type": "number",
+            "minimum": 1
+          },
+          "bronzeMedal": {
+            "type": "number",
+            "minimum": 1
+          },
+          "silverMedal": {
+            "type": "number",
+            "minimum": 1
+          },
+          "goldMedal": {
+            "type": "number",
+            "minimum": 1
+          },
+          "platinumMedal": {
+            "type": "number",
+            "minimum": 1
+          },
+          "diamondMedal": {
+            "type": "number",
+            "minimum": 1
+          },
+          "moonMedal": {
+            "type": "number",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "atk",
+          "def",
+          "hp",
+          "bronzeMedal",
+          "silverMedal",
+          "goldMedal",
+          "platinumMedal",
+          "diamondMedal",
+          "moonMedal"
+        ]
+      },
       "Item": {
         "type": "object",
         "properties": {
@@ -249,29 +302,6 @@
           "line",
           "column",
           "type"
-        ]
-      },
-      "StartingStats": {
-        "type": "object",
-        "properties": {
-          "atk": {
-            "type": "number",
-            "minimum": 0
-          },
-          "def": {
-            "type": "number",
-            "minimum": 0
-          },
-          "hp": {
-            "type": "number",
-            "minimum": 1
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "atk",
-          "def",
-          "hp"
         ]
       }
     },
@@ -475,6 +505,12 @@
       "type": "string",
       "minLength": 1
     },
+    "info": {
+      "type": "object",
+      "items": {
+        "$ref": "#/definitions/classes/Info"
+      }
+    },
     "enemies": {
       "type": "array",
       "items": {
@@ -568,22 +604,16 @@
         "nexus",
         "standard"
       ]
-    },
-    "startingStats": {
-      "type": "object",
-      "items": {
-        "$ref": "#/definitions/classes/StartingStats"
-      }
     }
   },
   "additionalProperties": false,
   "required": [
     "$schema",
     "name",
+    "info",
     "enemies",
     "items",
     "levels",
-    "rooms",
-    "startingStats"
+    "rooms"
   ]
 }

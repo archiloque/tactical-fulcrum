@@ -4,14 +4,14 @@ import { DEFAULT_ITEMS } from "../data/item"
 import { Enemy } from "../models/enemy"
 import { IoEnemy } from "./enemy/io-enemy"
 import { IoEnemyToAttributes } from "./enemy/io-enemy-to-attributes"
+import { IoInfo } from "./info/io-info"
+import { IoInfoToAttributes } from "./info/io-info-to-attributes"
 import { IoItem } from "./item/io-item"
 import { IoItemToAttributes } from "./item/io-item-to-attributes"
 import { IoLevel } from "./level/io-level"
 import { IoLevelToAttributes } from "./level/io-level-to-attributes"
 import { IoRoom } from "./room/io-room"
 import { IoRoomToAttributes } from "./room/io-room-to-attributes"
-import { IoStartingStats } from "./starting-stats/io-starting-stats"
-import { IoStartingStatsToAttributes } from "./starting-stats/io-starting-stats-to-attributes"
 import { Level } from "../models/level"
 import { Room } from "../models/room"
 import { RoomType } from "../data/room-type"
@@ -32,6 +32,9 @@ export class Export extends IOOperation {
   }
 
   export(tower: Tower): ExportResult {
+    const info = IoInfoToAttributes.toAttributes(tower.info)
+    IoInfo.validateInfoExport(tower.info, this.errors)
+
     // @ts-ignore
     const items: Record<ItemName, Record<string, number>> = {}
     for (const itemName of ITEM_NAMES) {
@@ -66,14 +69,12 @@ export class Export extends IOOperation {
       return IoRoomToAttributes.toAttributes(room)
     })
 
-    const startingStats = IoStartingStatsToAttributes.toAttributes(tower.startingStats)
-    IoStartingStats.validateStartingStatsExport(tower.startingStats, this.errors)
-
     return new ExportResult(
       JSON.stringify(
         {
           $schema: "tower-schema.json",
           [IOOperation.ATTRIBUTE_NAME]: tower.name,
+          [IOOperation.ATTRIBUTE_INFO]: info,
           [IOOperation.ATTRIBUTE_ENEMIES]: enemies,
           [IOOperation.ATTRIBUTE_ITEMS]: items,
           [IOOperation.ATTRIBUTE_LEVELS]: levels,
@@ -81,7 +82,6 @@ export class Export extends IOOperation {
             [IOOperation.ATTRIBUTE_STANDARD]: standardRooms,
             [IOOperation.ATTRIBUTE_NEXUS]: nexusRooms,
           },
-          [IOOperation.ATTRIBUTE_STARTING_STATS]: startingStats,
         },
         null,
         2,

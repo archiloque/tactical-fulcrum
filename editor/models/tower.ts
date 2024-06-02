@@ -3,33 +3,33 @@ import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
 import { ITEM_NAMES, ItemName } from "../data/item-name"
 import {
   LOCAL_STORAGE_KEY_ENEMIES,
+  LOCAL_STORAGE_KEY_INFO,
   LOCAL_STORAGE_KEY_ITEMS,
   LOCAL_STORAGE_KEY_LEVELS,
   LOCAL_STORAGE_KEY_NAME,
   LOCAL_STORAGE_KEY_ROOMS,
-  LOCAL_STORAGE_KEY_STARTING_STATS,
 } from "../io/local-storage"
 import { Enemy } from "./enemy"
 import { IOOperation } from "../io/import-export"
+import { Info } from "./info"
 import { IoEnemyFromAttributes } from "../io/enemy/io-enemy-from-attributes"
 import { IoEnemyToAttributes } from "../io/enemy/io-enemy-to-attributes"
+import { IoInfoFromAttributes } from "../io/info/io-info-from-attributes"
+import { IoInfoToAttributes } from "../io/info/io-info-to-attributes"
 import { IoItemFromAttributes } from "../io/item/io-item-from-attributes"
 import { IoItemToAttributes } from "../io/item/io-item-to-attributes"
 import { IoLevelFromAttributes } from "../io/level/io-level-from-attributes"
 import { IoLevelToAttributes } from "../io/level/io-level-to-attributes"
 import { IoRoomFromAttributes } from "../io/room/io-room-from-attributes"
 import { IoRoomToAttributes } from "../io/room/io-room-to-attributes"
-import { IoStartingStatsFromAttributes } from "../io/starting-stats/io-starting-stats-from-attributes"
-import { IoStartingStatsToAttributes } from "../io/starting-stats/io-starting-stats-to-attributes"
 import { Level } from "./level"
 import { Room } from "./room"
 import { RoomType } from "../data/room-type"
 import { ScoreType } from "../data/score-type"
-import { StartingStats } from "./starting-stats"
 
 export class Tower {
   name: string
-  startingStats: StartingStats
+  info: Info
   enemies: Enemy[]
   items: Record<ItemName, Item>
   standardRooms: Room[]
@@ -44,7 +44,7 @@ export class Tower {
     for (const itemName of ITEM_NAMES) {
       this.items[itemName] = DEFAULT_ITEMS[itemName].clone()
     }
-    this.startingStats = new StartingStats()
+    this.info = new Info()
     const standardRoom = new Room()
     standardRoom.name = "Standard room"
     const nexusRoom = new Room()
@@ -159,22 +159,19 @@ export class Tower {
     )
   }
 
-  saveStartingStats(): void {
-    console.debug("Tower", "saveStartingStats")
-    localStorage.setItem(
-      LOCAL_STORAGE_KEY_STARTING_STATS,
-      JSON.stringify(IoStartingStatsToAttributes.toAttributes(this.startingStats)),
-    )
+  saveInfo(): void {
+    console.debug("Tower", "saveInfo")
+    localStorage.setItem(LOCAL_STORAGE_KEY_INFO, JSON.stringify(IoInfoToAttributes.toAttributes(this.info)))
   }
 
   load(): void {
     console.groupCollapsed("Tower", "load")
+    this.loadName()
+    this.loadInfo()
     this.loadEnemies()
     this.loadItems()
-    this.loadName()
     this.loadLevels()
     this.loadRooms()
-    this.loadStartingStats()
     console.groupEnd()
   }
 
@@ -232,12 +229,12 @@ export class Tower {
     }
   }
 
-  private loadStartingStats(): void {
-    const startingStatsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_STARTING_STATS)
-    if (startingStatsRaw != null) {
-      const startingStatsJson: Record<string, number> = JSON.parse(startingStatsRaw)
-      this.startingStats = IoStartingStatsFromAttributes.fromAttributes(startingStatsJson)
-      console.debug("Tower", "starting stats loaded")
+  private loadInfo(): void {
+    const infoRaw = localStorage.getItem(LOCAL_STORAGE_KEY_INFO)
+    if (infoRaw != null) {
+      const infoJson: Record<string, number> = JSON.parse(infoRaw)
+      this.info = IoInfoFromAttributes.fromAttributes(infoJson)
+      console.debug("Tower", "info loaded")
     }
   }
 

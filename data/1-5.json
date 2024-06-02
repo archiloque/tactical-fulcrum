@@ -1,6 +1,17 @@
 {
   "$schema": "tower-schema.json",
   "name": "Chapter 1-5 Tactical trip mini",
+  "info": {
+    "atk": 10,
+    "def": 0,
+    "hp": 100,
+    "bronzeMedal": 0,
+    "silverMedal": 0,
+    "goldMedal": 0,
+    "platinumMedal": 0,
+    "diamondMedal": 0,
+    "moonMedal": 0
+  },
   "enemies": [
     {
       "type": "Burgeoner",
@@ -1586,10 +1597,5 @@
       }
     ],
     "nexus": []
-  },
-  "startingStats": {
-    "atk": 10,
-    "def": 0,
-    "hp": 100
   }
 }

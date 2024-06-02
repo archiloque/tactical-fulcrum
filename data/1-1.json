@@ -1,6 +1,17 @@
 {
   "$schema": "tower-schema.json",
   "name": "1-1 Tactical tutorial",
+  "info": {
+    "atk": 50,
+    "def": 0,
+    "hp": 1000,
+    "bronzeMedal": 200000,
+    "silverMedal": 650000,
+    "goldMedal": 1200000,
+    "platinumMedal": 1550000,
+    "diamondMedal": 10000000,
+    "moonMedal": 1500000
+  },
   "enemies": [
     {
       "type": "Burgeoner",
@@ -8165,10 +8176,5 @@
         "scores": []
       }
     ]
-  },
-  "startingStats": {
-    "atk": 50,
-    "def": 0,
-    "hp": 1000
   }
 }

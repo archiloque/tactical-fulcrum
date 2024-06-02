@@ -188,6 +188,7 @@ export class Map {
       if (this.toolTipTimeout != null) {
         clearTimeout(this.toolTipTimeout)
       }
+      // @ts-ignore
       this.toolTipTimeout = setTimeout(() => {
         this.showToolTip()
       }, 200)

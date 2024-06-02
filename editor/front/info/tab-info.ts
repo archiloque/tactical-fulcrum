@@ -31,26 +31,40 @@ export class TabInfo extends AbstractTab {
         ${this.numberInput(this.editor.tower.info.atk, this.atkChange, 0, "Atk", null, "Atk")}
         ${this.numberInput(this.editor.tower.info.def, this.defChange, 0, "Def", null, "Def")}
         ${this.numberInput(this.editor.tower.info.hp, this.hpChange, 1, "HP", null, "HP")}
-        ${this.numberInput(this.editor.tower.info.bronzeMedal, this.bronzeMedalChange, 1, "HP", null, "Bronze Medal")}
-        ${this.numberInput(this.editor.tower.info.silverMedal, this.silverMedalChange, 1, "HP", null, "Silver Medal")}
-        ${this.numberInput(this.editor.tower.info.goldMedal, this.goldMedalChange, 1, "HP", null, "Gold Medal")}
+        ${this.numberInput(
+          this.editor.tower.info.bronzeMedal,
+          this.bronzeMedalChange,
+          1,
+          "Bronze medal",
+          null,
+          "Bronze Medal",
+        )}
+        ${this.numberInput(
+          this.editor.tower.info.silverMedal,
+          this.silverMedalChange,
+          1,
+          "Silver medal",
+          null,
+          "Silver medal",
+        )}
+        ${this.numberInput(this.editor.tower.info.goldMedal, this.goldMedalChange, 1, "Gold medal", null, "Gold medal")}
         ${this.numberInput(
           this.editor.tower.info.platinumMedal,
           this.platinumMedalChange,
           1,
-          "HP",
+          "Platinum medal",
           null,
-          "Platinum Medal",
+          "Platinum medal",
         )}
         ${this.numberInput(
           this.editor.tower.info.diamondMedal,
           this.diamondMedalChange,
           1,
-          "HP",
+          "Diamond medal",
           null,
-          "Diamond Medal",
+          "Diamond medal",
         )}
-        ${this.numberInput(this.editor.tower.info.moonMedal, this.moonMedalChange, 1, "HP", null, "Moon Medal")}
+        ${this.numberInput(this.editor.tower.info.moonMedal, this.moonMedalChange, 1, "Moon medal", null, "Moon medal")}
       `,
     )
   }

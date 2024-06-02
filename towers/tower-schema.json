@@ -68,7 +68,16 @@
           }
         },
         "additionalProperties": false,
-        "required": ["atk", "def", "drop", "exp", "hp", "level", "name", "type"]
+        "required": [
+          "atk",
+          "def",
+          "drop",
+          "exp",
+          "hp",
+          "level",
+          "name",
+          "type"
+        ]
       },
       "Info": {
         "type": "object",
@@ -198,7 +207,17 @@
           }
         },
         "additionalProperties": false,
-        "required": ["atkAdd", "atkMul", "defAdd", "defMul", "hpAdd", "hpMul", "blueKey", "crimsonKey", "yellowKey"]
+        "required": [
+          "atkAdd",
+          "atkMul",
+          "defAdd",
+          "defMul",
+          "hpAdd",
+          "hpMul",
+          "blueKey",
+          "crimsonKey",
+          "yellowKey"
+        ]
       },
       "Rooms": {
         "type": "array",
@@ -254,7 +273,11 @@
             }
           },
           "additionalProperties": false,
-          "required": ["name", "tiles", "scores"]
+          "required": [
+            "name",
+            "tiles",
+            "scores"
+          ]
         }
       },
       "Score": {
@@ -275,25 +298,49 @@
           }
         },
         "additionalProperties": false,
-        "required": ["line", "column", "type"]
+        "required": [
+          "line",
+          "column",
+          "type"
+        ]
       }
     },
     "enums": {
       "Color": {
         "type": "string",
-        "enum": ["blue", "crimson", "greenBlue", "platinum", "violet", "yellow"]
+        "enum": [
+          "blue",
+          "crimson",
+          "greenBlue",
+          "platinum",
+          "violet",
+          "yellow"
+        ]
       },
       "EnemyType": {
         "type": "string",
-        "enum": ["Burgeoner", "Fighter", "Ranger", "Shadow", "Slasher"]
+        "enum": [
+          "Burgeoner",
+          "Fighter",
+          "Ranger",
+          "Shadow",
+          "Slasher"
+        ]
       },
       "ScoreType": {
         "type": "string",
-        "enum": ["check", "crown", "star"]
+        "enum": [
+          "check",
+          "crown",
+          "star"
+        ]
       },
       "StaircaseDirection": {
         "type": "string",
-        "enum": ["down", "up"]
+        "enum": [
+          "down",
+          "up"
+        ]
       }
     },
     "tiles": {
@@ -309,7 +356,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["color", "type"]
+        "required": [
+          "color",
+          "type"
+        ]
       },
       "EmptyTile": {
         "type": "object",
@@ -320,7 +370,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["type"]
+        "required": [
+          "type"
+        ]
       },
       "EnemyTile": {
         "type": "object",
@@ -338,7 +390,11 @@
           }
         },
         "additionalProperties": false,
-        "required": ["enemyType", "level", "type"]
+        "required": [
+          "enemyType",
+          "level",
+          "type"
+        ]
       },
       "ItemTile": {
         "type": "object",
@@ -373,7 +429,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["name", "type"]
+        "required": [
+          "name",
+          "type"
+        ]
       },
       "KeyTile": {
         "type": "object",
@@ -387,7 +446,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["color", "type"]
+        "required": [
+          "color",
+          "type"
+        ]
       },
       "StaircaseTile": {
         "type": "object",
@@ -401,7 +463,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["direction", "type"]
+        "required": [
+          "direction",
+          "type"
+        ]
       },
       "StartingPositionTile": {
         "type": "object",
@@ -412,7 +477,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["type"]
+        "required": [
+          "type"
+        ]
       },
       "WallTile": {
         "type": "object",
@@ -423,7 +490,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["type"]
+        "required": [
+          "type"
+        ]
       }
     }
   },
@@ -531,9 +600,20 @@
         }
       },
       "additionalProperties": false,
-      "required": ["nexus", "standard"]
+      "required": [
+        "nexus",
+        "standard"
+      ]
     }
   },
   "additionalProperties": false,
-  "required": ["$schema", "name", "info", "enemies", "items", "levels", "rooms"]
+  "required": [
+    "$schema",
+    "name",
+    "info",
+    "enemies",
+    "items",
+    "levels",
+    "rooms"
+  ]
 }

@@ -26,7 +26,6 @@ const editorIcons = [
 
 export default function createConfig(entity) {
   let entryPoints = createEntryPoints("node_modules/@shoelace-style/shoelace/dist/themes", "themes", ".css")
-    .concat(createEntryPoints("assets/sprites/out", "sprites", ".svg"))
     .concat(createEntryPoints("assets/fonts", "fonts"))
   if (entity === "game") {
     entryPoints = entryPoints.concat([

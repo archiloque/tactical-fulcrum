@@ -2,41 +2,11 @@ import fs from "fs"
 import path from "path"
 import { optimize } from "svgo"
 
-class ColorPair {
-  constructor(name, light, dark) {
-    this.name = name
-    this.dark = dark
-    this.light = light
-  }
-}
+const BLACK_FULL = "#000000"
+const BLACK_SHORT = "#000"
 
-class Sprite {
-  constructor(name, targetColors) {
-    this.name = name
-    this.targetColors = targetColors
-  }
-}
-
-const BLACKS = ["#000000", "#000"]
-
-const COLOR_WHITE = "#cccccc"
-const COLOR_BLUE = new ColorPair("blue", "#2563eb", "#1E40AF")
-const COLOR_CRIMSON = new ColorPair("crimson", "#ff0000", "#660000")
-const COLOR_GREEN = new ColorPair("green", "#65ff00", "#3d9900")
-const COLOR_YELLOW = new ColorPair("yellow", "#ffff00", "#AAAA00")
-
-const YELLOWS = ["#ffff00", "#ffff0", "#ffff0", "#ff0"]
-
-const COLORS_CRIMSON_BLUE = [COLOR_BLUE, COLOR_CRIMSON]
-
-const COLORS_ALL = [
-  COLOR_BLUE,
-  COLOR_CRIMSON,
-  new ColorPair("greenblue", "#14b8a6", "#084a42"),
-  new ColorPair("platinum", "#8E8E8E", "#8E8E8E"),
-  new ColorPair("violet", "#a855f7", "#44067f"),
-  COLOR_YELLOW,
-]
+const YELLOW_FULL = "#ffff00"
+const OTHER_YELLOWS = ["#ffff0", "#ffff0", "#ff0"]
 
 const SPRITES_MONOCHROMES = [
   "enemy-arrow",
@@ -61,27 +31,21 @@ const SPRITES_MONOCHROMES = [
   "wall",
 ]
 
-const SPRITES_ALL_COLORS = [
-  new Sprite("door", COLORS_ALL),
-  new Sprite("key", COLORS_ALL),
-  new Sprite("item-card", COLORS_CRIMSON_BLUE),
-  new Sprite("item-cards", COLORS_CRIMSON_BLUE),
-  new Sprite("item-gem", COLORS_CRIMSON_BLUE),
-  new Sprite("item-jug", COLORS_CRIMSON_BLUE),
-  new Sprite("item-piece", COLORS_CRIMSON_BLUE),
-  new Sprite("item-potion", COLORS_CRIMSON_BLUE.concat([COLOR_GREEN, COLOR_YELLOW])),
-  new Sprite("item-drop", [COLOR_BLUE]),
-  new Sprite("item-crown", [COLOR_CRIMSON]),
+const SPRITES_COLORS = [
+  "door",
+  "key",
+  "item-card",
+  "item-cards",
+  "item-gem",
+  "item-jug",
+  "item-piece",
+  "item-potion",
+  "item-drop",
+  "item-crown",
 ]
 
 const IN_DIR = "assets/sprites/in"
 const OUT_DIR = "assets/sprites/out"
-
-const DARK_SUFFIX = "-dark"
-const LIGHT_SUFFIX = "-light"
-
-fs.rmSync(OUT_DIR, { recursive: true, force: true })
-fs.mkdirSync(OUT_DIR)
 
 function optimizeSvg(content) {
   const result = optimize(content, {
@@ -90,51 +54,41 @@ function optimizeSvg(content) {
   return result.data
 }
 
-function whiten(content, dest) {
-  for (const black of BLACKS) {
-    content = content.replaceAll(`${black};`, `${COLOR_WHITE};`)
+function commonProcess(spriteName) {
+  const sourcePath = path.join(IN_DIR, `${spriteName}.svg`)
+  console.info(sourcePath)
+  let content = fs.readFileSync(sourcePath, { encoding: "utf8" })
+  content = content.replaceAll(`${BLACK_SHORT};`, `${BLACK_FULL};`)
+  if (!content.includes(`${BLACK_FULL};`)) {
+    throw new Error(`No black found in [${sourcePath}]`)
   }
-  fs.writeFileSync(dest, optimizeSvg(content))
+  return content
 }
 
-for (const monochromes of SPRITES_MONOCHROMES) {
-  const source = path.join(IN_DIR, `${monochromes}.svg`)
-  console.group(monochromes, source)
-  const destLight = path.join(OUT_DIR, `${monochromes}${LIGHT_SUFFIX}.svg`)
-  const destDark = path.join(OUT_DIR, `${monochromes}${DARK_SUFFIX}.svg`)
-  const sourceContent = fs.readFileSync(source, { encoding: "utf8" })
-  console.info(destLight)
-  fs.writeFileSync(destLight, optimizeSvg(sourceContent))
-  console.info(destDark)
-  whiten(sourceContent, destDark)
-  console.groupEnd()
+function spriteConstant(spriteName, content) {
+  const constantName = spriteName.toLocaleUpperCase().replaceAll("-", "_")
+  return `  ${constantName} = '${optimizeSvg(content).replaceAll('xml:space="preserve" ', "")}',`
 }
 
-console.info()
+const monochromeFileContent = []
+monochromeFileContent.push("export const enum MonochromeSpriteContent {")
+for (const spriteName of SPRITES_MONOCHROMES) {
+  monochromeFileContent.push(spriteConstant(spriteName, commonProcess(spriteName)))
+}
+monochromeFileContent.push("}")
+fs.writeFileSync("editor/front/maps/monochrome-sprite-content.ts", monochromeFileContent.join("\n"))
 
-function colorizeSprites(sprites) {
-  for (const sprite of sprites) {
-    const spriteName = sprite.name
-    const source = path.join(IN_DIR, `${spriteName}.svg`)
-    console.group(sprite.name, source)
-    const sourceContent = fs.readFileSync(source, { encoding: "utf8" })
-
-    for (const colorPair of sprite.targetColors) {
-      const destLight = path.join(OUT_DIR, `${spriteName}-${colorPair.name}${LIGHT_SUFFIX}.svg`)
-      const destDark = path.join(OUT_DIR, `${spriteName}-${colorPair.name}${DARK_SUFFIX}.svg`)
-      let colorizedLight = sourceContent
-      let colorizedDark = sourceContent
-      for (const initialColor of YELLOWS) {
-        colorizedLight = colorizedLight.replaceAll(`${initialColor};`, `${colorPair.light};`)
-        colorizedDark = colorizedDark.replaceAll(`${initialColor};`, `${colorPair.dark};`)
-      }
-      console.info(destLight)
-      fs.writeFileSync(destLight, optimizeSvg(colorizedLight))
-      console.info(destDark)
-      whiten(colorizedDark, destDark)
-    }
-    console.groupEnd()
+const colorFileContent = []
+colorFileContent.push("export const enum ColorSpriteContent {")
+for (const spriteName of SPRITES_COLORS) {
+  let content = commonProcess(spriteName)
+  for (const yellow of OTHER_YELLOWS) {
+    content = content.replaceAll(`${yellow};`, `${YELLOW_FULL};`)
   }
+  if (!content.includes(`${YELLOW_FULL};`)) {
+    throw new Error(`No yellow found in [${spriteName}]`)
+  }
+  colorFileContent.push(spriteConstant(spriteName, content))
 }
-
-colorizeSprites(SPRITES_ALL_COLORS)
+colorFileContent.push("}")
+fs.writeFileSync("editor/front/maps/color-sprite-content.ts", colorFileContent.join("\n"))

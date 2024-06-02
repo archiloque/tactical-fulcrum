@@ -1,5 +1,5 @@
 import { Assets, Sprite } from "pixi.js"
-import { SPRITES, Sprites } from "./sprites"
+import { SPRITES, SpriteName } from "./sprites"
 import { ColorScheme } from "../color-scheme"
 
 export class Spriter {
@@ -9,23 +9,23 @@ export class Spriter {
     console.debug("Spriter", "reload", "size", tileSize, "color scheme", colorScheme)
     this.tileSize = tileSize
     Assets.cache.reset()
-    return Assets.load(
-      SPRITES.map((sprite) => {
-        return {
-          alias: sprite.valueOf(),
-          src: `./sprites/${sprite.valueOf()}-${colorScheme.valueOf()}.svg`,
-          data: {
-            height: tileSize * window.devicePixelRatio,
-            width: tileSize * window.devicePixelRatio,
-            resolution: window.devicePixelRatio,
-          },
-        }
-      }),
-    )
+    const toLoad = []
+    for (const [spriteName, sprite] of SPRITES.entries()) {
+      toLoad.push({
+        alias: spriteName.valueOf().toString(),
+        src: sprite.getValue(colorScheme),
+        data: {
+          height: tileSize * window.devicePixelRatio,
+          width: tileSize * window.devicePixelRatio,
+          resolution: window.devicePixelRatio,
+        },
+      })
+    }
+    return Assets.load(toLoad)
   }
 
-  getSprite(spriteName: Sprites): Sprite {
-    const sprite: Sprite = Sprite.from(spriteName.valueOf())
+  getSprite(spriteName: SpriteName): Sprite {
+    const sprite: Sprite = Sprite.from(spriteName.valueOf().toString())
     sprite.width = this.tileSize
     sprite.height = this.tileSize
     return sprite

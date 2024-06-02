@@ -3,123 +3,123 @@ import { Color } from "../../data/color"
 import { EnemyType } from "../../data/enemy-type"
 import { ItemName } from "../../data/item-name"
 import { ScoreType } from "../../data/score-type"
-import { Sprites } from "./sprites"
+import { SpriteName } from "./sprites"
 import { StaircaseDirection } from "../../data/staircase-direction"
 
 export class SpritesToItem {
-  private static spriteNameFromDoor(tile: DoorTile): Sprites {
+  private static spriteNameFromDoor(tile: DoorTile): SpriteName {
     switch (tile.color) {
       case Color.blue:
-        return Sprites.doorBlue
+        return SpriteName.doorBlue
       case Color.crimson:
-        return Sprites.doorCrimson
+        return SpriteName.doorCrimson
       case Color.greenBlue:
-        return Sprites.doorGreenBlue
+        return SpriteName.doorGreenBlue
       case Color.platinum:
-        return Sprites.doorPlatinum
+        return SpriteName.doorPlatinum
       case Color.violet:
-        return Sprites.doorViolet
+        return SpriteName.doorViolet
       case Color.yellow:
-        return Sprites.doorYellow
+        return SpriteName.doorYellow
     }
   }
 
-  private static spriteNameFromEnemy(tile: EnemyTile): Sprites {
+  private static spriteNameFromEnemy(tile: EnemyTile): SpriteName {
     switch (tile.enemy.type) {
       case EnemyType.burgeoner:
-        return Sprites.enemyBurgeoner
+        return SpriteName.enemyBurgeoner
       case EnemyType.fighter:
-        return Sprites.enemyFighter
+        return SpriteName.enemyFighter
       case EnemyType.ranger:
-        return Sprites.enemyRanger
+        return SpriteName.enemyRanger
       case EnemyType.shadow:
-        return Sprites.enemyShadow
+        return SpriteName.enemyShadow
       case EnemyType.slasher:
-        return Sprites.enemySlasher
+        return SpriteName.enemySlasher
     }
   }
 
-  private static spriteNameFromKey(tile: KeyTile): Sprites {
+  private static spriteNameFromKey(tile: KeyTile): SpriteName {
     switch (tile.color) {
       case Color.blue:
-        return Sprites.keyBlue
+        return SpriteName.keyBlue
       case Color.crimson:
-        return Sprites.keyCrimson
+        return SpriteName.keyCrimson
       case Color.greenBlue:
-        return Sprites.keyGreenBlue
+        return SpriteName.keyGreenBlue
       case Color.platinum:
-        return Sprites.keyPlatinum
+        return SpriteName.keyPlatinum
       case Color.violet:
-        return Sprites.keyViolet
+        return SpriteName.keyViolet
       case Color.yellow:
-        return Sprites.keyYellow
+        return SpriteName.keyYellow
     }
   }
 
-  private static spriteNameFromItem(tile: ItemTile): Sprites {
+  private static spriteNameFromItem(tile: ItemTile): SpriteName {
     switch (tile.item) {
       case ItemName.pulse_book_shield:
-        return Sprites.itemBookShield
+        return SpriteName.itemBookShield
       case ItemName.pulse_book_sword:
-        return Sprites.itemBookSword
+        return SpriteName.itemBookSword
       case ItemName.blue_potion:
-        return Sprites.itemBluePotion
+        return SpriteName.itemBluePotion
       case ItemName.drop_of_dream_ocean:
-        return Sprites.itemDropOfDreamOcean
+        return SpriteName.itemDropOfDreamOcean
       case ItemName.golden_feather:
-        return Sprites.itemGoldenFeather
+        return SpriteName.itemGoldenFeather
       case ItemName.guard_card:
-        return Sprites.itemGuardCard
+        return SpriteName.itemGuardCard
       case ItemName.guard_deck:
-        return Sprites.itemGuardDeck
+        return SpriteName.itemGuardDeck
       case ItemName.guard_gem:
-        return Sprites.itemGuardGem
+        return SpriteName.itemGuardGem
       case ItemName.guard_piece:
-        return Sprites.itemGuardPiece
+        return SpriteName.itemGuardPiece
       case ItemName.guard_potion:
-        return Sprites.itemGuardPotion
+        return SpriteName.itemGuardPotion
       case ItemName.heavenly_potion:
-        return Sprites.itemHeavenlyPotion
+        return SpriteName.itemHeavenlyPotion
       case ItemName.life_crown:
-        return Sprites.itemLifeCrown
+        return SpriteName.itemLifeCrown
       case ItemName.life_potion:
-        return Sprites.itemLifePotion
+        return SpriteName.itemLifePotion
       case ItemName.power_card:
-        return Sprites.itemPowerCard
+        return SpriteName.itemPowerCard
       case ItemName.power_deck:
-        return Sprites.itemPowerDeck
+        return SpriteName.itemPowerDeck
       case ItemName.power_gem:
-        return Sprites.itemPowerGem
+        return SpriteName.itemPowerGem
       case ItemName.power_piece:
-        return Sprites.itemPowerPiece
+        return SpriteName.itemPowerPiece
       case ItemName.power_potion:
-        return Sprites.itemPowerPotion
+        return SpriteName.itemPowerPotion
       case ItemName.red_potion:
-        return Sprites.itemRedPotion
+        return SpriteName.itemRedPotion
     }
   }
 
-  static spriteNameFromScore(score: ScoreType): Sprites {
+  static spriteNameFromScore(score: ScoreType): SpriteName {
     switch (score) {
       case ScoreType.check:
-        return Sprites.scoreCheck
+        return SpriteName.scoreCheck
       case ScoreType.crown:
-        return Sprites.scoreCrown
+        return SpriteName.scoreCrown
       case ScoreType.star:
-        return Sprites.scoreStar
+        return SpriteName.scoreStar
     }
   }
 
-  private static spriteNameFromStaircase(tile: StaircaseTile): Sprites {
+  private static spriteNameFromStaircase(tile: StaircaseTile): SpriteName {
     switch (tile.direction) {
       case StaircaseDirection.down:
-        return Sprites.staircaseUp
+        return SpriteName.staircaseUp
       case StaircaseDirection.up:
-        return Sprites.staircaseDown
+        return SpriteName.staircaseDown
     }
   }
 
-  static spriteNameFromTile(tile: Tile): Sprites {
+  static spriteNameFromTile(tile: Tile): SpriteName {
     switch (tile.getType()) {
       case TileType.empty:
         return null
@@ -134,9 +134,9 @@ export class SpritesToItem {
       case TileType.staircase:
         return this.spriteNameFromStaircase(tile as StaircaseTile)
       case TileType.startingPosition:
-        return Sprites.startingPosition
+        return SpriteName.startingPosition
       case TileType.wall:
-        return Sprites.wall
+        return SpriteName.wall
     }
   }
 }

@@ -42,8 +42,9 @@ import { Tower } from "./models/tower"
  */
 
 registerIconLibrary("default", {
-  resolver: (name) =>
-    `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" ${IconSpriteContent.get(name)}</svg>`)}`,
+  resolver: (name) => {
+    return `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" ${IconSpriteContent.get(name)}</svg>`)}`
+  },
 })
 
 export class Editor {

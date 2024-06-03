@@ -131,19 +131,20 @@ const EDITOR_ICONS = [
 
 const editorIconsContent = []
 
+const ICONS_STARTING_CONTENT = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" '
+
 editorIconsContent.push("export const IconSpriteContent = new Map<string, string>([")
 for (const iconName of EDITOR_ICONS) {
   const sourcePath = `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${iconName}.svg`
   console.info(sourcePath)
-  let content = fs.readFileSync(sourcePath, { encoding: "utf8" })
-  let svgContent = optimizeSvg(content)
-  if (!svgContent.startsWith(SVG_STARTING_CONTENT)) {
-    throw new Error(`SVG beginning unexpected [${spriteName}] [${svgContent}]`)
+  let svgContent = fs.readFileSync(sourcePath, { encoding: "utf8" }).replaceAll("\n", "")
+  if (!svgContent.startsWith(ICONS_STARTING_CONTENT)) {
+    throw new Error(`SVG beginning unexpected [${iconName}] [${svgContent}]`)
   }
   if (!svgContent.endsWith(SVG_ENDING_CONTENT)) {
-    throw new Error(`SVG ending unexpected [${spriteName}] [${svgContent}]`)
+    throw new Error(`SVG ending unexpected [${iconName}] [${svgContent}]`)
   }
-  svgContent = svgContent.substring(SVG_STARTING_CONTENT.length)
+  svgContent = svgContent.substring(ICONS_STARTING_CONTENT.length)
   svgContent = svgContent.substring(0, svgContent.length - SVG_ENDING_CONTENT.length)
 
   editorIconsContent.push(`  ['${iconName}', '${svgContent}'],`)

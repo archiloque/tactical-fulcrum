@@ -28,13 +28,11 @@ import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-i
 
 export class Elements {
   private readonly editor: Editor
-  private enemiesSubTree: SlTreeItem
   private tree: SlTree
   private selectedTile: Tile = null
 
   private static readonly divId = "tabMapElements"
   private static readonly treeId = "tabMapElementsTree"
-  private static readonly enemiesSubTreeId = "tabMapElementsTreeEnemies"
   private div: HTMLElement
 
   constructor(editor: Editor) {
@@ -47,6 +45,20 @@ export class Elements {
 
   hole(): Hole {
     console.debug("Elements", "hole")
+    return html` <div id="${Elements.divId}">
+      <h2>Element</h2>
+      <sl-tree id="${Elements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}"> </sl-tree>
+    </div>`
+  }
+
+  init(): void {
+    console.debug("Elements", "init")
+    this.div = document.getElementById(Elements.divId)
+    this.tree = document.getElementById(Elements.treeId) as SlTree
+  }
+
+  render(): void {
+    console.debug("Elements", "render")
     const keys: Hole[] = COLORS.map(
       (c) => html` <sl-tree-item data-type="${TileType.key}" data-color="${c}">${capitalize(c)} key</sl-tree-item>`,
     )
@@ -66,40 +78,35 @@ export class Elements {
         </sl-tree-item>`,
     )
 
-    return html` <div id="${Elements.divId}">
-      <h2>Element</h2>
-      <sl-tree id="${Elements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
+    let enemies: Hole
+    if (this.editor.tower.enemies.length == 0) {
+      enemies = html` <sl-tree-item disabled>Enemy</sl-tree-item>`
+    } else {
+      const enemiesList = this.editor.tower.enemies.map((enemy: Enemy) => {
+        const enemyName = `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
+        return html` <sl-tree-item
+          data-type="${TileType.enemy.valueOf()}"
+          data-enemy-type="${enemy.type ? enemy.type.valueOf() : ""}"
+          data-enemy-level="${enemy.level ? enemy.level : ""}"
+          >${enemyName}
+        </sl-tree-item>`
+      })
+      enemies = html` <sl-tree-item>Enemy ${enemiesList}</sl-tree-item>`
+    }
+
+    render(
+      this.tree,
+      html`
         <sl-tree-item data-type="${TileType.empty}" selected>Empty</sl-tree-item>
         <sl-tree-item data-type="${TileType.wall}">Wall</sl-tree-item>
-        <sl-tree-item id="${Elements.enemiesSubTreeId}">Enemy</sl-tree-item>
+        ${enemies}
         <sl-tree-item>Key ${keys}</sl-tree-item>
         <sl-tree-item>Door ${doors}</sl-tree-item>
         <sl-tree-item>Item ${items}</sl-tree-item>
         <sl-tree-item>Staircase ${staircases}</sl-tree-item>
         <sl-tree-item data-type="${TileType.startingPosition}">Starting position</sl-tree-item>
-      </sl-tree>
-    </div>`
-  }
-
-  init(): void {
-    console.debug("Elements", "init")
-    this.div = document.getElementById(Elements.divId)
-    this.tree = document.getElementById(Elements.treeId) as SlTree
-    this.enemiesSubTree = document.getElementById(Elements.enemiesSubTreeId) as SlTreeItem
-  }
-
-  render(): void {
-    console.debug("Elements", "render")
-    const enemies: Hole[] = this.editor.tower.enemies.map((enemy: Enemy) => {
-      const enemyName = `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
-      return html` <sl-tree-item
-        data-type="${TileType.enemy.valueOf()}"
-        data-enemy-type="${enemy.type ? enemy.type.valueOf() : ""}"
-        data-enemy-level="${enemy.level ? enemy.level : ""}"
-        >${enemyName}
-      </sl-tree-item>`
-    })
-    render(this.enemiesSubTree, html`Enemy ${enemies}`)
+      `,
+    )
   }
 
   private selectionChanged = (event: CustomEvent): void => {

@@ -38,3 +38,7 @@ h2 {
 .hidden {
   display: none;
 }
+
+sl-tree-item:hover::part(base) {
+  color: var(--sl-color-primary-600);
+}

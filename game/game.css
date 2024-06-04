@@ -1,0 +1,12 @@
+#screenMainMainTile {
+  font-size: 96px;
+  text-align: center;
+  padding-bottom: 1em;
+}
+
+#screenMainTowersList {
+  width: 40%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -181,9 +181,6 @@ sl-checkbox:focus-within[data-user-invalid]::part(control) {
   box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
 }
 
-sl-tree-item:hover::part(base) {
-  color: var(--sl-color-primary-600);
-}
 
 h1,
 h2 {

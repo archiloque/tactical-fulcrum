@@ -28,10 +28,10 @@ console.info(candidates)
 const fileContent = []
 fileContent.push('import { TowerInfo } from "./tower-info"')
 fileContent.push("")
-fileContent.push("export const LEVELS : TowerInfo[] = [")
+fileContent.push("export const TOWERS : TowerInfo[] = [")
 for (const level of candidates) {
   const levelData = JSON.parse(fs.readFileSync(`towers/${level}`))
   fileContent.push(`  new TowerInfo("${level}", "${levelData["name"]}"),`)
 }
 fileContent.push("]")
-fs.writeFileSync("game/towers/level.ts", fileContent.join("\n"))
+fs.writeFileSync("game/towers/towers.ts", fileContent.join("\n"))

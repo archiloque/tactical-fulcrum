@@ -1,6 +1,6 @@
 import { Assets, Sprite } from "pixi.js"
 import { SpriteName, SPRITES } from "./sprites"
-import { ColorScheme } from "../color-scheme"
+import { ColorScheme } from "../../../common/front/color-scheme"
 
 export class Spriter {
   private tileSize: number

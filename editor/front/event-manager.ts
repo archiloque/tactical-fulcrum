@@ -1,25 +1,17 @@
-import { ColorScheme } from "./color-scheme"
-import { EventEmitter } from "pixi.js"
 import { RoomLayer } from "./room-layer"
-import { ScoreType } from "../data/score-type"
+import { ScoreType } from "../../common/data/score-type"
 import { SelectedRoom } from "./maps/selected-room"
-import { Tile } from "../models/tile"
+import { SimpleEventManager } from "../../common/simple-event-manager"
+import { Tile } from "../../common/models/tile"
 
-export class EventManager {
+export class EventManager extends SimpleEventManager {
   private static EVENT_ROOM_SELECTION = "roomSelection"
   private static EVENT_TILE_SELECTION = "tileSelection"
   private static EVENT_SCORE_SELECTION = "scoreSelection"
-  private static EVENT_SCHEME_CHANGE = "schemeChange"
   private static EVENT_LAYER_CHANGE = "layerChange"
-  private eventEmitter: EventEmitter
 
   constructor() {
-    this.eventEmitter = new EventEmitter()
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
-      const colorScheme: ColorScheme = event.matches ? ColorScheme.dark : ColorScheme.light
-      console.debug("EventManager", "notifySchemeChange", colorScheme)
-      this.eventEmitter.emit(EventManager.EVENT_SCHEME_CHANGE, colorScheme)
-    })
+    super()
   }
 
   public registerRoomSelection(callBack: (selectedRoom: SelectedRoom | null) => void): void {
@@ -60,9 +52,5 @@ export class EventManager {
   public notifyScoreSelection(scoreType: ScoreType | null, updateScoreTree: boolean): void {
     console.debug("EventManager", "notifyScoreSelection", scoreType, updateScoreTree)
     this.eventEmitter.emit(EventManager.EVENT_SCORE_SELECTION, scoreType, updateScoreTree)
-  }
-
-  public registerSchemeChange(callBack: (colorScheme: ColorScheme) => void): void {
-    this.eventEmitter.on(EventManager.EVENT_SCHEME_CHANGE, (colorScheme) => callBack(colorScheme))
   }
 }

@@ -1,7 +1,7 @@
-import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../models/tile"
-import { IoRoom } from "./io-room"
-import { Room } from "../../models/room"
-import { Score } from "../../models/score"
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../../common/models/tile"
+import { IoRoom } from "../../../common/io/room/io-room"
+import { Room } from "../../../common/models/room"
+import { Score } from "../../../common/models/score"
 
 export class IoRoomToAttributes {
   static toAttributes(room: Room): {

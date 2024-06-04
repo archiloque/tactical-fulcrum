@@ -1,6 +1,6 @@
-import { DEFAULT_ITEMS, Item } from "../../data/item"
-import { ITEM_NAMES, ItemName } from "../../data/item-name"
-import { IoItem } from "./io-item"
+import { DEFAULT_ITEMS, Item } from "../../../common/data/item"
+import { ITEM_NAMES, ItemName } from "../../../common/data/item-name"
+import { IoItem } from "../../../common/io/item/io-item"
 
 export class IoItemToAttributes {
   static toValues(items: Record<ItemName, Item>): Record<ItemName, Record<string, number>> {

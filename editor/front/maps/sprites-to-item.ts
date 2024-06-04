@@ -1,10 +1,10 @@
-import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../models/tile"
-import { Color } from "../../data/color"
-import { EnemyType } from "../../data/enemy-type"
-import { ItemName } from "../../data/item-name"
-import { ScoreType } from "../../data/score-type"
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../../common/models/tile"
+import { Color } from "../../../common/data/color"
+import { EnemyType } from "../../../common/data/enemy-type"
+import { ItemName } from "../../../common/data/item-name"
+import { ScoreType } from "../../../common/data/score-type"
 import { SpriteName } from "./sprites"
-import { StaircaseDirection } from "../../data/staircase-direction"
+import { StaircaseDirection } from "../../../common/data/staircase-direction"
 
 export class SpritesToItem {
   private static spriteNameFromDoor(tile: DoorTile): SpriteName {

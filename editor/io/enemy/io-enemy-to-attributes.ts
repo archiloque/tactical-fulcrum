@@ -1,5 +1,5 @@
-import { Enemy } from "../../models/enemy"
-import { IoEnemy } from "./io-enemy"
+import { Enemy } from "../../../common/models/enemy"
+import { IoEnemy } from "../../../common/io/enemy/io-enemy"
 
 export class IoEnemyToAttributes {
   static toAttributes(enemy: Enemy): Record<string, string | number | null> {

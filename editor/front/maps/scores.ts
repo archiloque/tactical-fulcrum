@@ -1,11 +1,11 @@
-import { findEnum, findTreeItemFromValue } from "../../models/functions"
+import { findEnum, findTreeItemFromValue } from "../../../common/models/functions"
 import { Hole, html } from "uhtml"
-import { SCORE_TYPES, ScoreType } from "../../data/score-type"
+import { SCORE_TYPES, ScoreType } from "../../../common/data/score-type"
 import { Editor } from "../../editor"
 import { RoomLayer } from "../room-layer"
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
-import { TileType } from "../../models/tile"
+import { TileType } from "../../../common/models/tile"
 
 export class Scores {
   private static readonly divId = "tabMapScores"

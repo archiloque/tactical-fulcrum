@@ -1,6 +1,4 @@
-import { DEFAULT_ITEMS, Item } from "../data/item"
-import { EMPTY_TILE, EnemyTile, TileType } from "./tile"
-import { ITEM_NAMES, ItemName } from "../data/item-name"
+import { EMPTY_TILE, EnemyTile, TileType } from "../../common/models/tile"
 import {
   LOCAL_STORAGE_KEY_ENEMIES,
   LOCAL_STORAGE_KEY_INFO,
@@ -9,60 +7,27 @@ import {
   LOCAL_STORAGE_KEY_NAME,
   LOCAL_STORAGE_KEY_ROOMS,
 } from "../io/local-storage"
-import { Enemy } from "./enemy"
-import { Info } from "./info"
-import { IoEnemyFromAttributes } from "../io/enemy/io-enemy-from-attributes"
+import { DEFAULT_ITEMS } from "../../common/data/item"
+import { Enemy } from "../../common/models/enemy"
+import { IoEnemyFromAttributes } from "../../common/io/enemy/io-enemy-from-attributes"
 import { IoEnemyToAttributes } from "../io/enemy/io-enemy-to-attributes"
-import { IoInfoFromAttributes } from "../io/info/io-info-from-attributes"
+import { IoInfoFromAttributes } from "../../common/io/info/io-info-from-attributes"
 import { IoInfoToAttributes } from "../io/info/io-info-to-attributes"
-import { IoItemFromAttributes } from "../io/item/io-item-from-attributes"
+import { IoItemFromAttributes } from "../../common/io/item/io-item-from-attributes"
 import { IoItemToAttributes } from "../io/item/io-item-to-attributes"
-import { IoLevelFromAttributes } from "../io/level/io-level-from-attributes"
+import { IoLevelFromAttributes } from "../../common/io/level/io-level-from-attributes"
 import { IoLevelToAttributes } from "../io/level/io-level-to-attributes"
-import { IOOperation } from "../io/import-export"
-import { IoRoomFromAttributes } from "../io/room/io-room-from-attributes"
+import { IOOperation } from "../../common/io/import-export"
+import { IoRoomFromAttributes } from "../../common/io/room/io-room-from-attributes"
 import { IoRoomToAttributes } from "../io/room/io-room-to-attributes"
-import { Level } from "./level"
-import { Room } from "./room"
-import { RoomType } from "../data/room-type"
-import { ScoreType } from "../data/score-type"
+import { ITEM_NAMES } from "../../common/data/item-name"
+import { Level } from "../../common/models/level"
+import { Room } from "../../common/models/room"
+import { RoomType } from "../../common/data/room-type"
+import { ScoreType } from "../../common/data/score-type"
+import { Tower } from "../../common/models/tower"
 
-export class Tower {
-  name: string
-  info: Info
-  enemies: Enemy[]
-  items: Record<ItemName, Item>
-  standardRooms: Room[]
-  nexusRooms: Room[]
-  levels: Level[]
-
-  constructor() {
-    this.name = "Unnamed tower"
-    this.enemies = []
-    // @ts-ignore
-    this.items = {}
-    for (const itemName of ITEM_NAMES) {
-      this.items[itemName] = DEFAULT_ITEMS[itemName].clone()
-    }
-    this.info = new Info()
-    const standardRoom = new Room()
-    standardRoom.name = "Standard room"
-    const nexusRoom = new Room()
-    nexusRoom.name = "Nexus room"
-    this.standardRooms = [standardRoom]
-    this.nexusRooms = [nexusRoom]
-    this.levels = []
-  }
-
-  public getRooms(roomType: RoomType): Room[] {
-    switch (roomType) {
-      case RoomType.standard:
-        return this.standardRooms
-      case RoomType.nexus:
-        return this.nexusRooms
-    }
-  }
-
+export class EditorTower extends Tower {
   public removeScore(roomType: RoomType, scoreType: ScoreType): void {
     const rooms = this.getRooms(roomType)
     for (const room of rooms) {

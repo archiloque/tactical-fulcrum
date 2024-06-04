@@ -1,6 +1,6 @@
-import { ColorSpriteContent, ColorSpriteName } from "./color-sprite-content"
-import { MonochromeSpriteContent, MonochromeSpriteName } from "./monochrome-sprite-content"
-import { ColorScheme } from "../color-scheme"
+import { ColorSpriteContent, ColorSpriteName } from "../../../common/front/sprites/color-sprite-content"
+import { MonochromeSpriteContent, MonochromeSpriteName } from "../../../common/front/sprites/monochrome-sprite-content"
+import { ColorScheme } from "../../../common/front/color-scheme"
 
 const COLOR_BLACK = "#000"
 const COLOR_WHITE = "#cccccc"

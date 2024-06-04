@@ -21,11 +21,11 @@ import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js"
 import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
-import { EMPTY_TILE } from "./models/tile"
+import { EditorTower } from "./models/editor-tower"
+import { EMPTY_TILE } from "../common/models/tile"
 import { EventManager } from "./front/event-manager"
-import { IconSpriteContent } from "./front/icons"
 import { MainMenu } from "./front/main-menu"
-import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js"
+import { registerIcons } from "../common/front/icons/register"
 import { Tab } from "./front/tab"
 import { TabEnemies } from "./front/enemies/tab-enemies"
 import { TabImportExport } from "./front/import-export/tab-import-export"
@@ -33,7 +33,6 @@ import { TabInfo } from "./front/info/tab-info"
 import { TabItems } from "./front/items/tab-items"
 import { TabLevels } from "./front/levels/tab-levels"
 import { TabMaps } from "./front/maps/tab-maps"
-import { Tower } from "./models/tower"
 
 /**
  * @license
@@ -41,14 +40,10 @@ import { Tower } from "./models/tower"
  * SPDX-License-Identifier: GPL-3.0
  */
 
-registerIconLibrary("default", {
-  resolver: (name) => {
-    return `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" ${IconSpriteContent.get(name)}</svg>`)}`
-  },
-})
+registerIcons()
 
 export class Editor {
-  readonly tower: Tower
+  readonly tower: EditorTower
   readonly eventManager: EventManager
   private readonly tabEnemies: TabEnemies
   private readonly tabImportExport: TabImportExport
@@ -60,7 +55,7 @@ export class Editor {
 
   constructor() {
     console.debug("Editor starting")
-    this.tower = new Tower()
+    this.tower = new EditorTower()
     this.tower.load()
     this.eventManager = new EventManager()
     new MainMenu(this)

@@ -1,7 +1,7 @@
 import { Hole, html, render } from "uhtml"
 import { AbstractTab } from "../abstract-tab"
 import { Editor } from "../../editor"
-import { Level } from "../../models/level"
+import { Level } from "../../../common/models/level"
 import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
 import { Tab } from "../tab"
 

@@ -85,7 +85,7 @@ function spriteConstant(nameEnum, spriteName, content) {
 }
 
 const monochromeFileContent = []
-monochromeFileContent.push("export enum MonochromeSpriteName {")
+monochromeFileContent.push("export const enum MonochromeSpriteName {")
 for (const spriteName of SPRITES_MONOCHROMES) {
   monochromeFileContent.push(`  ${constantName(spriteName)},`)
 }
@@ -96,10 +96,10 @@ for (const spriteName of SPRITES_MONOCHROMES) {
   monochromeFileContent.push(spriteConstant("MonochromeSpriteName", spriteName, commonProcess(spriteName)))
 }
 monochromeFileContent.push("])")
-fs.writeFileSync("editor/front/maps/monochrome-sprite-content.ts", monochromeFileContent.join("\n"))
+fs.writeFileSync("common/front/sprites/monochrome-sprite-content.ts", monochromeFileContent.join("\n"))
 
 const colorFileContent = []
-colorFileContent.push("export enum ColorSpriteName {")
+colorFileContent.push("export const enum ColorSpriteName {")
 for (const spriteName of SPRITES_COLORS) {
   colorFileContent.push(`  ${constantName(spriteName)},`)
 }
@@ -117,7 +117,7 @@ for (const spriteName of SPRITES_COLORS) {
   colorFileContent.push(spriteConstant("ColorSpriteName", spriteName, content))
 }
 colorFileContent.push("])")
-fs.writeFileSync("editor/front/maps/color-sprite-content.ts", colorFileContent.join("\n"))
+fs.writeFileSync("common/front/sprites/color-sprite-content.ts", colorFileContent.join("\n"))
 
 const EDITOR_ICONS = [
   "arrow-up",
@@ -150,4 +150,4 @@ for (const iconName of EDITOR_ICONS) {
   editorIconsContent.push(`  ['${iconName}', '${svgContent}'],`)
 }
 editorIconsContent.push("])")
-fs.writeFileSync("editor/front/icons.ts", editorIconsContent.join("\n"))
+fs.writeFileSync("common/front/icons/icons.ts", editorIconsContent.join("\n"))

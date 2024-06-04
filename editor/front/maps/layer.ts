@@ -1,7 +1,7 @@
 import { Hole, html } from "uhtml"
 import { ROOM_LAYERS, RoomLayer } from "../room-layer"
 import { Editor } from "../../editor"
-import { findEnum } from "../../models/functions"
+import { findEnum } from "../../../common/models/functions"
 import SlRadioGroup from "@shoelace-style/shoelace/cdn/components/radio-group/radio-group.component"
 
 export class Layer {

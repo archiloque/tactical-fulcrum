@@ -1,5 +1,5 @@
-import { EventEmitter } from "pixi.js"
 import { ColorScheme } from "./front/color-scheme"
+import { EventEmitter } from "pixi.js"
 
 export class SimpleEventManager {
   private static EVENT_SCHEME_CHANGE = "schemeChange"

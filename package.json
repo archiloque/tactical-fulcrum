@@ -15,26 +15,25 @@
     "publish editor": "zip -r out/editor.zip out/editor && butler push out/editor.zip archiloque/tactical-fulcrum-editor:HTML"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.0.2",
-    "@eslint/js": "^9.1.1",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.4.0",
     "@pixi/settings": "^7.4.2",
-    "@shoelace-style/shoelace": "^2.15.0",
-    "@stylistic/eslint-plugin": "^1.7.2",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "esbuild": "^0.20.2",
+    "@shoelace-style/shoelace": "^2.15.1",
+    "@stylistic/eslint-plugin": "^2.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "esbuild": "^0.21.4",
     "esbuild-minify-templates": "^0.11.0",
     "esbuild-plugin-copy": "^2.1.1",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-n": "^17.8.0",
+    "eslint-plugin-promise": "^6.2.0",
     "globals": "^15.3.0",
-    "pixi.js": "^8.1.0",
-    "prettier": "^3.2.5",
+    "pixi.js": "^8.1.6",
+    "prettier": "^3.3.1",
     "svgo": "^3.3.2",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.7.1",
-    "uhtml": "^4.5.8"
+    "typescript-eslint": "^7.12.0",
+    "uhtml": "^4.5.9"
   }
 }

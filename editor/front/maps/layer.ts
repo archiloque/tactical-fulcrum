@@ -5,7 +5,8 @@ import { findEnum } from "../../../common/models/functions"
 import SlRadioGroup from "@shoelace-style/shoelace/cdn/components/radio-group/radio-group.component"
 
 export class Layer {
-  private static readonly radioGroupId = "tabMapLayerRadioGroup"
+  private static readonly RADIO_GROUP_ID = "tabMapLayerRadioGroup"
+
   private readonly editor: Editor
   private radioGroup: SlRadioGroup
 
@@ -17,7 +18,7 @@ export class Layer {
     console.debug("Layer", "hole")
     return html`<h2>Layer</h2>
       <sl-radio-group
-        id="${Layer.radioGroupId}"
+        id="${Layer.RADIO_GROUP_ID}"
         @sl-change="${this.selectionChanged}"
         value="${RoomLayer.standard.valueOf()}"
       >
@@ -28,7 +29,7 @@ export class Layer {
 
   init(): void {
     console.debug("Layer", "init")
-    this.radioGroup = document.getElementById(Layer.radioGroupId) as SlRadioGroup
+    this.radioGroup = document.getElementById(Layer.RADIO_GROUP_ID) as SlRadioGroup
   }
 
   private selectionChanged = (): void => {

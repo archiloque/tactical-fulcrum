@@ -10,3 +10,15 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+#screenTowerMain {
+  display: grid;
+  height: 100vh;
+  background-color: orange;
+}
+#screenTowerMap {
+  margin: auto 5px;
+}
+#screenTowerInfoBar {
+  background-color: blue;
+}

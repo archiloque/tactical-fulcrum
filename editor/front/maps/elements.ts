@@ -27,12 +27,13 @@ import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 
 export class Elements {
+  private static readonly DIV_ID = "tabMapElements"
+  private static readonly TREE_ID = "tabMapElementsTree"
+
   private readonly editor: Editor
   private tree: SlTree
   private selectedTile: Tile = null
 
-  private static readonly divId = "tabMapElements"
-  private static readonly treeId = "tabMapElementsTree"
   private div: HTMLElement
 
   constructor(editor: Editor) {
@@ -45,16 +46,16 @@ export class Elements {
 
   hole(): Hole {
     console.debug("Elements", "hole")
-    return html` <div id="${Elements.divId}">
+    return html` <div id="${Elements.DIV_ID}">
       <h2>Element</h2>
-      <sl-tree id="${Elements.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}"> </sl-tree>
+      <sl-tree id="${Elements.TREE_ID}" selection="leaf" @sl-selection-change="${this.selectionChanged}"> </sl-tree>
     </div>`
   }
 
   init(): void {
     console.debug("Elements", "init")
-    this.div = document.getElementById(Elements.divId)
-    this.tree = document.getElementById(Elements.treeId) as SlTree
+    this.div = document.getElementById(Elements.DIV_ID)
+    this.tree = document.getElementById(Elements.TREE_ID) as SlTree
   }
 
   render(): void {
@@ -237,7 +238,7 @@ export class Elements {
       const selectedTreeItem = this.findTreeItem(this.selectedTile)
       selectedTreeItem.selected = true
       const parent = selectedTreeItem.parentElement
-      if (parent.id != Elements.treeId) {
+      if (parent.id != Elements.TREE_ID) {
         ;(parent as SlTreeItem).expanded = true
       }
     } else {

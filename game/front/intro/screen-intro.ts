@@ -2,7 +2,7 @@ import { html, render } from "uhtml"
 import { Game } from "../../game"
 import { TOWERS } from "../../towers/towers"
 
-export class ScreenMain {
+export class ScreenIntro {
   private readonly game: Game
 
   constructor(game: Game) {
@@ -11,16 +11,18 @@ export class ScreenMain {
 
   render(): void {
     console.debug("ScreenMain", "render")
+    const towers = TOWERS.map(
+      (tower, towerIndex) => html`<sl-tree-item data-tower-index="${towerIndex}">${tower.name}</sl-tree-item>`,
+    )
     render(
-      document.body,
+      this.game.mainDiv,
       html`<h1 id="screenMainMainTile">Tactical&thinsp;nexus</h1>
-      <sl-tree id="screenMainTowersList" @sl-selection-change="${this.towerSelection}>
-        ${TOWERS.map((tower, towerIndex) => html`<sl-tree-item data-tower-index="${towerIndex}">${tower.name}</sl-tree-item>`)}
-      </sl-tree>`,
+        <sl-tree id="screenMainTowersList" @sl-selection-change="${this.towerSelection}"> ${towers} </sl-tree>`,
     )
   }
 
   private towerSelection = (event: CustomEvent): void => {
+    console.debug("ScreenMain", "towerSelection", event)
     const towerIndex = parseInt(event.detail.selection[0].dataset.towerIndex)
     this.game.eventManager.notifyTowerSelection(TOWERS[towerIndex])
   }

@@ -1,7 +1,6 @@
-import { Application, Container, FederatedPointerEvent, Graphics, Point, Sprite, Text } from "pixi.js"
-import { ColorScheme, currentColorScheme } from "../../../common/front/color-scheme"
+import { Container, FederatedPointerEvent, Point, Text } from "pixi.js"
 import { EnemyTile, ItemTile, Tile, TileType } from "../../../common/models/tile"
-import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../../common/data/constants"
+import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { Editor } from "../../editor"
 import { Room } from "../../../common/models/room"
 import { RoomLayer } from "../room-layer"
@@ -10,50 +9,24 @@ import { ScoreType } from "../../../common/data/score-type"
 import { SelectedRoom } from "./selected-room"
 import { SHIFT } from "../keys"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { Spriter } from "./spriter"
 import { SpritesToItem } from "./sprites-to-item"
 import { TabMaps } from "./tab-maps"
+import { TILES_IN_ROW } from "../../../common/data/constants"
 
-export class Map {
-  private static readonly BACKGROUND_COLORS = {
-    [ColorScheme.dark]: "#000000",
-    [ColorScheme.light]: "#FFFFFF",
-  }
-
-  private static readonly FOREGROUND_COLORS = {
-    [ColorScheme.dark]: "#cccccc",
-    [ColorScheme.light]: "#000000",
-  }
-
-  readonly app: Application
-  private readonly background: Sprite
-  private readonly cursor: Graphics
+export class Map extends AbstractMap {
   private readonly editor: Editor
-  private colorScheme: ColorScheme = currentColorScheme()
   private lastMouseTile: Point = new Point(-1, -1)
-  private toolTip: HTMLElement
-  private tooltipTip: SlTooltip
   private readonly lastMousePosition: Point = new Point()
   private scoreTiles: Container
   private selectedLayer: RoomLayer = RoomLayer.standard
   private selectedRoom: SelectedRoom | null = null
   private selectedScore: ScoreType
   private selectedTile: Tile
-  private sprites: Spriter = new Spriter()
   private standardTiles: Container
-  private tileSize: number = TILES_DEFAULT_SIZE
   private toolTipTimeout: number = null
 
   constructor(editor: Editor) {
-    this.app = new Application()
-    this.background = new Sprite()
-    this.background.eventMode = "dynamic"
-    this.cursor = new Graphics().rect(0, 0, this.tileSize, this.tileSize).stroke({
-      width: 1,
-      color: 0xff0000,
-      alignment: 1,
-    })
-    this.cursor.eventMode = "none"
+    super()
     this.editor = editor
     this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
     this.editor.eventManager.registerTileSelection((selectedTile) => this.tileSelected(selectedTile))
@@ -70,47 +43,13 @@ export class Map {
     this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
     document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
     document.addEventListener("keyup", (e: KeyboardEvent) => this.keyUp(e))
-
-    return Promise.all([
-      this.app.init({
-        background: Map.BACKGROUND_COLORS[currentColorScheme()],
-      }),
-      this.sprites.reload(this.tileSize, currentColorScheme()),
-    ]).then(() => {
-      this.app.stage.addChild(this.background)
-      this.app.stage.addChild(this.cursor)
-    })
+    return super.init()
   }
 
   postInit(): void {
     console.debug("Map", "postInit")
-    this.toolTip = document.getElementById(TabMaps.tooltipId)
-    this.tooltipTip = document.getElementById(TabMaps.tooltipTipId) as SlTooltip
-  }
-
-  async resize(elementSize: number): Promise<any> {
-    console.debug("Map", "resize")
-    const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
-    if (newTileSize !== this.tileSize) {
-      this.tileSize = newTileSize
-      const appSize = this.tileSize * TILES_IN_ROW
-      this.app.renderer.resize(appSize, appSize)
-      this.background.width = appSize
-      this.background.height = appSize
-      this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
-      this.sprites = new Spriter()
-      this.toolTip.style.width = `${newTileSize}px`
-      return this.sprites.reload(this.tileSize, currentColorScheme()).then(() => this.repaint())
-    }
-  }
-
-  private schemeChanged(colorScheme: ColorScheme): void {
-    this.colorScheme = colorScheme
-    // @ts-ignore
-    this.app.setBackgroundColor(Map.BACKGROUND_COLORS[colorScheme])
-    this.sprites.reload(this.tileSize, colorScheme).then(() => {
-      this.repaint()
-    })
+    this.toolTip = document.getElementById(TabMaps.TOOL_TIP_ID)
+    this.tooltipTip = document.getElementById(TabMaps.TOOL_TIP_TIP_ID) as SlTooltip
   }
 
   private layerSelected(layer: RoomLayer): void {

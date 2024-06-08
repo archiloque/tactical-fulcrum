@@ -14,8 +14,11 @@ import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-pa
 import { Tab } from "../tab"
 
 export class TabMaps {
-  static readonly tooltipId = "mapToolTip"
-  static readonly tooltipTipId = "mapToolTipTip"
+  static readonly TOOL_TIP_ID = "mapToolTip"
+  static readonly TOOL_TIP_TIP_ID = "mapToolTipTip"
+  private static readonly SPLIT_PANEL_1_ID = "tabMapSplitPanel1"
+  private static readonly SPLIT_PANEL_2_ID = "tabMapSplitPanel2"
+  private static readonly MAP_ID = "tabMapMap"
 
   private elements: Elements
   private layer: Layer
@@ -52,24 +55,24 @@ export class TabMaps {
     return this.map.init().then(() => {
       render(
         this.tabElement,
-        html`<div id="${TabMaps.tooltipId}">
-            <sl-tooltip id="${TabMaps.tooltipTipId}" trigger="manual" hoist content="">
+        html`<div id="${TabMaps.TOOL_TIP_ID}">
+            <sl-tooltip id="${TabMaps.TOOL_TIP_TIP_ID}" trigger="manual" hoist content="">
               <div id="tabMapMapToolTipElement"></div>
             </sl-tooltip>
           </div>
-          <sl-split-panel id="tabMapSplitPanel1" @sl-reposition="${this.reposition}" position="25">
+          <sl-split-panel id="${TabMaps.SPLIT_PANEL_1_ID}" @sl-reposition="${this.reposition}" position="25">
             <div slot="start">${this.layer.hole()}${this.scores.hole()}${this.elements.hole()}</div>
             <div slot="end">
-              <sl-split-panel id="tabMapSplitPanel2" position="75">
-                <div id="tabMapMap" slot="start"></div>
+              <sl-split-panel id="${TabMaps.SPLIT_PANEL_2_ID}" position="75">
+                <div id="${TabMaps.MAP_ID}" slot="start"></div>
                 <div slot="end">${this.rooms.hole()}</div>
               </sl-split-panel>
             </div>
           </sl-split-panel>`,
       )
-      this.splitPanel1 = <SlSplitPanel>document.getElementById("tabMapSplitPanel1")
-      this.splitPanel2 = <SlSplitPanel>document.getElementById("tabMapSplitPanel2")
-      document.getElementById("tabMapMap").appendChild(this.map.app.canvas)
+      this.splitPanel1 = <SlSplitPanel>document.getElementById(TabMaps.SPLIT_PANEL_1_ID)
+      this.splitPanel2 = <SlSplitPanel>document.getElementById(TabMaps.SPLIT_PANEL_2_ID)
+      document.getElementById(TabMaps.MAP_ID).appendChild(this.map.app.canvas)
       this.rooms.init()
       this.elements.init()
       this.layer.init()

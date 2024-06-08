@@ -11,8 +11,8 @@ import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-pa
 import { Tab } from "../tab"
 
 export class TabEnemies extends AbstractTab {
-  private static readonly deleteDialogId = "tabEnemiesDeleteDialog"
-  private static readonly deleteDialogMessageId = "tabEnemiesDeleteDialogMessage"
+  private static readonly DELETE_DIALOG_ID = "tabEnemiesDeleteDialog"
+  private static readonly DELETE_DIALOG_MESSAGE_ID = "tabEnemiesDeleteDialogMessage"
 
   private readonly editor: Editor
   private readonly tabElement: SlTabPanel
@@ -77,8 +77,8 @@ export class TabEnemies extends AbstractTab {
             <sl-icon name="plus-circle"></sl-icon>
           </sl-button>
         </div>
-        <sl-dialog label="Delete enemy" id="${TabEnemies.deleteDialogId}">
-          <div id="${TabEnemies.deleteDialogMessageId}"></div>
+        <sl-dialog label="Delete enemy" id="${TabEnemies.DELETE_DIALOG_ID}">
+          <div id="${TabEnemies.DELETE_DIALOG_MESSAGE_ID}"></div>
           <div slot="footer">
             <sl-button onclick="${this.deleteDialogCancel}" variant="neutral">No</sl-button>
             <sl-button onclick="${this.deleteDialogConfirm}" variant="danger">Yes</sl-button>
@@ -86,8 +86,8 @@ export class TabEnemies extends AbstractTab {
         </sl-dialog>
       `,
     )
-    this.deleteDialog = document.getElementById(TabEnemies.deleteDialogId) as SlDialog
-    this.deleteDialogMessage = document.getElementById(TabEnemies.deleteDialogMessageId)
+    this.deleteDialog = document.getElementById(TabEnemies.DELETE_DIALOG_ID) as SlDialog
+    this.deleteDialogMessage = document.getElementById(TabEnemies.DELETE_DIALOG_MESSAGE_ID)
   }
 
   private addEnemy = (): void => {

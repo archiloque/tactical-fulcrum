@@ -1,4 +1,4 @@
-import { AlertVariant, showAlert } from "../alert"
+import { AlertVariant, showAlert } from "../../../common/front/alert"
 import { html, render } from "uhtml"
 import { Editor } from "../../editor"
 import { Export } from "../../io/export"
@@ -8,8 +8,8 @@ import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-pa
 import { Tab } from "../tab"
 
 export class TabImportExport {
-  private static readonly importInputId = "tabImportImportInput"
-  private static readonly exportLinkId = "tabImportExportLink"
+  private static readonly IMPORT_INPUT_ID = "tabImportImportInput"
+  private static readonly EXPORT_LINK_ID = "tabImportExportLink"
   private readonly editor: Editor
   private readonly tabElement: SlTabPanel
   private exportFileName: string = "tactical-fulcrum-level.json"
@@ -33,18 +33,18 @@ export class TabImportExport {
           <input
             type="file"
             onchange="${this.selectImportFile}"
-            id="${TabImportExport.importInputId}"
+            id="${TabImportExport.IMPORT_INPUT_ID}"
             accept="application/json"
             class="hidden"
           />
           <sl-button onclick="${this.clickImportFile}" size="large">Select file to import</sl-button>
           <sl-button onclick="${this.export}" size="large">Export</sl-button>
-          <a type="file" id="${TabImportExport.exportLinkId}" class="hidden" />
+          <a type="file" id="${TabImportExport.EXPORT_LINK_ID}" class="hidden" />
         </div>
       `,
     )
-    this.importInput = document.getElementById(TabImportExport.importInputId) as HTMLInputElement
-    this.tabImportExportLink = document.getElementById(TabImportExport.exportLinkId) as HTMLLinkElement
+    this.importInput = document.getElementById(TabImportExport.IMPORT_INPUT_ID) as HTMLInputElement
+    this.tabImportExportLink = document.getElementById(TabImportExport.EXPORT_LINK_ID) as HTMLLinkElement
   }
 
   private clickImportFile = (): void => {

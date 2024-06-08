@@ -8,8 +8,8 @@ import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-i
 import { TileType } from "../../../common/models/tile"
 
 export class Scores {
-  private static readonly divId = "tabMapScores"
-  private static readonly treeId = "tabMapScoresTree"
+  private static readonly DIV_ID = "tabMapScores"
+  private static readonly TREE_ID = "tabMapScoresTree"
 
   private div: HTMLElement
   private readonly editor: Editor
@@ -26,9 +26,9 @@ export class Scores {
 
   hole(): Hole {
     console.debug("Scores", "hole")
-    return html` <div id="${Scores.divId}" class="hidden">
+    return html` <div id="${Scores.DIV_ID}" class="hidden">
       <h2>Score</h2>
-      <sl-tree id="${Scores.treeId}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
+      <sl-tree id="${Scores.TREE_ID}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
         <sl-tree-item data-type="${TileType.empty}">Empty</sl-tree-item>
         <sl-tree-item data-type="${ScoreType.check}">Check</sl-tree-item>
         <sl-tree-item data-type="${ScoreType.star}">Star</sl-tree-item>
@@ -39,8 +39,8 @@ export class Scores {
 
   init(): void {
     console.debug("Scores", "init")
-    this.div = document.getElementById(Scores.divId)
-    this.scoresTree = document.getElementById(Scores.treeId) as SlTree
+    this.div = document.getElementById(Scores.DIV_ID)
+    this.scoresTree = document.getElementById(Scores.TREE_ID) as SlTree
   }
 
   private selectionChanged = (event: CustomEvent): void => {

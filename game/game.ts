@@ -7,8 +7,9 @@ import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
 import { EventManager } from "./front/event-manager"
 import { registerIcons } from "../common/front/icons/register"
-import { ScreenMain } from "./front/main/screen-main"
+import { ScreenIntro } from "./front/intro/screen-intro"
 import { ScreenTower } from "./front/tower/screen-tower"
+import { GameScreen } from "./front/game-screen"
 
 /**
  * @license
@@ -19,15 +20,22 @@ import { ScreenTower } from "./front/tower/screen-tower"
 registerIcons()
 
 export class Game {
-  private readonly screenMain: ScreenMain
+  private readonly screenIntro: ScreenIntro
   private readonly screenTower: ScreenTower
   readonly eventManager: EventManager
+  readonly mainDiv: HTMLElement
+  displayedScreen: GameScreen
 
   constructor() {
+    this.mainDiv = document.getElementById("content")
     this.eventManager = new EventManager()
-    this.screenMain = new ScreenMain(this)
+
+    this.screenIntro = new ScreenIntro(this)
     this.screenTower = new ScreenTower(this)
-    this.screenMain.render()
+    this.displayedScreen = GameScreen.intro
+    this.screenTower.init().then(() => {
+      this.screenIntro.render()
+    })
   }
 }
 

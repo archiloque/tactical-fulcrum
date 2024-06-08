@@ -19,10 +19,12 @@ export default function createConfig(entity) {
     createEntryPoints("assets/fonts", "fonts"),
   )
   if (entity === "game") {
-    entryPoints = entryPoints.concat([
-      { out: "game", in: "game/game.ts" },
-      { out: "index", in: "game/index.html" },
-    ])
+    entryPoints = entryPoints
+      .concat([
+        { out: "game", in: "game/game.ts" },
+        { out: "index", in: "game/index.html" },
+      ])
+      .concat(createEntryPoints("towers", "towers", ".json"))
   } else {
     entryPoints = entryPoints.concat([
       { out: "editor", in: "editor/editor.ts" },

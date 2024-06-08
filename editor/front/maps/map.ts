@@ -15,15 +15,12 @@ import { TILES_IN_ROW } from "../../../common/data/constants"
 
 export class Map extends AbstractMap {
   private readonly editor: Editor
-  private lastMouseTile: Point = new Point(-1, -1)
-  private readonly lastMousePosition: Point = new Point()
   private scoreTiles: Container
   private selectedLayer: RoomLayer = RoomLayer.standard
   private selectedRoom: SelectedRoom | null = null
   private selectedScore: ScoreType
   private selectedTile: Tile
   private standardTiles: Container
-  private toolTipTimeout: number = null
 
   constructor(editor: Editor) {
     super()
@@ -37,8 +34,6 @@ export class Map extends AbstractMap {
 
   async init(): Promise<any> {
     console.debug("Map", "init")
-    this.background.on("pointerenter", () => this.pointerEnter())
-    this.background.on("pointerleave", () => this.pointerLeave())
     this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
     this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
     document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
@@ -115,35 +110,7 @@ export class Map extends AbstractMap {
     }
   }
 
-  private pointerMove(e: FederatedPointerEvent): void {
-    const tilePosition: Point = this.tileFromEvent(e)
-    if (!this.lastMouseTile.equals(tilePosition)) {
-      console.debug("Map", "pointerMove", tilePosition)
-      this.lastMouseTile = tilePosition
-      if (this.tooltipTip.open) {
-        this.tooltipTip.open = false
-      }
-      this.repositionCursor()
-      if (this.toolTipTimeout != null) {
-        clearTimeout(this.toolTipTimeout)
-      }
-      // @ts-ignore
-      this.toolTipTimeout = setTimeout(() => {
-        this.showToolTip()
-      }, 200)
-    }
-  }
-
-  private tileFromEvent(e: FederatedPointerEvent): Point {
-    e.getLocalPosition(this.app.stage, this.lastMousePosition)
-    const x: number = this.lastMousePosition.x
-    const y: number = this.lastMousePosition.y
-    const tileX: number = Math.floor(x / this.tileSize)
-    const tileY: number = Math.floor(y / this.tileSize)
-    return new Point(tileX, tileY)
-  }
-
-  private showToolTip(): void {
+  protected showToolTip(): void {
     if (this.toolTipTimeout != null) {
       clearTimeout(this.toolTipTimeout)
     }
@@ -161,19 +128,6 @@ export class Map extends AbstractMap {
         this.tooltipTip.open = true
       }
     }
-  }
-
-  private pointerEnter(): void {
-    this.cursor.visible = true
-  }
-
-  private pointerLeave(): void {
-    this.cursor.visible = false
-  }
-
-  private repositionCursor(): void {
-    this.cursor.x = this.lastMouseTile.x * this.tileSize
-    this.cursor.y = this.lastMouseTile.y * this.tileSize
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {

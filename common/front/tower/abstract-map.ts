@@ -1,4 +1,4 @@
-import { Application, Graphics, Sprite } from "pixi.js"
+import { Application, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
 import { ColorScheme, currentColorScheme } from "../color-scheme"
 import { Spriter } from "../../../editor/front/maps/spriter"
@@ -16,14 +16,17 @@ export abstract class AbstractMap {
     [ColorScheme.light]: "#000000",
   }
 
-  readonly app: Application
+  private readonly lastMousePosition: Point = new Point()
+  protected colorScheme: ColorScheme = currentColorScheme()
+  protected lastMouseTile: Point = new Point(-1, -1)
   protected readonly background: Sprite
   protected readonly cursor: Graphics
-  protected tileSize: number = TILES_DEFAULT_SIZE
-  protected colorScheme: ColorScheme = currentColorScheme()
   protected sprites: Spriter = new Spriter()
+  protected tileSize: number = TILES_DEFAULT_SIZE
   protected toolTip: HTMLElement
+  protected toolTipTimeout: number = null
   protected tooltipTip: SlTooltip
+  readonly app: Application
 
   protected constructor() {
     this.app = new Application()
@@ -35,6 +38,14 @@ export abstract class AbstractMap {
       alignment: 1,
     })
     this.cursor.eventMode = "none"
+  }
+
+  private pointerEnter(): void {
+    this.cursor.visible = true
+  }
+
+  private pointerLeave(): void {
+    this.cursor.visible = false
   }
 
   abstract repaint(): void
@@ -57,6 +68,8 @@ export abstract class AbstractMap {
 
   protected async init(): Promise<any> {
     console.debug("AbstractMap", "init")
+    this.background.on("pointerenter", () => this.pointerEnter())
+    this.background.on("pointerleave", () => this.pointerLeave())
     return Promise.all([
       this.app.init({
         background: AbstractMap.BACKGROUND_COLORS[currentColorScheme()],
@@ -76,4 +89,39 @@ export abstract class AbstractMap {
       this.repaint()
     })
   }
+
+  protected repositionCursor(): void {
+    this.cursor.x = this.lastMouseTile.x * this.tileSize
+    this.cursor.y = this.lastMouseTile.y * this.tileSize
+  }
+
+  protected tileFromEvent(e: FederatedPointerEvent): Point {
+    e.getLocalPosition(this.app.stage, this.lastMousePosition)
+    const x: number = this.lastMousePosition.x
+    const y: number = this.lastMousePosition.y
+    const tileX: number = Math.floor(x / this.tileSize)
+    const tileY: number = Math.floor(y / this.tileSize)
+    return new Point(tileX, tileY)
+  }
+
+  protected pointerMove(e: FederatedPointerEvent): void {
+    const tilePosition: Point = this.tileFromEvent(e)
+    if (!this.lastMouseTile.equals(tilePosition)) {
+      console.debug("Map", "pointerMove", tilePosition)
+      this.lastMouseTile = tilePosition
+      if (this.tooltipTip.open) {
+        this.tooltipTip.open = false
+      }
+      this.repositionCursor()
+      if (this.toolTipTimeout != null) {
+        clearTimeout(this.toolTipTimeout)
+      }
+      // @ts-ignore
+      this.toolTipTimeout = setTimeout(() => {
+        this.showToolTip()
+      }, 200)
+    }
+  }
+
+  protected abstract showToolTip(): void
 }

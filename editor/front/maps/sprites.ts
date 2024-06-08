@@ -1,9 +1,8 @@
+import { ColorScheme, getColor } from "../../../common/front/color-scheme"
 import { ColorSpriteContent, ColorSpriteName } from "../../../common/front/sprites/color-sprite-content"
 import { MonochromeSpriteContent, MonochromeSpriteName } from "../../../common/front/sprites/monochrome-sprite-content"
-import { ColorScheme } from "../../../common/front/color-scheme"
 
 const COLOR_BLACK = "#000"
-const COLOR_WHITE = "#cccccc"
 const COLOR_YELLOW = "#ff0"
 
 class SpriteColors {
@@ -43,7 +42,7 @@ export class MonochromeSprite extends Sprite {
   getValue(colorScheme: ColorScheme): string {
     switch (colorScheme) {
       case ColorScheme.dark:
-        return this.encode(MonochromeSpriteContent.get(this.spriteName).replaceAll(COLOR_BLACK, COLOR_WHITE))
+        return this.encode(MonochromeSpriteContent.get(this.spriteName).replaceAll(COLOR_BLACK, getColor()))
       case ColorScheme.light:
         return this.encode(MonochromeSpriteContent.get(this.spriteName))
     }
@@ -65,7 +64,7 @@ export class ColoredSprite extends Sprite {
       case ColorScheme.dark:
         return this.encode(
           ColorSpriteContent.get(this.spriteName)
-            .replaceAll(COLOR_BLACK, COLOR_WHITE)
+            .replaceAll(COLOR_BLACK, getColor())
             .replaceAll(COLOR_YELLOW, this.color.darkColor),
         )
       case ColorScheme.light:

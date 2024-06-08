@@ -6,10 +6,10 @@ import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
 import { EventManager } from "./front/event-manager"
+import { GameScreen } from "./front/game-screen"
 import { registerIcons } from "../common/front/icons/register"
 import { ScreenIntro } from "./front/intro/screen-intro"
 import { ScreenTower } from "./front/tower/screen-tower"
-import { GameScreen } from "./front/game-screen"
 
 /**
  * @license

@@ -1,10 +1,10 @@
-import { Game } from "../../game"
-import { TowerInfo } from "../../towers/tower-info"
 import { AlertVariant, showAlert } from "../../../common/front/alert"
-import { TILES_IN_ROW } from "../../../common/data/constants"
 import { html, render } from "uhtml"
+import { Game } from "../../game"
 import { GameScreen } from "../game-screen"
 import { Map } from "./map"
+import { TILES_IN_ROW } from "../../../common/data/constants"
+import { TowerInfo } from "../../towers/tower-info"
 
 export class ScreenTower {
   private static readonly INFO_BAR_MIN_WIDTH = 400
@@ -62,7 +62,7 @@ export class ScreenTower {
     })
   }
 
-  private towerSelected(selectedTower: TowerInfo) {
+  private towerSelected(selectedTower: TowerInfo): void {
     console.debug("ScreenTower", "towerSelected", selectedTower.name)
     fetch(`towers/${selectedTower.file}`).then(async (response) => {
       if (!response.ok) {

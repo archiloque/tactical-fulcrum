@@ -1,8 +1,8 @@
-import { Game } from "../../game"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
-import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { ScreenTower } from "./screen-tower"
 import { FederatedPointerEvent } from "pixi.js"
+import { Game } from "../../game"
+import { ScreenTower } from "./screen-tower"
+import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 
 export class Map extends AbstractMap {
   private readonly game: Game

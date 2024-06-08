@@ -8,7 +8,7 @@
     "build": "node esbuild.build.mjs",
     "serve-editor": "node esbuild.serve-editor.mjs",
     "serve-game": "node esbuild.serve-game.mjs",
-    "lint": "npx eslint --fix 'editor/**/*.ts'",
+    "lint": "npx eslint --fix 'common/**/*.ts' 'editor/**/*.ts' 'game/**/*.ts'",
     "build-sprites": "node build-sprites.mjs",
     "build-towers-list": "node build-towers-list.mjs",
     "prettier": "npx prettier . --write",

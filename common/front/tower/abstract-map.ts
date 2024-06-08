@@ -1,21 +1,10 @@
 import { Application, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
+import { ColorScheme, currentColorScheme, getBackgroundColor, getCssProperty } from "../color-scheme"
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
-import { ColorScheme, currentColorScheme } from "../color-scheme"
-import { Spriter } from "../../../editor/front/maps/spriter"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { TabMaps } from "../../../editor/front/maps/tab-maps"
+import { Spriter } from "../../../editor/front/maps/spriter"
 
 export abstract class AbstractMap {
-  protected static readonly BACKGROUND_COLORS = {
-    [ColorScheme.dark]: "#000000",
-    [ColorScheme.light]: "#FFFFFF",
-  }
-
-  protected static readonly FOREGROUND_COLORS = {
-    [ColorScheme.dark]: "#cccccc",
-    [ColorScheme.light]: "#000000",
-  }
-
   private readonly lastMousePosition: Point = new Point()
   protected colorScheme: ColorScheme = currentColorScheme()
   protected lastMouseTile: Point = new Point(-1, -1)
@@ -32,12 +21,17 @@ export abstract class AbstractMap {
     this.app = new Application()
     this.background = new Sprite()
     this.background.eventMode = "dynamic"
-    this.cursor = new Graphics().rect(0, 0, this.tileSize, this.tileSize).stroke({
+    this.cursor = new Graphics()
+    this.setupCursor()
+    this.cursor.eventMode = "none"
+  }
+
+  private setupCursor(): void {
+    this.cursor.rect(0, 0, this.tileSize, this.tileSize).stroke({
       width: 1,
-      color: 0xff0000,
+      color: getCssProperty("--sl-color-danger-600"),
       alignment: 1,
     })
-    this.cursor.eventMode = "none"
   }
 
   private pointerEnter(): void {
@@ -72,7 +66,7 @@ export abstract class AbstractMap {
     this.background.on("pointerleave", () => this.pointerLeave())
     return Promise.all([
       this.app.init({
-        background: AbstractMap.BACKGROUND_COLORS[currentColorScheme()],
+        background: getBackgroundColor(),
       }),
       this.sprites.reload(this.tileSize, currentColorScheme()),
     ]).then(() => {
@@ -84,7 +78,9 @@ export abstract class AbstractMap {
   protected schemeChanged(colorScheme: ColorScheme): void {
     this.colorScheme = colorScheme
     // @ts-ignore
-    this.app.setBackgroundColor(Map.BACKGROUND_COLORS[colorScheme])
+    this.app.setBackgroundColor(getBackgroundColor())
+    this.cursor.clear()
+    this.setupCursor()
     this.sprites.reload(this.tileSize, colorScheme).then(() => {
       this.repaint()
     })

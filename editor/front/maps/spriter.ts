@@ -1,19 +1,18 @@
 import { Assets, Sprite } from "pixi.js"
 import { SpriteName, SPRITES } from "./sprites"
-import { ColorScheme } from "../../../common/front/color-scheme"
 
 export class Spriter {
   private tileSize: number
 
-  async reload(tileSize: number, colorScheme: ColorScheme): Promise<any> {
-    console.debug("Spriter", "reload", "size", tileSize, "color scheme", colorScheme)
+  async reload(tileSize: number): Promise<any> {
+    console.debug("Spriter", "reload", "size", tileSize)
     this.tileSize = tileSize
     Assets.cache.reset()
     const toLoad = []
     for (const [spriteName, sprite] of SPRITES.entries()) {
       toLoad.push({
         alias: spriteName.valueOf().toString(),
-        src: sprite.getValue(colorScheme),
+        src: sprite.getValue(),
         data: {
           height: tileSize * window.devicePixelRatio,
           width: tileSize * window.devicePixelRatio,

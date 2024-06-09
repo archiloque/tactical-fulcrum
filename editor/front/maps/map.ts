@@ -2,7 +2,7 @@ import { Container, FederatedPointerEvent, Point, Text } from "pixi.js"
 import { EnemyTile, ItemTile, Tile, TileType } from "../../../common/models/tile"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { Editor } from "../../editor"
-import { getColor } from "../../../common/front/color-scheme"
+import { getTextColor } from "../../../common/front/color-scheme"
 import { Room } from "../../../common/models/room"
 import { RoomLayer } from "../room-layer"
 import { Score } from "../../../common/models/score"
@@ -193,7 +193,7 @@ export class Map extends AbstractMap {
               style: {
                 fontFamily: "JetBrains Mono",
                 fontSize: this.tileSize / 2,
-                fill: getColor(),
+                fill: getTextColor(),
                 align: "center",
               },
             })

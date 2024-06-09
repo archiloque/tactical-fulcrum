@@ -1,35 +1,27 @@
-import { ColorScheme, getColor } from "../../../common/front/color-scheme"
 import { ColorSpriteContent, ColorSpriteName } from "../../../common/front/sprites/color-sprite-content"
+import { getCssProperty, getTextColor } from "../../../common/front/color-scheme"
 import { MonochromeSpriteContent, MonochromeSpriteName } from "../../../common/front/sprites/monochrome-sprite-content"
 
-const COLOR_BLACK = "#000"
-const COLOR_YELLOW = "#ff0"
-
-class SpriteColors {
-  readonly lightColor: string
-  readonly darkColor: string
-
-  constructor(lightColor: string, darkColor: string) {
-    this.lightColor = lightColor
-    this.darkColor = darkColor
-  }
-}
+const INITIAL_COLOR_BLACK = "#000"
+const INITIAL_COLOR_YELLOW = "#ff0"
 
 abstract class Sprite {
-  abstract getValue(colorScheme: ColorScheme): string
+  abstract getValue(): string
 
   encode(value: string): string {
     return `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" ${value}</svg>`)}`
   }
 }
 
-const COLORS_YELLOW = new SpriteColors(COLOR_YELLOW, "#AAAA00")
-const COLORS_BLUE = new SpriteColors("#2563eb", "#1E40AF")
-const COLORS_CRIMSON = new SpriteColors("#ff0000", "#660000")
-const COLORS_GREEN = new SpriteColors("#65ff00", "#3d9900")
-const COLORS_GREEN_BLUE = new SpriteColors("#14b8a6", "#084a42")
-const COLORS_PLATINUM = new SpriteColors("#8E8E8E", "#8E8E8E")
-const COLORS_VIOLET = new SpriteColors("#a855f7", "#44067f")
+enum Colors {
+  blue = "--sl-color-blue-500",
+  green = "--sl-color-green-500",
+  platinum = "--sl-color-gray-500",
+  red = "--sl-color-red-500",
+  teal = "--sl-color-teal-500",
+  violet = "--sl-color-violet-500",
+  yellow = "--sl-color-yellow-500",
+}
 
 export class MonochromeSprite extends Sprite {
   private readonly spriteName: MonochromeSpriteName
@@ -39,40 +31,29 @@ export class MonochromeSprite extends Sprite {
     this.spriteName = lightContent
   }
 
-  getValue(colorScheme: ColorScheme): string {
-    switch (colorScheme) {
-      case ColorScheme.dark:
-        return this.encode(MonochromeSpriteContent.get(this.spriteName).replaceAll(COLOR_BLACK, getColor()))
-      case ColorScheme.light:
-        return this.encode(MonochromeSpriteContent.get(this.spriteName))
-    }
+  getValue(): string {
+    return this.encode(MonochromeSpriteContent.get(this.spriteName).replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
   }
 }
 
 export class ColoredSprite extends Sprite {
   private readonly spriteName: ColorSpriteName
-  private readonly color: SpriteColors
+  private readonly color: Colors
 
-  constructor(lightContent: ColorSpriteName, color: SpriteColors) {
+  constructor(lightContent: ColorSpriteName, color: Colors) {
     super()
     this.spriteName = lightContent
     this.color = color
   }
 
-  getValue(colorScheme: ColorScheme): string {
-    switch (colorScheme) {
-      case ColorScheme.dark:
-        return this.encode(
-          ColorSpriteContent.get(this.spriteName)
-            .replaceAll(COLOR_BLACK, getColor())
-            .replaceAll(COLOR_YELLOW, this.color.darkColor),
-        )
-      case ColorScheme.light:
-        return this.encode(ColorSpriteContent.get(this.spriteName).replaceAll(COLOR_YELLOW, this.color.lightColor))
-    }
+  getValue(): string {
+    return this.encode(
+      ColorSpriteContent.get(this.spriteName)
+        .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
+        .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),
+    )
   }
 }
-
 export const enum SpriteName {
   doorBlue,
   doorCrimson,
@@ -123,12 +104,12 @@ export const enum SpriteName {
 }
 
 export const SPRITES = new Map<SpriteName, Sprite>([
-  [SpriteName.doorBlue, new ColoredSprite(ColorSpriteName.DOOR, COLORS_BLUE)],
-  [SpriteName.doorCrimson, new ColoredSprite(ColorSpriteName.DOOR, COLORS_CRIMSON)],
-  [SpriteName.doorGreenBlue, new ColoredSprite(ColorSpriteName.DOOR, COLORS_GREEN_BLUE)],
-  [SpriteName.doorPlatinum, new ColoredSprite(ColorSpriteName.DOOR, COLORS_PLATINUM)],
-  [SpriteName.doorViolet, new ColoredSprite(ColorSpriteName.DOOR, COLORS_VIOLET)],
-  [SpriteName.doorYellow, new ColoredSprite(ColorSpriteName.DOOR, COLORS_YELLOW)],
+  [SpriteName.doorBlue, new ColoredSprite(ColorSpriteName.DOOR, Colors.blue)],
+  [SpriteName.doorCrimson, new ColoredSprite(ColorSpriteName.DOOR, Colors.red)],
+  [SpriteName.doorGreenBlue, new ColoredSprite(ColorSpriteName.DOOR, Colors.teal)],
+  [SpriteName.doorPlatinum, new ColoredSprite(ColorSpriteName.DOOR, Colors.platinum)],
+  [SpriteName.doorViolet, new ColoredSprite(ColorSpriteName.DOOR, Colors.violet)],
+  [SpriteName.doorYellow, new ColoredSprite(ColorSpriteName.DOOR, Colors.yellow)],
 
   [SpriteName.enemyBurgeoner, new MonochromeSprite(MonochromeSpriteName.ENEMY_HAMMER)],
   [SpriteName.enemyFighter, new MonochromeSprite(MonochromeSpriteName.ENEMY_SWORD)],
@@ -138,30 +119,30 @@ export const SPRITES = new Map<SpriteName, Sprite>([
 
   [SpriteName.itemBookShield, new MonochromeSprite(MonochromeSpriteName.ITEM_BOOK_SHIELD)],
   [SpriteName.itemBookSword, new MonochromeSprite(MonochromeSpriteName.ITEM_BOOK_SWORD)],
-  [SpriteName.itemBluePotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, COLORS_BLUE)],
-  [SpriteName.itemDropOfDreamOcean, new ColoredSprite(ColorSpriteName.ITEM_DROP, COLORS_BLUE)],
+  [SpriteName.itemBluePotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, Colors.blue)],
+  [SpriteName.itemDropOfDreamOcean, new ColoredSprite(ColorSpriteName.ITEM_DROP, Colors.blue)],
   [SpriteName.itemGoldenFeather, new MonochromeSprite(MonochromeSpriteName.ITEM_FEATHER)],
-  [SpriteName.itemGuardCard, new ColoredSprite(ColorSpriteName.ITEM_CARD, COLORS_BLUE)],
-  [SpriteName.itemGuardDeck, new ColoredSprite(ColorSpriteName.ITEM_CARDS, COLORS_BLUE)],
-  [SpriteName.itemGuardGem, new ColoredSprite(ColorSpriteName.ITEM_GEM, COLORS_BLUE)],
-  [SpriteName.itemGuardPiece, new ColoredSprite(ColorSpriteName.ITEM_PIECE, COLORS_BLUE)],
-  [SpriteName.itemGuardPotion, new ColoredSprite(ColorSpriteName.ITEM_JUG, COLORS_BLUE)],
-  [SpriteName.itemHeavenlyPotion, new ColoredSprite(ColorSpriteName.ITEM_CARDS, COLORS_YELLOW)],
-  [SpriteName.itemLifeCrown, new ColoredSprite(ColorSpriteName.ITEM_CROWN, COLORS_CRIMSON)],
-  [SpriteName.itemLifePotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, COLORS_GREEN)],
-  [SpriteName.itemPowerCard, new ColoredSprite(ColorSpriteName.ITEM_CARD, COLORS_CRIMSON)],
-  [SpriteName.itemPowerDeck, new ColoredSprite(ColorSpriteName.ITEM_CARDS, COLORS_CRIMSON)],
-  [SpriteName.itemPowerGem, new ColoredSprite(ColorSpriteName.ITEM_GEM, COLORS_CRIMSON)],
-  [SpriteName.itemPowerPiece, new ColoredSprite(ColorSpriteName.ITEM_PIECE, COLORS_CRIMSON)],
-  [SpriteName.itemPowerPotion, new ColoredSprite(ColorSpriteName.ITEM_JUG, COLORS_CRIMSON)],
-  [SpriteName.itemRedPotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, COLORS_CRIMSON)],
+  [SpriteName.itemGuardCard, new ColoredSprite(ColorSpriteName.ITEM_CARD, Colors.blue)],
+  [SpriteName.itemGuardDeck, new ColoredSprite(ColorSpriteName.ITEM_CARDS, Colors.blue)],
+  [SpriteName.itemGuardGem, new ColoredSprite(ColorSpriteName.ITEM_GEM, Colors.blue)],
+  [SpriteName.itemGuardPiece, new ColoredSprite(ColorSpriteName.ITEM_PIECE, Colors.blue)],
+  [SpriteName.itemGuardPotion, new ColoredSprite(ColorSpriteName.ITEM_JUG, Colors.blue)],
+  [SpriteName.itemHeavenlyPotion, new ColoredSprite(ColorSpriteName.ITEM_CARDS, Colors.yellow)],
+  [SpriteName.itemLifeCrown, new ColoredSprite(ColorSpriteName.ITEM_CROWN, Colors.red)],
+  [SpriteName.itemLifePotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, Colors.green)],
+  [SpriteName.itemPowerCard, new ColoredSprite(ColorSpriteName.ITEM_CARD, Colors.red)],
+  [SpriteName.itemPowerDeck, new ColoredSprite(ColorSpriteName.ITEM_CARDS, Colors.red)],
+  [SpriteName.itemPowerGem, new ColoredSprite(ColorSpriteName.ITEM_GEM, Colors.red)],
+  [SpriteName.itemPowerPiece, new ColoredSprite(ColorSpriteName.ITEM_PIECE, Colors.red)],
+  [SpriteName.itemPowerPotion, new ColoredSprite(ColorSpriteName.ITEM_JUG, Colors.red)],
+  [SpriteName.itemRedPotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, Colors.red)],
 
-  [SpriteName.keyBlue, new ColoredSprite(ColorSpriteName.KEY, COLORS_BLUE)],
-  [SpriteName.keyCrimson, new ColoredSprite(ColorSpriteName.KEY, COLORS_CRIMSON)],
-  [SpriteName.keyGreenBlue, new ColoredSprite(ColorSpriteName.KEY, COLORS_GREEN_BLUE)],
-  [SpriteName.keyPlatinum, new ColoredSprite(ColorSpriteName.KEY, COLORS_PLATINUM)],
-  [SpriteName.keyViolet, new ColoredSprite(ColorSpriteName.KEY, COLORS_VIOLET)],
-  [SpriteName.keyYellow, new ColoredSprite(ColorSpriteName.KEY, COLORS_YELLOW)],
+  [SpriteName.keyBlue, new ColoredSprite(ColorSpriteName.KEY, Colors.blue)],
+  [SpriteName.keyCrimson, new ColoredSprite(ColorSpriteName.KEY, Colors.red)],
+  [SpriteName.keyGreenBlue, new ColoredSprite(ColorSpriteName.KEY, Colors.teal)],
+  [SpriteName.keyPlatinum, new ColoredSprite(ColorSpriteName.KEY, Colors.platinum)],
+  [SpriteName.keyViolet, new ColoredSprite(ColorSpriteName.KEY, Colors.violet)],
+  [SpriteName.keyYellow, new ColoredSprite(ColorSpriteName.KEY, Colors.yellow)],
   [SpriteName.scoreCheck, new MonochromeSprite(MonochromeSpriteName.SCORE_CHECK)],
   [SpriteName.scoreCrown, new MonochromeSprite(MonochromeSpriteName.SCORE_CROWN)],
   [SpriteName.scoreStar, new MonochromeSprite(MonochromeSpriteName.SCORE_STAR)],

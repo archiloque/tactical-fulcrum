@@ -1,12 +1,11 @@
 import { Application, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
-import { ColorScheme, currentColorScheme, getBackgroundColor, getCssProperty } from "../color-scheme"
+import { ColorScheme, getBackgroundColor, getCssProperty } from "../color-scheme"
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 import { Spriter } from "../../../editor/front/maps/spriter"
 
 export abstract class AbstractMap {
   private readonly lastMousePosition: Point = new Point()
-  protected colorScheme: ColorScheme = currentColorScheme()
   protected lastMouseTile: Point = new Point(-1, -1)
   protected readonly background: Sprite
   protected readonly cursor: Graphics
@@ -56,7 +55,7 @@ export abstract class AbstractMap {
       this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
       this.sprites = new Spriter()
       this.toolTip.style.width = `${newTileSize}px`
-      return this.sprites.reload(this.tileSize, currentColorScheme()).then(() => this.repaint())
+      return this.sprites.reload(this.tileSize).then(() => this.repaint())
     }
   }
 
@@ -68,7 +67,7 @@ export abstract class AbstractMap {
       this.app.init({
         background: getBackgroundColor(),
       }),
-      this.sprites.reload(this.tileSize, currentColorScheme()),
+      this.sprites.reload(this.tileSize),
     ]).then(() => {
       this.app.stage.addChild(this.background)
       this.app.stage.addChild(this.cursor)
@@ -76,12 +75,11 @@ export abstract class AbstractMap {
   }
 
   protected schemeChanged(colorScheme: ColorScheme): void {
-    this.colorScheme = colorScheme
     // @ts-ignore
     this.app.setBackgroundColor(getBackgroundColor())
     this.cursor.clear()
     this.setupCursor()
-    this.sprites.reload(this.tileSize, colorScheme).then(() => {
+    this.sprites.reload(this.tileSize).then(() => {
       this.repaint()
     })
   }

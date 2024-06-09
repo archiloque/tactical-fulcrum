@@ -127,7 +127,7 @@ export const SPRITES = new Map<SpriteName, Sprite>([
   [SpriteName.itemGuardGem, new ColoredSprite(ColorSpriteName.ITEM_GEM, Colors.blue)],
   [SpriteName.itemGuardPiece, new ColoredSprite(ColorSpriteName.ITEM_PIECE, Colors.blue)],
   [SpriteName.itemGuardPotion, new ColoredSprite(ColorSpriteName.ITEM_JUG, Colors.blue)],
-  [SpriteName.itemHeavenlyPotion, new ColoredSprite(ColorSpriteName.ITEM_CARDS, Colors.yellow)],
+  [SpriteName.itemHeavenlyPotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, Colors.yellow)],
   [SpriteName.itemLifeCrown, new ColoredSprite(ColorSpriteName.ITEM_CROWN, Colors.red)],
   [SpriteName.itemLifePotion, new ColoredSprite(ColorSpriteName.ITEM_POTION, Colors.green)],
   [SpriteName.itemPowerCard, new ColoredSprite(ColorSpriteName.ITEM_CARD, Colors.red)],

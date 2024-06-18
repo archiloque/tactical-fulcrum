@@ -1,5 +1,5 @@
 import { Application, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
-import { ColorScheme, getBackgroundColor, getCssProperty } from "../color-scheme"
+import { getBackgroundColor, getCssProperty } from "../color-scheme"
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 import { Spriter } from "../../../editor/front/maps/spriter"
@@ -74,7 +74,7 @@ export abstract class AbstractMap {
     })
   }
 
-  protected schemeChanged(colorScheme: ColorScheme): void {
+  protected schemeChanged(): void {
     // @ts-ignore
     this.app.setBackgroundColor(getBackgroundColor())
     this.cursor.clear()

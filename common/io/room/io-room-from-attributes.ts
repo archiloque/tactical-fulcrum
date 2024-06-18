@@ -35,11 +35,19 @@ export class IoRoomFromAttributes {
           for (let columnIndex = 0; columnIndex < TILES_IN_ROW && columnIndex < tilesLine.length; columnIndex++) {
             const tileAttributes = tilesLine[columnIndex]
             const possibleTile = IoRoomFromAttributes.createTile(tileAttributes, enemies)
-            console.debug("IoRoomFromAttributes", "fromAttributes", tileAttributes, possibleTile)
             if (possibleTile != null) {
+              console.debug(
+                "IoRoomFromAttributes",
+                "fromAttributes",
+                lineIndex,
+                columnIndex,
+                tileAttributes,
+                possibleTile.getType(),
+                possibleTile,
+              )
               result.tiles[lineIndex][columnIndex] = possibleTile
             } else {
-              console.error("IoRoomFromAttributes", "fromAttributes", tileAttributes)
+              console.error("IoRoomFromAttributes", "fromAttributes", lineIndex, columnIndex, tileAttributes)
             }
           }
         }

@@ -29,7 +29,7 @@ export class Map extends AbstractMap {
     this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
     this.editor.eventManager.registerTileSelection((selectedTile) => this.tileSelected(selectedTile))
     this.editor.eventManager.registerScoreSelection((scoreType) => this.scoreSelected(scoreType))
-    this.editor.eventManager.registerSchemeChange((colorScheme) => this.schemeChanged(colorScheme))
+    this.editor.eventManager.registerSchemeChange(() => this.schemeChanged())
     this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
   }
 

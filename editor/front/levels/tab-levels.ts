@@ -1,5 +1,6 @@
 import { Hole, html, render } from "uhtml"
 import { AbstractTab } from "../abstract-tab"
+import { DefaultIconsName } from "../../../common/front/icons/default-icons"
 import { Editor } from "../../editor"
 import { Level } from "../../../common/models/level"
 import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
@@ -28,7 +29,7 @@ export class TabLevels extends AbstractTab {
       ${this.numberInput(level.crimsonKey, this.crimsonKeyChange, 0, "Crimson keys")}
       ${this.numberInput(level.yellowKey, this.yellowKeyChange, 0, "Yellow keys")}
       <sl-button onclick="${this.deleteLevel}" variant="danger" class="delete">
-        <sl-icon name="trash"></sl-icon>
+        <sl-icon name="${DefaultIconsName.TRASH}"></sl-icon>
       </sl-button>
     </div>`
   }
@@ -46,7 +47,7 @@ export class TabLevels extends AbstractTab {
         ${this.editor.tower.levels.map((level: Level, levelIndex: number) => this.renderLevel(level, levelIndex))}
         <div class="addButtonDiv">
           <sl-button variant="primary" onclick="${this.addLevel}">
-            <sl-icon name="plus-circle"></sl-icon>
+            <sl-icon name="${DefaultIconsName.PLUS_CIRCLE}"></sl-icon>
           </sl-button>
         </div>
       `,

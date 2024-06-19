@@ -5,7 +5,7 @@ import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
 import { ScreenTower } from "./screen-tower"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { SpritesToItem } from "../../../editor/front/maps/sprites-to-item"
+import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
 export class Map extends AbstractMap {
@@ -49,7 +49,7 @@ export class Map extends AbstractMap {
         const y = this.tileSize * lineIndex
         if (currentScore !== undefined) {
           const scoreSpriteName = SpritesToItem.spriteNameFromScore(currentScore.type)
-          const scoreSprite = this.sprites.getSprite(scoreSpriteName)
+          const scoreSprite = this.spriter.getSprite(scoreSpriteName)
           scoreSprite.x = x
           scoreSprite.y = y
           if (spriteName !== null || hasPlayer) {
@@ -58,13 +58,13 @@ export class Map extends AbstractMap {
           this.tiles.addChild(scoreSprite)
         }
         if (hasPlayer) {
-          const playerSprite = this.sprites.getSprite(SpritesToItem.spriteNameFromTile(STARTING_POSITION_TILE))
+          const playerSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile(STARTING_POSITION_TILE))
           playerSprite.x = x
           playerSprite.y = y
           this.tiles.addChild(playerSprite)
         }
         if (spriteName !== null) {
-          const sprite = this.sprites.getSprite(spriteName)
+          const sprite = this.spriter.getSprite(spriteName)
           sprite.x = x
           sprite.y = y
           if (hasPlayer) {

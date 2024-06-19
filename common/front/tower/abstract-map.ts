@@ -2,14 +2,14 @@ import { Application, FederatedPointerEvent, Graphics, Point, Sprite } from "pix
 import { getBackgroundColor, getCssProperty } from "../color-scheme"
 import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { Spriter } from "../../../editor/front/maps/spriter"
+import { Spriter } from "../map/spriter"
 
 export abstract class AbstractMap {
   private readonly lastMousePosition: Point = new Point()
   protected lastMouseTile: Point = new Point(-1, -1)
   protected readonly background: Sprite
   protected readonly cursor: Graphics
-  protected sprites: Spriter = new Spriter()
+  protected readonly spriter: Spriter = new Spriter("map")
   protected tileSize: number = TILES_DEFAULT_SIZE
   protected toolTip: HTMLElement
   protected toolTipTimeout: number = null
@@ -53,9 +53,8 @@ export abstract class AbstractMap {
       this.background.width = appSize
       this.background.height = appSize
       this.cursor.scale = this.tileSize / TILES_DEFAULT_SIZE
-      this.sprites = new Spriter()
       this.toolTip.style.width = `${newTileSize}px`
-      return this.sprites.reload(this.tileSize).then(() => this.repaint())
+      return this.spriter.reload(this.tileSize).then(() => this.repaint())
     }
   }
 
@@ -67,7 +66,7 @@ export abstract class AbstractMap {
       this.app.init({
         background: getBackgroundColor(),
       }),
-      this.sprites.reload(this.tileSize),
+      this.spriter.reload(this.tileSize),
     ]).then(() => {
       this.app.stage.addChild(this.background)
       this.app.stage.addChild(this.cursor)
@@ -79,7 +78,7 @@ export abstract class AbstractMap {
     this.app.setBackgroundColor(getBackgroundColor())
     this.cursor.clear()
     this.setupCursor()
-    this.sprites.reload(this.tileSize).then(() => {
+    this.spriter.reload(this.tileSize).then(() => {
       this.repaint()
     })
   }

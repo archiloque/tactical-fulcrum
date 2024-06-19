@@ -10,7 +10,7 @@ import { ScoreType } from "../../../common/data/score-type"
 import { SelectedRoom } from "./selected-room"
 import { SHIFT } from "../keys"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { SpritesToItem } from "./sprites-to-item"
+import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TabMaps } from "./tab-maps"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
@@ -181,7 +181,7 @@ export class Map extends AbstractMap {
           const currentTile = currentRoom.tiles[lineIndex][columnIndex]
           const spriteName = SpritesToItem.spriteNameFromTile(currentTile)
           if (spriteName != null) {
-            const sprite = this.sprites.getSprite(spriteName)
+            const sprite = this.spriter.getSprite(spriteName)
             sprite.x = this.tileSize * columnIndex
             sprite.y = this.tileSize * lineIndex
             this.standardTiles.addChild(sprite)
@@ -213,7 +213,7 @@ export class Map extends AbstractMap {
       const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       for (const score of currentRoom.scores) {
         const spriteName = SpritesToItem.spriteNameFromScore(score.type)
-        const sprite = this.sprites.getSprite(spriteName)
+        const sprite = this.spriter.getSprite(spriteName)
         sprite.x = this.tileSize * score.column
         sprite.y = this.tileSize * score.line
         this.scoreTiles.addChild(sprite)

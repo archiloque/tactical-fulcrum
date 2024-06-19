@@ -1,16 +1,13 @@
-import { ColorSpriteContent, ColorSpriteName } from "../../../common/front/sprites/color-sprite-content"
-import { getCssProperty, getTextColor } from "../../../common/front/color-scheme"
-import { MonochromeSpriteContent, MonochromeSpriteName } from "../../../common/front/sprites/monochrome-sprite-content"
+import { ColorSpriteContent, ColorSpriteName } from "../sprites/color-sprite-content"
+import { getCssProperty, getTextColor } from "../color-scheme"
+import { MonochromeSpriteContent, MonochromeSpriteName } from "../sprites/monochrome-sprite-content"
+import { decodeSvg } from "../icons/decode-svg"
 
 const INITIAL_COLOR_BLACK = "#000"
 const INITIAL_COLOR_YELLOW = "#ff0"
 
 abstract class Sprite {
   abstract getValue(): string
-
-  encode(value: string): string {
-    return `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" ${value}</svg>`)}`
-  }
 }
 
 enum Colors {
@@ -32,7 +29,7 @@ export class MonochromeSprite extends Sprite {
   }
 
   getValue(): string {
-    return this.encode(MonochromeSpriteContent.get(this.spriteName).replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
+    return decodeSvg(MonochromeSpriteContent.get(this.spriteName).replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
   }
 }
 
@@ -47,7 +44,7 @@ export class ColoredSprite extends Sprite {
   }
 
   getValue(): string {
-    return this.encode(
+    return decodeSvg(
       ColorSpriteContent.get(this.spriteName)
         .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
         .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),

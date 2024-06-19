@@ -15,17 +15,33 @@ export class PlayerPosition {
   }
 }
 
+export class PlayerInfo {
+  hp: number
+  atk: number
+  def: number
+  exp: number
+
+  constructor(hp: number, atk: number, def: number) {
+    this.hp = hp
+    this.atk = atk
+    this.def = def
+    this.exp = 0
+  }
+}
+
 export class PlayedTower {
   readonly tower: Tower
   readonly playerPosition: PlayerPosition
   readonly standardRooms: Tile[][][]
   readonly nexusRooms: Tile[][][]
+  readonly playerInfo: PlayerInfo
 
   constructor(tower: Tower) {
     this.tower = tower
     this.standardRooms = this.cloneRoom(tower.standardRooms)
     this.nexusRooms = this.cloneRoom(tower.nexusRooms)
     this.playerPosition = this.findStartingPosition(this.standardRooms)
+    this.playerInfo = new PlayerInfo(tower.info.hp, tower.info.atk, tower.info.def)
   }
 
   private cloneRoom(rooms: Room[]): Tile[][][] {

@@ -1,4 +1,5 @@
 import { Hole, html, render } from "uhtml"
+import { DefaultIconsName } from "../../../common/front/icons/default-icons"
 import { Editor } from "../../editor"
 import { Room } from "../../../common/models/room"
 import { RoomType } from "../../../common/data/room-type"
@@ -34,13 +35,13 @@ export class Rooms {
       <sl-input id="tabMapRoomName" @sl-input="${this.nameChanged}" placeholder="Name"></sl-input>
       <div id="tabMapRoomButtons">
         <sl-button id="tabMapRoomButtonUp" variant="neutral" onclick="${this.moveUp}">
-          <sl-icon name="arrow-up"></sl-icon>
+          <sl-icon name="${DefaultIconsName.ARROW_UP}"></sl-icon>
         </sl-button>
         <sl-button id="tabMapRoomButtonDown" variant="neutral" onclick="${this.moveDown}">
-          <sl-icon name="arrow-down"></sl-icon>
+          <sl-icon name="${DefaultIconsName.ARROW_DOWN}"></sl-icon>
         </sl-button>
         <sl-button variant="danger" onclick="${this.delete}">
-          <sl-icon name="trash"></sl-icon>
+          <sl-icon name="${DefaultIconsName.TRASH}"></sl-icon>
         </sl-button>
       </div>
       <sl-tree selection="leaf" @sl-selection-change="${this.roomSelection}">
@@ -49,7 +50,7 @@ export class Rooms {
       </sl-tree>
       <div id="tabMapRoomAdd">
         <sl-button variant="primary" onclick="${this.addRoomButton}">
-          <sl-icon name="plus-circle"></sl-icon>
+          <sl-icon name="${DefaultIconsName.PLUS_CIRCLE}"></sl-icon>
         </sl-button>
       </div>
       <sl-dialog label="Delete room" id="tabMapRoomDeleteDialog">

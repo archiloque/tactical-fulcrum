@@ -25,7 +25,7 @@ import { EditorTower } from "./models/editor-tower"
 import { EMPTY_TILE } from "../common/models/tile"
 import { EventManager } from "./front/event-manager"
 import { MainMenu } from "./front/main-menu"
-import { registerIcons } from "../common/front/icons/register"
+import { registerDefaultIcons } from "../common/front/icons/register-default"
 import { Tab } from "./front/tab"
 import { TabEnemies } from "./front/enemies/tab-enemies"
 import { TabImportExport } from "./front/import-export/tab-import-export"
@@ -40,7 +40,7 @@ import { TabMaps } from "./front/maps/tab-maps"
  * SPDX-License-Identifier: GPL-3.0
  */
 
-registerIcons()
+registerDefaultIcons()
 
 export class Editor {
   readonly tower: EditorTower

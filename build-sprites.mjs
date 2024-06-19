@@ -44,7 +44,18 @@ const SPRITES_COLORS = [
   "item-crown",
 ]
 
-const IN_DIR = "assets/sprites/in"
+const EDITOR_ICONS = [
+  "arrow-up",
+  "arrow-down",
+  "check2-circle",
+  "exclamation-triangle",
+  "exclamation-octagon",
+  "plus-circle",
+  "trash",
+]
+
+const CUSTOM_ICONS = ["heart"]
+const IN_DIR = "assets/sprites"
 
 function optimizeSvg(content) {
   const result = optimize(content, {
@@ -56,10 +67,7 @@ function optimizeSvg(content) {
 const SVG_STARTING_CONTENT = '<svg xmlns="http://www.w3.org/2000/svg" '
 const SVG_ENDING_CONTENT = "</svg>"
 
-function commonProcess(spriteName) {
-  const sourcePath = path.join(IN_DIR, `${spriteName}.svg`)
-  console.info(sourcePath)
-  let content = fs.readFileSync(sourcePath, { encoding: "utf8" })
+function canonizeBlack(content) {
   content = content.replaceAll(`${BLACK_SHORT};`, `${BLACK_FULL};`)
   if (!content.includes(`${BLACK_FULL};`)) {
     throw new Error(`No black found in [${sourcePath}]`)
@@ -67,11 +75,17 @@ function commonProcess(spriteName) {
   return content
 }
 
+function commonProcess(spriteName) {
+  const sourcePath = path.join(IN_DIR, `${spriteName}.svg`)
+  console.info(sourcePath)
+  return canonizeBlack(fs.readFileSync(sourcePath, { encoding: "utf8" }))
+}
+
 function constantName(spriteName) {
   return spriteName.toLocaleUpperCase().replaceAll("-", "_")
 }
 
-function spriteConstant(nameEnum, spriteName, content) {
+function simplifySvG(content, spriteName) {
   let svgContent = optimizeSvg(content).replaceAll('xml:space="preserve" ', "")
   if (!svgContent.startsWith(SVG_STARTING_CONTENT)) {
     throw new Error(`SVG beginning unexpected [${spriteName}] [${svgContent}]`)
@@ -80,7 +94,11 @@ function spriteConstant(nameEnum, spriteName, content) {
     throw new Error(`SVG ending unexpected [${spriteName}] [${svgContent}]`)
   }
   svgContent = svgContent.substring(SVG_STARTING_CONTENT.length)
-  svgContent = svgContent.substring(0, svgContent.length - SVG_ENDING_CONTENT.length)
+  return svgContent.substring(0, svgContent.length - SVG_ENDING_CONTENT.length)
+}
+
+function spriteConstant(nameEnum, spriteName, content) {
+  let svgContent = simplifySvG(content, spriteName)
   return `  [${nameEnum}.${constantName(spriteName)}, '${svgContent}'],`
 }
 
@@ -119,21 +137,17 @@ for (const spriteName of SPRITES_COLORS) {
 colorFileContent.push("])")
 fs.writeFileSync("common/front/sprites/color-sprite-content.ts", colorFileContent.join("\n"))
 
-const EDITOR_ICONS = [
-  "arrow-up",
-  "arrow-down",
-  "check2-circle",
-  "exclamation-triangle",
-  "exclamation-octagon",
-  "plus-circle",
-  "trash",
-]
-
-const editorIconsContent = []
-
 const ICONS_STARTING_CONTENT = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" '
 
-editorIconsContent.push("export const IconSpriteContent = new Map<string, string>([")
+const editorIconsContent = []
+editorIconsContent.push("export const enum DefaultIconsName {")
+for (const iconName of EDITOR_ICONS) {
+  editorIconsContent.push(`  ${constantName(iconName)} = '${iconName}',`)
+}
+editorIconsContent.push("}")
+editorIconsContent.push("")
+
+editorIconsContent.push("export const DefaultIcons = new Map<string, string>([")
 for (const iconName of EDITOR_ICONS) {
   const sourcePath = `node_modules/@shoelace-style/shoelace/cdn/assets/icons/${iconName}.svg`
   console.info(sourcePath)
@@ -147,7 +161,24 @@ for (const iconName of EDITOR_ICONS) {
   svgContent = svgContent.substring(ICONS_STARTING_CONTENT.length)
   svgContent = svgContent.substring(0, svgContent.length - SVG_ENDING_CONTENT.length)
 
-  editorIconsContent.push(`  ['${iconName}', '${svgContent}'],`)
+  editorIconsContent.push(`  [DefaultIconsName.${constantName(iconName)}, '${svgContent}'],`)
 }
 editorIconsContent.push("])")
-fs.writeFileSync("common/front/icons/icons.ts", editorIconsContent.join("\n"))
+fs.writeFileSync("common/front/icons/default-icons.ts", editorIconsContent.join("\n"))
+
+const customIconsContent = []
+customIconsContent.push("export const enum CustomIconsName {")
+for (const iconName of CUSTOM_ICONS) {
+  customIconsContent.push(`  ${constantName(iconName)} = '${iconName}'`)
+}
+customIconsContent.push("}")
+customIconsContent.push("")
+customIconsContent.push("export const CustomIcons = new Map<string, string>([")
+for (const iconName of CUSTOM_ICONS) {
+  const sourcePath = `assets/icons/${iconName}.svg`
+  let svgContent = canonizeBlack(fs.readFileSync(sourcePath, { encoding: "utf8" }).replaceAll("\n", ""))
+  svgContent = simplifySvG(svgContent, iconName)
+  customIconsContent.push(`  [CustomIconsName.${constantName(iconName)}, '${svgContent}'],`)
+}
+customIconsContent.push("])")
+fs.writeFileSync("common/front/icons/custom-icons.ts", customIconsContent.join("\n"))

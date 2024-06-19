@@ -10,7 +10,8 @@ import { EventManager } from "./front/event-manager"
 import { GameScreen } from "./front/game-screen"
 import { Import } from "../common/io/import"
 import { PlayedTower } from "./models/played-tower"
-import { registerIcons } from "../common/front/icons/register"
+import { registerCustomIcons } from "../common/front/icons/register-custom"
+import { registerDefaultIcons } from "../common/front/icons/register-default"
 import { ScreenIntro } from "./front/intro/screen-intro"
 import { ScreenTower } from "./front/tower/screen-tower"
 import { TowerInfo } from "./towers/tower-info"
@@ -21,7 +22,8 @@ import { TowerInfo } from "./towers/tower-info"
  * SPDX-License-Identifier: GPL-3.0
  */
 
-registerIcons()
+registerDefaultIcons()
+registerCustomIcons()
 
 export class Game {
   private readonly screenIntro: ScreenIntro

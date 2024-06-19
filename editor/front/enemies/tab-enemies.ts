@@ -1,6 +1,7 @@
 import { ENEMY_TYPES, EnemyType } from "../../../common/data/enemy-type"
 import { Hole, html, render } from "uhtml"
 import { AbstractTab } from "../abstract-tab"
+import { DefaultIconsName } from "../../../common/front/icons/default-icons"
 import { DROPS } from "../../../common/data/drop"
 import { Editor } from "../../editor"
 import { Enemy } from "../../../common/models/enemy"
@@ -56,7 +57,7 @@ export class TabEnemies extends AbstractTab {
       </sl-select>
 
       <sl-button onclick="${this.deleteEnemy}" variant="danger" class="delete">
-        <sl-icon name="trash"></sl-icon>
+        <sl-icon name="${DefaultIconsName.TRASH}"></sl-icon>
       </sl-button>
     </div>`
   }
@@ -74,7 +75,7 @@ export class TabEnemies extends AbstractTab {
         ${this.editor.tower.enemies.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
         <div class="addButtonDiv">
           <sl-button variant="primary" onclick="${this.addEnemy}">
-            <sl-icon name="plus-circle"></sl-icon>
+            <sl-icon name="${DefaultIconsName.PLUS_CIRCLE}"></sl-icon>
           </sl-button>
         </div>
         <sl-dialog label="Delete enemy" id="${TabEnemies.DELETE_DIALOG_ID}">

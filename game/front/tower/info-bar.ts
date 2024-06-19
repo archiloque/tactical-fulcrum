@@ -1,5 +1,5 @@
 import { html, render } from "uhtml"
-import { CustomIconsName } from "../../../common/front/icons/custom-icons"
+import { ColorCustomIconsName } from "../../../common/front/icons/color-custom-icons"
 import { Game } from "../../game"
 import { ScreenTower } from "./screen-tower"
 
@@ -16,7 +16,7 @@ export class InfoBar {
     render(
       document.getElementById(ScreenTower.INFO_BAR_ID),
       html` <div id="${InfoBar.HP_ID}">
-        <sl-icon library="tf" name="${CustomIconsName.HEART}"></sl-icon>
+        <sl-icon library="tf" name="${ColorCustomIconsName.HEART}"></sl-icon>${this.game.playerTower.playerInfo.hp}
       </div>`,
     )
     console.debug("InfoBar", "render")

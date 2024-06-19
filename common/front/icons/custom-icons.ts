@@ -1,10 +1,43 @@
-export const enum CustomIconsName {
-  HEART = "heart",
+import { ColorCustomIcons, ColorCustomIconsName } from "./color-custom-icons"
+import { Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW } from "../colors"
+import { getCssProperty, getTextColor } from "../color-scheme"
+import { decodeSvg } from "./decode-svg"
+import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js"
+
+export function registerCustomIcons(): void {
+  registerIconLibrary("tf", {
+    resolver: (name) => {
+      return ICONS.get(name).getValue()
+    },
+    mutator: (svg) => {
+      svg.setAttribute("stroke", "currentColor")
+    },
+  })
 }
 
-export const CustomIcons = new Map<string, string>([
-  [
-    CustomIconsName.HEART,
-    'style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 60 60"><path d="M30 15c-4.499-5.242-12.016-6.862-17.652-2.062s-6.43 12.827-2.004 18.505c3.681 4.721 14.818 14.677 18.468 17.899.409.361.613.541.851.612.208.061.435.061.643 0 .239-.071.443-.251.851-.612 3.65-3.222 14.787-13.178 18.468-17.899 4.426-5.678 3.729-13.755-2.004-18.505S34.499 9.758 30 15" style="fill:none;stroke:#000;stroke-width:4px"/>',
-  ],
+abstract class CustomIcon {
+  abstract getValue(): string
+}
+
+export class ColoredCustomIcon extends CustomIcon {
+  private readonly iconName: ColorCustomIconsName
+  private readonly color: Colors
+
+  constructor(lightContent: ColorCustomIconsName, color: Colors) {
+    super()
+    this.iconName = lightContent
+    this.color = color
+  }
+
+  getValue(): string {
+    return decodeSvg(
+      ColorCustomIcons.get(this.iconName)
+        .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
+        .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),
+    )
+  }
+}
+
+const ICONS = new Map<string, CustomIcon>([
+  [ColorCustomIconsName.HEART.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.HEART, Colors.red)],
 ])

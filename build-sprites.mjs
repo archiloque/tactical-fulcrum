@@ -54,7 +54,7 @@ const EDITOR_ICONS = [
   "trash",
 ]
 
-const CUSTOM_ICONS = ["heart"]
+const CUSTOM_ICONS_COLORS = ["heart"]
 const IN_DIR = "assets/sprites"
 
 function optimizeSvg(content) {
@@ -70,7 +70,17 @@ const SVG_ENDING_CONTENT = "</svg>"
 function canonizeBlack(content) {
   content = content.replaceAll(`${BLACK_SHORT};`, `${BLACK_FULL};`)
   if (!content.includes(`${BLACK_FULL};`)) {
-    throw new Error(`No black found in [${sourcePath}]`)
+    throw new Error(`No black found`)
+  }
+  return content
+}
+
+function canonizeYellow(content) {
+  for (const yellow of OTHER_YELLOWS) {
+    content = content.replaceAll(`${yellow};`, `${YELLOW_FULL};`)
+  }
+  if (!content.includes(`${YELLOW_FULL};`)) {
+    throw new Error(`No yellow found`)
   }
   return content
 }
@@ -125,13 +135,7 @@ colorFileContent.push("}")
 colorFileContent.push("")
 colorFileContent.push("export const ColorSpriteContent = new Map<ColorSpriteName, string>([")
 for (const spriteName of SPRITES_COLORS) {
-  let content = commonProcess(spriteName)
-  for (const yellow of OTHER_YELLOWS) {
-    content = content.replaceAll(`${yellow};`, `${YELLOW_FULL};`)
-  }
-  if (!content.includes(`${YELLOW_FULL};`)) {
-    throw new Error(`No yellow found in [${spriteName}]`)
-  }
+  let content = canonizeYellow(commonProcess(spriteName))
   colorFileContent.push(spriteConstant("ColorSpriteName", spriteName, content))
 }
 colorFileContent.push("])")
@@ -166,19 +170,19 @@ for (const iconName of EDITOR_ICONS) {
 editorIconsContent.push("])")
 fs.writeFileSync("common/front/icons/default-icons.ts", editorIconsContent.join("\n"))
 
-const customIconsContent = []
-customIconsContent.push("export const enum CustomIconsName {")
-for (const iconName of CUSTOM_ICONS) {
-  customIconsContent.push(`  ${constantName(iconName)} = '${iconName}'`)
+const customColorIconsContent = []
+customColorIconsContent.push("export const enum ColorCustomIconsName {")
+for (const iconName of CUSTOM_ICONS_COLORS) {
+  customColorIconsContent.push(`  ${constantName(iconName)} = '${iconName}'`)
 }
-customIconsContent.push("}")
-customIconsContent.push("")
-customIconsContent.push("export const CustomIcons = new Map<string, string>([")
-for (const iconName of CUSTOM_ICONS) {
+customColorIconsContent.push("}")
+customColorIconsContent.push("")
+customColorIconsContent.push("export const ColorCustomIcons = new Map<string, string>([")
+for (const iconName of CUSTOM_ICONS_COLORS) {
   const sourcePath = `assets/icons/${iconName}.svg`
-  let svgContent = canonizeBlack(fs.readFileSync(sourcePath, { encoding: "utf8" }).replaceAll("\n", ""))
+  let svgContent = canonizeYellow(canonizeBlack(fs.readFileSync(sourcePath, { encoding: "utf8" }).replaceAll("\n", "")))
   svgContent = simplifySvG(svgContent, iconName)
-  customIconsContent.push(`  [CustomIconsName.${constantName(iconName)}, '${svgContent}'],`)
+  customColorIconsContent.push(`  [ColorCustomIconsName.${constantName(iconName)}, '${svgContent}'],`)
 }
-customIconsContent.push("])")
-fs.writeFileSync("common/front/icons/custom-icons.ts", customIconsContent.join("\n"))
+customColorIconsContent.push("])")
+fs.writeFileSync("common/front/icons/color-custom-icons.ts", customColorIconsContent.join("\n"))

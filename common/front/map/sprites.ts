@@ -1,23 +1,11 @@
+import { Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW } from "../colors"
 import { ColorSpriteContent, ColorSpriteName } from "../sprites/color-sprite-content"
 import { getCssProperty, getTextColor } from "../color-scheme"
 import { MonochromeSpriteContent, MonochromeSpriteName } from "../sprites/monochrome-sprite-content"
 import { decodeSvg } from "../icons/decode-svg"
 
-const INITIAL_COLOR_BLACK = "#000"
-const INITIAL_COLOR_YELLOW = "#ff0"
-
 abstract class Sprite {
   abstract getValue(): string
-}
-
-enum Colors {
-  blue = "--sl-color-blue-500",
-  green = "--sl-color-green-500",
-  platinum = "--sl-color-gray-500",
-  red = "--sl-color-red-500",
-  teal = "--sl-color-teal-500",
-  violet = "--sl-color-violet-500",
-  yellow = "--sl-color-yellow-500",
 }
 
 export class MonochromeSprite extends Sprite {
@@ -51,6 +39,7 @@ export class ColoredSprite extends Sprite {
     )
   }
 }
+
 export const enum SpriteName {
   doorBlue,
   doorCrimson,

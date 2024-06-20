@@ -65,6 +65,8 @@ export abstract class AbstractMap {
     return Promise.all([
       this.app.init({
         background: getBackgroundColor(),
+        resolution: window.devicePixelRatio,
+        autoDensity: true,
       }),
       this.spriter.reload(this.tileSize),
     ]).then(() => {

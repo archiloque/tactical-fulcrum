@@ -1,7 +1,7 @@
 import { ColorCustomIcons, ColorCustomIconsName } from "./color-custom-icons"
 import { Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW } from "../colors"
-import { MonochromeCustomIcons, MonochromeCustomIconsName } from "./monochrome-custom-icons"
 import { getCssProperty, getTextColor } from "../color-scheme"
+import { MonochromeCustomIcons, MonochromeCustomIconsName } from "./monochrome-custom-icons"
 import { decodeSvg } from "./decode-svg"
 import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js"
 
@@ -56,4 +56,5 @@ const ICONS = new Map<string, CustomIcon>([
   [ColorCustomIconsName.HEART.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.HEART, Colors.red)],
   [MonochromeCustomIconsName.SHIELD.valueOf(), new MonochromeCustomIcon(MonochromeCustomIconsName.SHIELD)],
   [MonochromeCustomIconsName.SWORD.valueOf(), new MonochromeCustomIcon(MonochromeCustomIconsName.SWORD)],
+  [MonochromeCustomIconsName.EXPERIENCE.valueOf(), new MonochromeCustomIcon(MonochromeCustomIconsName.EXPERIENCE)],
 ])

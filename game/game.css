@@ -18,5 +18,25 @@
 #screenTowerMap {
   margin: auto 5px;
 }
+
 #screenTowerInfoBar {
+  margin-left: 0.5em;
+  font-size: 24px;
+  border-left: 2px solid var(--sl-color-neutral-950);
+  display: grid;
+  grid-template-rows: 10% 10% 10% 10%;
+}
+#screenTowerInfoHp,
+#screenTowerInfoAtk,
+#screenTowerInfoDef,
+#screenTowerInfoExp {
+  border-bottom: 2px solid var(--sl-color-neutral-950);
+  text-align: center;
+  display: flex;
+  div {
+    margin: auto;
+  }
+  sl-icon {
+    padding-right: 0.5em;
+  }
 }

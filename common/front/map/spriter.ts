@@ -28,6 +28,7 @@ export class Spriter {
           height: tileSize * window.devicePixelRatio,
           width: tileSize * window.devicePixelRatio,
           resolution: window.devicePixelRatio,
+          autoDensity: true,
         },
       })
     }

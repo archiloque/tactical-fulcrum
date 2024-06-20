@@ -55,6 +55,12 @@ const EDITOR_ICONS = [
 ]
 
 const CUSTOM_ICONS_COLORS = ["heart"]
+
+const CUSTOM_ICONS_MONOCHROMES = [
+  "shield",
+  "sword",
+]
+
 const IN_DIR = "assets/sprites"
 
 function optimizeSvg(content) {
@@ -170,10 +176,28 @@ for (const iconName of EDITOR_ICONS) {
 editorIconsContent.push("])")
 fs.writeFileSync("common/front/icons/default-icons.ts", editorIconsContent.join("\n"))
 
+const customMonochromeIconsContent = []
+customMonochromeIconsContent.push("export const enum MonochromeCustomIconsName {")
+for (const iconName of CUSTOM_ICONS_MONOCHROMES) {
+  customMonochromeIconsContent.push(`  ${constantName(iconName)} = '${iconName}',`)
+}
+customMonochromeIconsContent.push("}")
+customMonochromeIconsContent.push("")
+customMonochromeIconsContent.push("export const MonochromeCustomIcons = new Map<string, string>([")
+for (const iconName of CUSTOM_ICONS_MONOCHROMES) {
+  const sourcePath = `assets/icons/${iconName}.svg`
+  let svgContent = canonizeBlack(fs.readFileSync(sourcePath, { encoding: "utf8" }).replaceAll("\n", ""))
+  svgContent = simplifySvG(svgContent, iconName)
+  customMonochromeIconsContent.push(`  [MonochromeCustomIconsName.${constantName(iconName)}, '${svgContent}'],`)
+}
+customMonochromeIconsContent.push("])")
+fs.writeFileSync("common/front/icons/monochrome-custom-icons.ts", customMonochromeIconsContent.join("\n"))
+
+
 const customColorIconsContent = []
 customColorIconsContent.push("export const enum ColorCustomIconsName {")
 for (const iconName of CUSTOM_ICONS_COLORS) {
-  customColorIconsContent.push(`  ${constantName(iconName)} = '${iconName}'`)
+  customColorIconsContent.push(`  ${constantName(iconName)} = '${iconName}',`)
 }
 customColorIconsContent.push("}")
 customColorIconsContent.push("")

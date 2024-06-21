@@ -2,32 +2,8 @@ import { EMPTY_TILE, Tile, TileType } from "../../common/models/tile"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
-
-export class PlayerPosition {
-  room: number
-  line: number
-  column: number
-
-  constructor(room: number, line: number, column: number) {
-    this.room = room
-    this.line = line
-    this.column = column
-  }
-}
-
-export class PlayerInfo {
-  hp: number
-  atk: number
-  def: number
-  exp: number
-
-  constructor(hp: number, atk: number, def: number) {
-    this.hp = hp
-    this.atk = atk
-    this.def = def
-    this.exp = 0
-  }
-}
+import { PlayerPosition } from "./player-position"
+import { PlayerInfo } from "./player-info"
 
 export class PlayedTower {
   readonly tower: Tower
@@ -35,6 +11,7 @@ export class PlayedTower {
   readonly standardRooms: Tile[][][]
   readonly nexusRooms: Tile[][][]
   readonly playerInfo: PlayerInfo
+  reachableTiles: boolean[][] | null
 
   constructor(tower: Tower) {
     this.tower = tower
@@ -42,6 +19,7 @@ export class PlayedTower {
     this.nexusRooms = this.cloneRoom(tower.nexusRooms)
     this.playerPosition = this.findStartingPosition(this.standardRooms)
     this.playerInfo = new PlayerInfo(tower.info.hp, tower.info.atk, tower.info.def)
+    this.reachableTiles = null
   }
 
   private cloneRoom(rooms: Room[]): Tile[][][] {

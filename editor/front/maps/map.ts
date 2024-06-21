@@ -19,7 +19,7 @@ export class Map extends AbstractMap {
   private scoreTiles: Container
   private selectedLayer: RoomLayer = RoomLayer.standard
   private selectedRoom: SelectedRoom | null = null
-  private selectedScore: ScoreType
+  private selectedScore: ScoreType | null
   private selectedTile: Tile
   private standardTiles: Container
 
@@ -44,7 +44,7 @@ export class Map extends AbstractMap {
 
   postInit(): void {
     console.debug("Map", "postInit")
-    this.toolTip = document.getElementById(TabMaps.TOOL_TIP_ID)
+    this.toolTip = document.getElementById(TabMaps.TOOL_TIP_ID)!
     this.tooltipTip = document.getElementById(TabMaps.TOOL_TIP_TIP_ID) as SlTooltip
   }
 
@@ -141,7 +141,7 @@ export class Map extends AbstractMap {
     this.selectedTile = tileSelected
   }
 
-  private scoreSelected(scoreType: ScoreType): void {
+  private scoreSelected(scoreType: ScoreType | null): void {
     this.selectedScore = scoreType
   }
 
@@ -189,7 +189,7 @@ export class Map extends AbstractMap {
           if (currentTile.getType() === TileType.enemy) {
             const enemyTile = currentTile as EnemyTile
             const text = new Text({
-              text: enemyTile.enemy.level,
+              text: enemyTile.enemy.level != null ? enemyTile.enemy.level : "",
               style: {
                 fontFamily: "JetBrains Mono",
                 fontSize: this.tileSize / 2,

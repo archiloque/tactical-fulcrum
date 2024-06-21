@@ -37,6 +37,7 @@ export class SpritesToItem {
       case EnemyType.slasher:
         return SpriteName.enemySlasher
     }
+    throw new Error(`Unknown enemy type [${tile.enemy.type}]`)
   }
 
   private static spriteNameFromKey(tile: KeyTile): SpriteName {
@@ -119,7 +120,7 @@ export class SpritesToItem {
     }
   }
 
-  static spriteNameFromTile(tile: Tile): SpriteName {
+  static spriteNameFromTile(tile: Tile): SpriteName | null {
     switch (tile.getType()) {
       case TileType.empty:
         return null

@@ -114,13 +114,14 @@ export class Rooms {
   }
 
   private moveUp = (): void => {
-    const rooms = this.editor.tower.getRooms(this.selectedRoom.type)
-    const currentRoom = rooms[this.selectedRoom.index]
-    const targetRoom = rooms[this.selectedRoom.index - 1]
-    rooms[this.selectedRoom.index] = targetRoom
-    rooms[this.selectedRoom.index - 1] = currentRoom
+    const selectedRoom = this.selectedRoom!
+    const rooms = this.editor.tower.getRooms(selectedRoom.type)
+    const currentRoom = rooms[selectedRoom.index]
+    const targetRoom = rooms[selectedRoom.index - 1]
+    rooms[selectedRoom.index] = targetRoom
+    rooms[selectedRoom.index - 1] = currentRoom
     this.editor.tower.saveRooms()
-    this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, this.selectedRoom.index - 1))
+    this.notifyRoomSelected(new SelectedRoom(selectedRoom.type, selectedRoom.index - 1))
     this.render()
   }
 
@@ -129,13 +130,14 @@ export class Rooms {
   }
 
   private moveDown = (): void => {
-    const rooms = this.editor.tower.getRooms(this.selectedRoom.type)
-    const currentRoom = rooms[this.selectedRoom.index]
-    const targetRoom = rooms[this.selectedRoom.index + 1]
-    rooms[this.selectedRoom.index] = targetRoom
-    rooms[this.selectedRoom.index + 1] = currentRoom
+    const selectedRoom = this.selectedRoom!
+    const rooms = this.editor.tower.getRooms(selectedRoom.type)
+    const currentRoom = rooms[selectedRoom.index]
+    const targetRoom = rooms[selectedRoom.index + 1]
+    rooms[selectedRoom.index] = targetRoom
+    rooms[selectedRoom.index + 1] = currentRoom
     this.editor.tower.saveRooms()
-    this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, this.selectedRoom.index + 1))
+    this.notifyRoomSelected(new SelectedRoom(selectedRoom.type, selectedRoom.index + 1))
     this.render()
   }
 
@@ -158,7 +160,12 @@ export class Rooms {
       room.name = "New room"
       this.editor.tower.getRooms(roomType).push(room)
       this.editor.tower.saveRooms()
-      this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, this.editor.tower.getRooms(roomType).length - 1))
+      this.notifyRoomSelected(
+        new SelectedRoom(
+          this.selectedRoom !== null ? this.selectedRoom.type : RoomType.standard,
+          this.editor.tower.getRooms(roomType).length - 1,
+        ),
+      )
       this.render()
     })
   }
@@ -191,13 +198,13 @@ export class Rooms {
     }
   }
 
-  private roomSelected(selectedRoom: SelectedRoom): void {
+  private roomSelected(selectedRoom: SelectedRoom | null): void {
     console.debug("Rooms", "roomSelected", selectedRoom)
     this.selectedRoom = selectedRoom
-    if (selectedRoom != null) {
-      this.roomNameInput.value = this.editor.tower.getRooms(selectedRoom.type)[this.selectedRoom.index].name
-      this.buttonUp.disabled = selectedRoom.index === 0
-      this.buttonDown.disabled = selectedRoom.index === this.editor.tower.standardRooms.length - 1
+    if (this.selectedRoom != null) {
+      this.roomNameInput.value = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index].name
+      this.buttonUp.disabled = this.selectedRoom.index === 0
+      this.buttonDown.disabled = this.selectedRoom.index === this.editor.tower.standardRooms.length - 1
     } else {
       this.roomNameInput.value = ""
       this.buttonUp.disabled = true

@@ -32,7 +32,7 @@ export class TabEnemies extends AbstractTab {
       (item: string, index: number) =>
         html` <sl-option value="${index}">${item == null ? "<Nothing>" : item}</sl-option>`,
     )
-    const dropValue = DROPS.indexOf(enemy.drop)
+    const dropValue = enemy.drop == null ? null : DROPS.indexOf(enemy.drop)
     const enemyTypes = ENEMY_TYPES.map(
       (enemyType: string) => html` <sl-option value="${enemyType}">${enemyType}</sl-option>`,
     )
@@ -88,7 +88,7 @@ export class TabEnemies extends AbstractTab {
       `,
     )
     this.deleteDialog = document.getElementById(TabEnemies.DELETE_DIALOG_ID) as SlDialog
-    this.deleteDialogMessage = document.getElementById(TabEnemies.DELETE_DIALOG_MESSAGE_ID)
+    this.deleteDialogMessage = document.getElementById(TabEnemies.DELETE_DIALOG_MESSAGE_ID)!
   }
 
   private addEnemy = (): void => {
@@ -171,7 +171,7 @@ export class TabEnemies extends AbstractTab {
 
   private getInputValueFromList = (event: CustomEvent): [number, string] => {
     const currentTarget = event.currentTarget as SlSelect
-    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
+    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index!)
     return [enemyIndex, currentTarget.value as string]
   }
 }

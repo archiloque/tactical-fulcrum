@@ -7,7 +7,7 @@ export abstract class AbstractTab {
   }
 
   protected numberInput(
-    value: number,
+    value: number | null,
     callback: (event: CustomEvent) => void,
     min: number = 0,
     placeHolder: string,
@@ -36,7 +36,7 @@ export abstract class AbstractTab {
 
   protected getInputValue = (event: CustomEvent): [number, string] => {
     const currentTarget = event.currentTarget as SlInput
-    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index)
+    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index!)
     return [enemyIndex, currentTarget.value]
   }
 }

@@ -63,7 +63,7 @@ export class IoEnemy {
   }
 
   static validateEnemiesImport(enemies: Record<string, string | number | null>[], errors: string[]): void {
-    const knownEnemies = []
+    const knownEnemies: string[] = []
     enemies.forEach((enemy, index) => {
       const enemyIdentifier = `${enemy.level}|${enemy.type}`
       if (knownEnemies.indexOf(enemyIdentifier) !== -1) {
@@ -75,7 +75,7 @@ export class IoEnemy {
   }
 
   static validateEnemiesExport(enemies: Enemy[], errors: string[]): void {
-    const knownEnemies = []
+    const knownEnemies: string[] = []
     enemies.forEach((enemy, index) => {
       const enemyIdentifier = `${enemy.level}|${enemy.type}`
       if (knownEnemies.indexOf(enemyIdentifier) !== -1) {

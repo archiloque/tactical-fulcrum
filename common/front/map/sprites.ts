@@ -17,7 +17,7 @@ export class MonochromeSprite extends Sprite {
   }
 
   getValue(): string {
-    return decodeSvg(MonochromeSpriteContent.get(this.spriteName).replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
+    return decodeSvg(MonochromeSpriteContent.get(this.spriteName)!.replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
   }
 }
 
@@ -33,7 +33,7 @@ export class ColoredSprite extends Sprite {
 
   getValue(): string {
     return decodeSvg(
-      ColorSpriteContent.get(this.spriteName)
+      ColorSpriteContent.get(this.spriteName)!
         .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
         .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),
     )

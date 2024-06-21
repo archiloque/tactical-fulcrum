@@ -14,7 +14,7 @@ export class Scores {
   private div: HTMLElement
   private readonly editor: Editor
   private scoresTree: SlTree
-  private selectedScore: ScoreType = null
+  private selectedScore: ScoreType | null = null
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -39,18 +39,18 @@ export class Scores {
 
   init(): void {
     console.debug("Scores", "init")
-    this.div = document.getElementById(Scores.DIV_ID)
+    this.div = document.getElementById(Scores.DIV_ID)!
     this.scoresTree = document.getElementById(Scores.TREE_ID) as SlTree
   }
 
   private selectionChanged = (event: CustomEvent): void => {
     const slTreeItem: SlTreeItem = event.detail.selection[0] as SlTreeItem
-    const type = slTreeItem.dataset.type
+    const type = slTreeItem.dataset.type!
     if (type === TileType.empty.valueOf()) {
       this.editor.eventManager.notifyScoreSelection(null, false)
     } else {
-      const scoreType: ScoreType = findEnum(SCORE_TYPES, type)
-      if (scoreType != null) {
+      const scoreType: ScoreType | undefined = findEnum(SCORE_TYPES, type)
+      if (scoreType !== undefined) {
         this.editor.eventManager.notifyScoreSelection(scoreType, false)
       }
     }

@@ -59,7 +59,7 @@ export class ScreenTower {
     this.map.postInit()
     this.map.resize(tileSize * TILES_IN_ROW).then(() => {
       this.map.repaint()
-      document.getElementById(ScreenTower.MAP_ID).appendChild(this.map.app.canvas)
+      document.getElementById(ScreenTower.MAP_ID)!.appendChild(this.map.app.canvas)
     })
   }
 }

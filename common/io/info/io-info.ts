@@ -21,7 +21,6 @@ export class IoInfo {
     IoInfo.ATTRIBUTE_GOLD_MEDAL,
     IoInfo.ATTRIBUTE_PLATINUM_MEDAL,
     IoInfo.ATTRIBUTE_DIAMOND_MEDAL,
-    ,
     IoInfo.ATTRIBUTE_MOON_MEDAL,
   ]
 

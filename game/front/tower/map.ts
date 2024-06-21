@@ -35,10 +35,11 @@ export class Map extends AbstractMap {
 
   private createTiles(): void {
     this.tiles = new Container()
-    const playerPosition = this.game.playerTower.playerPosition
+    const playerTower = this.game.playerTower!
+    const playerPosition = playerTower.playerPosition
     const currentRoomIndex = playerPosition.room
-    const currentRoom = this.game.playerTower.standardRooms[currentRoomIndex]
-    const scores = this.game.playerTower.tower.standardRooms[currentRoomIndex].scores
+    const currentRoom = playerTower.standardRooms[currentRoomIndex]
+    const scores = playerTower.tower.standardRooms[currentRoomIndex].scores
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
       for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
         const currentScore = scores.find((s) => s.line === lineIndex && s.column === columnIndex)
@@ -58,7 +59,7 @@ export class Map extends AbstractMap {
           this.tiles.addChild(scoreSprite)
         }
         if (hasPlayer) {
-          const playerSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile(STARTING_POSITION_TILE))
+          const playerSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile(STARTING_POSITION_TILE)!)
           playerSprite.x = x
           playerSprite.y = y
           this.tiles.addChild(playerSprite)
@@ -75,7 +76,7 @@ export class Map extends AbstractMap {
         if (currentTile.getType() === TileType.enemy) {
           const enemyTile = currentTile as EnemyTile
           const text = new Text({
-            text: enemyTile.enemy.level,
+            text: enemyTile.enemy.level !== null ? enemyTile.enemy.level : "",
             style: {
               fontFamily: "JetBrains Mono",
               fontSize: this.tileSize / 2,
@@ -97,7 +98,7 @@ export class Map extends AbstractMap {
 
   postInit(): void {
     console.debug("Map", "postInit")
-    this.toolTip = document.getElementById(ScreenTower.TOOL_TIP_ID)
+    this.toolTip = document.getElementById(ScreenTower.TOOL_TIP_ID)!
     this.tooltipTip = document.getElementById(ScreenTower.TOOL_TIP_TIP_ID) as SlTooltip
   }
 

@@ -7,9 +7,11 @@ export class IoEnemyFromAttributes {
   static fromAttributes(value: Record<string, string | number | null>): Enemy {
     const result: Enemy = new Enemy()
     const enemyType = value[IoEnemy.ATTRIBUTE_TYPE]
-    result.type = ENEMY_TYPES.find((it) => it.valueOf() === enemyType)
-    if (result.type === undefined) {
+    const possibleType = ENEMY_TYPES.find((it) => it.valueOf() === enemyType)
+    if (possibleType === undefined) {
       result.type = null
+    } else {
+      result.type = possibleType
     }
     result.level = value[IoEnemy.ATTRIBUTE_LEVEL] as number
     result.name = value[IoEnemy.ATTRIBUTE_NAME] as string
@@ -17,11 +19,13 @@ export class IoEnemyFromAttributes {
     result.atk = value[IoEnemy.ATTRIBUTE_ATK] as number
     result.def = value[IoEnemy.ATTRIBUTE_DEF] as number
     result.exp = value[IoEnemy.ATTRIBUTE_EXP] as number
-    let drop: string = value[IoEnemy.ATTRIBUTE_DROP] as string
+    let drop: string | null = value[IoEnemy.ATTRIBUTE_DROP] as string
     if (drop === "") {
       drop = null
     }
-    result.drop = DROPS.indexOf(drop) === -1 ? null : drop
+    if (drop != null) {
+      result.drop = DROPS.indexOf(drop) === -1 ? null : drop
+    }
     return result
   }
 }

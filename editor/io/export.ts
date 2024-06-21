@@ -90,28 +90,54 @@ export class Export extends IOOperation {
     )
   }
 
+  private static compareAttribute(
+    e1: Record<string, string | number | null>,
+    e2: Record<string, string | number | null>,
+    attributeName: string,
+  ) {
+    if (e1[attributeName] !== null && e2[attributeName] !== null) {
+      return e1[attributeName]! > e2[attributeName]! ? 1 : -1
+    } else if (e1[attributeName] === null) {
+      return 1
+    } else {
+      return -1
+    }
+  }
+
+  private static compareAttributeAsNumber(
+    e1: Record<string, string | number | null>,
+    e2: Record<string, string | number | null>,
+    attributeName: string,
+  ) {
+    if (e1[attributeName] !== null && e2[attributeName] !== null) {
+      return (e1[attributeName] as number) - (e2[attributeName] as number)
+    } else if (e1[attributeName] === null) {
+      return 1
+    } else {
+      return -1
+    }
+  }
+
   private static sortEnemies(
     e1: Record<string, string | number | null>,
     e2: Record<string, string | number | null>,
   ): number {
     if (e1[IoEnemy.ATTRIBUTE_TYPE] !== e2[IoEnemy.ATTRIBUTE_TYPE]) {
-      return e1[IoEnemy.ATTRIBUTE_TYPE] > e2[IoEnemy.ATTRIBUTE_TYPE] ? 1 : -1
+      return Export.compareAttribute(e1, e2, IoEnemy.ATTRIBUTE_TYPE)
     } else if (e1[IoEnemy.ATTRIBUTE_LEVEL] !== e2[IoEnemy.ATTRIBUTE_LEVEL]) {
-      return (e1[IoEnemy.ATTRIBUTE_LEVEL] as number) - (e2[IoEnemy.ATTRIBUTE_LEVEL] as number)
+      return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_LEVEL)
     } else if (e1[IoEnemy.ATTRIBUTE_NAME] !== e2[IoEnemy.ATTRIBUTE_NAME]) {
-      return e1[IoEnemy.ATTRIBUTE_NAME] > e2[IoEnemy.ATTRIBUTE_NAME] ? 1 : -1
+      return Export.compareAttribute(e1, e2, IoEnemy.ATTRIBUTE_NAME)
     } else if (e1[IoEnemy.ATTRIBUTE_HP] !== e2[IoEnemy.ATTRIBUTE_HP]) {
-      return (e1[IoEnemy.ATTRIBUTE_HP] as number) - (e2[IoEnemy.ATTRIBUTE_HP] as number)
+      return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_HP)
     } else if (e1[IoEnemy.ATTRIBUTE_ATK] !== e2[IoEnemy.ATTRIBUTE_ATK]) {
-      return (e1[IoEnemy.ATTRIBUTE_ATK] as number) - (e2[IoEnemy.ATTRIBUTE_ATK] as number)
+      return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_ATK)
     } else if (e1[IoEnemy.ATTRIBUTE_DEF] !== e2[IoEnemy.ATTRIBUTE_DEF]) {
-      return (e1[IoEnemy.ATTRIBUTE_DEF] as number) - (e2[IoEnemy.ATTRIBUTE_DEF] as number)
+      return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_DEF)
     } else if (e1[IoEnemy.ATTRIBUTE_EXP] !== e2[IoEnemy.ATTRIBUTE_EXP]) {
-      return (e1[IoEnemy.ATTRIBUTE_EXP] as number) - (e2[IoEnemy.ATTRIBUTE_EXP] as number)
-    } else if (e1[IoEnemy.ATTRIBUTE_DROP] > e2[IoEnemy.ATTRIBUTE_DROP]) {
-      return 1
-    } else if (e1[IoEnemy.ATTRIBUTE_DROP] < e2[IoEnemy.ATTRIBUTE_DROP]) {
-      return -1
+      return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_EXP)
+    } else if (e1[IoEnemy.ATTRIBUTE_DROP] !== e2[IoEnemy.ATTRIBUTE_DROP]) {
+      return Export.compareAttribute(e1, e2, IoEnemy.ATTRIBUTE_DROP)
     } else {
       return 0
     }

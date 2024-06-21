@@ -56,12 +56,12 @@ export class TabImportExport {
   }
 
   private selectImportFile = async (): Promise<any> => {
-    return this.processImportFiles(this.importInput.files)
+    return this.processImportFiles(this.importInput.files!)
   }
 
   private dropImportFile = async (event: DragEvent): Promise<any> => {
     event.preventDefault()
-    return this.processImportFiles(event.dataTransfer.files)
+    return this.processImportFiles(event.dataTransfer!.files)
   }
 
   private async processImportFiles(filesList: FileList): Promise<any> {

@@ -32,7 +32,7 @@ export class Elements {
 
   private readonly editor: Editor
   private tree: SlTree
-  private selectedTile: Tile = null
+  private selectedTile: Tile | null = null
 
   private div: HTMLElement
 
@@ -54,7 +54,7 @@ export class Elements {
 
   init(): void {
     console.debug("Elements", "init")
-    this.div = document.getElementById(Elements.DIV_ID)
+    this.div = document.getElementById(Elements.DIV_ID)!
     this.tree = document.getElementById(Elements.TREE_ID) as SlTree
   }
 
@@ -118,43 +118,46 @@ export class Elements {
         return
       }
       case TileType.door.valueOf(): {
-        const color: Color = findEnum(COLORS, slTreeItem.dataset.color)
-        if (color != null) {
+        const color: Color | undefined = findEnum(COLORS, slTreeItem.dataset.color!)
+        if (color !== undefined) {
           this.editor.eventManager.notifyTileSelection(DOOR_TILES[color], false)
           return
         }
         break
       }
       case TileType.enemy.valueOf(): {
-        const enemyType: EnemyType | null = findEnum(ENEMY_TYPES, slTreeItem.dataset.enemyType)
-        const enemyLevel: number = parseInt(slTreeItem.dataset.enemyLevel)
-        const enemy = this.editor.tower.enemies.find((enemy) => {
+        const enemyType: EnemyType | undefined = findEnum(ENEMY_TYPES, slTreeItem.dataset.enemyType!)
+        const enemyLevel: number = parseInt(slTreeItem.dataset.enemyLevel!)
+        const enemy: Enemy | undefined = this.editor.tower.enemies.find((enemy) => {
           return enemy.type === enemyType && enemy.level === enemyLevel
         })
-        if (enemy != null) {
+        if (enemy !== undefined) {
           this.editor.eventManager.notifyTileSelection(new EnemyTile(enemy), false)
         }
         break
       }
       case TileType.item.valueOf(): {
-        const item: ItemName = findEnum(ITEM_NAMES, slTreeItem.dataset.name)
-        if (item != null) {
+        const item: ItemName | undefined = findEnum(ITEM_NAMES, slTreeItem.dataset.name!)
+        if (item !== undefined) {
           this.editor.eventManager.notifyTileSelection(ITEM_TILES[item], false)
           return
         }
         break
       }
       case TileType.key.valueOf(): {
-        const color: Color = findEnum(COLORS, slTreeItem.dataset.color)
-        if (color != null) {
+        const color: Color | undefined = findEnum(COLORS, slTreeItem.dataset.color!)
+        if (color !== undefined) {
           this.editor.eventManager.notifyTileSelection(KEY_TILES[color], false)
           return
         }
         break
       }
       case TileType.staircase.valueOf(): {
-        const staircaseDirection: StaircaseDirection = findEnum(STAIRCASE_DIRECTIONS, slTreeItem.dataset.direction)
-        if (staircaseDirection != null) {
+        const staircaseDirection: StaircaseDirection | undefined = findEnum(
+          STAIRCASE_DIRECTIONS,
+          slTreeItem.dataset.direction!,
+        )
+        if (staircaseDirection !== undefined) {
           this.editor.eventManager.notifyTileSelection(STAIRCASE_TILES[staircaseDirection], false)
           return
         }
@@ -186,11 +189,15 @@ export class Elements {
         return this.findTreeItemFromValue({ type: TileType.empty.valueOf() })
       case TileType.enemy:
         const enemyTile = tile as EnemyTile
-        return this.findTreeItemFromValue({
-          type: TileType.enemy.valueOf(),
-          "enemy-type": enemyTile.enemy.type.valueOf(),
-          "enemy-level": enemyTile.enemy.level,
-        })
+        const filter: Record<string, string | number> = {}
+        filter["type"] = TileType.enemy.valueOf()
+        if (enemyTile.enemy.type !== null) {
+          filter["enemy-type"] = enemyTile.enemy.type.valueOf()
+        }
+        if (enemyTile.enemy.level !== null) {
+          filter["enemy-level"] = enemyTile.enemy.level
+        }
+        return this.findTreeItemFromValue(filter)
       case TileType.item:
         const itemTile = tile as ItemTile
         return this.findTreeItemFromValue({
@@ -237,7 +244,7 @@ export class Elements {
       this.selectedTile = selectedTile
       const selectedTreeItem = this.findTreeItem(this.selectedTile)
       selectedTreeItem.selected = true
-      const parent = selectedTreeItem.parentElement
+      const parent = selectedTreeItem.parentElement!
       if (parent.id != Elements.TREE_ID) {
         ;(parent as SlTreeItem).expanded = true
       }

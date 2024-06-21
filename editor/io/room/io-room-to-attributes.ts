@@ -5,7 +5,7 @@ import { Score } from "../../../common/models/score"
 
 export class IoRoomToAttributes {
   static toAttributes(room: Room): {
-    [IoRoom.ATTRIBUTE_TILES]: Record<string, string | number>[][]
+    [IoRoom.ATTRIBUTE_TILES]: Record<string, string | number | null>[][]
     [IoRoom.ATTRIBUTE_SCORES]: Record<string, string | number>[]
     [IoRoom.ATTRIBUTE_NAME]: string
   } {
@@ -28,7 +28,7 @@ export class IoRoomToAttributes {
     }
   }
 
-  private static createTile(tile: Tile): Record<string, string | number> {
+  private static createTile(tile: Tile): Record<string, string | number | null> {
     switch (tile.getType()) {
       case TileType.door:
         const door = tile as DoorTile

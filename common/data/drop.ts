@@ -5,4 +5,4 @@ import { ITEM_NAMES } from "./item-name"
 export const DROP_KEYS: string[] = COLORS.map((c) => `${capitalize(c)} key`)
 export const DROP_ITEMS: string[] = ITEM_NAMES.map((it) => it.valueOf())
 
-export const DROPS: null | string[] = [null].concat(DROP_ITEMS).concat(DROP_KEYS)
+export const DROPS: string[] = DROP_ITEMS.concat(DROP_KEYS)

@@ -8,7 +8,7 @@ import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/ico
 export function registerCustomIcons(): void {
   registerIconLibrary("tf", {
     resolver: (name) => {
-      return ICONS.get(name).getValue()
+      return ICONS.get(name)!.getValue()
     },
     mutator: (svg) => {
       svg.setAttribute("stroke", "currentColor")
@@ -29,7 +29,7 @@ export class MonochromeCustomIcon extends CustomIcon {
   }
 
   getValue(): string {
-    return decodeSvg(MonochromeCustomIcons.get(this.iconName).replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
+    return decodeSvg(MonochromeCustomIcons.get(this.iconName)!.replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
   }
 }
 
@@ -45,7 +45,7 @@ export class ColoredCustomIcon extends CustomIcon {
 
   getValue(): string {
     return decodeSvg(
-      ColorCustomIcons.get(this.iconName)
+      ColorCustomIcons.get(this.iconName)!
         .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
         .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),
     )

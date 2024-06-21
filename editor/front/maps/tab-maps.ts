@@ -72,7 +72,7 @@ export class TabMaps {
       )
       this.splitPanel1 = <SlSplitPanel>document.getElementById(TabMaps.SPLIT_PANEL_1_ID)
       this.splitPanel2 = <SlSplitPanel>document.getElementById(TabMaps.SPLIT_PANEL_2_ID)
-      document.getElementById(TabMaps.MAP_ID).appendChild(this.map.app.canvas)
+      document.getElementById(TabMaps.MAP_ID)!.appendChild(this.map.app.canvas)
       this.rooms.init()
       this.elements.init()
       this.layer.init()

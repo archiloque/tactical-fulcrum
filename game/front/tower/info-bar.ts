@@ -17,41 +17,29 @@ export class InfoBar {
   }
 
   pad(value: number): string {
-    const valueString = value.toString()
-    if (valueString.length >= 7) {
-      return valueString
-    } else {
-      return `${"\xa0".repeat(7 - valueString.length)}${valueString}`
-    }
+    return value.toString().padStart(7, "\xa0")
+  }
+
+  renderField(id: string, description: string, icon: ColorCustomIconsName | MonochromeCustomIconsName, value: number | string) {
+    return html`
+      <div id="${id}">
+        <div>
+          ${value}
+          <sl-icon aria-description="${description}" library="tf" name="${icon}"></sl-icon
+          >
+        </div>
+      </div>`
   }
 
   render(): void {
+    const playerInfo = this.game.playerTower.playerInfo
     render(
       document.getElementById(ScreenTower.INFO_BAR_ID),
-      html` <div id="${InfoBar.HP_ID}">
-          <div>
-            <sl-icon aria-description="Hit points" library="tf" name="${ColorCustomIconsName.HEART}"></sl-icon
-            >${this.pad(this.game.playerTower.playerInfo.hp)}
-          </div>
-        </div>
-        <div id="${InfoBar.ATK_ID}">
-          <div>
-            <sl-icon aria-description="Attack" library="tf" name="${MonochromeCustomIconsName.SWORD}"></sl-icon
-            >${this.pad(this.game.playerTower.playerInfo.atk)}
-          </div>
-        </div>
-        <div id="${InfoBar.DEF_ID}">
-          <div>
-            <sl-icon aria-description="Defense" library="tf" name="${MonochromeCustomIconsName.SHIELD}"></sl-icon
-            >${this.pad(this.game.playerTower.playerInfo.def)}
-          </div>
-        </div>
-        <div id="${InfoBar.EXP_ID}">
-          <div>
-            <sl-icon aria-description="Experience" library="tf" name="${MonochromeCustomIconsName.EXPERIENCE}"></sl-icon
-            >${this.pad(this.game.playerTower.playerInfo.exp)}
-          </div>
-        </div>`,
+      html`
+        ${this.renderField(InfoBar.HP_ID, "Hit points", ColorCustomIconsName.HEART, this.pad(playerInfo.hp))}
+        ${this.renderField(InfoBar.ATK_ID, "Attack", MonochromeCustomIconsName.SWORD, this.pad(playerInfo.atk))}
+        ${this.renderField(InfoBar.DEF_ID, "Defense", MonochromeCustomIconsName.SHIELD, this.pad(playerInfo.def))}
+        ${this.renderField(InfoBar.EXP_ID, "Experience", MonochromeCustomIconsName.EXPERIENCE, this.pad(playerInfo.exp))}`,
     )
     console.debug("InfoBar", "render")
   }

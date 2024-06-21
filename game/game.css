@@ -24,13 +24,15 @@
   font-size: 24px;
   border-left: 2px solid var(--sl-color-neutral-950);
   display: grid;
-  grid-template-rows: 10% 10% 10% 10%;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 2px;
+  background-color: var(--sl-color-neutral-950)
 }
 #screenTowerInfoHp,
 #screenTowerInfoAtk,
 #screenTowerInfoDef,
 #screenTowerInfoExp {
-  border-bottom: 2px solid var(--sl-color-neutral-950);
+  background-color: var(--sl-color-neutral-50);
   text-align: center;
   display: flex;
   div {

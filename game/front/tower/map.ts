@@ -33,6 +33,16 @@ export class Map extends AbstractMap {
     this.app.stage.addChild(this.tiles)
   }
 
+  protected afterRepositionCursor(): void {
+    const playerTower = this.game.playerTower!
+    const tileReachable = playerTower.reachableTiles[this.lastMouseTile.y][this.lastMouseTile.x]
+    if (tileReachable === null) {
+      this.app.canvas.style.cursor = "not-allowed"
+    } else {
+      this.app.canvas.style.cursor = "auto"
+    }
+  }
+
   private createTiles(): void {
     this.tiles = new Container()
     const playerTower = this.game.playerTower!

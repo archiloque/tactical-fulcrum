@@ -12,7 +12,7 @@ export abstract class AbstractMap {
   protected readonly spriter: Spriter = new Spriter("map")
   protected tileSize: number = TILES_DEFAULT_SIZE
   protected toolTip: HTMLElement
-  protected toolTipTimeout: number = null
+  protected toolTipTimeout: number | null = null
   protected tooltipTip: SlTooltip
   readonly app: Application
 
@@ -44,7 +44,7 @@ export abstract class AbstractMap {
   abstract repaint(): void
 
   async resize(elementSize: number): Promise<any> {
-    console.debug("Map", "resize")
+    console.debug("AbstractMap", "resize")
     const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
     if (newTileSize !== this.tileSize) {
       this.tileSize = newTileSize
@@ -85,10 +85,13 @@ export abstract class AbstractMap {
     })
   }
 
-  protected repositionCursor(): void {
+  private repositionCursor(): void {
     this.cursor.x = this.lastMouseTile.x * this.tileSize
     this.cursor.y = this.lastMouseTile.y * this.tileSize
+    this.afterRepositionCursor()
   }
+
+  protected afterRepositionCursor(): void {}
 
   protected tileFromEvent(e: FederatedPointerEvent): Point {
     e.getLocalPosition(this.app.stage, this.lastMousePosition)
@@ -101,8 +104,8 @@ export abstract class AbstractMap {
 
   protected pointerMove(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
-    if (!this.lastMouseTile.equals(tilePosition)) {
-      console.debug("Map", "pointerMove", tilePosition)
+    if (tilePosition.y < TILES_IN_ROW && tilePosition.x < TILES_IN_ROW && !this.lastMouseTile.equals(tilePosition)) {
+      console.debug("AbstractMap", "pointerMove", tilePosition)
       this.lastMouseTile = tilePosition
       if (this.tooltipTip.open) {
         this.tooltipTip.open = false

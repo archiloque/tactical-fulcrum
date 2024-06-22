@@ -17,7 +17,7 @@ export class Spriter {
       Assets.cache.remove(cached)
     }
     this.cache = []
-    const toLoad = []
+    const toLoad: any = []
     for (const [spriteName, sprite] of SPRITES.entries()) {
       const alias = this.assetName(spriteName)
       this.cache.push(alias)

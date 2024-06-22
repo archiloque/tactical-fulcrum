@@ -16,7 +16,8 @@
   height: 100vh;
 }
 #screenTowerMap {
-  margin: auto 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 #screenTowerInfoBar {

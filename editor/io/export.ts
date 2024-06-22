@@ -94,7 +94,7 @@ export class Export extends IOOperation {
     e1: Record<string, string | number | null>,
     e2: Record<string, string | number | null>,
     attributeName: string,
-  ) {
+  ): number {
     if (e1[attributeName] !== null && e2[attributeName] !== null) {
       return e1[attributeName]! > e2[attributeName]! ? 1 : -1
     } else if (e1[attributeName] === null) {
@@ -108,7 +108,7 @@ export class Export extends IOOperation {
     e1: Record<string, string | number | null>,
     e2: Record<string, string | number | null>,
     attributeName: string,
-  ) {
+  ): number {
     if (e1[attributeName] !== null && e2[attributeName] !== null) {
       return (e1[attributeName] as number) - (e2[attributeName] as number)
     } else if (e1[attributeName] === null) {

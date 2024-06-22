@@ -26,7 +26,7 @@ export class TabMaps {
   private rooms: Rooms
   private scores: Scores
   private selectedRoom: SelectedRoom | null
-  private mapDiv : HTMLElement
+  private mapDiv: HTMLElement
 
   constructor(editor: Editor) {
     settings.RESOLUTION = window.devicePixelRatio || 1

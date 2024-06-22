@@ -1,4 +1,4 @@
-import { html, render } from "uhtml"
+import { Hole, html, render } from "uhtml"
 import { ColorCustomIconsName } from "../../../common/front/icons/color-custom-icons"
 import { Game } from "../../game"
 import { MonochromeCustomIconsName } from "../../../common/front/icons/monochrome-custom-icons"
@@ -26,7 +26,7 @@ export class InfoBar {
     description: string,
     icon: ColorCustomIconsName | MonochromeCustomIconsName,
     value: number | string,
-  ) {
+  ): Hole {
     return html` <div id="${id}">
       <div>
         ${value}
@@ -36,7 +36,7 @@ export class InfoBar {
   }
 
   render(): void {
-    const playerInfo = this.game.playerTower.playerInfo
+    const playerInfo = this.game.playerTower!.playerInfo
     render(
       document.getElementById(ScreenTower.INFO_BAR_ID),
       html` ${this.renderField(InfoBar.HP_ID, "Hit points", ColorCustomIconsName.HEART, this.pad(playerInfo.hp))}

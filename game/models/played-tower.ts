@@ -1,9 +1,9 @@
 import { EMPTY_TILE, Tile, TileType } from "../../common/models/tile"
+import { PlayerInfo } from "./player-info"
+import { PlayerPosition } from "./player-position"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
-import { PlayerPosition } from "./player-position"
-import { PlayerInfo } from "./player-info"
 
 export class PlayedTower {
   readonly tower: Tower

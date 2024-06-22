@@ -122,6 +122,17 @@ sl-tab-group::part(nav) {
   text-align: center;
 }
 
+#tabMapMapGrid {
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+}
+#tabMapMapGrid > div:last-of-type {
+  margin-right: 1em;
+}
+#tabMapMapGrid > div:first-of-type {
+  margin-left: 1em;
+}
+
 #tabMapLevelAdd {
   text-align: center;
   padding-top: 0.5em;

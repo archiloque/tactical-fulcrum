@@ -9,16 +9,14 @@ import { Rooms } from "./rooms"
 import { RoomType } from "../../../common/data/room-type"
 import { Scores } from "./scores"
 import { settings } from "@pixi/settings"
-import SlSplitPanel from "@shoelace-style/shoelace/cdn/components/split-panel/split-panel.component"
 import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
 import { Tab } from "../tab"
 
 export class TabMaps {
   static readonly TOOL_TIP_ID = "mapToolTip"
   static readonly TOOL_TIP_TIP_ID = "mapToolTipTip"
-  private static readonly SPLIT_PANEL_1_ID = "tabMapSplitPanel1"
-  private static readonly SPLIT_PANEL_2_ID = "tabMapSplitPanel2"
   private static readonly MAP_ID = "tabMapMap"
+  private static readonly MAP_GRID_ID = "tabMapMapGrid"
 
   private elements: Elements
   private layer: Layer
@@ -28,8 +26,7 @@ export class TabMaps {
   private rooms: Rooms
   private scores: Scores
   private selectedRoom: SelectedRoom | null
-  private splitPanel1: SlSplitPanel
-  private splitPanel2: SlSplitPanel
+  private mapDiv : HTMLElement
 
   constructor(editor: Editor) {
     settings.RESOLUTION = window.devicePixelRatio || 1
@@ -60,19 +57,14 @@ export class TabMaps {
               <div id="tabMapMapToolTipElement"></div>
             </sl-tooltip>
           </div>
-          <sl-split-panel id="${TabMaps.SPLIT_PANEL_1_ID}" @sl-reposition="${this.reposition}" position="25">
-            <div slot="start">${this.layer.hole()}${this.scores.hole()}${this.elements.hole()}</div>
-            <div slot="end">
-              <sl-split-panel id="${TabMaps.SPLIT_PANEL_2_ID}" position="75">
-                <div id="${TabMaps.MAP_ID}" slot="start"></div>
-                <div slot="end">${this.rooms.hole()}</div>
-              </sl-split-panel>
-            </div>
-          </sl-split-panel>`,
+          <div id="${TabMaps.MAP_GRID_ID}">
+            <div>${this.layer.hole()}${this.scores.hole()}${this.elements.hole()}</div>
+            <div id="${TabMaps.MAP_ID}"></div>
+            <div>${this.rooms.hole()}</div>
+          </div>`,
       )
-      this.splitPanel1 = <SlSplitPanel>document.getElementById(TabMaps.SPLIT_PANEL_1_ID)
-      this.splitPanel2 = <SlSplitPanel>document.getElementById(TabMaps.SPLIT_PANEL_2_ID)
-      document.getElementById(TabMaps.MAP_ID)!.appendChild(this.map.app.canvas)
+      this.mapDiv = document.getElementById(TabMaps.MAP_ID)!
+      this.mapDiv.appendChild(this.map.app.canvas)
       this.rooms.init()
       this.elements.init()
       this.layer.init()
@@ -99,10 +91,8 @@ export class TabMaps {
 
   private async resize(): Promise<any> {
     console.debug("TabMap", "resize")
-    const height = window.innerHeight - this.splitPanel1.getBoundingClientRect().top - 10
-    const splitPanel1Percent = 1 - this.splitPanel1.position / 100
-    const splitPanel2Percent = this.splitPanel2.position / 100
-    const width = window.innerWidth * splitPanel1Percent * splitPanel2Percent - 20
+    const height = window.innerHeight - this.mapDiv.getBoundingClientRect().top - 10
+    const width = this.mapDiv.getBoundingClientRect().width
     const number = Math.min(height, width)
     return this.map.resize(number).then(() => this.map.repaint())
   }

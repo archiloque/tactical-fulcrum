@@ -205,8 +205,10 @@ export class Map extends AbstractMap {
 
   private maybeStopMoving(): void {
     console.debug("Map", "maybeStopMoving")
-    this.app.ticker.remove(this.tickerFunction)
-    this.tickerFunction = null
+    if (this.tickerFunction !== null) {
+      this.app.ticker.remove(this.tickerFunction)
+      this.tickerFunction = null
+    }
     if (this.moveBuffer.length == 0) {
       console.debug("Map", "maybeStopMoving", "stop")
       this.isMoving = false

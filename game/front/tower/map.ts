@@ -1,5 +1,5 @@
 import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
-import { Coordinates, Delta } from "../../models/coordinates"
+import { Delta } from "../../models/coordinates"
 import { EnemyTile, STARTING_POSITION_TILE, TileType } from "../../../common/models/tile"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { Game } from "../../game"
@@ -16,7 +16,9 @@ export class Map extends AbstractMap {
   private readonly game: Game
   private tiles: Container
   private playerSprite: null | Sprite
-  private tickerFunction: (ticker: Ticker) => void | null
+  private tickerFunction: null | ((ticker: Ticker) => void)
+  private moveBuffer: Delta[] = []
+  private isMoving: boolean = false
 
   constructor(game: Game) {
     super()
@@ -32,6 +34,14 @@ export class Map extends AbstractMap {
   }
 
   repaint(): void {
+    if (this.isMoving) {
+      this.isMoving = false
+      if (this.tickerFunction !== null) {
+        this.app.ticker.remove(this.tickerFunction)
+        this.tickerFunction = null
+      }
+      this.moveBuffer.length = 0
+    }
     if (this.tiles != null) {
       this.app.stage.removeChild(this.tiles)
       this.tiles.destroy()
@@ -128,33 +138,81 @@ export class Map extends AbstractMap {
 
   private keyDown(e: KeyboardEvent): void {
     console.debug("Map", "keyDown", e)
-    if (e.key == Keys.ARROW_RIGHT) {
-      return this.tryMoving(Delta.RIGHT)
-    } else if (e.key == Keys.ARROW_LEFT) {
-      return this.tryMoving(Delta.LEFT)
+    switch (e.key) {
+      case Keys.ARROW_RIGHT: {
+        this.bufferDirection(Delta.RIGHT)
+        break
+      }
+      case Keys.ARROW_LEFT: {
+        this.bufferDirection(Delta.LEFT)
+        break
+      }
+      case Keys.ARROW_UP: {
+        this.bufferDirection(Delta.UP)
+        break
+      }
+      case Keys.ARROW_DOWN: {
+        this.bufferDirection(Delta.DOWN)
+        break
+      }
     }
   }
 
-  private tryMoving(delta: Delta): void {
+  private bufferDirection(delta: Delta) {
+    this.moveBuffer.push(delta)
+    if (!this.isMoving) {
+      this.tryMoving()
+    }
+  }
+
+  private tryMoving(): void {
+    const delta = this.moveBuffer.shift()!
     console.debug("Map", "tryMoving", delta)
     const playedTower = this.game.playerTower!
     const initialPlayerPosition = playedTower.playerPosition
     const newPlayerPosition = initialPlayerPosition.add(delta)
+    if (playedTower.reachableTiles[newPlayerPosition.line][newPlayerPosition.column] == null) {
+      console.debug("Map", "tryMoving", "nope")
+      this.moveBuffer.length = 0
+      this.isMoving = false
+      return
+    }
+    this.isMoving = true
     playedTower.playerPosition = newPlayerPosition
     let totalPercentMove = 0
     this.tickerFunction = (ticker: Ticker): void => {
+      const percentMove = ticker.deltaMS / TILE_MOVE_TIME
+      totalPercentMove += percentMove
       if (delta.column !== 0) {
-        const percentMove = ticker.deltaMS / TILE_MOVE_TIME
-        totalPercentMove += percentMove
         if (totalPercentMove > 1) {
-          console.debug("Map", "tryMoving", "end")
           this.playerSprite!.x = (initialPlayerPosition.column + delta.column) * this.tileSize
-          this.app.ticker.remove(this.tickerFunction)
+          this.maybeStopMoving()
         } else {
           this.playerSprite!.x += percentMove * delta.column * this.tileSize
         }
       }
+      if (delta.line !== 0) {
+        if (totalPercentMove > 1) {
+          this.playerSprite!.y = (initialPlayerPosition.line + delta.line) * this.tileSize
+          this.maybeStopMoving()
+        } else {
+          this.playerSprite!.y += percentMove * delta.line * this.tileSize
+        }
+      }
     }
     this.app.ticker.add(this.tickerFunction)
+  }
+
+  private maybeStopMoving(): void {
+    console.debug("Map", "maybeStopMoving")
+    this.app.ticker.remove(this.tickerFunction)
+    this.tickerFunction = null
+    if (this.moveBuffer.length == 0) {
+      console.debug("Map", "maybeStopMoving", "stop")
+      this.isMoving = false
+    } else {
+      console.debug("Map", "maybeStopMoving", "go on")
+      this.tryMoving()
+    }
   }
 }

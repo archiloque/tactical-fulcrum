@@ -10,13 +10,13 @@ import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.c
 import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
-const TILE_MOVE_TIME: number = 250
+const TILE_MOVE_TIME: number = 150
 
 export class Map extends AbstractMap {
   private readonly game: Game
   private tiles: Container
-  playerSprite: null | Sprite
-  tickerFunction: (ticker: Ticker) => void | null
+  private playerSprite: null | Sprite
+  private tickerFunction: (ticker: Ticker) => void | null
 
   constructor(game: Game) {
     super()
@@ -138,41 +138,23 @@ export class Map extends AbstractMap {
   private tryMoving(delta: Delta): void {
     console.debug("Map", "tryMoving", delta)
     const playedTower = this.game.playerTower!
-    const newPlayerPosition = playedTower.playerPosition.add(delta)
-    const characterMover = new CharacterMover(delta, playedTower.playerPosition, this)
+    const initialPlayerPosition = playedTower.playerPosition
+    const newPlayerPosition = initialPlayerPosition.add(delta)
     playedTower.playerPosition = newPlayerPosition
+    let totalPercentMove = 0
     this.tickerFunction = (ticker: Ticker): void => {
-      characterMover.tick(ticker)
-    }
-    this.app.ticker.add(this.tickerFunction)
-  }
-}
-
-class CharacterMover {
-  readonly delta: Delta
-  readonly initialCoordinates: Coordinates
-  readonly map: Map
-  private totalPercentMove: number
-
-  constructor(delta: Delta, initialCoordinates: Coordinates, map: Map) {
-    this.map = map
-    this.delta = delta
-    this.initialCoordinates = initialCoordinates
-    this.totalPercentMove = 0
-  }
-
-  tick(ticker: Ticker): void {
-    // console.debug("CharacterMover", "tick", ticker)
-    if (this.delta.column !== 0) {
-      const percentMove = ticker.deltaMS / TILE_MOVE_TIME
-      this.totalPercentMove += percentMove
-      if (this.totalPercentMove > 1) {
-        console.debug("CharacterMover", "end", ticker)
-        this.map.playerSprite!.x = (this.initialCoordinates.column + this.delta.column) * this.map.tileSize
-        this.map.app.ticker.remove(this.map.tickerFunction)
-      } else {
-        this.map.playerSprite!.x += percentMove * this.delta.column * this.map.tileSize
+      if (delta.column !== 0) {
+        const percentMove = ticker.deltaMS / TILE_MOVE_TIME
+        totalPercentMove += percentMove
+        if (totalPercentMove > 1) {
+          console.debug("Map", "tryMoving", "end")
+          this.playerSprite!.x = (initialPlayerPosition.column + delta.column) * this.tileSize
+          this.app.ticker.remove(this.tickerFunction)
+        } else {
+          this.playerSprite!.x += percentMove * delta.column * this.tileSize
+        }
       }
     }
+    this.app.ticker.add(this.tickerFunction)
   }
 }

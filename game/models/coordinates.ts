@@ -26,28 +26,28 @@ export class Coordinates extends Pair {
   around(): Delta[] {
     const result: Delta[] = []
     if (this.line > 0) {
-      result.push(UP)
+      result.push(Delta.UP)
     }
     if (this.line < TILES_IN_ROW - 1) {
-      result.push(DOWN)
+      result.push(Delta.DOWN)
     }
     if (this.column > 0) {
-      result.push(LEFT)
+      result.push(Delta.LEFT)
     }
     if (this.column < TILES_IN_ROW - 1) {
-      result.push(RIGHT)
+      result.push(Delta.RIGHT)
     }
     return result
   }
 }
 
 export class Delta extends Pair {
-  constructor(line: number, column: number) {
+  static readonly UP: Delta = new Delta(-1, 0)
+  static readonly DOWN: Delta = new Delta(1, 0)
+  static readonly LEFT: Delta = new Delta(0, -1)
+  static readonly RIGHT: Delta = new Delta(0, 1)
+
+  private constructor(line: number, column: number) {
     super(line, column)
   }
 }
-
-export const UP: Delta = new Delta(-1, 0)
-export const DOWN: Delta = new Delta(1, 0)
-export const LEFT: Delta = new Delta(0, -1)
-export const RIGHT: Delta = new Delta(0, 1)

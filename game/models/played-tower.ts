@@ -1,6 +1,6 @@
-import { Coordinates, Delta } from "./coordinates"
 import { EMPTY_TILE, Tile, TileType } from "../../common/models/tile"
 import { calculateReachableTiles } from "./a-star"
+import { Delta } from "./coordinates"
 import { PlayerInfo } from "./player-info"
 import { PlayerPosition } from "./player-position"
 import { Room } from "../../common/models/room"
@@ -9,7 +9,7 @@ import { Tower } from "../../common/models/tower"
 
 export class PlayedTower {
   readonly tower: Tower
-  readonly playerPosition: PlayerPosition
+  playerPosition: PlayerPosition
   readonly standardRooms: Tile[][][]
   readonly nexusRooms: Tile[][][]
   readonly playerInfo: PlayerInfo
@@ -21,10 +21,7 @@ export class PlayedTower {
     this.nexusRooms = this.cloneRoom(tower.nexusRooms)
     this.playerPosition = this.findStartingPosition(this.standardRooms)
     this.playerInfo = new PlayerInfo(tower.info.hp, tower.info.atk, tower.info.def)
-    this.reachableTiles = calculateReachableTiles(
-      new Coordinates(this.playerPosition.line, this.playerPosition.column),
-      this.standardRooms[this.playerPosition.room],
-    )
+    this.reachableTiles = calculateReachableTiles(this.playerPosition, this.standardRooms[this.playerPosition.room])
   }
 
   private cloneRoom(rooms: Room[]): Tile[][][] {

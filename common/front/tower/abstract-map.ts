@@ -10,7 +10,7 @@ export abstract class AbstractMap {
   protected readonly background: Sprite
   protected readonly cursor: Graphics
   protected readonly spriter: Spriter = new Spriter("map")
-  protected tileSize: number = TILES_DEFAULT_SIZE
+  tileSize: number = TILES_DEFAULT_SIZE
   protected toolTip: HTMLElement
   protected toolTipTimeout: number | null = null
   protected tooltipTip: SlTooltip

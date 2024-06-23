@@ -3,12 +3,12 @@ import { EnemyTile, ItemTile, Tile, TileType } from "../../../common/models/tile
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { Editor } from "../../editor"
 import { getTextColor } from "../../../common/front/color-scheme"
+import { Keys } from "../../../common/front/keys"
 import { Room } from "../../../common/models/room"
 import { RoomLayer } from "../room-layer"
 import { Score } from "../../../common/models/score"
 import { ScoreType } from "../../../common/data/score-type"
 import { SelectedRoom } from "./selected-room"
-import { SHIFT } from "../keys"
 import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
 import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TabMaps } from "./tab-maps"
@@ -55,14 +55,14 @@ export class Map extends AbstractMap {
 
   private keyDown(e: KeyboardEvent): void {
     console.debug("Map", "keyDown", e)
-    if (e.key == SHIFT) {
+    if (e.key == Keys.SHIFT) {
       this.app.canvas.style.cursor = "copy"
     }
   }
 
   private keyUp(e: KeyboardEvent): void {
     console.debug("Map", "keyUp", e)
-    if (e.key == SHIFT) {
+    if (e.key == Keys.SHIFT) {
       this.app.canvas.style.cursor = "auto"
     }
   }

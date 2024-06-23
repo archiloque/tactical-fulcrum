@@ -1,11 +1,14 @@
-export class PlayerPosition {
-  room: number
-  line: number
-  column: number
+import { Coordinates, Delta } from "./coordinates"
+
+export class PlayerPosition extends Coordinates {
+  readonly room: number
 
   constructor(room: number, line: number, column: number) {
+    super(line, column)
     this.room = room
-    this.line = line
-    this.column = column
+  }
+
+  add(delta: Delta): PlayerPosition {
+    return new PlayerPosition(this.room, this.line + delta.line, this.column + delta.column)
   }
 }

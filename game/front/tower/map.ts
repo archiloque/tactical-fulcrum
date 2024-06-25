@@ -1,7 +1,7 @@
 import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
-import { Delta } from "../../models/coordinates"
 import { EnemyTile, STARTING_POSITION_TILE, TileType } from "../../../common/models/tile"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
+import { Delta } from "../../models/coordinates"
 import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
 import { Keys } from "../../../common/front/keys"
@@ -11,19 +11,27 @@ import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
 const TILE_MOVE_TIME: number = 150
+const TILE_HIDE_BEGIN_PERCENT: number = 0.25
+const TILE_HIDE_END_PERCENT: number = 0.75
 
 export class Map extends AbstractMap {
   private readonly game: Game
   private tiles: Container
   private playerSprite: null | Sprite
+  private targetSprite: null | Sprite
   private tickerFunction: null | ((ticker: Ticker) => void)
   private moveBuffer: Delta[] = []
   private isMoving: boolean = false
+  private readonly sprites: Sprite | null[][]
 
   constructor(game: Game) {
     super()
     this.game = game
     this.game.eventManager.registerSchemeChange(() => this.schemeChanged())
+    this.sprites = new Array(TILES_IN_ROW)
+    for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
+      this.sprites[lineIndex] = new Array(TILES_IN_ROW).fill(null, 0, TILES_IN_ROW)
+    }
   }
 
   async init(): Promise<any> {
@@ -70,36 +78,43 @@ export class Map extends AbstractMap {
     const scores = playerTower.tower.standardRooms[currentRoomIndex].scores
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
       for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
-        const currentScore = scores.find((s) => s.line === lineIndex && s.column === columnIndex)
-        const currentTile = currentRoom[lineIndex][columnIndex]
-        const spriteName = SpritesToItem.spriteNameFromTile(currentTile)
-        const hasPlayer = lineIndex === playerPosition.line && columnIndex === playerPosition.column
         const x = this.tileSize * columnIndex
         const y = this.tileSize * lineIndex
-        if (hasPlayer) {
+
+        const playerOnCurrentTile = lineIndex === playerPosition.line && columnIndex === playerPosition.column
+        if (playerOnCurrentTile) {
           this.playerSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile(STARTING_POSITION_TILE)!)
           this.playerSprite.x = x
           this.playerSprite.y = y
           this.tiles.addChild(this.playerSprite)
         }
+
+        const currentTile = currentRoom[lineIndex][columnIndex]
+        const currentSpriteName = SpritesToItem.spriteNameFromTile(currentTile)
+
+        const currentScore = scores.find((s) => s.line === lineIndex && s.column === columnIndex)
         if (currentScore !== undefined) {
           const scoreSpriteName = SpritesToItem.spriteNameFromScore(currentScore.type)
           const scoreSprite = this.spriter.getSprite(scoreSpriteName)
           scoreSprite.x = x
           scoreSprite.y = y
-          if (spriteName !== null || hasPlayer) {
+          if (currentSpriteName !== null || playerOnCurrentTile) {
             scoreSprite.alpha = 0.2
           }
           this.tiles.addChild(scoreSprite)
         }
-        if (spriteName !== null) {
-          const sprite = this.spriter.getSprite(spriteName)
+
+        if (currentSpriteName !== null) {
+          const sprite = this.spriter.getSprite(currentSpriteName)
           sprite.x = x
           sprite.y = y
-          if (hasPlayer) {
+          if (playerOnCurrentTile) {
             sprite.alpha = 0.2
           }
           this.tiles.addChild(sprite)
+          this.sprites[lineIndex][columnIndex] = sprite
+        } else {
+          this.sprites[lineIndex][columnIndex] = null
         }
         if (currentTile.getType() === TileType.enemy) {
           const enemyTile = currentTile as EnemyTile
@@ -115,7 +130,7 @@ export class Map extends AbstractMap {
           text.x = this.tileSize * (columnIndex + 0.5)
           text.y = this.tileSize * (lineIndex + 0.4)
           text.anchor.x = 0.5
-          if (hasPlayer) {
+          if (playerOnCurrentTile) {
             text.alpha = 0.2
           }
           this.tiles.addChild(text)
@@ -158,7 +173,7 @@ export class Map extends AbstractMap {
     }
   }
 
-  private bufferDirection(delta: Delta) {
+  private bufferDirection(delta: Delta): void {
     this.moveBuffer.push(delta)
     if (!this.isMoving) {
       this.tryMoving()
@@ -179,12 +194,21 @@ export class Map extends AbstractMap {
     }
     this.isMoving = true
     playedTower.playerPosition = newPlayerPosition
-    let totalPercentMove = 0
+    this.targetSprite = this.sprites[newPlayerPosition.line][newPlayerPosition.column]
+    let totalPercentMove: number = 0
     this.tickerFunction = (ticker: Ticker): void => {
-      const percentMove = ticker.deltaMS / TILE_MOVE_TIME
+      const percentMove: number = ticker.deltaMS / TILE_MOVE_TIME
       totalPercentMove += percentMove
+      if (this.targetSprite !== null) {
+        if (totalPercentMove > TILE_HIDE_END_PERCENT) {
+          this.tiles.removeChild(this.targetSprite)
+          this.targetSprite = null
+        } else if (totalPercentMove > TILE_HIDE_BEGIN_PERCENT) {
+          this.targetSprite!.alpha = 1 - 2 * (totalPercentMove - 0.25)
+        }
+      }
       if (delta.column !== 0) {
-        if (totalPercentMove > 1) {
+        if (totalPercentMove >= 1) {
           this.playerSprite!.x = (initialPlayerPosition.column + delta.column) * this.tileSize
           this.maybeStopMoving()
         } else {
@@ -192,7 +216,7 @@ export class Map extends AbstractMap {
         }
       }
       if (delta.line !== 0) {
-        if (totalPercentMove > 1) {
+        if (totalPercentMove >= 1) {
           this.playerSprite!.y = (initialPlayerPosition.line + delta.line) * this.tileSize
           this.maybeStopMoving()
         } else {

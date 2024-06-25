@@ -1,6 +1,6 @@
-import { Coordinates, Delta } from "./coordinates"
-import { Tile, TileType } from "../../common/models/tile"
-import { TILES_IN_ROW } from "../../common/data/constants"
+import { Coordinates, Delta } from "../coordinates"
+import { Tile, TileType } from "../../../common/models/tile"
+import { TILES_IN_ROW } from "../../../common/data/constants"
 
 const enum ReachableType {
   blocking,

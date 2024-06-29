@@ -25,7 +25,6 @@ export async function showAlert(
         ${message}
 `,
   })
-  debugger
   document.body.append(alert)
   return alert.toast()
 }

@@ -11,7 +11,6 @@ export class IoInfoFromAttributes {
     result.silverMedal = value[IoInfo.ATTRIBUTE_SILVER_MEDAL] as number
     result.goldMedal = value[IoInfo.ATTRIBUTE_GOLD_MEDAL] as number
     result.platinumMedal = value[IoInfo.ATTRIBUTE_PLATINUM_MEDAL] as number
-    debugger
     if (value[IoInfo.ATTRIBUTE_DIAMOND_MEDAL] !== undefined) {
       result.diamondMedal = value[IoInfo.ATTRIBUTE_DIAMOND_MEDAL] as number
     } else {

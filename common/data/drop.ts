@@ -37,11 +37,11 @@ export const DROPS_CONTENTS = new Map<string, DropContent>()
 
 export const DROP_KEYS: string[] = COLORS.map((c) => {
   const name = `${capitalize(c)} key`
-  DROPS_CONTENTS[name] = new DropContentKey(c)
+  DROPS_CONTENTS.set(name, new DropContentKey(c))
   return name
 })
 export const DROP_ITEMS: string[] = ITEM_NAMES.map((itemName) => {
-  DROPS_CONTENTS[itemName.valueOf()] = new DropContentItem(itemName)
+  DROPS_CONTENTS.set(itemName.valueOf(), new DropContentItem(itemName))
   return itemName.valueOf()
 })
 export const DROPS: string[] = DROP_ITEMS.concat(DROP_KEYS)

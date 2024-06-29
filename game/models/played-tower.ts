@@ -1,22 +1,21 @@
+import { Action, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "./play/action"
+import { Delta2D, Position3D } from "./tuples"
 import { DoorTile, EMPTY_TILE, EnemyTile, ItemTile, KeyTile, Tile, TileType } from "../../common/models/tile"
 import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../common/data/drop"
-import { KillEnemy, MoveResult, OpenDoor, PickItem, PickKey, PlayerMove } from "./play/move-result"
 import { calculateReachableTiles } from "./play/a-star"
-import { Delta } from "./coordinates"
 import { Enemy } from "../../common/models/enemy"
 import { PlayerInfo } from "./player-info"
-import { PlayerPosition } from "./player-position"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
 
 export class PlayedTower {
   readonly tower: Tower
-  playerPosition: PlayerPosition
+  playerPosition: Position3D
   readonly standardRooms: Tile[][][]
   readonly nexusRooms: Tile[][][]
   readonly playerInfo: PlayerInfo
-  reachableTiles: Delta[] | null[][]
+  reachableTiles: Delta2D[] | null[][]
 
   constructor(tower: Tower) {
     this.tower = tower
@@ -24,6 +23,10 @@ export class PlayedTower {
     this.nexusRooms = this.cloneRoom(tower.nexusRooms)
     this.playerPosition = this.findStartingPosition(this.standardRooms)
     this.playerInfo = new PlayerInfo(tower.info.hp, tower.info.atk, tower.info.def)
+    this.calculateReachableTiles()
+  }
+
+  private calculateReachableTiles(): void {
     this.reachableTiles = calculateReachableTiles(this.playerPosition, this.standardRooms[this.playerPosition.room])
   }
 
@@ -35,42 +38,51 @@ export class PlayedTower {
     })
   }
 
-  movePlayer(delta: Delta): MoveResult[] {
-    const targetPlayerPosition = this.playerPosition.add(delta)
-    if (this.reachableTiles[targetPlayerPosition.line][targetPlayerPosition.column] === null) {
-      return []
+  movePlayer(delta: Delta2D): Action | null {
+    const targetPosition = this.playerPosition.add(delta)
+    if (
+      targetPosition.line < 0 ||
+      targetPosition.line >= TILES_IN_ROW ||
+      targetPosition.column < 0 ||
+      targetPosition.column >= TILES_IN_ROW
+    ) {
+      return null
     }
-    const playerMove = new PlayerMove(targetPlayerPosition)
-    this.playerPosition = targetPlayerPosition
-    const targetTile: Tile =
-      this.standardRooms[targetPlayerPosition.room][targetPlayerPosition.line][targetPlayerPosition.column]
+    if (this.reachableTiles[targetPosition.line][targetPosition.column] === null) {
+      return null
+    }
+    const oldPlayerPosition = this.playerPosition
+    const targetTile: Tile = this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column]
     switch (targetTile.getType()) {
       case TileType.door:
-        this.standardRooms[targetPlayerPosition.room][targetPlayerPosition.line][targetPlayerPosition.column] =
-          EMPTY_TILE
+        this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const doorColor = (targetTile as DoorTile).color
-        return [playerMove, new OpenDoor(doorColor)]
+        this.calculateReachableTiles()
+        return new OpenDoor(oldPlayerPosition, targetPosition, doorColor)
       case TileType.empty:
-        return [playerMove]
+        this.playerPosition = targetPosition
+        return new PlayerMove(oldPlayerPosition, targetPosition)
       case TileType.enemy:
         const enemy = (targetTile as EnemyTile).enemy
         const dropTile = this.getDropTile(enemy)
-        this.standardRooms[targetPlayerPosition.room][targetPlayerPosition.line][targetPlayerPosition.column] = dropTile
-        return [new KillEnemy(enemy, dropTile)]
-
+        this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = dropTile
+        this.calculateReachableTiles()
+        return new KillEnemy(oldPlayerPosition, targetPosition, enemy, dropTile)
       case TileType.item:
-        this.standardRooms[targetPlayerPosition.room][targetPlayerPosition.line][targetPlayerPosition.column] =
-          EMPTY_TILE
+        this.playerPosition = targetPosition
+        this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const itemName = (targetTile as ItemTile).item
         const item = this.tower.items[itemName]
-        return [playerMove, new PickItem(item)]
+        this.calculateReachableTiles()
+        return new PickItem(oldPlayerPosition, targetPosition, item)
       case TileType.key:
-        this.standardRooms[targetPlayerPosition.room][targetPlayerPosition.line][targetPlayerPosition.column] =
-          EMPTY_TILE
+        this.playerPosition = targetPosition
+        this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const keyColor = (targetTile as KeyTile).color
-        return [playerMove, new PickKey(keyColor)]
+        this.calculateReachableTiles()
+        return new PickKey(oldPlayerPosition, targetPosition, keyColor)
       case TileType.staircase:
-        return []
+        return null
       case TileType.startingPosition:
         throw new Error("Should not happen")
       case TileType.wall:
@@ -78,7 +90,7 @@ export class PlayedTower {
     }
   }
 
-  private findStartingPosition(rooms: Tile[][][]): PlayerPosition {
+  private findStartingPosition(rooms: Tile[][][]): Position3D {
     for (let roomIndex = 0; roomIndex < rooms.length; roomIndex++) {
       const room = rooms[roomIndex]
       for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
@@ -86,7 +98,7 @@ export class PlayedTower {
         for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
           if (line[columnIndex].getType() === TileType.startingPosition) {
             line[columnIndex] = EMPTY_TILE
-            return new PlayerPosition(roomIndex, lineIndex, columnIndex)
+            return new Position3D(roomIndex, lineIndex, columnIndex)
           }
         }
       }

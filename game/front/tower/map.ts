@@ -1,7 +1,8 @@
+import { Action, ActionType, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "../../models/play/action"
 import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
-import { EnemyTile, STARTING_POSITION_TILE, TileType } from "../../../common/models/tile"
+import { EMPTY_TILE, EnemyTile, STARTING_POSITION_TILE, Tile, TileType } from "../../../common/models/tile"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
-import { Delta } from "../../models/coordinates"
+import { Delta2D } from "../../models/tuples"
 import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
 import { Keys } from "../../../common/front/keys"
@@ -11,17 +12,21 @@ import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
 const TILE_MOVE_TIME: number = 150
-const TILE_HIDE_BEGIN_PERCENT: number = 0.25
-const TILE_HIDE_END_PERCENT: number = 0.75
+
+const TILE_GRAB_HIDE_BEGIN_PERCENT: number = 0.25
+const TILE_GRAB_HIDE_END_PERCENT: number = 0.75
+
+const TILE_SWITCH_HIDE_BEGIN_PERCENT: number = 0.25
+const TILE_SWITCH_HIDE_MIDDLE_PERCENT: number = 0.5
+const TILE_SWITCH_HIDE_END_PERCENT: number = 0.75
 
 export class Map extends AbstractMap {
   private readonly game: Game
   private tiles: Container
   private playerSprite: null | Sprite
-  private targetSprite: null | Sprite
   private tickerFunction: null | ((ticker: Ticker) => void)
-  private moveBuffer: Delta[] = []
-  private isMoving: boolean = false
+  private deltaBuffer: Delta2D[] = []
+  private currentAction: Action | null = null
   private readonly sprites: Sprite | null[][]
 
   constructor(game: Game) {
@@ -42,13 +47,13 @@ export class Map extends AbstractMap {
   }
 
   repaint(): void {
-    if (this.isMoving) {
-      this.isMoving = false
+    if (this.currentAction) {
+      this.currentAction = null
       if (this.tickerFunction !== null) {
         this.app.ticker.remove(this.tickerFunction)
         this.tickerFunction = null
       }
-      this.moveBuffer.length = 0
+      this.deltaBuffer.length = 0
     }
     if (this.tiles != null) {
       this.app.stage.removeChild(this.tiles)
@@ -90,22 +95,20 @@ export class Map extends AbstractMap {
         }
 
         const currentTile = currentRoom[lineIndex][columnIndex]
-        const currentSpriteName = SpritesToItem.spriteNameFromTile(currentTile)
-
         const currentScore = scores.find((s) => s.line === lineIndex && s.column === columnIndex)
         if (currentScore !== undefined) {
           const scoreSpriteName = SpritesToItem.spriteNameFromScore(currentScore.type)
           const scoreSprite = this.spriter.getSprite(scoreSpriteName)
           scoreSprite.x = x
           scoreSprite.y = y
-          if (currentSpriteName !== null || playerOnCurrentTile) {
+          if (currentTile !== EMPTY_TILE || playerOnCurrentTile) {
             scoreSprite.alpha = 0.2
           }
           this.tiles.addChild(scoreSprite)
         }
 
-        if (currentSpriteName !== null) {
-          const sprite = this.spriter.getSprite(currentSpriteName)
+        if (currentTile !== EMPTY_TILE) {
+          const sprite = this.createSprite(currentTile!)
           sprite.x = x
           sprite.y = y
           if (playerOnCurrentTile) {
@@ -116,26 +119,33 @@ export class Map extends AbstractMap {
         } else {
           this.sprites[lineIndex][columnIndex] = null
         }
-        if (currentTile.getType() === TileType.enemy) {
-          const enemyTile = currentTile as EnemyTile
-          const text = new Text({
-            text: enemyTile.enemy.level !== null ? enemyTile.enemy.level : "",
-            style: {
-              fontFamily: "JetBrains Mono",
-              fontSize: this.tileSize / 2,
-              fill: getTextColor(),
-              align: "center",
-            },
-          })
-          text.x = this.tileSize * (columnIndex + 0.5)
-          text.y = this.tileSize * (lineIndex + 0.4)
-          text.anchor.x = 0.5
-          if (playerOnCurrentTile) {
-            text.alpha = 0.2
-          }
-          this.tiles.addChild(text)
-        }
       }
+    }
+  }
+
+  private createSprite(tile: Tile): Container {
+    const spriteName = SpritesToItem.spriteNameFromTile(tile)!
+    const sprite = this.spriter.getSprite(spriteName)
+    if (tile.getType() == TileType.enemy) {
+      const enemyContainer = new Container()
+      enemyContainer.addChild(sprite)
+      const enemyTile = tile as EnemyTile
+      const text = new Text({
+        text: enemyTile.enemy.level !== null ? enemyTile.enemy.level : "",
+        style: {
+          fontFamily: "JetBrains Mono",
+          fontSize: this.tileSize / 2,
+          fill: getTextColor(),
+          align: "center",
+        },
+      })
+      text.x = this.tileSize * 0.5
+      text.y = this.tileSize * 0.4
+      text.anchor.x = 0.5
+      enemyContainer.addChild(text)
+      return enemyContainer
+    } else {
+      return sprite
     }
   }
 
@@ -155,90 +165,187 @@ export class Map extends AbstractMap {
     console.debug("Map", "keyDown", e)
     switch (e.key) {
       case Keys.ARROW_RIGHT: {
-        this.bufferDirection(Delta.RIGHT)
+        this.bufferDirection(Delta2D.RIGHT)
         break
       }
       case Keys.ARROW_LEFT: {
-        this.bufferDirection(Delta.LEFT)
+        this.bufferDirection(Delta2D.LEFT)
         break
       }
       case Keys.ARROW_UP: {
-        this.bufferDirection(Delta.UP)
+        this.bufferDirection(Delta2D.UP)
         break
       }
       case Keys.ARROW_DOWN: {
-        this.bufferDirection(Delta.DOWN)
+        this.bufferDirection(Delta2D.DOWN)
         break
       }
     }
   }
 
-  private bufferDirection(delta: Delta): void {
-    this.moveBuffer.push(delta)
-    if (!this.isMoving) {
-      this.tryMoving()
+  private bufferDirection(delta: Delta2D): void {
+    this.deltaBuffer.push(delta)
+    if (this.currentAction === null) {
+      this.tryAction()
     }
   }
 
-  private tryMoving(): void {
-    const delta = this.moveBuffer.shift()!
-    console.debug("Map", "tryMoving", delta)
-    const playedTower = this.game.playerTower!
-    const initialPlayerPosition = playedTower.playerPosition
-    const newPlayerPosition = initialPlayerPosition.add(delta)
-    if (playedTower.reachableTiles[newPlayerPosition.line][newPlayerPosition.column] == null) {
-      console.debug("Map", "tryMoving", "nope")
-      this.moveBuffer.length = 0
-      this.isMoving = false
-      return
-    }
-    this.isMoving = true
-    playedTower.playerPosition = newPlayerPosition
-    this.targetSprite = this.sprites[newPlayerPosition.line][newPlayerPosition.column]
+  private triggerMoveAction(move: PlayerMove | PickItem | PickKey) {
     let totalPercentMove: number = 0
-    this.tickerFunction = (ticker: Ticker): void => {
+    const deltaColumn = move.target.column - move.player.column
+    const deltaLine = move.target.line - move.player.line
+    let targetSprite: null | Sprite = null
+    if (move.getType() === ActionType.PICK_ITEM || move.getType() === ActionType.PICK_KEY) {
+      targetSprite = this.sprites[move.target.line][move.target.column]
+    }
+    return (ticker: Ticker): void => {
       const percentMove: number = ticker.deltaMS / TILE_MOVE_TIME
       totalPercentMove += percentMove
-      if (this.targetSprite !== null) {
-        if (totalPercentMove > TILE_HIDE_END_PERCENT) {
-          this.tiles.removeChild(this.targetSprite)
-          this.targetSprite = null
-        } else if (totalPercentMove > TILE_HIDE_BEGIN_PERCENT) {
-          this.targetSprite!.alpha = 1 - 2 * (totalPercentMove - 0.25)
+
+      if (targetSprite !== null) {
+        if (totalPercentMove >= TILE_GRAB_HIDE_END_PERCENT) {
+          this.tiles.removeChild(targetSprite)
+          targetSprite = null
+        } else if (totalPercentMove > TILE_GRAB_HIDE_BEGIN_PERCENT) {
+          targetSprite!.alpha =
+            1 -
+            (totalPercentMove - TILE_GRAB_HIDE_BEGIN_PERCENT) /
+              (TILE_GRAB_HIDE_END_PERCENT - TILE_GRAB_HIDE_BEGIN_PERCENT)
         }
       }
-      if (delta.column !== 0) {
+
+      if (deltaColumn !== 0) {
         if (totalPercentMove >= 1) {
-          this.playerSprite!.x = (initialPlayerPosition.column + delta.column) * this.tileSize
-          this.maybeStopMoving()
+          this.playerSprite!.x = (move.player.column + deltaColumn) * this.tileSize
+          this.currentMoveEnded()
         } else {
-          this.playerSprite!.x += percentMove * delta.column * this.tileSize
+          this.playerSprite!.x += percentMove * deltaColumn * this.tileSize
         }
       }
-      if (delta.line !== 0) {
+      if (deltaLine !== 0) {
         if (totalPercentMove >= 1) {
-          this.playerSprite!.y = (initialPlayerPosition.line + delta.line) * this.tileSize
-          this.maybeStopMoving()
+          this.playerSprite!.y = (move.player.line + deltaLine) * this.tileSize
+          this.currentMoveEnded()
         } else {
-          this.playerSprite!.y += percentMove * delta.line * this.tileSize
+          this.playerSprite!.y += percentMove * deltaLine * this.tileSize
         }
       }
     }
-    this.app.ticker.add(this.tickerFunction)
   }
 
-  private maybeStopMoving(): void {
-    console.debug("Map", "maybeStopMoving")
+  private triggerMoveAndBackAction(move: OpenDoor | KillEnemy) {
+    let totalPercentMove: number = 0
+    const deltaColumn = move.target.column - move.player.column
+    const deltaLine = move.target.line - move.player.line
+    const oldTargetSprite: Sprite = this.sprites[move.target.line][move.target.column]
+
+    const hasNewTile = move.getType() == ActionType.KILL_ENEMY && (move as KillEnemy).dropTile != EMPTY_TILE
+    let newTargetSprite: null | Sprite = null
+    if (hasNewTile) {
+      newTargetSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile((move as KillEnemy).dropTile)!)
+      newTargetSprite.alpha = 0
+      newTargetSprite.x = oldTargetSprite.x
+      newTargetSprite.y = oldTargetSprite.y
+      this.sprites[move.target.line][move.target.column] = newTargetSprite
+    }
+    let switchDone = false
+    return (ticker: Ticker): void => {
+      const percentMove: number = ticker.deltaMS / TILE_MOVE_TIME
+      totalPercentMove += percentMove
+
+      if (totalPercentMove >= TILE_SWITCH_HIDE_END_PERCENT) {
+        if (newTargetSprite !== null) {
+          newTargetSprite.alpha = 1
+          newTargetSprite = null
+        }
+      } else if (totalPercentMove > TILE_SWITCH_HIDE_MIDDLE_PERCENT) {
+        if (!switchDone) {
+          switchDone = true
+          oldTargetSprite!.alpha = 0
+          this.tiles.removeChild(oldTargetSprite)
+          if (newTargetSprite !== null) {
+            this.tiles.addChild(newTargetSprite)
+          }
+        } else {
+          if (newTargetSprite !== null) {
+            newTargetSprite!.alpha =
+              1 -
+              (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT) /
+                (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+          }
+        }
+      } else if (totalPercentMove > TILE_SWITCH_HIDE_BEGIN_PERCENT) {
+        oldTargetSprite!.alpha =
+          1 -
+          (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT) /
+            (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+      }
+
+      if (deltaColumn !== 0) {
+        if (totalPercentMove >= 1) {
+          this.playerSprite!.x = move.player.column * this.tileSize
+          this.currentMoveEnded()
+        } else if (totalPercentMove >= 0.5) {
+          this.playerSprite!.x -= (percentMove * deltaColumn * this.tileSize) / 4
+        } else {
+          this.playerSprite!.x += (percentMove * deltaColumn * this.tileSize) / 4
+        }
+      }
+      if (deltaLine !== 0) {
+        if (totalPercentMove >= 1) {
+          this.playerSprite!.x = move.player.column * this.tileSize
+          this.currentMoveEnded()
+        } else if (totalPercentMove >= 0.5) {
+          this.playerSprite!.y -= (percentMove * deltaLine * this.tileSize) / 4
+        } else {
+          this.playerSprite!.y += (percentMove * deltaLine * this.tileSize) / 4
+        }
+      }
+    }
+  }
+
+  private tryAction(): void {
+    const delta = this.deltaBuffer.shift()!
+    const action: Action | null = this.game.playerTower!.movePlayer(delta)
+    console.debug("Map", "tryAction", delta, action === null ? null : action.getType())
+    if (action === null) {
+      this.deltaBuffer.length = 0
+      this.currentAction = null
+      return
+    }
+    this.currentAction = action
+    switch (action.getType()) {
+      case ActionType.MOVE:
+        this.tickerFunction = this.triggerMoveAction(action as PlayerMove)
+        break
+      case ActionType.PICK_ITEM:
+        this.tickerFunction = this.triggerMoveAction(action as PickItem)
+        break
+      case ActionType.PICK_KEY:
+        this.tickerFunction = this.triggerMoveAction(action as PickKey)
+        break
+      case ActionType.OPEN_DOOR:
+        this.tickerFunction = this.triggerMoveAndBackAction(action as OpenDoor)
+        break
+      case ActionType.KILL_ENEMY:
+        this.tickerFunction = this.triggerMoveAndBackAction(action as KillEnemy)
+        break
+    }
+    this.app.ticker.add(this.tickerFunction!)
+  }
+
+  private currentMoveEnded(): void {
+    console.debug("Map", "maybeStopAction")
     if (this.tickerFunction !== null) {
       this.app.ticker.remove(this.tickerFunction)
       this.tickerFunction = null
     }
-    if (this.moveBuffer.length == 0) {
-      console.debug("Map", "maybeStopMoving", "stop")
-      this.isMoving = false
+    if (this.deltaBuffer.length == 0) {
+      console.debug("Map", "maybeStopAction", "stop")
+      this.currentAction = null
     } else {
-      console.debug("Map", "maybeStopMoving", "go on")
-      this.tryMoving()
+      console.debug("Map", "maybeStopAction", "go on")
+      this.tryAction()
     }
   }
 }

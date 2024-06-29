@@ -1,4 +1,4 @@
-import { Coordinates, Delta } from "../coordinates"
+import { Delta2D, Position2D } from "../tuples"
 import { Tile, TileType } from "../../../common/models/tile"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
@@ -9,16 +9,16 @@ const enum ReachableType {
 }
 
 class Destination {
-  readonly coordinates: Coordinates
-  readonly path: Delta[]
-  constructor(coordinates: Coordinates, path: Delta[]) {
+  readonly coordinates: Position2D
+  readonly path: Delta2D[]
+  constructor(coordinates: Position2D, path: Delta2D[]) {
     this.coordinates = coordinates
     this.path = path
   }
 }
 
-export function calculateReachableTiles(playerPosition: Coordinates, room: Tile[][]): Delta[] | null[][] {
-  const reachableTiles: Delta[] | null[][] = new Array(TILES_IN_ROW)
+export function calculateReachableTiles(playerPosition: Position2D, room: Tile[][]): Delta2D[] | null[][] {
+  const reachableTiles: Delta2D[] | null[][] = new Array(TILES_IN_ROW)
   for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
     reachableTiles[lineIndex] = new Array(TILES_IN_ROW).fill(null, 0, TILES_IN_ROW)
   }
@@ -54,7 +54,7 @@ export function calculateReachableTiles(playerPosition: Coordinates, room: Tile[
   return reachableTiles
 }
 
-function reachable(position: Coordinates, room: Tile[][]): ReachableType {
+function reachable(position: Position2D, room: Tile[][]): ReachableType {
   const tile = room[position.line][position.column]
   switch (tile.getType()) {
     case TileType.door:

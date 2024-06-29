@@ -1,3 +1,4 @@
+import "@shoelace-style/shoelace/dist/components/alert/alert.js"
 import SlAlert from "@shoelace-style/shoelace/cdn/components/alert/alert.component"
 
 export const enum AlertVariant {
@@ -24,6 +25,7 @@ export async function showAlert(
         ${message}
 `,
   })
+  debugger
   document.body.append(alert)
   return alert.toast()
 }

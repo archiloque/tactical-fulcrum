@@ -130,7 +130,7 @@ export class Import extends IOOperation {
     }
   }
 
-  private importInfo(parsedData: Record<string, string | number | null>[], tower: Tower): void {
+  private importInfo(parsedData: Record<string, string | number>[], tower: Tower): void {
     const info = parsedData[IOOperation.ATTRIBUTE_INFO]
     if (info == null) {
       this.errors.push("Info value is invalid")

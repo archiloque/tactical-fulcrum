@@ -7,5 +7,5 @@ export class Info {
   goldMedal: number = 0
   platinumMedal: number = 0
   diamondMedal: number = 0
-  moonMedal: number = 0
+  sunStone: number = 0
 }

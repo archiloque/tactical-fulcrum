@@ -34,7 +34,7 @@ export class Game {
   playerTower: PlayedTower | null
 
   constructor() {
-    this.mainDiv = document.getElementById("content")
+    this.mainDiv = document.getElementById("content")!
     this.eventManager = new EventManager()
 
     this.eventManager.registerTowerSelection((selectedTower: TowerInfo) => {
@@ -57,7 +57,8 @@ export class Game {
       } else {
         const importResult = new Import().import(await response.text())
         if (importResult.errors.length != 0) {
-          await showAlert(`Error importing the tower`, AlertVariant.danger, "check2-circle")
+          const errorMessage = `Error importing the tower:<ul>${importResult.errors.map((e) => `<li>${e}</li>`).join("")}</ul>`
+          await showAlert(errorMessage, AlertVariant.danger, "check2-circle")
         } else {
           const tower = importResult.tower
           this.playerTower = new PlayedTower(tower)

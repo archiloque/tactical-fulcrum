@@ -59,12 +59,12 @@ export class TabInfo extends AbstractTab {
         ${this.numberInput(
           this.editor.tower.info.diamondMedal,
           this.diamondMedalChange,
-          1,
+          0,
           "Diamond medal",
           null,
           "Diamond medal",
         )}
-        ${this.numberInput(this.editor.tower.info.moonMedal, this.moonMedalChange, 1, "Moon medal", null, "Moon medal")}
+        ${this.numberInput(this.editor.tower.info.sunStone, this.sunStoneChange, 1, "Sun stone", null, "Sun stone")}
       `,
     )
   }
@@ -123,9 +123,9 @@ export class TabInfo extends AbstractTab {
     this.editor.tower.saveInfo()
   }
 
-  private moonMedalChange = (event: CustomEvent): void => {
+  private sunStoneChange = (event: CustomEvent): void => {
     const atk = (event.currentTarget as SlInput).value
-    this.editor.tower.info.moonMedal = parseInt(atk)
+    this.editor.tower.info.sunStone = parseInt(atk)
     this.editor.tower.saveInfo()
   }
 }

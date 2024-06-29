@@ -10,7 +10,7 @@ export class IoInfo {
   static readonly ATTRIBUTE_GOLD_MEDAL = "goldMedal"
   static readonly ATTRIBUTE_PLATINUM_MEDAL = "platinumMedal"
   static readonly ATTRIBUTE_DIAMOND_MEDAL = "diamondMedal"
-  static readonly ATTRIBUTE_MOON_MEDAL = "moonMedal"
+  static readonly ATTRIBUTE_SUN_STONE = "sunStone"
 
   static readonly ATTRIBUTES: string[] = [
     IoInfo.ATTRIBUTE_ATK,
@@ -21,7 +21,7 @@ export class IoInfo {
     IoInfo.ATTRIBUTE_GOLD_MEDAL,
     IoInfo.ATTRIBUTE_PLATINUM_MEDAL,
     IoInfo.ATTRIBUTE_DIAMOND_MEDAL,
-    IoInfo.ATTRIBUTE_MOON_MEDAL,
+    IoInfo.ATTRIBUTE_SUN_STONE,
   ]
 
   static validateInfoImport(info: Record<string, string | number | null>, errors: string[]): void {
@@ -45,9 +45,9 @@ export class IoInfo {
     const platinumMedal = info[IoInfo.ATTRIBUTE_PLATINUM_MEDAL]
     IO.checkNumber(platinumMedal, `Info platinum medal [${platinumMedal}] is invalid`, false, false, errors)
     const diamondMedal = info[IoInfo.ATTRIBUTE_DIAMOND_MEDAL]
-    IO.checkNumber(diamondMedal, `Info diamond medal [${diamondMedal}] is invalid`, false, false, errors)
-    const moonMedal = info[IoInfo.ATTRIBUTE_MOON_MEDAL]
-    IO.checkNumber(moonMedal, `Info moon medal [${moonMedal}] is invalid`, false, false, errors)
+    IO.checkNumber(diamondMedal, `Info diamond medal [${diamondMedal}] is invalid`, false, true, errors)
+    const sunStone = info[IoInfo.ATTRIBUTE_SUN_STONE]
+    IO.checkNumber(sunStone, `Info sun stone [${sunStone}] is invalid`, false, true, errors)
   }
 
   static validateInfoExport(info: Info, errors: string[]): void {
@@ -58,7 +58,7 @@ export class IoInfo {
     IO.checkNumber(info.silverMedal, `Info silver medal [${info.silverMedal}] is invalid`, false, false, errors)
     IO.checkNumber(info.goldMedal, `Info gold medal [${info.goldMedal}] is invalid`, false, false, errors)
     IO.checkNumber(info.platinumMedal, `Info platinum medal [${info.platinumMedal}] is invalid`, false, false, errors)
-    IO.checkNumber(info.diamondMedal, `Info diamond medal [${info.diamondMedal}] is invalid`, false, false, errors)
-    IO.checkNumber(info.moonMedal, `Info moon medal [${info.moonMedal}] is invalid`, false, false, errors)
+    IO.checkNumber(info.diamondMedal, `Info diamond medal [${info.diamondMedal}] is invalid`, false, true, errors)
+    IO.checkNumber(info.sunStone, `Info sun stone [${info.sunStone}] is invalid`, true, false, errors)
   }
 }

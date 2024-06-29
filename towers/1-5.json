@@ -5,12 +5,11 @@
     "atk": 10,
     "def": 0,
     "hp": 100,
-    "bronzeMedal": 0,
-    "silverMedal": 0,
-    "goldMedal": 0,
-    "platinumMedal": 0,
-    "diamondMedal": 0,
-    "moonMedal": 0
+    "bronzeMedal": 1000000,
+    "silverMedal": 2000000,
+    "goldMedal": 3000000,
+    "platinumMedal": 4000000,
+    "sunStone": 100000
   },
   "enemies": [
     {

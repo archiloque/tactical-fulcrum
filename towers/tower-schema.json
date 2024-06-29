@@ -114,7 +114,7 @@
             "type": "number",
             "minimum": 1
           },
-          "moonMedal": {
+          "sunStone": {
             "type": "number",
             "minimum": 1
           }
@@ -128,8 +128,7 @@
           "silverMedal",
           "goldMedal",
           "platinumMedal",
-          "diamondMedal",
-          "moonMedal"
+          "sunStone"
         ]
       },
       "Item": {

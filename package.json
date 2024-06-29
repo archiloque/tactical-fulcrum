@@ -12,6 +12,7 @@
     "build-sprites": "node build-sprites.mjs",
     "build-towers-list": "node build-towers-list.mjs",
     "prettier": "npx prettier . --write",
+    "publish game": "zip -r out/game.zip out/game && butler push out/game.zip archiloque/tactical-fulcrum:HTML",
     "publish editor": "zip -r out/editor.zip out/editor && butler push out/editor.zip archiloque/tactical-fulcrum-editor:HTML"
   },
   "devDependencies": {

@@ -16,7 +16,7 @@ export class ScreenIntro {
     )
     render(
       this.game.mainDiv,
-      html`<h1 id="screenMainMainTile">Tactical&thinsp;nexus</h1>
+      html`<h1 id="screenMainMainTile">Tactical&thinsp;fulcrum</h1>
         <sl-tree id="screenMainTowersList" @sl-selection-change="${this.towerSelection}"> ${towers} </sl-tree>`,
     )
   }

@@ -22,7 +22,7 @@ export class ScreenTower {
     this.game = game
     this.map = new Map(game)
     this.infoBar = new InfoBar(game)
-    window.addEventListener("resize", () => {
+    this.game.eventManager.registerScreenChange(() => {
       if (game.displayedScreen === GameScreen.tower) {
         return this.render()
       }

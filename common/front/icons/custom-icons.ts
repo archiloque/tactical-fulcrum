@@ -29,7 +29,9 @@ export class MonochromeCustomIcon extends CustomIcon {
   }
 
   getValue(): string {
-    return decodeSvg(MonochromeCustomIcons.get(this.iconName)!.replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
+    return decodeSvg(
+      MonochromeCustomIcons.get(this.iconName.toString())!.replaceAll(INITIAL_COLOR_BLACK, getTextColor()),
+    )
   }
 }
 
@@ -45,16 +47,11 @@ export class ColoredCustomIcon extends CustomIcon {
 
   getValue(): string {
     return decodeSvg(
-      ColorCustomIcons.get(this.iconName)!
+      ColorCustomIcons.get(this.iconName.toString())!
         .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
         .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),
     )
   }
 }
 
-const ICONS = new Map<string, CustomIcon>([
-  [ColorCustomIconsName.HEART.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.HEART, Colors.red)],
-  [MonochromeCustomIconsName.SHIELD.valueOf(), new MonochromeCustomIcon(MonochromeCustomIconsName.SHIELD)],
-  [MonochromeCustomIconsName.SWORD.valueOf(), new MonochromeCustomIcon(MonochromeCustomIconsName.SWORD)],
-  [MonochromeCustomIconsName.EXPERIENCE.valueOf(), new MonochromeCustomIcon(MonochromeCustomIconsName.EXPERIENCE)],
-])
+const ICONS = new Map<string, CustomIcon>([])

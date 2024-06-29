@@ -40,7 +40,7 @@ export class TabMaps {
 
     this.map = new Map(editor)
     this.rooms = new Rooms(editor)
-    window.addEventListener("resize", () => {
+    this.editor.eventManager.registerScreenChange(() => {
       if (editor.displayedTab === Tab.map) {
         return this.resize()
       }

@@ -54,9 +54,9 @@ const EDITOR_ICONS = [
   "trash",
 ]
 
-const CUSTOM_ICONS_COLORS = ["heart"]
+const CUSTOM_ICONS_COLORS = []
 
-const CUSTOM_ICONS_MONOCHROMES = ["experience", "shield", "sword"]
+const CUSTOM_ICONS_MONOCHROMES = []
 
 const IN_DIR = "assets/sprites"
 

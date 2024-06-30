@@ -1,15 +1,15 @@
-import { findEnum, findTreeItemFromValue } from "../../../common/models/functions"
-import { Hole, html } from "uhtml"
-import { SCORE_TYPES, ScoreType } from "../../../common/data/score-type"
-import { Editor } from "../../editor"
-import { RoomLayer } from "../room-layer"
-import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
-import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
-import { TileType } from "../../../common/models/tile"
+import {findEnum, findTreeItemFromValue} from '../../../common/models/functions'
+import {Hole, html} from 'uhtml'
+import {SCORE_TYPES, ScoreType} from '../../../common/data/score-type'
+import {Editor} from '../../editor'
+import {RoomLayer} from '../room-layer'
+import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
+import SlTreeItem from '@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component'
+import {TileType} from '../../../common/models/tile'
 
 export class Scores {
-  private static readonly DIV_ID = "tabMapScores"
-  private static readonly TREE_ID = "tabMapScoresTree"
+  private static readonly DIV_ID = 'tabMapScores'
+  private static readonly TREE_ID = 'tabMapScoresTree'
 
   private div: HTMLElement
   private readonly editor: Editor
@@ -21,11 +21,11 @@ export class Scores {
     this.editor.eventManager.registerScoreSelection((scoreType, updateScoreTree) =>
       this.scoreSelected(scoreType, updateScoreTree),
     )
-    this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
+    this.editor.eventManager.registerLayerSelection(layer => this.layerSelected(layer))
   }
 
   hole(): Hole {
-    console.debug("Scores", "hole")
+    console.debug('Scores', 'hole')
     return html` <div id="${Scores.DIV_ID}" class="hidden">
       <h2>Score</h2>
       <sl-tree id="${Scores.TREE_ID}" selection="leaf" @sl-selection-change="${this.selectionChanged}">
@@ -38,7 +38,7 @@ export class Scores {
   }
 
   init(): void {
-    console.debug("Scores", "init")
+    console.debug('Scores', 'init')
     this.div = document.getElementById(Scores.DIV_ID)!
     this.scoresTree = document.getElementById(Scores.TREE_ID) as SlTree
   }
@@ -48,7 +48,8 @@ export class Scores {
     const type = slTreeItem.dataset.type!
     if (type === TileType.empty.valueOf()) {
       this.editor.eventManager.notifyScoreSelection(null, false)
-    } else {
+    }
+ else {
       const scoreType: ScoreType | undefined = findEnum(SCORE_TYPES, type)
       if (scoreType !== undefined) {
         this.editor.eventManager.notifyScoreSelection(scoreType, false)
@@ -58,9 +59,10 @@ export class Scores {
 
   private findTreeItem(scoreType: ScoreType | null): SlTreeItem {
     if (scoreType == null) {
-      return findTreeItemFromValue(this.scoresTree, { type: TileType.empty.valueOf() })
-    } else {
-      return findTreeItemFromValue(this.scoresTree, { type: scoreType.valueOf() })
+      return findTreeItemFromValue(this.scoresTree, {type: TileType.empty.valueOf()})
+    }
+ else {
+      return findTreeItemFromValue(this.scoresTree, {type: scoreType.valueOf()})
     }
   }
 
@@ -71,7 +73,8 @@ export class Scores {
       }
       this.selectedScore = scoreType
       this.findTreeItem(this.selectedScore).selected = true
-    } else {
+    }
+ else {
       this.selectedScore = scoreType
     }
   }
@@ -79,10 +82,10 @@ export class Scores {
   private layerSelected(layer: RoomLayer): void {
     switch (layer) {
       case RoomLayer.standard:
-        this.div.classList.add("hidden")
+        this.div.classList.add('hidden')
         break
       case RoomLayer.score:
-        this.div.classList.remove("hidden")
+        this.div.classList.remove('hidden')
         break
     }
   }

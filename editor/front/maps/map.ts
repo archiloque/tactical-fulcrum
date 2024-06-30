@@ -1,18 +1,16 @@
-import { Container, FederatedPointerEvent, Point, Text } from "pixi.js"
-import { EnemyTile, ItemTile, Tile, TileType } from "../../../common/models/tile"
-import { AbstractMap } from "../../../common/front/tower/abstract-map"
-import { Editor } from "../../editor"
-import { getTextColor } from "../../../common/front/color-scheme"
-import { Keys } from "../../../common/front/keys"
-import { Room } from "../../../common/models/room"
-import { RoomLayer } from "../room-layer"
-import { Score } from "../../../common/models/score"
-import { ScoreType } from "../../../common/data/score-type"
-import { SelectedRoom } from "./selected-room"
-import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
-import { TabMaps } from "./tab-maps"
-import { TILES_IN_ROW } from "../../../common/data/constants"
+import {Container, FederatedPointerEvent, Point, Text} from 'pixi.js'
+import {EnemyTile, ItemTile, Tile, TileType} from '../../../common/models/tile'
+import {AbstractMap} from '../../../common/front/tower/abstract-map'
+import {Editor} from '../../editor'
+import {getTextColor} from '../../../common/front/color-scheme'
+import {Keys} from '../../../common/front/keys'
+import {Room} from '../../../common/models/room'
+import {RoomLayer} from '../room-layer'
+import {Score} from '../../../common/models/score'
+import {ScoreType} from '../../../common/data/score-type'
+import {SelectedRoom} from './selected-room'
+import {SpritesToItem} from '../../../common/front/map/sprites-to-item'
+import {TILES_IN_ROW} from '../../../common/data/constants'
 
 export class Map extends AbstractMap {
   private readonly editor: Editor
@@ -26,26 +24,20 @@ export class Map extends AbstractMap {
   constructor(editor: Editor) {
     super()
     this.editor = editor
-    this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
-    this.editor.eventManager.registerTileSelection((selectedTile) => this.tileSelected(selectedTile))
-    this.editor.eventManager.registerScoreSelection((scoreType) => this.scoreSelected(scoreType))
+    this.editor.eventManager.registerRoomSelection(selectedRoom => this.roomSelected(selectedRoom))
+    this.editor.eventManager.registerTileSelection(selectedTile => this.tileSelected(selectedTile))
+    this.editor.eventManager.registerScoreSelection(scoreType => this.scoreSelected(scoreType))
     this.editor.eventManager.registerSchemeChange(() => this.schemeChanged())
-    this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
+    this.editor.eventManager.registerLayerSelection(layer => this.layerSelected(layer))
   }
 
   async init(): Promise<any> {
-    console.debug("Map", "init")
-    this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
-    this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
-    document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
-    document.addEventListener("keyup", (e: KeyboardEvent) => this.keyUp(e))
+    console.debug('Map', 'init')
+    this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
+    this.background.on('pointertap', (e: FederatedPointerEvent) => this.pointerTap(e))
+    document.addEventListener('keydown', (e: KeyboardEvent) => this.keyDown(e))
+    document.addEventListener('keyup', (e: KeyboardEvent) => this.keyUp(e))
     return super.init()
-  }
-
-  postInit(): void {
-    console.debug("Map", "postInit")
-    this.toolTip = document.getElementById(TabMaps.TOOL_TIP_ID)!
-    this.tooltipTip = document.getElementById(TabMaps.TOOL_TIP_TIP_ID) as SlTooltip
   }
 
   private layerSelected(layer: RoomLayer): void {
@@ -54,22 +46,22 @@ export class Map extends AbstractMap {
   }
 
   private keyDown(e: KeyboardEvent): void {
-    console.debug("Map", "keyDown", e)
+    console.debug('Map', 'keyDown', e)
     if (e.key == Keys.SHIFT) {
-      this.app.canvas.style.cursor = "copy"
+      this.app.canvas.style.cursor = 'copy'
     }
   }
 
   private keyUp(e: KeyboardEvent): void {
-    console.debug("Map", "keyUp", e)
+    console.debug('Map', 'keyUp', e)
     if (e.key == Keys.SHIFT) {
-      this.app.canvas.style.cursor = "auto"
+      this.app.canvas.style.cursor = 'auto'
     }
   }
 
   private pointerTap(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
-    console.debug("Map", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
+    console.debug('Map', 'pointerTap', 'position', tilePosition, 'shift', e.shiftKey)
     if (this.selectedRoom != null) {
       const currentRoom: Room = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       switch (this.selectedLayer) {
@@ -77,8 +69,9 @@ export class Map extends AbstractMap {
           if (e.shiftKey) {
             const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
             this.editor.eventManager.notifyTileSelection(selectedTile, true)
-          } else {
-            console.debug("Map", "set tile", this.selectedTile)
+          }
+ else {
+            console.debug('Map', 'set tile', this.selectedTile)
             currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
             this.editor.tower.saveRooms()
             this.repaint()
@@ -91,7 +84,8 @@ export class Map extends AbstractMap {
               return score.line == tilePosition.y && score.column === tilePosition.x
             })
             this.editor.eventManager.notifyScoreSelection(selectedScore == null ? null : selectedScore.type, true)
-          } else {
+          }
+ else {
             if (this.selectedScore == null) {
               const selectedScoreIndex = currentRoom.scores.findIndex((score) => {
                 return score.line == tilePosition.y && score.column === tilePosition.x
@@ -99,7 +93,8 @@ export class Map extends AbstractMap {
               if (selectedScoreIndex !== -1) {
                 currentRoom.scores.splice(selectedScoreIndex, 1)
               }
-            } else {
+            }
+ else {
               this.editor.tower.removeScore(this.selectedRoom.type, this.selectedScore)
               currentRoom.scores.push(new Score(tilePosition.y, tilePosition.x, this.selectedScore))
             }
@@ -111,28 +106,26 @@ export class Map extends AbstractMap {
     }
   }
 
-  protected showToolTip(): void {
-    if (this.toolTipTimeout != null) {
-      clearTimeout(this.toolTipTimeout)
+  protected getToolTipText(): string | null {
+    if (this.selectedRoom === null) {
+      return null
     }
-    if (this.selectedRoom != null) {
+ else {
       const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       const currentTile: Tile = currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
-      const toolTipText = this.getToolTipText(currentTile)
-      if (toolTipText != null) {
-        this.tooltipTip.content = toolTipText
-        const cursorPosition = this.cursor.getGlobalPosition()
-        const top = this.app.canvas.offsetTop + cursorPosition.y
-        const left = this.app.canvas.offsetLeft + cursorPosition.x
-        this.toolTip.style.top = `${top}px`
-        this.toolTip.style.left = `${left}px`
-        this.tooltipTip.open = true
+      switch (currentTile.getType()) {
+        case TileType.enemy:
+          const enemy = (currentTile as EnemyTile).enemy
+          return `${enemy.type == null || enemy.type.length === 0 ? '??' : enemy.type} ${enemy.level == null ? '??' : enemy.level} (${enemy.name})`
+        case TileType.item:
+          return (currentTile as ItemTile).item.valueOf()
       }
+      return null
     }
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug("Map", "roomSelected", selectedRoom)
+    console.debug('Map', 'roomSelected', selectedRoom)
     this.selectedRoom = selectedRoom
     this.repaint()
   }
@@ -189,12 +182,12 @@ export class Map extends AbstractMap {
           if (currentTile.getType() === TileType.enemy) {
             const enemyTile = currentTile as EnemyTile
             const text = new Text({
-              text: enemyTile.enemy.level != null ? enemyTile.enemy.level : "",
+              text: enemyTile.enemy.level != null ? enemyTile.enemy.level : '',
               style: {
-                fontFamily: "JetBrains Mono",
+                fontFamily: 'JetBrains Mono',
                 fontSize: this.tileSize / 2,
                 fill: getTextColor(),
-                align: "center",
+                align: 'center',
               },
             })
             text.x = this.tileSize * (columnIndex + 0.5)
@@ -219,16 +212,5 @@ export class Map extends AbstractMap {
         this.scoreTiles.addChild(sprite)
       }
     }
-  }
-
-  private getToolTipText(tile: Tile): string | null {
-    switch (tile.getType()) {
-      case TileType.enemy:
-        const enemy = (tile as EnemyTile).enemy
-        return `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
-      case TileType.item:
-        return (tile as ItemTile).item.valueOf()
-    }
-    return null
   }
 }

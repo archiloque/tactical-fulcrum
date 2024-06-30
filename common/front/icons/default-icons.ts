@@ -1,11 +1,11 @@
 export const enum DefaultIconsName {
-  ARROW_UP = "arrow-up",
-  ARROW_DOWN = "arrow-down",
-  CHECK2_CIRCLE = "check2-circle",
-  EXCLAMATION_TRIANGLE = "exclamation-triangle",
-  EXCLAMATION_OCTAGON = "exclamation-octagon",
-  PLUS_CIRCLE = "plus-circle",
-  TRASH = "trash",
+  ARROW_UP = 'arrow-up',
+  ARROW_DOWN = 'arrow-down',
+  CHECK2_CIRCLE = 'check2-circle',
+  EXCLAMATION_TRIANGLE = 'exclamation-triangle',
+  EXCLAMATION_OCTAGON = 'exclamation-octagon',
+  PLUS_CIRCLE = 'plus-circle',
+  TRASH = 'trash',
 }
 
 export const DefaultIcons = new Map<string, string>([

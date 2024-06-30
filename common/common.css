@@ -48,3 +48,7 @@ sl-tree-item::part(base) {
 sl-tree-item:hover::part(base) {
   color: var(--sl-color-primary-600);
 }
+
+#abstractMapToolTip {
+  position: absolute;
+}

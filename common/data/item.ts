@@ -1,4 +1,4 @@
-import { ItemName } from "./item-name"
+import {ItemName} from './item-name'
 
 export class Item {
   atk: number

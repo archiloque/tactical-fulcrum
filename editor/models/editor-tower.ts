@@ -1,4 +1,4 @@
-import { EMPTY_TILE, EnemyTile, TileType } from "../../common/models/tile"
+import {EMPTY_TILE, EnemyTile, TileType} from '../../common/models/tile'
 import {
   LOCAL_STORAGE_KEY_ENEMIES,
   LOCAL_STORAGE_KEY_INFO,
@@ -6,26 +6,26 @@ import {
   LOCAL_STORAGE_KEY_LEVELS,
   LOCAL_STORAGE_KEY_NAME,
   LOCAL_STORAGE_KEY_ROOMS,
-} from "../io/local-storage"
-import { DEFAULT_ITEMS } from "../../common/data/item"
-import { Enemy } from "../../common/models/enemy"
-import { IoEnemyFromAttributes } from "../../common/io/enemy/io-enemy-from-attributes"
-import { IoEnemyToAttributes } from "../io/enemy/io-enemy-to-attributes"
-import { IoInfoFromAttributes } from "../../common/io/info/io-info-from-attributes"
-import { IoInfoToAttributes } from "../io/info/io-info-to-attributes"
-import { IoItemFromAttributes } from "../../common/io/item/io-item-from-attributes"
-import { IoItemToAttributes } from "../io/item/io-item-to-attributes"
-import { IoLevelFromAttributes } from "../../common/io/level/io-level-from-attributes"
-import { IoLevelToAttributes } from "../io/level/io-level-to-attributes"
-import { IOOperation } from "../../common/io/import-export"
-import { IoRoomFromAttributes } from "../../common/io/room/io-room-from-attributes"
-import { IoRoomToAttributes } from "../io/room/io-room-to-attributes"
-import { ITEM_NAMES } from "../../common/data/item-name"
-import { Level } from "../../common/models/level"
-import { Room } from "../../common/models/room"
-import { RoomType } from "../../common/data/room-type"
-import { ScoreType } from "../../common/data/score-type"
-import { Tower } from "../../common/models/tower"
+} from '../io/local-storage'
+import {DEFAULT_ITEMS} from '../../common/data/item'
+import {Enemy} from '../../common/models/enemy'
+import {IoEnemyFromAttributes} from '../../common/io/enemy/io-enemy-from-attributes'
+import {IoEnemyToAttributes} from '../io/enemy/io-enemy-to-attributes'
+import {IoInfoFromAttributes} from '../../common/io/info/io-info-from-attributes'
+import {IoInfoToAttributes} from '../io/info/io-info-to-attributes'
+import {IoItemFromAttributes} from '../../common/io/item/io-item-from-attributes'
+import {IoItemToAttributes} from '../io/item/io-item-to-attributes'
+import {IoLevelFromAttributes} from '../../common/io/level/io-level-from-attributes'
+import {IoLevelToAttributes} from '../io/level/io-level-to-attributes'
+import {IOOperation} from '../../common/io/import-export'
+import {IoRoomFromAttributes} from '../../common/io/room/io-room-from-attributes'
+import {IoRoomToAttributes} from '../io/room/io-room-to-attributes'
+import {ITEM_NAMES} from '../../common/data/item-name'
+import {Level} from '../../common/models/level'
+import {Room} from '../../common/models/room'
+import {RoomType} from '../../common/data/room-type'
+import {ScoreType} from '../../common/data/score-type'
+import {Tower} from '../../common/models/tower'
 
 export class EditorTower extends Tower {
   public removeScore(roomType: RoomType, scoreType: ScoreType): void {
@@ -79,10 +79,10 @@ export class EditorTower extends Tower {
   }
 
   saveEnemies(): void {
-    console.debug("Tower", "saveEnemies")
+    console.debug('Tower', 'saveEnemies')
     localStorage.setItem(
       LOCAL_STORAGE_KEY_ENEMIES,
-      JSON.stringify(this.enemies.map((e) => IoEnemyToAttributes.toAttributes(e))),
+      JSON.stringify(this.enemies.map(e => IoEnemyToAttributes.toAttributes(e))),
     )
   }
 
@@ -92,25 +92,25 @@ export class EditorTower extends Tower {
   }
 
   saveLevels(): void {
-    console.debug("Tower", "saveLevels")
+    console.debug('Tower', 'saveLevels')
     localStorage.setItem(
       LOCAL_STORAGE_KEY_LEVELS,
-      JSON.stringify(this.levels.map((e) => IoLevelToAttributes.toAttributes(e))),
+      JSON.stringify(this.levels.map(e => IoLevelToAttributes.toAttributes(e))),
     )
   }
 
   saveItems(): void {
-    console.debug("Tower", "saveItems")
+    console.debug('Tower', 'saveItems')
     localStorage.setItem(LOCAL_STORAGE_KEY_ITEMS, JSON.stringify(IoItemToAttributes.toValues(this.items)))
   }
 
   saveName(): void {
-    console.debug("Tower", "saveName")
+    console.debug('Tower', 'saveName')
     localStorage.setItem(LOCAL_STORAGE_KEY_NAME, this.name)
   }
 
   saveRooms(): void {
-    console.debug("Tower", "saveRooms")
+    console.debug('Tower', 'saveRooms')
     localStorage.setItem(
       LOCAL_STORAGE_KEY_ROOMS,
       JSON.stringify({
@@ -125,12 +125,12 @@ export class EditorTower extends Tower {
   }
 
   saveInfo(): void {
-    console.debug("Tower", "saveInfo")
+    console.debug('Tower', 'saveInfo')
     localStorage.setItem(LOCAL_STORAGE_KEY_INFO, JSON.stringify(IoInfoToAttributes.toAttributes(this.info)))
   }
 
   load(): void {
-    console.groupCollapsed("Tower", "load")
+    console.groupCollapsed('Tower', 'load')
     this.loadName()
     this.loadInfo()
     this.loadEnemies()
@@ -144,8 +144,8 @@ export class EditorTower extends Tower {
     const enemiesRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ENEMIES)
     if (enemiesRaw != null) {
       const enemiesJson: Record<string, string | number | null>[] = JSON.parse(enemiesRaw)
-      this.enemies = enemiesJson.map((value) => IoEnemyFromAttributes.fromAttributes(value))
-      console.debug("Tower", this.enemies.length, "enemies loaded")
+      this.enemies = enemiesJson.map(value => IoEnemyFromAttributes.fromAttributes(value))
+      console.debug('Tower', this.enemies.length, 'enemies loaded')
     }
   }
 
@@ -158,11 +158,12 @@ export class EditorTower extends Tower {
         const initialValue = itemsJson[itemName]
         if (initialValue != null) {
           this.items[itemName] = IoItemFromAttributes.fromAttributes(initialValue, DEFAULT_ITEMS[itemName])
-        } else {
+        }
+ else {
           this.items[itemName] = DEFAULT_ITEMS[itemName].clone()
         }
       }
-      console.debug("Tower", "items loaded")
+      console.debug('Tower', 'items loaded')
     }
   }
 
@@ -170,8 +171,8 @@ export class EditorTower extends Tower {
     const levelsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_LEVELS)
     if (levelsRaw != null) {
       const levelsJson: Record<string, number | null>[] = JSON.parse(levelsRaw)
-      this.levels = levelsJson.map((value) => IoLevelFromAttributes.fromAttributes(value))
-      console.debug("Tower", this.levels.length, "levels loaded")
+      this.levels = levelsJson.map(value => IoLevelFromAttributes.fromAttributes(value))
+      console.debug('Tower', this.levels.length, 'levels loaded')
     }
   }
 
@@ -183,13 +184,13 @@ export class EditorTower extends Tower {
         this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map((value: Record<string, string | any>) =>
           IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )
-        console.debug("Tower", this.standardRooms.length, "standard rooms loaded")
+        console.debug('Tower', this.standardRooms.length, 'standard rooms loaded')
       }
       if (roomsJson[IOOperation.ATTRIBUTE_NEXUS] != null) {
-        this.nexusRooms = roomsJson[IOOperation.ATTRIBUTE_NEXUS].map((value) =>
+        this.nexusRooms = roomsJson[IOOperation.ATTRIBUTE_NEXUS].map(value =>
           IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )
-        console.debug("Tower", this.standardRooms.length, "nexus rooms loaded")
+        console.debug('Tower', this.standardRooms.length, 'nexus rooms loaded')
       }
     }
   }
@@ -199,7 +200,7 @@ export class EditorTower extends Tower {
     if (infoRaw != null) {
       const infoJson: Record<string, number> = JSON.parse(infoRaw)
       this.info = IoInfoFromAttributes.fromAttributes(infoJson)
-      console.debug("Tower", "info loaded")
+      console.debug('Tower', 'info loaded')
     }
   }
 
@@ -207,7 +208,7 @@ export class EditorTower extends Tower {
     const nameRaw = localStorage.getItem(LOCAL_STORAGE_KEY_NAME)
     if (nameRaw != null) {
       this.name = nameRaw
-      console.debug("Tower", "name loaded")
+      console.debug('Tower', 'name loaded')
     }
   }
 }

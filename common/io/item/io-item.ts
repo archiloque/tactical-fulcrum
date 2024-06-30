@@ -1,15 +1,15 @@
-import { IO } from "../io"
-import { Item } from "../../data/item"
-import { ItemName } from "../../data/item-name"
+import {IO} from '../io'
+import {Item} from '../../data/item'
+import {ItemName} from '../../data/item-name'
 
 export class IoItem {
-  static readonly ATTRIBUTE_ATK = "atk"
-  static readonly ATTRIBUTE_DEF = "def"
-  static readonly ATTRIBUTE_HP = "hp"
-  static readonly ATTRIBUTE_EXP_MUL_ADD = "expMulAdd"
-  static readonly ATTRIBUTE_EXP_MUL_MUL = "expMulMul"
-  static readonly ATTRIBUTE_HP_MUL_ADD = "hpMulAdd"
-  static readonly ATTRIBUTE_HP_MUL_MUL = "hpMulMul"
+  static readonly ATTRIBUTE_ATK = 'atk'
+  static readonly ATTRIBUTE_DEF = 'def'
+  static readonly ATTRIBUTE_HP = 'hp'
+  static readonly ATTRIBUTE_EXP_MUL_ADD = 'expMulAdd'
+  static readonly ATTRIBUTE_EXP_MUL_MUL = 'expMulMul'
+  static readonly ATTRIBUTE_HP_MUL_ADD = 'hpMulAdd'
+  static readonly ATTRIBUTE_HP_MUL_MUL = 'hpMulMul'
 
   static readonly ATTRIBUTES: string[] = [
     IoItem.ATTRIBUTE_ATK,

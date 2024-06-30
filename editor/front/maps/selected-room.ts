@@ -1,4 +1,4 @@
-import { RoomType } from "../../../common/data/room-type"
+import {RoomType} from '../../../common/data/room-type'
 
 export const ROOM_TYPES: string[] = [RoomType.standard.valueOf(), RoomType.nexus.valueOf()]
 

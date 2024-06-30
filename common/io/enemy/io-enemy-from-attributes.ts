@@ -1,16 +1,17 @@
-import { DROPS } from "../../data/drop"
-import { Enemy } from "../../models/enemy"
-import { ENEMY_TYPES } from "../../data/enemy-type"
-import { IoEnemy } from "./io-enemy"
+import {DROPS} from '../../data/drop'
+import {Enemy} from '../../models/enemy'
+import {ENEMY_TYPES} from '../../data/enemy-type'
+import {IoEnemy} from './io-enemy'
 
 export class IoEnemyFromAttributes {
   static fromAttributes(value: Record<string, string | number | null>): Enemy {
     const result: Enemy = new Enemy()
     const enemyType = value[IoEnemy.ATTRIBUTE_TYPE]
-    const possibleType = ENEMY_TYPES.find((it) => it.valueOf() === enemyType)
+    const possibleType = ENEMY_TYPES.find(it => it.valueOf() === enemyType)
     if (possibleType === undefined) {
       result.type = null
-    } else {
+    }
+ else {
       result.type = possibleType
     }
     result.level = value[IoEnemy.ATTRIBUTE_LEVEL] as number
@@ -20,7 +21,7 @@ export class IoEnemyFromAttributes {
     result.def = value[IoEnemy.ATTRIBUTE_DEF] as number
     result.exp = value[IoEnemy.ATTRIBUTE_EXP] as number
     let drop: string | null = value[IoEnemy.ATTRIBUTE_DROP] as string
-    if (drop === "") {
+    if (drop === '') {
       drop = null
     }
     if (drop != null) {

@@ -1,15 +1,21 @@
-import { Application, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
-import { getBackgroundColor, getCssProperty } from "../color-scheme"
-import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
-import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { Spriter } from "../map/spriter"
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js'
+
+import {Application, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
+import {getBackgroundColor, getCssProperty} from '../color-scheme'
+import {Hole, html} from 'uhtml'
+import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/constants'
+import SlTooltip from '@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component'
+import {Spriter} from '../map/spriter'
 
 export abstract class AbstractMap {
+  static readonly TOOL_TIP_ID = 'abstractMapToolTip'
+  static readonly TOOL_TIP_TIP_ID = 'abstractMapToolTipTip'
+
   private readonly lastMousePosition: Point = new Point()
   protected lastMouseTile: Point = new Point(-1, -1)
   protected readonly background: Sprite
   protected readonly cursor: Graphics
-  protected readonly spriter: Spriter = new Spriter("map")
+  protected readonly spriter: Spriter = new Spriter('map')
   tileSize: number = TILES_DEFAULT_SIZE
   protected toolTip: HTMLElement
   protected toolTipTimeout: number | null = null
@@ -19,16 +25,16 @@ export abstract class AbstractMap {
   protected constructor() {
     this.app = new Application()
     this.background = new Sprite()
-    this.background.eventMode = "dynamic"
+    this.background.eventMode = 'dynamic'
     this.cursor = new Graphics()
     this.setupCursor()
-    this.cursor.eventMode = "none"
+    this.cursor.eventMode = 'none'
   }
 
   private setupCursor(): void {
     this.cursor.rect(0, 0, this.tileSize, this.tileSize).stroke({
       width: 1,
-      color: getCssProperty("--sl-color-danger-600"),
+      color: getCssProperty('--sl-color-danger-600'),
       alignment: 1,
     })
   }
@@ -44,7 +50,7 @@ export abstract class AbstractMap {
   abstract repaint(): void
 
   async resize(elementSize: number): Promise<any> {
-    console.debug("AbstractMap", "resize")
+    console.debug('AbstractMap', 'resize')
     const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
     if (newTileSize !== this.tileSize) {
       this.tileSize = newTileSize
@@ -59,9 +65,9 @@ export abstract class AbstractMap {
   }
 
   protected async init(): Promise<any> {
-    console.debug("AbstractMap", "init")
-    this.background.on("pointerenter", () => this.pointerEnter())
-    this.background.on("pointerleave", () => this.pointerLeave())
+    console.debug('AbstractMap', 'init')
+    this.background.on('pointerenter', () => this.pointerEnter())
+    this.background.on('pointerleave', () => this.pointerLeave())
     return Promise.all([
       this.app.init({
         background: getBackgroundColor(),
@@ -73,6 +79,20 @@ export abstract class AbstractMap {
       this.app.stage.addChild(this.background)
       this.app.stage.addChild(this.cursor)
     })
+  }
+
+  public postInit(): void {
+    console.debug('AbstractMap', 'postInit')
+    this.toolTip = document.getElementById(AbstractMap.TOOL_TIP_ID)!
+    this.tooltipTip = document.getElementById(AbstractMap.TOOL_TIP_TIP_ID) as SlTooltip
+  }
+
+  public toolTipHole(): Hole {
+    return html` <div id="${AbstractMap.TOOL_TIP_ID}">
+      <sl-tooltip id="${AbstractMap.TOOL_TIP_TIP_ID}" trigger="manual" hoist content="">
+        <div id="tabMapMapToolTipElement"></div>
+      </sl-tooltip>
+    </div>`
   }
 
   protected schemeChanged(): void {
@@ -105,7 +125,7 @@ export abstract class AbstractMap {
   protected pointerMove(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
     if (tilePosition.y < TILES_IN_ROW && tilePosition.x < TILES_IN_ROW && !this.lastMouseTile.equals(tilePosition)) {
-      console.debug("AbstractMap", "pointerMove", tilePosition)
+      console.debug('AbstractMap', 'pointerMove', tilePosition)
       this.lastMouseTile = tilePosition
       if (this.tooltipTip.open) {
         this.tooltipTip.open = false
@@ -121,5 +141,21 @@ export abstract class AbstractMap {
     }
   }
 
-  protected abstract showToolTip(): void
+  protected showToolTip(): void {
+    if (this.toolTipTimeout != null) {
+      clearTimeout(this.toolTipTimeout)
+    }
+    const toolTipText = this.getToolTipText()
+    if (toolTipText !== null) {
+      this.tooltipTip.content = toolTipText
+      const cursorPosition = this.cursor.getGlobalPosition()
+      const top = this.app.canvas.offsetTop + cursorPosition.y
+      const left = this.app.canvas.offsetLeft + cursorPosition.x
+      this.toolTip.style.top = `${top}px`
+      this.toolTip.style.left = `${left}px`
+      this.tooltipTip.open = true
+    }
+  }
+
+  protected abstract getToolTipText(): string | null
 }

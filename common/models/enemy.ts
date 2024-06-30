@@ -1,4 +1,4 @@
-import { EnemyType } from "../data/enemy-type"
+import {EnemyType} from '../data/enemy-type'
 
 export class Enemy {
   type: EnemyType | null

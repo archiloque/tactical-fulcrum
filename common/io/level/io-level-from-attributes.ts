@@ -1,5 +1,5 @@
-import { IoLevel } from "./io-level"
-import { Level } from "../../models/level"
+import {IoLevel} from './io-level'
+import {Level} from '../../models/level'
 
 export class IoLevelFromAttributes {
   static fromAttributes(value: Record<string, string | number | null>): Level {

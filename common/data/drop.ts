@@ -1,10 +1,10 @@
-import { Color, COLORS } from "./color"
-import { ITEM_NAMES, ItemName } from "./item-name"
-import { capitalize } from "../models/utils"
+import {Color, COLORS} from './color'
+import {ITEM_NAMES, ItemName} from './item-name'
+import {capitalize} from '../models/utils'
 
 export enum DropType {
-  KEY = "key",
-  ITEM = "item",
+  KEY = 'key',
+  ITEM = 'item',
 }
 
 export interface DropContent {

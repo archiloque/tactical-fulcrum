@@ -1,16 +1,16 @@
-import { Info } from "../../models/info"
-import { IO } from "../io"
+import {Info} from '../../models/info'
+import {IO} from '../io'
 
 export class IoInfo {
-  static readonly ATTRIBUTE_ATK = "atk"
-  static readonly ATTRIBUTE_DEF = "def"
-  static readonly ATTRIBUTE_HP = "hp"
-  static readonly ATTRIBUTE_BRONZE_MEDAL = "bronzeMedal"
-  static readonly ATTRIBUTE_SILVER_MEDAL = "silverMedal"
-  static readonly ATTRIBUTE_GOLD_MEDAL = "goldMedal"
-  static readonly ATTRIBUTE_PLATINUM_MEDAL = "platinumMedal"
-  static readonly ATTRIBUTE_DIAMOND_MEDAL = "diamondMedal"
-  static readonly ATTRIBUTE_SUN_STONE = "sunStone"
+  static readonly ATTRIBUTE_ATK = 'atk'
+  static readonly ATTRIBUTE_DEF = 'def'
+  static readonly ATTRIBUTE_HP = 'hp'
+  static readonly ATTRIBUTE_BRONZE_MEDAL = 'bronzeMedal'
+  static readonly ATTRIBUTE_SILVER_MEDAL = 'silverMedal'
+  static readonly ATTRIBUTE_GOLD_MEDAL = 'goldMedal'
+  static readonly ATTRIBUTE_PLATINUM_MEDAL = 'platinumMedal'
+  static readonly ATTRIBUTE_DIAMOND_MEDAL = 'diamondMedal'
+  static readonly ATTRIBUTE_SUN_STONE = 'sunStone'
 
   static readonly ATTRIBUTES: string[] = [
     IoInfo.ATTRIBUTE_ATK,

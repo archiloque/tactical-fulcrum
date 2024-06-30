@@ -1,13 +1,13 @@
-import { Hole, html, render } from "uhtml"
-import { DefaultIconsName } from "../../../common/front/icons/default-icons"
-import { Editor } from "../../editor"
-import { Room } from "../../../common/models/room"
-import { RoomType } from "../../../common/data/room-type"
-import { SelectedRoom } from "./selected-room"
-import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
-import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
-import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
-import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
+import {Hole, html, render} from 'uhtml'
+import {DefaultIconsName} from '../../../common/front/icons/default-icons'
+import {Editor} from '../../editor'
+import {Room} from '../../../common/models/room'
+import {RoomType} from '../../../common/data/room-type'
+import {SelectedRoom} from './selected-room'
+import SlButton from '@shoelace-style/shoelace/cdn/components/button/button.component'
+import SlDialog from '@shoelace-style/shoelace/cdn/components/dialog/dialog.component'
+import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
+import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
 
 export class Rooms {
   private addDialog: SlDialog
@@ -22,7 +22,7 @@ export class Rooms {
 
   constructor(editor: Editor) {
     this.editor = editor
-    editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
+    editor.eventManager.registerRoomSelection(selectedRoom => this.roomSelected(selectedRoom))
   }
 
   private notifyRoomSelected(selectedRoom: SelectedRoom | null): void {
@@ -30,7 +30,7 @@ export class Rooms {
   }
 
   hole(): Hole {
-    console.debug("Rooms", "hole")
+    console.debug('Rooms', 'hole')
     return html`<h2>Room</h2>
       <sl-input id="tabMapRoomName" @sl-input="${this.nameChanged}" placeholder="Name"></sl-input>
       <div id="tabMapRoomButtons">
@@ -70,18 +70,18 @@ export class Rooms {
   }
 
   init(): void {
-    console.debug("Rooms", "init")
-    this.standardRooms = document.getElementById("tabMapRoomStandardRooms") as SlTree
-    this.nexusRooms = document.getElementById("tabMapRoomNexusRooms") as SlTree
-    this.roomNameInput = document.getElementById("tabMapRoomName") as SlInput
-    this.deleteDialog = document.getElementById("tabMapRoomDeleteDialog") as SlDialog
-    this.addDialog = document.getElementById("tabMapRoomAddDialog") as SlDialog
-    this.buttonUp = document.getElementById("tabMapRoomButtonUp") as SlButton
-    this.buttonDown = document.getElementById("tabMapRoomButtonDown") as SlButton
+    console.debug('Rooms', 'init')
+    this.standardRooms = document.getElementById('tabMapRoomStandardRooms') as SlTree
+    this.nexusRooms = document.getElementById('tabMapRoomNexusRooms') as SlTree
+    this.roomNameInput = document.getElementById('tabMapRoomName') as SlInput
+    this.deleteDialog = document.getElementById('tabMapRoomDeleteDialog') as SlDialog
+    this.addDialog = document.getElementById('tabMapRoomAddDialog') as SlDialog
+    this.buttonUp = document.getElementById('tabMapRoomButtonUp') as SlButton
+    this.buttonDown = document.getElementById('tabMapRoomButtonDown') as SlButton
   }
 
   render(): void {
-    console.debug("Rooms", "render with selected room index", this.selectedRoom)
+    console.debug('Rooms', 'render with selected room index', this.selectedRoom)
     const standardRooms = this.renderRooms(this.editor.tower.standardRooms, RoomType.standard)
     render(this.standardRooms, html`Standard ${standardRooms}`)
     const nexusRooms = this.renderRooms(this.editor.tower.nexusRooms, RoomType.nexus)
@@ -91,8 +91,8 @@ export class Rooms {
   private renderRooms(rooms: Room[], roomType: RoomType): Hole[] {
     return rooms.map((room, index) => {
       const id = `tabMapRoomRoom${index}`
-      const selected =
-        this.selectedRoom != null && index === this.selectedRoom.index && this.selectedRoom.type == roomType
+      const selected
+        = this.selectedRoom != null && index === this.selectedRoom.index && this.selectedRoom.type == roomType
       return html` <sl-tree-item
         id="${id}"
         ?selected="${selected}"
@@ -154,10 +154,10 @@ export class Rooms {
   }
 
   private async addRoom(roomType: RoomType): Promise<any> {
-    console.debug("Rooms", "add room")
+    console.debug('Rooms', 'add room')
     this.addDialog.hide().then(() => {
       const room: Room = new Room()
-      room.name = "New room"
+      room.name = 'New room'
       this.editor.tower.getRooms(roomType).push(room)
       this.editor.tower.saveRooms()
       this.notifyRoomSelected(
@@ -173,12 +173,13 @@ export class Rooms {
   private deleteDialogConfirm = async (): Promise<any> => {
     this.deleteDialog.hide().then(() => {
       if (this.selectedRoom != null) {
-        console.debug("Rooms", "delete room", this.selectedRoom)
+        console.debug('Rooms', 'delete room', this.selectedRoom)
         this.editor.tower.getRooms(this.selectedRoom.type).splice(this.selectedRoom.index, 1)
         this.editor.tower.saveRooms()
         if (this.editor.tower.getRooms(this.selectedRoom.type).length === 0) {
           this.notifyRoomSelected(null)
-        } else {
+        }
+ else {
           this.notifyRoomSelected(new SelectedRoom(this.selectedRoom.type, 0))
         }
         this.render()
@@ -199,14 +200,15 @@ export class Rooms {
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug("Rooms", "roomSelected", selectedRoom)
+    console.debug('Rooms', 'roomSelected', selectedRoom)
     this.selectedRoom = selectedRoom
     if (this.selectedRoom != null) {
       this.roomNameInput.value = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index].name
       this.buttonUp.disabled = this.selectedRoom.index === 0
       this.buttonDown.disabled = this.selectedRoom.index === this.editor.tower.standardRooms.length - 1
-    } else {
-      this.roomNameInput.value = ""
+    }
+ else {
+      this.roomNameInput.value = ''
       this.buttonUp.disabled = true
       this.buttonDown.disabled = true
     }

@@ -1,5 +1,5 @@
-import { IoItem } from "./io-item"
-import { Item } from "../../data/item"
+import {IoItem} from './io-item'
+import {Item} from '../../data/item'
 
 export class IoItemFromAttributes {
   static fromAttributes(value: Record<string, number>, defaultItem: Item): Item {

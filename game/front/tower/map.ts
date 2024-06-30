@@ -1,15 +1,23 @@
-import { Action, ActionType, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "../../models/play/action"
-import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
-import { EMPTY_TILE, EnemyTile, STARTING_POSITION_TILE, Tile, TileType } from "../../../common/models/tile"
-import { AbstractMap } from "../../../common/front/tower/abstract-map"
-import { Delta2D } from "../../models/tuples"
-import { Game } from "../../game"
-import { getTextColor } from "../../../common/front/color-scheme"
-import { Keys } from "../../../common/front/keys"
-import { ScreenTower } from "./screen-tower"
-import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
-import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
-import { TILES_IN_ROW } from "../../../common/data/constants"
+import {Action, ActionType, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove} from '../../models/play/action'
+import {Container, FederatedPointerEvent, Sprite, Text, Ticker} from 'pixi.js'
+import {
+  DoorTile,
+  EMPTY_TILE,
+  EnemyTile,
+  ItemTile,
+  KeyTile,
+  STARTING_POSITION_TILE,
+  Tile,
+  TileType,
+} from '../../../common/models/tile'
+import {AbstractMap} from '../../../common/front/tower/abstract-map'
+import {capitalize} from '../../../common/models/utils'
+import {Delta2D} from '../../models/tuples'
+import {Game} from '../../game'
+import {getTextColor} from '../../../common/front/color-scheme'
+import {Keys} from '../../../common/front/keys'
+import {SpritesToItem} from '../../../common/front/map/sprites-to-item'
+import {TILES_IN_ROW} from '../../../common/data/constants'
 
 const TILE_MOVE_TIME: number = 150
 
@@ -40,9 +48,9 @@ export class Map extends AbstractMap {
   }
 
   async init(): Promise<any> {
-    console.debug("Map", "init")
-    this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
-    document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
+    console.debug('Map', 'init')
+    this.background.on('pointermove', (e: FederatedPointerEvent) => this.pointerMove(e))
+    document.addEventListener('keydown', (e: KeyboardEvent) => this.keyDown(e))
     return super.init()
   }
 
@@ -68,9 +76,10 @@ export class Map extends AbstractMap {
     const playerTower = this.game.playerTower!
     const tileReachable = playerTower.reachableTiles[this.lastMouseTile.y][this.lastMouseTile.x]
     if (tileReachable === null) {
-      this.app.canvas.style.cursor = "not-allowed"
-    } else {
-      this.app.canvas.style.cursor = "auto"
+      this.app.canvas.style.cursor = 'not-allowed'
+    }
+ else {
+      this.app.canvas.style.cursor = 'auto'
     }
   }
 
@@ -95,7 +104,7 @@ export class Map extends AbstractMap {
         }
 
         const currentTile = currentRoom[lineIndex][columnIndex]
-        const currentScore = scores.find((s) => s.line === lineIndex && s.column === columnIndex)
+        const currentScore = scores.find(s => s.line === lineIndex && s.column === columnIndex)
         if (currentScore !== undefined) {
           const scoreSpriteName = SpritesToItem.spriteNameFromScore(currentScore.type)
           const scoreSprite = this.spriter.getSprite(scoreSpriteName)
@@ -116,7 +125,8 @@ export class Map extends AbstractMap {
           }
           this.tiles.addChild(sprite)
           this.sprites[lineIndex][columnIndex] = sprite
-        } else {
+        }
+ else {
           this.sprites[lineIndex][columnIndex] = null
         }
       }
@@ -131,12 +141,12 @@ export class Map extends AbstractMap {
       enemyContainer.addChild(sprite)
       const enemyTile = tile as EnemyTile
       const text = new Text({
-        text: enemyTile.enemy.level !== null ? enemyTile.enemy.level : "",
+        text: enemyTile.enemy.level !== null ? enemyTile.enemy.level : '',
         style: {
-          fontFamily: "JetBrains Mono",
+          fontFamily: 'JetBrains Mono',
           fontSize: this.tileSize / 2,
           fill: getTextColor(),
-          align: "center",
+          align: 'center',
         },
       })
       text.x = this.tileSize * 0.5
@@ -144,25 +154,40 @@ export class Map extends AbstractMap {
       text.anchor.x = 0.5
       enemyContainer.addChild(text)
       return enemyContainer
-    } else {
+    }
+ else {
       return sprite
     }
   }
 
-  postInit(): void {
-    console.debug("Map", "postInit")
-    this.toolTip = document.getElementById(ScreenTower.TOOL_TIP_ID)!
-    this.tooltipTip = document.getElementById(ScreenTower.TOOL_TIP_TIP_ID) as SlTooltip
-  }
-
-  protected showToolTip(): void {
-    if (this.toolTipTimeout != null) {
-      clearTimeout(this.toolTipTimeout)
+  protected getToolTipText(): string | null {
+    const tile: Tile
+      = this.game.playerTower!.standardRooms[this.game.playerTower!.playerPosition.room][this.lastMouseTile.y][
+        this.lastMouseTile.x
+      ]
+    switch (tile.getType()) {
+      case TileType.door:
+        return `${capitalize((tile as DoorTile).color)} key`
+      case TileType.empty:
+        return null
+      case TileType.enemy:
+        const enemy = (tile as EnemyTile).enemy
+        return `${enemy.name}<br>${capitalize(enemy.type!.valueOf())} lv ${enemy.level} `
+      case TileType.item:
+        return (tile as ItemTile).item
+      case TileType.key:
+        return `${capitalize((tile as KeyTile).color)} key`
+      case TileType.staircase:
+        return null
+      case TileType.startingPosition:
+        throw new Error('Should not happen')
+      case TileType.wall:
+        return null
     }
   }
 
   private keyDown(e: KeyboardEvent): void {
-    console.debug("Map", "keyDown", e)
+    console.debug('Map', 'keyDown', e)
     switch (e.key) {
       case Keys.ARROW_RIGHT: {
         this.bufferDirection(Delta2D.RIGHT)
@@ -206,11 +231,12 @@ export class Map extends AbstractMap {
         if (totalPercentMove >= TILE_GRAB_HIDE_END_PERCENT) {
           this.tiles.removeChild(targetSprite)
           targetSprite = null
-        } else if (totalPercentMove > TILE_GRAB_HIDE_BEGIN_PERCENT) {
-          targetSprite!.alpha =
-            1 -
-            (totalPercentMove - TILE_GRAB_HIDE_BEGIN_PERCENT) /
-              (TILE_GRAB_HIDE_END_PERCENT - TILE_GRAB_HIDE_BEGIN_PERCENT)
+        }
+ else if (totalPercentMove > TILE_GRAB_HIDE_BEGIN_PERCENT) {
+          targetSprite!.alpha
+            = 1
+            - (totalPercentMove - TILE_GRAB_HIDE_BEGIN_PERCENT)
+            / (TILE_GRAB_HIDE_END_PERCENT - TILE_GRAB_HIDE_BEGIN_PERCENT)
         }
       }
 
@@ -218,7 +244,8 @@ export class Map extends AbstractMap {
         if (totalPercentMove >= 1) {
           this.playerSprite!.x = (move.player.column + deltaColumn) * this.tileSize
           this.currentMoveEnded()
-        } else {
+        }
+ else {
           this.playerSprite!.x += percentMove * deltaColumn * this.tileSize
         }
       }
@@ -226,7 +253,8 @@ export class Map extends AbstractMap {
         if (totalPercentMove >= 1) {
           this.playerSprite!.y = (move.player.line + deltaLine) * this.tileSize
           this.currentMoveEnded()
-        } else {
+        }
+ else {
           this.playerSprite!.y += percentMove * deltaLine * this.tileSize
         }
       }
@@ -258,7 +286,8 @@ export class Map extends AbstractMap {
           newTargetSprite.alpha = 1
           newTargetSprite = null
         }
-      } else if (totalPercentMove > TILE_SWITCH_HIDE_MIDDLE_PERCENT) {
+      }
+ else if (totalPercentMove > TILE_SWITCH_HIDE_MIDDLE_PERCENT) {
         if (!switchDone) {
           switchDone = true
           oldTargetSprite!.alpha = 0
@@ -266,28 +295,32 @@ export class Map extends AbstractMap {
           if (newTargetSprite !== null) {
             this.tiles.addChild(newTargetSprite)
           }
-        } else {
+        }
+ else {
           if (newTargetSprite !== null) {
-            newTargetSprite!.alpha =
-              1 -
-              (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT) /
-                (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+            newTargetSprite!.alpha
+              = 1
+              - (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+              / (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
           }
         }
-      } else if (totalPercentMove > TILE_SWITCH_HIDE_BEGIN_PERCENT) {
-        oldTargetSprite!.alpha =
-          1 -
-          (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT) /
-            (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+      }
+ else if (totalPercentMove > TILE_SWITCH_HIDE_BEGIN_PERCENT) {
+        oldTargetSprite!.alpha
+          = 1
+          - (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+          / (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
       }
 
       if (deltaColumn !== 0) {
         if (totalPercentMove >= 1) {
           this.playerSprite!.x = move.player.column * this.tileSize
           this.currentMoveEnded()
-        } else if (totalPercentMove >= 0.5) {
+        }
+ else if (totalPercentMove >= 0.5) {
           this.playerSprite!.x -= (percentMove * deltaColumn * this.tileSize) / 4
-        } else {
+        }
+ else {
           this.playerSprite!.x += (percentMove * deltaColumn * this.tileSize) / 4
         }
       }
@@ -295,9 +328,11 @@ export class Map extends AbstractMap {
         if (totalPercentMove >= 1) {
           this.playerSprite!.x = move.player.column * this.tileSize
           this.currentMoveEnded()
-        } else if (totalPercentMove >= 0.5) {
+        }
+ else if (totalPercentMove >= 0.5) {
           this.playerSprite!.y -= (percentMove * deltaLine * this.tileSize) / 4
-        } else {
+        }
+ else {
           this.playerSprite!.y += (percentMove * deltaLine * this.tileSize) / 4
         }
       }
@@ -307,7 +342,7 @@ export class Map extends AbstractMap {
   private tryAction(): void {
     const delta = this.deltaBuffer.shift()!
     const action: Action | null = this.game.playerTower!.movePlayer(delta)
-    console.debug("Map", "tryAction", delta, action === null ? null : action.getType())
+    console.debug('Map', 'tryAction', delta, action === null ? null : action.getType())
     if (action === null) {
       this.deltaBuffer.length = 0
       this.currentAction = null
@@ -335,16 +370,17 @@ export class Map extends AbstractMap {
   }
 
   private currentMoveEnded(): void {
-    console.debug("Map", "maybeStopAction")
+    console.debug('Map', 'maybeStopAction')
     if (this.tickerFunction !== null) {
       this.app.ticker.remove(this.tickerFunction)
       this.tickerFunction = null
     }
     if (this.deltaBuffer.length == 0) {
-      console.debug("Map", "maybeStopAction", "stop")
+      console.debug('Map', 'maybeStopAction', 'stop')
       this.currentAction = null
-    } else {
-      console.debug("Map", "maybeStopAction", "go on")
+    }
+ else {
+      console.debug('Map', 'maybeStopAction', 'go on')
       this.tryAction()
     }
   }

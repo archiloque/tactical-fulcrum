@@ -1,4 +1,4 @@
 export enum GameScreen {
-  intro = "intro",
-  tower = "tower",
+  intro = 'intro',
+  tower = 'tower',
 }

@@ -1,37 +1,34 @@
-import "../assets/css/reset.css"
-import "../common/common.css"
-import "./editor.css"
+import '../assets/css/reset.css'
+import '../common/common.css'
+import './editor.css'
 
-import "@shoelace-style/shoelace/dist/components/alert/alert.js"
-import "@shoelace-style/shoelace/dist/components/button/button.js"
-import "@shoelace-style/shoelace/dist/components/button-group/button-group.js"
-import "@shoelace-style/shoelace/dist/components/dialog/dialog.js"
-import "@shoelace-style/shoelace/dist/components/icon/icon.js"
-import "@shoelace-style/shoelace/dist/components/input/input.js"
-import "@shoelace-style/shoelace/dist/components/option/option.js"
-import "@shoelace-style/shoelace/dist/components/radio-button/radio-button.js"
-import "@shoelace-style/shoelace/dist/components/radio-group/radio-group.js"
-import "@shoelace-style/shoelace/dist/components/select/select.js"
-import "@shoelace-style/shoelace/dist/components/tab/tab.js"
-import "@shoelace-style/shoelace/dist/components/tag/tag.js"
-import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js"
-import "@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js"
-import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js"
-import "@shoelace-style/shoelace/dist/components/tree/tree.js"
-import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
+import '@shoelace-style/shoelace/dist/components/button/button.js'
+import '@shoelace-style/shoelace/dist/components/button-group/button-group.js'
+import '@shoelace-style/shoelace/dist/components/dialog/dialog.js'
+import '@shoelace-style/shoelace/dist/components/input/input.js'
+import '@shoelace-style/shoelace/dist/components/option/option.js'
+import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js'
+import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js'
+import '@shoelace-style/shoelace/dist/components/select/select.js'
+import '@shoelace-style/shoelace/dist/components/tab/tab.js'
+import '@shoelace-style/shoelace/dist/components/tag/tag.js'
+import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js'
+import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js'
+import '@shoelace-style/shoelace/dist/components/tree/tree.js'
+import '@shoelace-style/shoelace/dist/components/tree-item/tree-item.js'
 
-import { EditorTower } from "./models/editor-tower"
-import { EMPTY_TILE } from "../common/models/tile"
-import { EventManager } from "./front/event-manager"
-import { MainMenu } from "./front/main-menu"
-import { registerDefaultIcons } from "../common/front/icons/register-default"
-import { Tab } from "./front/tab"
-import { TabEnemies } from "./front/enemies/tab-enemies"
-import { TabImportExport } from "./front/import-export/tab-import-export"
-import { TabInfo } from "./front/info/tab-info"
-import { TabItems } from "./front/items/tab-items"
-import { TabLevels } from "./front/levels/tab-levels"
-import { TabMaps } from "./front/maps/tab-maps"
+import {EditorTower} from './models/editor-tower'
+import {EMPTY_TILE} from '../common/models/tile'
+import {EventManager} from './front/event-manager'
+import {MainMenu} from './front/main-menu'
+import {registerDefaultIcons} from '../common/front/icons/register-default'
+import {Tab} from './front/tab'
+import {TabEnemies} from './front/enemies/tab-enemies'
+import {TabImportExport} from './front/import-export/tab-import-export'
+import {TabInfo} from './front/info/tab-info'
+import {TabItems} from './front/items/tab-items'
+import {TabLevels} from './front/levels/tab-levels'
+import {TabMaps} from './front/maps/tab-maps'
 
 /**
  * @license
@@ -53,7 +50,7 @@ export class Editor {
   displayedTab: Tab
 
   constructor() {
-    console.debug("Editor starting")
+    console.debug('Editor starting')
     this.tower = new EditorTower()
     this.tower.load()
     this.eventManager = new EventManager()

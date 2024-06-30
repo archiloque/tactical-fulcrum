@@ -1,8 +1,8 @@
-import { Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW } from "../colors"
-import { ColorSpriteContent, ColorSpriteName } from "../sprites/color-sprite-content"
-import { getCssProperty, getTextColor } from "../color-scheme"
-import { MonochromeSpriteContent, MonochromeSpriteName } from "../sprites/monochrome-sprite-content"
-import { decodeSvg } from "../icons/decode-svg"
+import {Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW} from '../colors'
+import {ColorSpriteContent, ColorSpriteName} from '../sprites/color-sprite-content'
+import {getCssProperty, getTextColor} from '../color-scheme'
+import {MonochromeSpriteContent, MonochromeSpriteName} from '../sprites/monochrome-sprite-content'
+import {decodeSvg} from '../icons/decode-svg'
 
 abstract class Sprite {
   abstract getValue(): string

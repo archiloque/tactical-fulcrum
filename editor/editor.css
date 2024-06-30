@@ -155,10 +155,6 @@ sl-tab-group::part(nav) {
   padding: 0.1em;
 }
 
-#mapToolTip {
-  position: absolute;
-}
-
 #tabItem {
   sl-tag,
   sl-input {

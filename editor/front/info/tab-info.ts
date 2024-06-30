@@ -1,9 +1,9 @@
-import { html, render } from "uhtml"
-import { AbstractTab } from "../abstract-tab"
-import { Editor } from "../../editor"
-import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
-import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
-import { Tab } from "../tab"
+import {html, render} from 'uhtml'
+import {AbstractTab} from '../abstract-tab'
+import {Editor} from '../../editor'
+import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
+import SlTabPanel from '@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component'
+import {Tab} from '../tab'
 
 export class TabInfo extends AbstractTab {
   private readonly editor: Editor
@@ -16,7 +16,7 @@ export class TabInfo extends AbstractTab {
   }
 
   render(): void {
-    console.debug("TabInfo", "render")
+    console.debug('TabInfo', 'render')
     render(
       this.tabInfo,
       html`
@@ -28,43 +28,43 @@ export class TabInfo extends AbstractTab {
           label="Tower name"
         ></sl-input>
 
-        ${this.numberInput(this.editor.tower.info.atk, this.atkChange, 0, "Atk", null, "Atk")}
-        ${this.numberInput(this.editor.tower.info.def, this.defChange, 0, "Def", null, "Def")}
-        ${this.numberInput(this.editor.tower.info.hp, this.hpChange, 1, "HP", null, "HP")}
+        ${this.numberInput(this.editor.tower.info.atk, this.atkChange, 0, 'Atk', null, 'Atk')}
+        ${this.numberInput(this.editor.tower.info.def, this.defChange, 0, 'Def', null, 'Def')}
+        ${this.numberInput(this.editor.tower.info.hp, this.hpChange, 1, 'HP', null, 'HP')}
         ${this.numberInput(
           this.editor.tower.info.bronzeMedal,
           this.bronzeMedalChange,
           1,
-          "Bronze medal",
+          'Bronze medal',
           null,
-          "Bronze Medal",
+          'Bronze Medal',
         )}
         ${this.numberInput(
           this.editor.tower.info.silverMedal,
           this.silverMedalChange,
           1,
-          "Silver medal",
+          'Silver medal',
           null,
-          "Silver medal",
+          'Silver medal',
         )}
-        ${this.numberInput(this.editor.tower.info.goldMedal, this.goldMedalChange, 1, "Gold medal", null, "Gold medal")}
+        ${this.numberInput(this.editor.tower.info.goldMedal, this.goldMedalChange, 1, 'Gold medal', null, 'Gold medal')}
         ${this.numberInput(
           this.editor.tower.info.platinumMedal,
           this.platinumMedalChange,
           1,
-          "Platinum medal",
+          'Platinum medal',
           null,
-          "Platinum medal",
+          'Platinum medal',
         )}
         ${this.numberInput(
           this.editor.tower.info.diamondMedal,
           this.diamondMedalChange,
           0,
-          "Diamond medal",
+          'Diamond medal',
           null,
-          "Diamond medal",
+          'Diamond medal',
         )}
-        ${this.numberInput(this.editor.tower.info.sunStone, this.sunStoneChange, 1, "Sun stone", null, "Sun stone")}
+        ${this.numberInput(this.editor.tower.info.sunStone, this.sunStoneChange, 1, 'Sun stone', null, 'Sun stone')}
       `,
     )
   }

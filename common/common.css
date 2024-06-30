@@ -51,4 +51,5 @@ sl-tree-item:hover::part(base) {
 
 #abstractMapToolTip {
   position: absolute;
+  z-index: -1;
 }

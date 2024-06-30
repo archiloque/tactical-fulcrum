@@ -1,10 +1,10 @@
 import { html, render } from "uhtml"
 import { ROOM_TYPES, SelectedRoom } from "./selected-room"
 import { Editor } from "../../editor"
+import { EditorMap } from "./editor-map"
 import { Elements } from "./elements"
 import { Layer } from "./layer"
 import { LOCAL_STORAGE_CURRENT_ROOM } from "../../io/local-storage"
-import { Map } from "./map"
 import { Rooms } from "./rooms"
 import { RoomType } from "../../../common/data/room-type"
 import { Scores } from "./scores"
@@ -18,7 +18,7 @@ export class TabMaps {
 
   private elements: Elements
   private layer: Layer
-  private map: Map
+  private map: EditorMap
   private readonly editor: Editor
   private readonly tabElement: SlTabPanel
   private rooms: Rooms
@@ -36,7 +36,7 @@ export class TabMaps {
     this.elements = new Elements(editor)
     this.scores = new Scores(editor)
 
-    this.map = new Map(editor)
+    this.map = new EditorMap(editor)
     this.rooms = new Rooms(editor)
     this.editor.eventManager.registerScreenChange(() => {
       if (editor.displayedTab === Tab.map) {

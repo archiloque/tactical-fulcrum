@@ -1,8 +1,8 @@
 import { html, render } from "uhtml"
 import { Game } from "../../game"
+import { GameMap } from "./game-map"
 import { GameScreen } from "../game-screen"
 import { InfoBar } from "./info-bar"
-import { Map } from "./map"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
 export class ScreenTower {
@@ -13,12 +13,12 @@ export class ScreenTower {
   static readonly INFO_BAR_ID = "screenTowerInfoBar"
 
   private readonly game: Game
-  private readonly map: Map
+  private readonly map: GameMap
   private readonly infoBar: InfoBar
 
   constructor(game: Game) {
     this.game = game
-    this.map = new Map(game)
+    this.map = new GameMap(game)
     this.infoBar = new InfoBar(game)
     this.game.eventManager.registerScreenChange(() => {
       if (game.displayedScreen === GameScreen.tower) {

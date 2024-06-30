@@ -89,7 +89,7 @@ export const enum SpriteName {
   wall,
 }
 
-export const SPRITES = new Map<SpriteName, Sprite>([
+export const SPRITES: Map<SpriteName, Sprite> = new Map<SpriteName, Sprite>([
   [SpriteName.doorBlue, new ColoredSprite(ColorSpriteName.DOOR, Colors.blue)],
   [SpriteName.doorCrimson, new ColoredSprite(ColorSpriteName.DOOR, Colors.red)],
   [SpriteName.doorGreenBlue, new ColoredSprite(ColorSpriteName.DOOR, Colors.teal)],

@@ -15,20 +15,22 @@ import { capitalize } from "../../../common/models/utils"
 import { Delta2D } from "../../models/tuples"
 import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
+import { Item } from "../../../common/data/item"
+import { ItemName } from "../../../common/data/item-name"
 import { Keys } from "../../../common/front/keys"
 import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
-const TILE_MOVE_TIME: number = 150
+export class GameMap extends AbstractMap {
+  static readonly TILE_MOVE_TIME: number = 150
 
-const TILE_GRAB_HIDE_BEGIN_PERCENT: number = 0.25
-const TILE_GRAB_HIDE_END_PERCENT: number = 0.75
+  static readonly TILE_GRAB_HIDE_BEGIN_PERCENT: number = 0.25
+  static readonly TILE_GRAB_HIDE_END_PERCENT: number = 0.75
 
-const TILE_SWITCH_HIDE_BEGIN_PERCENT: number = 0.25
-const TILE_SWITCH_HIDE_MIDDLE_PERCENT: number = 0.5
-const TILE_SWITCH_HIDE_END_PERCENT: number = 0.75
+  static readonly TILE_SWITCH_HIDE_BEGIN_PERCENT: number = 0.25
+  static readonly TILE_SWITCH_HIDE_MIDDLE_PERCENT: number = 0.5
+  static readonly TILE_SWITCH_HIDE_END_PERCENT: number = 0.75
 
-export class Map extends AbstractMap {
   private readonly game: Game
   private tiles: Container
   private playerSprite: null | Sprite
@@ -157,7 +159,7 @@ export class Map extends AbstractMap {
     }
   }
 
-  protected getToolTipText(): string | null {
+  protected toolTipText(): string | null {
     const tile: Tile =
       this.game.playerTower!.standardRooms[this.game.playerTower!.playerPosition.room][this.lastMouseTile.y][
         this.lastMouseTile.x
@@ -171,7 +173,10 @@ export class Map extends AbstractMap {
         const enemy = (tile as EnemyTile).enemy
         return `${enemy.name}<br>${capitalize(enemy.type!.valueOf())} lv ${enemy.level} `
       case TileType.item:
-        return (tile as ItemTile).item
+        const itemName = (tile as ItemTile).item
+        const item: Item = this.game.playerTower!.tower!.items[itemName]
+        return this.toolTipTextItem(itemName, item)
+        return itemName
       case TileType.key:
         return `${capitalize((tile as KeyTile).color)} key`
       case TileType.staircase:
@@ -181,6 +186,25 @@ export class Map extends AbstractMap {
       case TileType.wall:
         return null
     }
+  }
+
+  static readonly ITEMS_NAMES_TO_TOOL_TIP_DESCRIPTION = new Map<string, string>([
+    ["atk", "ATK"],
+    ["def", "DEF"],
+    ["hp", "HP"],
+  ])
+
+  protected toolTipTextItem(itemName: ItemName, item: Item): string {
+    let result = itemName.valueOf()
+    for (const entry of GameMap.ITEMS_NAMES_TO_TOOL_TIP_DESCRIPTION) {
+      const attributeName = entry[0]
+      const attributeDescription = entry[1]
+      const attributeValue = item[attributeName]
+      if (attributeValue != 0) {
+        result += `<br>${attributeValue} ${attributeDescription}`
+      }
+    }
+    return result
   }
 
   private keyDown(e: KeyboardEvent): void {
@@ -221,18 +245,18 @@ export class Map extends AbstractMap {
       targetSprite = this.sprites[move.target.line][move.target.column]
     }
     return (ticker: Ticker): void => {
-      const percentMove: number = ticker.deltaMS / TILE_MOVE_TIME
+      const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
       totalPercentMove += percentMove
 
       if (targetSprite !== null) {
-        if (totalPercentMove >= TILE_GRAB_HIDE_END_PERCENT) {
+        if (totalPercentMove >= GameMap.TILE_GRAB_HIDE_END_PERCENT) {
           this.tiles.removeChild(targetSprite)
           targetSprite = null
-        } else if (totalPercentMove > TILE_GRAB_HIDE_BEGIN_PERCENT) {
+        } else if (totalPercentMove > GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT) {
           targetSprite!.alpha =
             1 -
-            (totalPercentMove - TILE_GRAB_HIDE_BEGIN_PERCENT) /
-              (TILE_GRAB_HIDE_END_PERCENT - TILE_GRAB_HIDE_BEGIN_PERCENT)
+            (totalPercentMove - GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT) /
+              (GameMap.TILE_GRAB_HIDE_END_PERCENT - GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT)
         }
       }
 
@@ -272,15 +296,15 @@ export class Map extends AbstractMap {
     }
     let switchDone = false
     return (ticker: Ticker): void => {
-      const percentMove: number = ticker.deltaMS / TILE_MOVE_TIME
+      const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
       totalPercentMove += percentMove
 
-      if (totalPercentMove >= TILE_SWITCH_HIDE_END_PERCENT) {
+      if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
         if (newTargetSprite !== null) {
           newTargetSprite.alpha = 1
           newTargetSprite = null
         }
-      } else if (totalPercentMove > TILE_SWITCH_HIDE_MIDDLE_PERCENT) {
+      } else if (totalPercentMove > GameMap.TILE_SWITCH_HIDE_MIDDLE_PERCENT) {
         if (!switchDone) {
           switchDone = true
           oldTargetSprite!.alpha = 0
@@ -292,15 +316,15 @@ export class Map extends AbstractMap {
           if (newTargetSprite !== null) {
             newTargetSprite!.alpha =
               1 -
-              (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT) /
-                (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+              (totalPercentMove - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT) /
+                (GameMap.TILE_SWITCH_HIDE_MIDDLE_PERCENT - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT)
           }
         }
-      } else if (totalPercentMove > TILE_SWITCH_HIDE_BEGIN_PERCENT) {
+      } else if (totalPercentMove > GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT) {
         oldTargetSprite!.alpha =
           1 -
-          (totalPercentMove - TILE_SWITCH_HIDE_BEGIN_PERCENT) /
-            (TILE_SWITCH_HIDE_MIDDLE_PERCENT - TILE_SWITCH_HIDE_BEGIN_PERCENT)
+          (totalPercentMove - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT) /
+            (GameMap.TILE_SWITCH_HIDE_MIDDLE_PERCENT - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT)
       }
 
       if (deltaColumn !== 0) {

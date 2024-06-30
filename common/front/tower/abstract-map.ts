@@ -148,7 +148,7 @@ export abstract class AbstractMap {
     if (this.toolTipTimeout != null) {
       clearTimeout(this.toolTipTimeout)
     }
-    const toolTipText = this.getToolTipText()
+    const toolTipText = this.toolTipText()
     if (toolTipText !== null) {
       this.toolTipSlot.innerHTML = toolTipText
       const cursorPosition = this.cursor.getGlobalPosition()
@@ -160,5 +160,5 @@ export abstract class AbstractMap {
     }
   }
 
-  protected abstract getToolTipText(): string | null
+  protected abstract toolTipText(): string | null
 }

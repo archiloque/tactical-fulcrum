@@ -12,7 +12,7 @@ import { SelectedRoom } from "./selected-room"
 import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
-export class Map extends AbstractMap {
+export class EditorMap extends AbstractMap {
   private readonly editor: Editor
   private scoreTiles: Container
   private selectedLayer: RoomLayer = RoomLayer.standard
@@ -103,7 +103,7 @@ export class Map extends AbstractMap {
     }
   }
 
-  protected getToolTipText(): string | null {
+  protected toolTipText(): string | null {
     if (this.selectedRoom === null) {
       return null
     } else {

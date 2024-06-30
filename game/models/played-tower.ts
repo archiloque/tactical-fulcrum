@@ -1,13 +1,13 @@
-import {Action, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove} from './play/action'
-import {Delta2D, Position3D} from './tuples'
-import {DoorTile, EMPTY_TILE, EnemyTile, ItemTile, KeyTile, Tile, TileType} from '../../common/models/tile'
-import {DropContentItem, DropContentKey, DROPS_CONTENTS, DropType} from '../../common/data/drop'
-import {calculateReachableTiles} from './play/a-star'
-import {Enemy} from '../../common/models/enemy'
-import {PlayerInfo} from './player-info'
-import {Room} from '../../common/models/room'
-import {TILES_IN_ROW} from '../../common/data/constants'
-import {Tower} from '../../common/models/tower'
+import { Action, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "./play/action"
+import { Delta2D, Position3D } from "./tuples"
+import { DoorTile, EMPTY_TILE, EnemyTile, ItemTile, KeyTile, Tile, TileType } from "../../common/models/tile"
+import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../common/data/drop"
+import { calculateReachableTiles } from "./play/a-star"
+import { Enemy } from "../../common/models/enemy"
+import { PlayerInfo } from "./player-info"
+import { Room } from "../../common/models/room"
+import { TILES_IN_ROW } from "../../common/data/constants"
+import { Tower } from "../../common/models/tower"
 
 export class PlayedTower {
   readonly tower: Tower
@@ -41,10 +41,10 @@ export class PlayedTower {
   movePlayer(delta: Delta2D): Action | null {
     const targetPosition = this.playerPosition.add(delta)
     if (
-      targetPosition.line < 0
-      || targetPosition.line >= TILES_IN_ROW
-      || targetPosition.column < 0
-      || targetPosition.column >= TILES_IN_ROW
+      targetPosition.line < 0 ||
+      targetPosition.line >= TILES_IN_ROW ||
+      targetPosition.column < 0 ||
+      targetPosition.column >= TILES_IN_ROW
     ) {
       return null
     }
@@ -84,9 +84,9 @@ export class PlayedTower {
       case TileType.staircase:
         return null
       case TileType.startingPosition:
-        throw new Error('Should not happen')
+        throw new Error("Should not happen")
       case TileType.wall:
-        throw new Error('Should not happen')
+        throw new Error("Should not happen")
     }
   }
 
@@ -103,7 +103,7 @@ export class PlayedTower {
         }
       }
     }
-    throw new Error('No starting position found')
+    throw new Error("No starting position found")
   }
 
   private getDropTile(enemy: Enemy): Tile {

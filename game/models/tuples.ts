@@ -1,4 +1,4 @@
-import {TILES_IN_ROW} from '../../common/data/constants'
+import { TILES_IN_ROW } from "../../common/data/constants"
 
 abstract class Pair {
   readonly line: number

@@ -1,5 +1,5 @@
-import {IoLevel} from '../../../common/io/level/io-level'
-import {Level} from '../../../common/models/level'
+import { IoLevel } from "../../../common/io/level/io-level"
+import { Level } from "../../../common/models/level"
 
 export class IoLevelToAttributes {
   static toAttributes(level: Level): Record<string, string | number | null> {

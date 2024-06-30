@@ -1,10 +1,10 @@
-import {DEFAULT_ITEMS, Item} from '../data/item'
-import {ITEM_NAMES, ItemName} from '../data/item-name'
-import {Enemy} from './enemy'
-import {Info} from './info'
-import {Level} from './level'
-import {Room} from './room'
-import {RoomType} from '../data/room-type'
+import { DEFAULT_ITEMS, Item } from "../data/item"
+import { ITEM_NAMES, ItemName } from "../data/item-name"
+import { Enemy } from "./enemy"
+import { Info } from "./info"
+import { Level } from "./level"
+import { Room } from "./room"
+import { RoomType } from "../data/room-type"
 
 export class Tower {
   name: string
@@ -16,7 +16,7 @@ export class Tower {
   levels: Level[]
 
   constructor() {
-    this.name = 'Unnamed tower'
+    this.name = "Unnamed tower"
     this.enemies = []
     // @ts-ignore
     this.items = {}
@@ -25,9 +25,9 @@ export class Tower {
     }
     this.info = new Info()
     const standardRoom = new Room()
-    standardRoom.name = 'Standard room'
+    standardRoom.name = "Standard room"
     const nexusRoom = new Room()
-    nexusRoom.name = 'Nexus room'
+    nexusRoom.name = "Nexus room"
     this.standardRooms = [standardRoom]
     this.nexusRooms = [nexusRoom]
     this.levels = []

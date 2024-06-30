@@ -1,6 +1,6 @@
 export class IO {
   static checkEnum(value: any, values: string[], mandatory: boolean, message: string, errors: string[]): void {
-    if (value == null || value === '') {
+    if (value == null || value === "") {
       if (mandatory) {
         errors.push(message)
       }
@@ -14,10 +14,8 @@ export class IO {
   static checkNotEmpty(value: string | number | null, message: string, errors: string[]): void {
     if (value == null) {
       errors.push(message)
-    }
- else if (typeof value === 'number') {
-    }
- else if (value.length === 0) {
+    } else if (typeof value === "number") {
+    } else if (value.length === 0) {
       errors.push(message)
     }
   }
@@ -33,27 +31,23 @@ export class IO {
       if (!nullAuthorized) {
         errors.push(message)
       }
-    }
- else if (typeof value === 'number') {
+    } else if (typeof value === "number") {
       if (zeroAuthorized) {
         if (value < 0) {
           errors.push(message)
         }
-      }
- else {
+      } else {
         if (value <= 0) {
           errors.push(message)
         }
       }
-    }
- else {
+    } else {
       const v = parseInt(value)
       if (zeroAuthorized) {
         if (isNaN(v) || v < 0) {
           errors.push(message)
         }
-      }
- else {
+      } else {
         if (isNaN(v) || v <= 0) {
           errors.push(message)
         }

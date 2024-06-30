@@ -1,6 +1,6 @@
-import {html, render} from 'uhtml'
-import {Game} from '../../game'
-import {TOWERS} from '../../towers/towers'
+import { html, render } from "uhtml"
+import { Game } from "../../game"
+import { TOWERS } from "../../towers/towers"
 
 export class ScreenIntro {
   private readonly game: Game
@@ -10,7 +10,7 @@ export class ScreenIntro {
   }
 
   render(): void {
-    console.debug('ScreenMain', 'render')
+    console.debug("ScreenMain", "render")
     const towers = TOWERS.map(
       (tower, towerIndex) => html`<sl-tree-item data-tower-index="${towerIndex}">${tower.name}</sl-tree-item>`,
     )
@@ -22,7 +22,7 @@ export class ScreenIntro {
   }
 
   private towerSelection = (event: CustomEvent): void => {
-    console.debug('ScreenMain', 'towerSelection', event)
+    console.debug("ScreenMain", "towerSelection", event)
     const towerIndex = parseInt(event.detail.selection[0].dataset.towerIndex)
     this.game.eventManager.notifyTowerSelection(TOWERS[towerIndex])
   }

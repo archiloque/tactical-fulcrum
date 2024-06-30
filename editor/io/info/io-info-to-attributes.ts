@@ -1,5 +1,5 @@
-import {Info} from '../../../common/models/info'
-import {IoInfo} from '../../../common/io/info/io-info'
+import { Info } from "../../../common/models/info"
+import { IoInfo } from "../../../common/io/info/io-info"
 
 export class IoInfoToAttributes {
   static toAttributes(info: Info): Record<string, number> {

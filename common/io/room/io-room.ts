@@ -1,20 +1,20 @@
-import {IO} from '../io'
-import {Room} from '../../models/room'
-import {RoomType} from '../../data/room-type'
-import {TILE_TYPES} from '../../models/tile'
-import {TILES_IN_ROW} from '../../data/constants'
+import { IO } from "../io"
+import { Room } from "../../models/room"
+import { RoomType } from "../../data/room-type"
+import { TILE_TYPES } from "../../models/tile"
+import { TILES_IN_ROW } from "../../data/constants"
 
 export class IoRoom {
-  static readonly ATTRIBUTE_COLOR = 'color'
-  static readonly ATTRIBUTE_COLUMN = 'column'
-  static readonly ATTRIBUTE_DIRECTION = 'direction'
-  static readonly ATTRIBUTE_ENEMY_LEVEL = 'level'
-  static readonly ATTRIBUTE_ENEMY_TYPE = 'enemyType'
-  static readonly ATTRIBUTE_LINE = 'line'
-  static readonly ATTRIBUTE_NAME = 'name'
-  static readonly ATTRIBUTE_SCORES = 'scores'
-  static readonly ATTRIBUTE_TILES = 'tiles'
-  static readonly ATTRIBUTE_TYPE = 'type'
+  static readonly ATTRIBUTE_COLOR = "color"
+  static readonly ATTRIBUTE_COLUMN = "column"
+  static readonly ATTRIBUTE_DIRECTION = "direction"
+  static readonly ATTRIBUTE_ENEMY_LEVEL = "level"
+  static readonly ATTRIBUTE_ENEMY_TYPE = "enemyType"
+  static readonly ATTRIBUTE_LINE = "line"
+  static readonly ATTRIBUTE_NAME = "name"
+  static readonly ATTRIBUTE_SCORES = "scores"
+  static readonly ATTRIBUTE_TILES = "tiles"
+  static readonly ATTRIBUTE_TYPE = "type"
   static readonly ATTRIBUTES: string[] = [IoRoom.ATTRIBUTE_NAME, IoRoom.ATTRIBUTE_TILES, IoRoom.ATTRIBUTE_SCORES]
 
   static validateRoomExport(room: Room, index: number, errors: string[]): void {
@@ -39,8 +39,7 @@ export class IoRoom {
           errors.push(
             `Room ${index + 1} ${IoRoom.ATTRIBUTE_TILES} line ${tilesArrayIndex + 1} attribute [${tilesArray}] is not an array`,
           )
-        }
- else {
+        } else {
           if (tilesArray.length !== TILES_IN_ROW) {
             errors.push(
               `Room ${index + 1} ${IoRoom.ATTRIBUTE_TILES} length ${tilesArray.length}] should be ${TILES_IN_ROW}`,
@@ -48,14 +47,13 @@ export class IoRoom {
           }
           tilesArray.forEach((tile) => {
             const type = tile[IoRoom.ATTRIBUTE_TYPE]
-            if (TILE_TYPES.map(it => it.valueOf()).indexOf(type) === -1) {
+            if (TILE_TYPES.map((it) => it.valueOf()).indexOf(type) === -1) {
               errors.push(`Room ${index + 1} has an invalid tile type [${type}]`)
             }
           })
         }
       })
-    }
- else {
+    } else {
       errors.push(`Room ${index + 1} tiles ${IoRoom.ATTRIBUTE_TILES} attribute [${tilesArrayArray}] is not an array`)
     }
   }
@@ -67,8 +65,7 @@ export class IoRoom {
       if (roomName != null) {
         if (knownRooms.indexOf(roomName) !== -1) {
           errors.push(`Room ${index} is duplicated (same name)`)
-        }
- else {
+        } else {
           knownRooms.push(roomName)
         }
       }
@@ -80,8 +77,7 @@ export class IoRoom {
     rooms.forEach((room, index) => {
       if (knownRooms.indexOf(room.name) !== -1) {
         errors.push(`Room ${index} ${roomType} is duplicated (same name)`)
-      }
- else {
+      } else {
         knownRooms.push(room.name)
       }
     })

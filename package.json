@@ -17,11 +17,11 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.5.0",
+    "@eslint/js": "^9.6.0",
     "@pixi/settings": "^7.4.2",
     "@shoelace-style/shoelace": "^2.15.1",
-    "@stylistic/eslint-plugin": "^2.2.1",
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@stylistic/eslint-plugin": "^2.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
     "esbuild": "^0.21.5",
     "esbuild-minify-templates": "^0.11.0",
     "esbuild-plugin-copy": "^2.1.1",
@@ -29,12 +29,12 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^17.9.0",
     "eslint-plugin-promise": "^6.2.0",
-    "globals": "^15.6.0",
-    "pixi.js": "^8.1.8",
+    "globals": "^15.7.0",
+    "pixi.js": "^8.2.1",
     "prettier": "^3.3.2",
     "svgo": "^3.3.2",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "^7.13.1",
+    "typescript": "^5.5.2",
+    "typescript-eslint": "^7.14.1",
     "uhtml": "^4.5.9"
   }
 }

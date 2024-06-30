@@ -1,21 +1,21 @@
-import {IOOperation, IOResult} from '../../common/io/import-export'
-import {ITEM_NAMES, ItemName} from '../../common/data/item-name'
-import {DEFAULT_ITEMS} from '../../common/data/item'
-import {Enemy} from '../../common/models/enemy'
-import {IoEnemy} from '../../common/io/enemy/io-enemy'
-import {IoEnemyToAttributes} from './enemy/io-enemy-to-attributes'
-import {IoInfo} from '../../common/io/info/io-info'
-import {IoInfoToAttributes} from './info/io-info-to-attributes'
-import {IoItem} from '../../common/io/item/io-item'
-import {IoItemToAttributes} from './item/io-item-to-attributes'
-import {IoLevel} from '../../common/io/level/io-level'
-import {IoLevelToAttributes} from './level/io-level-to-attributes'
-import {IoRoom} from '../../common/io/room/io-room'
-import {IoRoomToAttributes} from './room/io-room-to-attributes'
-import {Level} from '../../common/models/level'
-import {Room} from '../../common/models/room'
-import {RoomType} from '../../common/data/room-type'
-import {Tower} from '../../common/models/tower'
+import { IOOperation, IOResult } from "../../common/io/import-export"
+import { ITEM_NAMES, ItemName } from "../../common/data/item-name"
+import { DEFAULT_ITEMS } from "../../common/data/item"
+import { Enemy } from "../../common/models/enemy"
+import { IoEnemy } from "../../common/io/enemy/io-enemy"
+import { IoEnemyToAttributes } from "./enemy/io-enemy-to-attributes"
+import { IoInfo } from "../../common/io/info/io-info"
+import { IoInfoToAttributes } from "./info/io-info-to-attributes"
+import { IoItem } from "../../common/io/item/io-item"
+import { IoItemToAttributes } from "./item/io-item-to-attributes"
+import { IoLevel } from "../../common/io/level/io-level"
+import { IoLevelToAttributes } from "./level/io-level-to-attributes"
+import { IoRoom } from "../../common/io/room/io-room"
+import { IoRoomToAttributes } from "./room/io-room-to-attributes"
+import { Level } from "../../common/models/level"
+import { Room } from "../../common/models/room"
+import { RoomType } from "../../common/data/room-type"
+import { Tower } from "../../common/models/tower"
 
 export class ExportResult extends IOResult {
   readonly content: string
@@ -72,7 +72,7 @@ export class Export extends IOOperation {
     return new ExportResult(
       JSON.stringify(
         {
-          $schema: 'tower-schema.json',
+          $schema: "tower-schema.json",
           [IOOperation.ATTRIBUTE_NAME]: tower.name,
           [IOOperation.ATTRIBUTE_INFO]: info,
           [IOOperation.ATTRIBUTE_ENEMIES]: enemies,
@@ -97,11 +97,9 @@ export class Export extends IOOperation {
   ): number {
     if (e1[attributeName] !== null && e2[attributeName] !== null) {
       return e1[attributeName]! > e2[attributeName]! ? 1 : -1
-    }
- else if (e1[attributeName] === null) {
+    } else if (e1[attributeName] === null) {
       return 1
-    }
- else {
+    } else {
       return -1
     }
   }
@@ -113,11 +111,9 @@ export class Export extends IOOperation {
   ): number {
     if (e1[attributeName] !== null && e2[attributeName] !== null) {
       return (e1[attributeName] as number) - (e2[attributeName] as number)
-    }
- else if (e1[attributeName] === null) {
+    } else if (e1[attributeName] === null) {
       return 1
-    }
- else {
+    } else {
       return -1
     }
   }
@@ -128,29 +124,21 @@ export class Export extends IOOperation {
   ): number {
     if (e1[IoEnemy.ATTRIBUTE_TYPE] !== e2[IoEnemy.ATTRIBUTE_TYPE]) {
       return Export.compareAttribute(e1, e2, IoEnemy.ATTRIBUTE_TYPE)
-    }
- else if (e1[IoEnemy.ATTRIBUTE_LEVEL] !== e2[IoEnemy.ATTRIBUTE_LEVEL]) {
+    } else if (e1[IoEnemy.ATTRIBUTE_LEVEL] !== e2[IoEnemy.ATTRIBUTE_LEVEL]) {
       return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_LEVEL)
-    }
- else if (e1[IoEnemy.ATTRIBUTE_NAME] !== e2[IoEnemy.ATTRIBUTE_NAME]) {
+    } else if (e1[IoEnemy.ATTRIBUTE_NAME] !== e2[IoEnemy.ATTRIBUTE_NAME]) {
       return Export.compareAttribute(e1, e2, IoEnemy.ATTRIBUTE_NAME)
-    }
- else if (e1[IoEnemy.ATTRIBUTE_HP] !== e2[IoEnemy.ATTRIBUTE_HP]) {
+    } else if (e1[IoEnemy.ATTRIBUTE_HP] !== e2[IoEnemy.ATTRIBUTE_HP]) {
       return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_HP)
-    }
- else if (e1[IoEnemy.ATTRIBUTE_ATK] !== e2[IoEnemy.ATTRIBUTE_ATK]) {
+    } else if (e1[IoEnemy.ATTRIBUTE_ATK] !== e2[IoEnemy.ATTRIBUTE_ATK]) {
       return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_ATK)
-    }
- else if (e1[IoEnemy.ATTRIBUTE_DEF] !== e2[IoEnemy.ATTRIBUTE_DEF]) {
+    } else if (e1[IoEnemy.ATTRIBUTE_DEF] !== e2[IoEnemy.ATTRIBUTE_DEF]) {
       return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_DEF)
-    }
- else if (e1[IoEnemy.ATTRIBUTE_EXP] !== e2[IoEnemy.ATTRIBUTE_EXP]) {
+    } else if (e1[IoEnemy.ATTRIBUTE_EXP] !== e2[IoEnemy.ATTRIBUTE_EXP]) {
       return Export.compareAttributeAsNumber(e1, e2, IoEnemy.ATTRIBUTE_EXP)
-    }
- else if (e1[IoEnemy.ATTRIBUTE_DROP] !== e2[IoEnemy.ATTRIBUTE_DROP]) {
+    } else if (e1[IoEnemy.ATTRIBUTE_DROP] !== e2[IoEnemy.ATTRIBUTE_DROP]) {
       return Export.compareAttribute(e1, e2, IoEnemy.ATTRIBUTE_DROP)
-    }
- else {
+    } else {
       return 0
     }
   }

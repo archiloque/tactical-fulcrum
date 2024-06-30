@@ -1,10 +1,10 @@
-import {Hole, html, render} from 'uhtml'
-import {AbstractTab} from '../abstract-tab'
-import {DefaultIconsName} from '../../../common/front/icons/default-icons'
-import {Editor} from '../../editor'
-import {Level} from '../../../common/models/level'
-import SlTabPanel from '@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component'
-import {Tab} from '../tab'
+import { Hole, html, render } from "uhtml"
+import { AbstractTab } from "../abstract-tab"
+import { DefaultIconsName } from "../../../common/front/icons/default-icons"
+import { Editor } from "../../editor"
+import { Level } from "../../../common/models/level"
+import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
+import { Tab } from "../tab"
 
 export class TabLevels extends AbstractTab {
   private readonly editor: Editor
@@ -19,15 +19,15 @@ export class TabLevels extends AbstractTab {
 
   private renderLevel(level: Level, levelIndex: number): Hole {
     return html`<div data-index="${levelIndex}" class="elementLine">
-      ${this.numberInput(level.atkAdd, this.atkAddChange, 0, 'Atk add')}
-      ${this.numberInput(level.atkMul, this.atkMulChange, 0, 'Atk mul')}
-      ${this.numberInput(level.defAdd, this.defAddChange, 0, 'Def add')}
-      ${this.numberInput(level.defMul, this.defMulChange, 0, 'Def mul')}
-      ${this.numberInput(level.hpAdd, this.hpAddChange, 0, 'HP add')}
-      ${this.numberInput(level.hpMul, this.hpMulChange, 0, 'HP mul')}
-      ${this.numberInput(level.blueKey, this.blueKeyChange, 0, 'Blue keys')}
-      ${this.numberInput(level.crimsonKey, this.crimsonKeyChange, 0, 'Crimson keys')}
-      ${this.numberInput(level.yellowKey, this.yellowKeyChange, 0, 'Yellow keys')}
+      ${this.numberInput(level.atkAdd, this.atkAddChange, 0, "Atk add")}
+      ${this.numberInput(level.atkMul, this.atkMulChange, 0, "Atk mul")}
+      ${this.numberInput(level.defAdd, this.defAddChange, 0, "Def add")}
+      ${this.numberInput(level.defMul, this.defMulChange, 0, "Def mul")}
+      ${this.numberInput(level.hpAdd, this.hpAddChange, 0, "HP add")}
+      ${this.numberInput(level.hpMul, this.hpMulChange, 0, "HP mul")}
+      ${this.numberInput(level.blueKey, this.blueKeyChange, 0, "Blue keys")}
+      ${this.numberInput(level.crimsonKey, this.crimsonKeyChange, 0, "Crimson keys")}
+      ${this.numberInput(level.yellowKey, this.yellowKeyChange, 0, "Yellow keys")}
       <sl-button onclick="${this.deleteLevel}" variant="danger" class="delete">
         <sl-icon name="${DefaultIconsName.TRASH}"></sl-icon>
       </sl-button>
@@ -35,14 +35,14 @@ export class TabLevels extends AbstractTab {
   }
 
   render(): void {
-    console.debug('TabLevels', 'render')
+    console.debug("TabLevels", "render")
     render(
       this.tabElement,
       html`
         <div class="elementLine validity-styles">
-          ${this.tag('Atk add')} ${this.tag('Atk mul')} ${this.tag('Def add')} ${this.tag('Def mul')}
-          ${this.tag('Hp add')} ${this.tag('Hp mul')} ${this.tag('Blue key')} ${this.tag('Crimson key')}
-          ${this.tag('Yellow key')} ${this.tag('Delete', 'delete')}
+          ${this.tag("Atk add")} ${this.tag("Atk mul")} ${this.tag("Def add")} ${this.tag("Def mul")}
+          ${this.tag("Hp add")} ${this.tag("Hp mul")} ${this.tag("Blue key")} ${this.tag("Crimson key")}
+          ${this.tag("Yellow key")} ${this.tag("Delete", "delete")}
         </div>
         ${this.editor.tower.levels.map((level: Level, levelIndex: number) => this.renderLevel(level, levelIndex))}
         <div class="addButtonDiv">
@@ -55,7 +55,7 @@ export class TabLevels extends AbstractTab {
   }
 
   private addLevel = (): void => {
-    console.debug('TabLevels', 'add level')
+    console.debug("TabLevels", "add level")
     this.editor.tower.levels.push(new Level())
     this.render()
     this.editor.tower.saveLevels()
@@ -71,44 +71,44 @@ export class TabLevels extends AbstractTab {
   }
 
   private atkAddChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'atkAdd')
+    this.intValueChanged(event, "atkAdd")
   }
 
   private atkMulChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'atkMul')
+    this.intValueChanged(event, "atkMul")
   }
 
   private defAddChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'defAdd')
+    this.intValueChanged(event, "defAdd")
   }
 
   private defMulChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'defMul')
+    this.intValueChanged(event, "defMul")
   }
 
   private hpAddChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'hpAdd')
+    this.intValueChanged(event, "hpAdd")
   }
 
   private hpMulChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'hpMul')
+    this.intValueChanged(event, "hpMul")
   }
 
   private blueKeyChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'blueKey')
+    this.intValueChanged(event, "blueKey")
   }
 
   private crimsonKeyChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'crimsonKey')
+    this.intValueChanged(event, "crimsonKey")
   }
 
   private yellowKeyChange = (event: CustomEvent): void => {
-    this.intValueChanged(event, 'yellowKey')
+    this.intValueChanged(event, "yellowKey")
   }
 
   private intValueChanged = (event: CustomEvent, attrName: string): void => {
     const [levelIndex, value] = this.getInputValueInt(event)
-    console.debug('TabEnemies', 'intValueChanged', levelIndex, attrName, value)
+    console.debug("TabEnemies", "intValueChanged", levelIndex, attrName, value)
     this.editor.tower.levels[levelIndex][attrName] = value
     this.editor.tower.saveLevels()
   }

@@ -1,5 +1,5 @@
-import {Hole, html} from 'uhtml'
-import SlInput from '@shoelace-style/shoelace/cdn/components/input/input.component'
+import { Hole, html } from "uhtml"
+import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
 
 export abstract class AbstractTab {
   protected tag(text: string, className: string | null = null): Hole {

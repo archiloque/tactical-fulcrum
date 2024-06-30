@@ -1,4 +1,4 @@
-import {Color, COLORS} from '../../../common/data/color'
+import { Color, COLORS } from "../../../common/data/color"
 import {
   DOOR_TILES,
   DoorTile,
@@ -13,22 +13,22 @@ import {
   Tile,
   TileType,
   WALL_TILE,
-} from '../../../common/models/tile'
-import {ENEMY_TYPES, EnemyType} from '../../../common/data/enemy-type'
-import {findEnum, findTreeItemFromValue} from '../../../common/models/functions'
-import {Hole, html, render} from 'uhtml'
-import {ITEM_NAMES, ItemName} from '../../../common/data/item-name'
-import {STAIRCASE_DIRECTIONS, StaircaseDirection} from '../../../common/data/staircase-direction'
-import {capitalize} from '../../../common/models/utils'
-import {Editor} from '../../editor'
-import {Enemy} from '../../../common/models/enemy'
-import {RoomLayer} from '../room-layer'
-import SlTree from '@shoelace-style/shoelace/cdn/components/tree/tree.component'
-import SlTreeItem from '@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component'
+} from "../../../common/models/tile"
+import { ENEMY_TYPES, EnemyType } from "../../../common/data/enemy-type"
+import { findEnum, findTreeItemFromValue } from "../../../common/models/functions"
+import { Hole, html, render } from "uhtml"
+import { ITEM_NAMES, ItemName } from "../../../common/data/item-name"
+import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../../common/data/staircase-direction"
+import { capitalize } from "../../../common/models/utils"
+import { Editor } from "../../editor"
+import { Enemy } from "../../../common/models/enemy"
+import { RoomLayer } from "../room-layer"
+import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
+import SlTreeItem from "@shoelace-style/shoelace/cdn/components/tree-item/tree-item.component"
 
 export class Elements {
-  private static readonly DIV_ID = 'tabMapElements'
-  private static readonly TREE_ID = 'tabMapElementsTree'
+  private static readonly DIV_ID = "tabMapElements"
+  private static readonly TREE_ID = "tabMapElementsTree"
 
   private readonly editor: Editor
   private tree: SlTree
@@ -41,11 +41,11 @@ export class Elements {
     this.editor.eventManager.registerTileSelection((selectedTile, updateElementTree) =>
       this.tileSelected(selectedTile, updateElementTree),
     )
-    this.editor.eventManager.registerLayerSelection(layer => this.layerSelected(layer))
+    this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
   }
 
   hole(): Hole {
-    console.debug('Elements', 'hole')
+    console.debug("Elements", "hole")
     return html` <div id="${Elements.DIV_ID}">
       <h2>Element</h2>
       <sl-tree id="${Elements.TREE_ID}" selection="leaf" @sl-selection-change="${this.selectionChanged}"> </sl-tree>
@@ -53,27 +53,27 @@ export class Elements {
   }
 
   init(): void {
-    console.debug('Elements', 'init')
+    console.debug("Elements", "init")
     this.div = document.getElementById(Elements.DIV_ID)!
     this.tree = document.getElementById(Elements.TREE_ID) as SlTree
   }
 
   render(): void {
-    console.debug('Elements', 'render')
+    console.debug("Elements", "render")
     const keys: Hole[] = COLORS.map(
-      c => html` <sl-tree-item data-type="${TileType.key}" data-color="${c}">${capitalize(c)} key</sl-tree-item>`,
+      (c) => html` <sl-tree-item data-type="${TileType.key}" data-color="${c}">${capitalize(c)} key</sl-tree-item>`,
     )
 
     const doors: Hole[] = COLORS.map(
-      c => html` <sl-tree-item data-type="${TileType.door}" data-color="${c}">${capitalize(c)} door</sl-tree-item>`,
+      (c) => html` <sl-tree-item data-type="${TileType.door}" data-color="${c}">${capitalize(c)} door</sl-tree-item>`,
     )
 
     const items: Hole[] = ITEM_NAMES.map(
-      i => html` <sl-tree-item data-type="${TileType.item}" data-name="${i.valueOf()}">${i}</sl-tree-item>`,
+      (i) => html` <sl-tree-item data-type="${TileType.item}" data-name="${i.valueOf()}">${i}</sl-tree-item>`,
     )
 
     const staircases: Hole[] = STAIRCASE_DIRECTIONS.map(
-      s =>
+      (s) =>
         html` <sl-tree-item data-type="${TileType.staircase}" data-direction="${s.valueOf()}"
           >Staircase ${s}
         </sl-tree-item>`,
@@ -82,14 +82,13 @@ export class Elements {
     let enemies: Hole
     if (this.editor.tower.enemies.length == 0) {
       enemies = html` <sl-tree-item disabled>Enemy</sl-tree-item>`
-    }
- else {
+    } else {
       const enemiesList = this.editor.tower.enemies.map((enemy: Enemy) => {
-        const enemyName = `${enemy.type == null || enemy.type.length === 0 ? '??' : enemy.type} ${enemy.level == null ? '??' : enemy.level} (${enemy.name})`
+        const enemyName = `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
         return html` <sl-tree-item
           data-type="${TileType.enemy.valueOf()}"
-          data-enemy-type="${enemy.type ? enemy.type.valueOf() : ''}"
-          data-enemy-level="${enemy.level ? enemy.level : ''}"
+          data-enemy-type="${enemy.type ? enemy.type.valueOf() : ""}"
+          data-enemy-level="${enemy.level ? enemy.level : ""}"
           >${enemyName}
         </sl-tree-item>`
       })
@@ -169,7 +168,7 @@ export class Elements {
         return
       }
       default: {
-        console.error('TabMapElements', 'selectionChanged', 'Unknown tile', slTreeItem)
+        console.error("TabMapElements", "selectionChanged", "Unknown tile", slTreeItem)
       }
     }
   }
@@ -187,16 +186,16 @@ export class Elements {
           color: doorTile.color.valueOf(),
         })
       case TileType.empty:
-        return this.findTreeItemFromValue({type: TileType.empty.valueOf()})
+        return this.findTreeItemFromValue({ type: TileType.empty.valueOf() })
       case TileType.enemy:
         const enemyTile = tile as EnemyTile
         const filter: Record<string, string | number> = {}
-        filter['type'] = TileType.enemy.valueOf()
+        filter["type"] = TileType.enemy.valueOf()
         if (enemyTile.enemy.type !== null) {
-          filter['enemy-type'] = enemyTile.enemy.type.valueOf()
+          filter["enemy-type"] = enemyTile.enemy.type.valueOf()
         }
         if (enemyTile.enemy.level !== null) {
-          filter['enemy-level'] = enemyTile.enemy.level
+          filter["enemy-level"] = enemyTile.enemy.level
         }
         return this.findTreeItemFromValue(filter)
       case TileType.item:
@@ -222,17 +221,17 @@ export class Elements {
           type: TileType.startingPosition.valueOf(),
         })
       case TileType.wall:
-        return this.findTreeItemFromValue({type: TileType.wall.valueOf()})
+        return this.findTreeItemFromValue({ type: TileType.wall.valueOf() })
     }
   }
 
   private layerSelected(layer: RoomLayer): void {
     switch (layer) {
       case RoomLayer.standard:
-        this.div.classList.remove('hidden')
+        this.div.classList.remove("hidden")
         break
       case RoomLayer.score:
-        this.div.classList.add('hidden')
+        this.div.classList.add("hidden")
         break
     }
   }
@@ -249,8 +248,7 @@ export class Elements {
       if (parent.id != Elements.TREE_ID) {
         ;(parent as SlTreeItem).expanded = true
       }
-    }
- else {
+    } else {
       this.selectedTile = selectedTile
     }
   }

@@ -1,17 +1,17 @@
-import {ColorCustomIcons, ColorCustomIconsName} from './color-custom-icons'
-import {Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW} from '../colors'
-import {getCssProperty, getTextColor} from '../color-scheme'
-import {MonochromeCustomIcons, MonochromeCustomIconsName} from './monochrome-custom-icons'
-import {decodeSvg} from './decode-svg'
-import {registerIconLibrary} from '@shoelace-style/shoelace/dist/utilities/icon-library.js'
+import { ColorCustomIcons, ColorCustomIconsName } from "./color-custom-icons"
+import { Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW } from "../colors"
+import { getCssProperty, getTextColor } from "../color-scheme"
+import { MonochromeCustomIcons, MonochromeCustomIconsName } from "./monochrome-custom-icons"
+import { decodeSvg } from "./decode-svg"
+import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js"
 
 export function registerCustomIcons(): void {
-  registerIconLibrary('tf', {
+  registerIconLibrary("tf", {
     resolver: (name) => {
       return ICONS.get(name)!.getValue()
     },
     mutator: (svg) => {
-      svg.setAttribute('stroke', 'currentColor')
+      svg.setAttribute("stroke", "currentColor")
     },
   })
 }

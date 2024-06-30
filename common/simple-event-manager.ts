@@ -1,29 +1,29 @@
-import {ColorScheme} from './front/color-scheme'
-import {EventEmitter} from 'pixi.js'
+import { ColorScheme } from "./front/color-scheme"
+import { EventEmitter } from "pixi.js"
 
 export class SimpleEventManager {
-  private static EVENT_SCHEME_CHANGE = 'schemeChange'
-  private static EVENT_SCREEN_CHANGE = 'screenChange'
+  private static EVENT_SCHEME_CHANGE = "schemeChange"
+  private static EVENT_SCREEN_CHANGE = "screenChange"
 
   protected eventEmitter: EventEmitter
 
   constructor() {
     this.eventEmitter = new EventEmitter()
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
       const colorScheme: ColorScheme = event.matches ? ColorScheme.dark : ColorScheme.light
-      console.debug('EventManager', 'notifySchemeChange', colorScheme)
+      console.debug("EventManager", "notifySchemeChange", colorScheme)
       this.eventEmitter.emit(SimpleEventManager.EVENT_SCHEME_CHANGE, colorScheme)
     })
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       this.eventEmitter.emit(SimpleEventManager.EVENT_SCREEN_CHANGE)
     })
-    screen.orientation.addEventListener('change', () => {
+    screen.orientation.addEventListener("change", () => {
       this.eventEmitter.emit(SimpleEventManager.EVENT_SCREEN_CHANGE)
     })
   }
 
   public registerSchemeChange(callBack: (colorScheme: ColorScheme) => void): void {
-    this.eventEmitter.on(SimpleEventManager.EVENT_SCHEME_CHANGE, colorScheme => callBack(colorScheme))
+    this.eventEmitter.on(SimpleEventManager.EVENT_SCHEME_CHANGE, (colorScheme) => callBack(colorScheme))
   }
 
   public registerScreenChange(callBack: () => void): void {

@@ -1,21 +1,21 @@
-import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js'
+import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js"
 
-import {Application, FederatedPointerEvent, Graphics, Point, Sprite} from 'pixi.js'
-import {getBackgroundColor, getCssProperty} from '../color-scheme'
-import {Hole, html} from 'uhtml'
-import {TILES_DEFAULT_SIZE, TILES_IN_ROW} from '../../data/constants'
-import SlTooltip from '@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component'
-import {Spriter} from '../map/spriter'
+import { Application, FederatedPointerEvent, Graphics, Point, Sprite } from "pixi.js"
+import { getBackgroundColor, getCssProperty } from "../color-scheme"
+import { Hole, html } from "uhtml"
+import { TILES_DEFAULT_SIZE, TILES_IN_ROW } from "../../data/constants"
+import SlTooltip from "@shoelace-style/shoelace/cdn/components/tooltip/tooltip.component"
+import { Spriter } from "../map/spriter"
 
 export abstract class AbstractMap {
-  static readonly TOOL_TIP_ID = 'abstractMapToolTip'
-  static readonly TOOL_TIP_TIP_ID = 'abstractMapToolTipTip'
+  static readonly TOOL_TIP_ID = "abstractMapToolTip"
+  static readonly TOOL_TIP_TIP_ID = "abstractMapToolTipTip"
 
   private readonly lastMousePosition: Point = new Point()
   protected lastMouseTile: Point = new Point(-1, -1)
   protected readonly background: Sprite
   protected readonly cursor: Graphics
-  protected readonly spriter: Spriter = new Spriter('map')
+  protected readonly spriter: Spriter = new Spriter("map")
   tileSize: number = TILES_DEFAULT_SIZE
   protected toolTip: HTMLElement
   protected toolTipTimeout: number | null = null
@@ -25,16 +25,16 @@ export abstract class AbstractMap {
   protected constructor() {
     this.app = new Application()
     this.background = new Sprite()
-    this.background.eventMode = 'dynamic'
+    this.background.eventMode = "dynamic"
     this.cursor = new Graphics()
     this.setupCursor()
-    this.cursor.eventMode = 'none'
+    this.cursor.eventMode = "none"
   }
 
   private setupCursor(): void {
     this.cursor.rect(0, 0, this.tileSize, this.tileSize).stroke({
       width: 1,
-      color: getCssProperty('--sl-color-danger-600'),
+      color: getCssProperty("--sl-color-danger-600"),
       alignment: 1,
     })
   }
@@ -50,7 +50,7 @@ export abstract class AbstractMap {
   abstract repaint(): void
 
   async resize(elementSize: number): Promise<any> {
-    console.debug('AbstractMap', 'resize')
+    console.debug("AbstractMap", "resize")
     const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
     if (newTileSize !== this.tileSize) {
       this.tileSize = newTileSize
@@ -65,9 +65,9 @@ export abstract class AbstractMap {
   }
 
   protected async init(): Promise<any> {
-    console.debug('AbstractMap', 'init')
-    this.background.on('pointerenter', () => this.pointerEnter())
-    this.background.on('pointerleave', () => this.pointerLeave())
+    console.debug("AbstractMap", "init")
+    this.background.on("pointerenter", () => this.pointerEnter())
+    this.background.on("pointerleave", () => this.pointerLeave())
     return Promise.all([
       this.app.init({
         background: getBackgroundColor(),
@@ -82,7 +82,7 @@ export abstract class AbstractMap {
   }
 
   public postInit(): void {
-    console.debug('AbstractMap', 'postInit')
+    console.debug("AbstractMap", "postInit")
     this.toolTip = document.getElementById(AbstractMap.TOOL_TIP_ID)!
     this.tooltipTip = document.getElementById(AbstractMap.TOOL_TIP_TIP_ID) as SlTooltip
   }
@@ -125,7 +125,7 @@ export abstract class AbstractMap {
   protected pointerMove(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
     if (tilePosition.y < TILES_IN_ROW && tilePosition.x < TILES_IN_ROW && !this.lastMouseTile.equals(tilePosition)) {
-      console.debug('AbstractMap', 'pointerMove', tilePosition)
+      console.debug("AbstractMap", "pointerMove", tilePosition)
       this.lastMouseTile = tilePosition
       if (this.tooltipTip.open) {
         this.tooltipTip.open = false

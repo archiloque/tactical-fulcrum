@@ -1,15 +1,15 @@
-import {Color} from '../../../common/data/color'
-import {Enemy} from '../../../common/models/enemy'
-import {Item} from '../../../common/data/item'
-import {Position3D} from '../tuples'
-import {Tile} from '../../../common/models/tile'
+import { Color } from "../../../common/data/color"
+import { Enemy } from "../../../common/models/enemy"
+import { Item } from "../../../common/data/item"
+import { Position3D } from "../tuples"
+import { Tile } from "../../../common/models/tile"
 
 export const enum ActionType {
-  MOVE = 'move',
-  PICK_ITEM = 'pick_item',
-  PICK_KEY = 'pick_key',
-  OPEN_DOOR = 'open_door',
-  KILL_ENEMY = 'kill_enemy',
+  MOVE = "move",
+  PICK_ITEM = "pick_item",
+  PICK_KEY = "pick_key",
+  OPEN_DOOR = "open_door",
+  KILL_ENEMY = "kill_enemy",
 }
 
 export abstract class Action {

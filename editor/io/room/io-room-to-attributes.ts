@@ -1,7 +1,7 @@
-import {DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType} from '../../../common/models/tile'
-import {IoRoom} from '../../../common/io/room/io-room'
-import {Room} from '../../../common/models/room'
-import {Score} from '../../../common/models/score'
+import { DoorTile, EnemyTile, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../../common/models/tile"
+import { IoRoom } from "../../../common/io/room/io-room"
+import { Room } from "../../../common/models/room"
+import { Score } from "../../../common/models/score"
 
 export class IoRoomToAttributes {
   static toAttributes(room: Room): {
@@ -11,8 +11,8 @@ export class IoRoomToAttributes {
   } {
     return {
       [IoRoom.ATTRIBUTE_NAME]: room.name,
-      [IoRoom.ATTRIBUTE_TILES]: room.tiles.map(tilesLine =>
-        tilesLine.map(tile => IoRoomToAttributes.createTile(tile)),
+      [IoRoom.ATTRIBUTE_TILES]: room.tiles.map((tilesLine) =>
+        tilesLine.map((tile) => IoRoomToAttributes.createTile(tile)),
       ),
       [IoRoom.ATTRIBUTE_SCORES]: room.scores.map((score) => {
         return IoRoomToAttributes.createScore(score)

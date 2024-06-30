@@ -1,5 +1,5 @@
-import {Assets, Sprite} from 'pixi.js'
-import {SpriteName, SPRITES} from './sprites'
+import { Assets, Sprite } from "pixi.js"
+import { SpriteName, SPRITES } from "./sprites"
 
 export class Spriter {
   private tileSize: number
@@ -11,7 +11,7 @@ export class Spriter {
   }
 
   async reload(tileSize: number): Promise<any> {
-    console.debug('Spriter', 'reload', 'size', tileSize)
+    console.debug("Spriter", "reload", "size", tileSize)
     this.tileSize = tileSize
     for (const cached of this.cache) {
       Assets.cache.remove(cached)

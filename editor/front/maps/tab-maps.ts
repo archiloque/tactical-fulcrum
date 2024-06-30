@@ -1,20 +1,20 @@
-import {html, render} from 'uhtml'
-import {ROOM_TYPES, SelectedRoom} from './selected-room'
-import {Editor} from '../../editor'
-import {Elements} from './elements'
-import {Layer} from './layer'
-import {LOCAL_STORAGE_CURRENT_ROOM} from '../../io/local-storage'
-import {Map} from './map'
-import {Rooms} from './rooms'
-import {RoomType} from '../../../common/data/room-type'
-import {Scores} from './scores'
-import {settings} from '@pixi/settings'
-import SlTabPanel from '@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component'
-import {Tab} from '../tab'
+import { html, render } from "uhtml"
+import { ROOM_TYPES, SelectedRoom } from "./selected-room"
+import { Editor } from "../../editor"
+import { Elements } from "./elements"
+import { Layer } from "./layer"
+import { LOCAL_STORAGE_CURRENT_ROOM } from "../../io/local-storage"
+import { Map } from "./map"
+import { Rooms } from "./rooms"
+import { RoomType } from "../../../common/data/room-type"
+import { Scores } from "./scores"
+import { settings } from "@pixi/settings"
+import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
+import { Tab } from "../tab"
 
 export class TabMaps {
-  private static readonly MAP_ID = 'tabMapMap'
-  private static readonly MAP_GRID_ID = 'tabMapMapGrid'
+  private static readonly MAP_ID = "tabMapMap"
+  private static readonly MAP_GRID_ID = "tabMapMapGrid"
 
   private elements: Elements
   private layer: Layer
@@ -46,7 +46,7 @@ export class TabMaps {
   }
 
   async init(): Promise<any> {
-    console.debug('TabMap', 'init')
+    console.debug("TabMap", "init")
     return this.map.init().then(() => {
       render(
         this.tabElement,
@@ -65,13 +65,13 @@ export class TabMaps {
       this.scores.init()
       this.map.postInit()
       this.loadInitRoom()
-      this.editor.eventManager.registerRoomSelection(selectedRoom => this.roomSelected(selectedRoom))
-      console.debug('TabMap', 'ended init')
+      this.editor.eventManager.registerRoomSelection((selectedRoom) => this.roomSelected(selectedRoom))
+      console.debug("TabMap", "ended init")
     })
   }
 
   async render(): Promise<any> {
-    console.debug('TabMap', 'render')
+    console.debug("TabMap", "render")
     this.calculateRealSelectedRoom(this.selectedRoom)
     this.elements.render()
     this.rooms.render()
@@ -79,23 +79,23 @@ export class TabMaps {
   }
 
   private reposition = async (): Promise<any> => {
-    console.debug('TabMap', 'reposition')
+    console.debug("TabMap", "reposition")
     return this.resize()
   }
 
   private async resize(): Promise<any> {
-    console.debug('TabMap', 'resize')
+    console.debug("TabMap", "resize")
     const height = window.innerHeight - this.mapDiv.getBoundingClientRect().top - 10
     const width = this.mapDiv.getBoundingClientRect().width
     const number = Math.min(height, width)
     return this.map.resize(number).then(() => this.map.repaint())
   }
 
-  private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = 'type'
-  private static readonly ATTRIBUTE_SELECTED_ROOM_INDEX = 'index'
+  private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = "type"
+  private static readonly ATTRIBUTE_SELECTED_ROOM_INDEX = "index"
 
   private loadInitRoom(): void {
-    console.debug('TabMap', 'loadInitRoom')
+    console.debug("TabMap", "loadInitRoom")
     const selectedRoomString = localStorage.getItem(LOCAL_STORAGE_CURRENT_ROOM)
 
     if (selectedRoomString == null) {
@@ -121,35 +121,29 @@ export class TabMaps {
     if (selectedRoom == null) {
       if (this.editor.tower.standardRooms.length > 0) {
         this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.standard, 0))
-      }
- else if (this.editor.tower.nexusRooms.length > 0) {
+      } else if (this.editor.tower.nexusRooms.length > 0) {
         this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.nexus, 0))
-      }
- else {
+      } else {
         this.editor.eventManager.notifyRoomSelection(null)
       }
       return
-    }
- else if (selectedRoom.index < this.editor.tower.getRooms(selectedRoom.type).length) {
+    } else if (selectedRoom.index < this.editor.tower.getRooms(selectedRoom.type).length) {
       this.editor.eventManager.notifyRoomSelection(selectedRoom)
       return
-    }
- else if (this.editor.tower.standardRooms.length >= 0) {
+    } else if (this.editor.tower.standardRooms.length >= 0) {
       this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.standard, 0))
       return
-    }
- else if (this.editor.tower.nexusRooms.length >= 0) {
+    } else if (this.editor.tower.nexusRooms.length >= 0) {
       this.editor.eventManager.notifyRoomSelection(new SelectedRoom(RoomType.nexus, 0))
       return
-    }
- else {
+    } else {
       this.editor.eventManager.notifyRoomSelection(null)
       return
     }
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug('TabMap', 'roomSelected', selectedRoom)
+    console.debug("TabMap", "roomSelected", selectedRoom)
     this.selectedRoom = selectedRoom
     if (selectedRoom == null) {
       localStorage.removeItem(LOCAL_STORAGE_CURRENT_ROOM)

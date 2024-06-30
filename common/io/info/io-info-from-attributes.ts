@@ -1,5 +1,5 @@
-import {Info} from '../../models/info'
-import {IoInfo} from './io-info'
+import { Info } from "../../models/info"
+import { IoInfo } from "./io-info"
 
 export class IoInfoFromAttributes {
   static fromAttributes(value: Record<string, string | number>): Info {
@@ -13,8 +13,7 @@ export class IoInfoFromAttributes {
     result.platinumMedal = value[IoInfo.ATTRIBUTE_PLATINUM_MEDAL] as number
     if (value[IoInfo.ATTRIBUTE_DIAMOND_MEDAL] !== undefined) {
       result.diamondMedal = value[IoInfo.ATTRIBUTE_DIAMOND_MEDAL] as number
-    }
- else {
+    } else {
       result.diamondMedal = 0
     }
     result.sunStone = value[IoInfo.ATTRIBUTE_SUN_STONE] as number

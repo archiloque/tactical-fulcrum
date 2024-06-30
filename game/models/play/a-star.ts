@@ -1,6 +1,6 @@
-import {Delta2D, Position2D} from '../tuples'
-import {Tile, TileType} from '../../../common/models/tile'
-import {TILES_IN_ROW} from '../../../common/data/constants'
+import { Delta2D, Position2D } from "../tuples"
+import { Tile, TileType } from "../../../common/models/tile"
+import { TILES_IN_ROW } from "../../../common/data/constants"
 
 const enum ReachableType {
   blocking,
@@ -70,7 +70,7 @@ function reachable(position: Position2D, room: Tile[][]): ReachableType {
     case TileType.staircase:
       return ReachableType.reachable
     case TileType.startingPosition:
-      throw new Error('Should not happen')
+      throw new Error("Should not happen")
     case TileType.wall:
       return ReachableType.blocking
   }

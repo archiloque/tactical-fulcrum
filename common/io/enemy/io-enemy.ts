@@ -1,17 +1,17 @@
-import {DROPS} from '../../data/drop'
-import {Enemy} from '../../models/enemy'
-import {ENEMY_TYPES} from '../../data/enemy-type'
-import {IO} from '../io'
+import { DROPS } from "../../data/drop"
+import { Enemy } from "../../models/enemy"
+import { ENEMY_TYPES } from "../../data/enemy-type"
+import { IO } from "../io"
 
 export class IoEnemy {
-  static readonly ATTRIBUTE_TYPE = 'type'
-  static readonly ATTRIBUTE_HP = 'hp'
-  static readonly ATTRIBUTE_NAME = 'name'
-  static readonly ATTRIBUTE_LEVEL = 'level'
-  static readonly ATTRIBUTE_ATK = 'atk'
-  static readonly ATTRIBUTE_DEF = 'def'
-  static readonly ATTRIBUTE_EXP = 'exp'
-  static readonly ATTRIBUTE_DROP = 'drop'
+  static readonly ATTRIBUTE_TYPE = "type"
+  static readonly ATTRIBUTE_HP = "hp"
+  static readonly ATTRIBUTE_NAME = "name"
+  static readonly ATTRIBUTE_LEVEL = "level"
+  static readonly ATTRIBUTE_ATK = "atk"
+  static readonly ATTRIBUTE_DEF = "def"
+  static readonly ATTRIBUTE_EXP = "exp"
+  static readonly ATTRIBUTE_DROP = "drop"
   static readonly ATTRIBUTES: string[] = [
     IoEnemy.ATTRIBUTE_TYPE,
     IoEnemy.ATTRIBUTE_HP,
@@ -68,8 +68,7 @@ export class IoEnemy {
       const enemyIdentifier = `${enemy.level}|${enemy.type}`
       if (knownEnemies.indexOf(enemyIdentifier) !== -1) {
         errors.push(`Enemy ${index + 1} is duplicated (same type and level)`)
-      }
- else {
+      } else {
         knownEnemies.push(enemyIdentifier)
       }
     })
@@ -81,8 +80,7 @@ export class IoEnemy {
       const enemyIdentifier = `${enemy.level}|${enemy.type}`
       if (knownEnemies.indexOf(enemyIdentifier) !== -1) {
         errors.push(`Enemy ${index + 1} is duplicated (same type and level)`)
-      }
- else {
+      } else {
         knownEnemies.push(enemyIdentifier)
       }
     })

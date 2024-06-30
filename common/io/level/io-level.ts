@@ -1,16 +1,16 @@
-import {IO} from '../io'
-import {Level} from '../../models/level'
+import { IO } from "../io"
+import { Level } from "../../models/level"
 
 export class IoLevel {
-  static readonly ATTRIBUTE_ATK_ADD = 'atkAdd'
-  static readonly ATTRIBUTE_ATK_MUL = 'atkMul'
-  static readonly ATTRIBUTE_DEF_ADD = 'defAdd'
-  static readonly ATTRIBUTE_DEF_MUL = 'defMul'
-  static readonly ATTRIBUTE_HP_ADD = 'hpAdd'
-  static readonly ATTRIBUTE_HP_MUL = 'hpMul'
-  static readonly ATTRIBUTE_BLUE_KEY = 'blueKey'
-  static readonly ATTRIBUTE_CRIMSON_KEY = 'crimsonKey'
-  static readonly ATTRIBUTE_YELLOW_KEY = 'yellowKey'
+  static readonly ATTRIBUTE_ATK_ADD = "atkAdd"
+  static readonly ATTRIBUTE_ATK_MUL = "atkMul"
+  static readonly ATTRIBUTE_DEF_ADD = "defAdd"
+  static readonly ATTRIBUTE_DEF_MUL = "defMul"
+  static readonly ATTRIBUTE_HP_ADD = "hpAdd"
+  static readonly ATTRIBUTE_HP_MUL = "hpMul"
+  static readonly ATTRIBUTE_BLUE_KEY = "blueKey"
+  static readonly ATTRIBUTE_CRIMSON_KEY = "crimsonKey"
+  static readonly ATTRIBUTE_YELLOW_KEY = "yellowKey"
 
   static readonly ATTRIBUTES: string[] = [
     IoLevel.ATTRIBUTE_ATK_ADD,

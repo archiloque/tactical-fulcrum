@@ -18,8 +18,8 @@ export class ScreenTower {
 
   constructor(game: Game) {
     this.game = game
-    this.map = new GameMap(game)
     this.infoBar = new InfoBar(game)
+    this.map = new GameMap(game, this.infoBar)
     this.game.eventManager.registerScreenChange(() => {
       if (game.displayedScreen === GameScreen.tower) {
         return this.render()

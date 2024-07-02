@@ -29,17 +29,14 @@
   gap: 2px;
   background-color: var(--sl-color-neutral-950);
 }
-#screenTowerInfoHp,
-#screenTowerInfoAtk,
-#screenTowerInfoDef,
-#screenTowerInfoExp {
+.screenTowerInfoBlock {
   background-color: var(--sl-color-neutral-50);
   text-align: center;
   display: flex;
   div {
     margin: auto;
   }
-  sl-icon {
-    padding-right: 0.5em;
+  .change {
+    color: var(--sl-color-success-600);
   }
 }

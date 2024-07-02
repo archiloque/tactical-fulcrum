@@ -1,4 +1,5 @@
 import { Action, ActionType, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "../../models/play/action"
+import { Attribute, ATTRIBUTES } from "../../models/attribute"
 import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
 import {
   DoorTile,
@@ -15,11 +16,17 @@ import { capitalize } from "../../../common/models/utils"
 import { Delta2D } from "../../models/tuples"
 import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
-import { Item } from "../../../common/data/item"
+import { InfoBar } from "./info-bar"
 import { ItemName } from "../../../common/data/item-name"
 import { Keys } from "../../../common/front/keys"
+import { PlayItem } from "../../models/play/play-item"
 import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
+
+type AttributeChangeInterval = {
+  from: number
+  to: number
+}
 
 export class GameMap extends AbstractMap {
   static readonly TILE_MOVE_TIME: number = 150
@@ -38,10 +45,12 @@ export class GameMap extends AbstractMap {
   private deltaBuffer: Delta2D[] = []
   private currentAction: Action | null = null
   private readonly sprites: Sprite | null[][]
+  private infoBar: InfoBar
 
-  constructor(game: Game) {
+  constructor(game: Game, infoBar: InfoBar) {
     super()
     this.game = game
+    this.infoBar = infoBar
     this.game.eventManager.registerSchemeChange(() => this.schemeChanged())
     this.sprites = new Array(TILES_IN_ROW)
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
@@ -174,9 +183,8 @@ export class GameMap extends AbstractMap {
         return `${enemy.name}<br>${capitalize(enemy.type!.valueOf())} lv ${enemy.level} `
       case TileType.item:
         const itemName = (tile as ItemTile).item
-        const item: Item = this.game.playerTower!.tower!.items[itemName]
-        return this.toolTipTextItem(itemName, item)
-        return itemName
+        const playItem: PlayItem = this.game.playerTower!.playedItem(itemName)
+        return this.toolTipTextItem(itemName, playItem)
       case TileType.key:
         return `${capitalize((tile as KeyTile).color)} key`
       case TileType.staircase:
@@ -188,18 +196,18 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  static readonly ITEMS_NAMES_TO_TOOL_TIP_DESCRIPTION = new Map<string, string>([
-    ["atk", "ATK"],
-    ["def", "DEF"],
-    ["hp", "HP"],
+  static readonly ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION: Map<Attribute, string> = new Map([
+    [Attribute.ATK, "ATK"],
+    [Attribute.DEF, "DEF"],
+    [Attribute.HP, "HP"],
   ])
 
-  protected toolTipTextItem(itemName: ItemName, item: Item): string {
+  protected toolTipTextItem(itemName: ItemName, playItem: PlayItem): string {
     let result = itemName.valueOf()
-    for (const entry of GameMap.ITEMS_NAMES_TO_TOOL_TIP_DESCRIPTION) {
+    for (const entry of GameMap.ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION) {
       const attributeName = entry[0]
       const attributeDescription = entry[1]
-      const attributeValue = item[attributeName]
+      const attributeValue = playItem[attributeName.valueOf()]
       if (attributeValue != 0) {
         result += `<br>${attributeValue} ${attributeDescription}`
       }
@@ -236,13 +244,34 @@ export class GameMap extends AbstractMap {
     }
   }
 
+  private getAttributeChangeInterval(playItem: PlayItem, attribute: Attribute): AttributeChangeInterval | undefined {
+    const playerInfo = this.game.playerTower!.playerInfo
+    const attributeString = attribute.valueOf()
+    if (playItem[attributeString] === 0) {
+      return undefined
+    } else {
+      return { from: playerInfo[attributeString] - playItem[attributeString], to: playerInfo[attributeString] }
+    }
+  }
+
   private triggerMoveAction(move: PlayerMove | PickItem | PickKey) {
     let totalPercentMove: number = 0
     const deltaColumn = move.target.column - move.player.column
     const deltaLine = move.target.line - move.player.line
     let targetSprite: null | Sprite = null
+    let attributesChange: Record<Attribute, AttributeChangeInterval | undefined>
+
     if (move.getType() === ActionType.PICK_ITEM || move.getType() === ActionType.PICK_KEY) {
       targetSprite = this.sprites[move.target.line][move.target.column]
+      if (move.getType() === ActionType.PICK_ITEM) {
+        const playItem = (move as PickItem).playItem
+        attributesChange = {
+          [Attribute.HP]: this.getAttributeChangeInterval(playItem, Attribute.HP),
+          [Attribute.ATK]: this.getAttributeChangeInterval(playItem, Attribute.ATK),
+          [Attribute.DEF]: this.getAttributeChangeInterval(playItem, Attribute.DEF),
+          [Attribute.EXP]: undefined,
+        }
+      }
     }
     return (ticker: Ticker): void => {
       const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
@@ -252,11 +281,39 @@ export class GameMap extends AbstractMap {
         if (totalPercentMove >= GameMap.TILE_GRAB_HIDE_END_PERCENT) {
           this.tiles.removeChild(targetSprite)
           targetSprite = null
+          for (const attribute of ATTRIBUTES) {
+            const attributeChange = attributesChange[attribute]
+            if (attributeChange !== undefined) {
+              const value = Math.ceil(
+                attributeChange.from + ((attributeChange.to - attributeChange.from) * totalPercentMove) / 100,
+              )
+              this.infoBar.setFieldValue(attribute, value)
+            }
+          }
         } else if (totalPercentMove > GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT) {
           targetSprite!.alpha =
             1 -
             (totalPercentMove - GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT) /
               (GameMap.TILE_GRAB_HIDE_END_PERCENT - GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT)
+        }
+      }
+
+      if (move.getType() === ActionType.PICK_ITEM) {
+        if (totalPercentMove >= 1) {
+          for (const attribute of ATTRIBUTES) {
+            const attributeChange = attributesChange[attribute]
+            if (attributeChange !== undefined) {
+              this.infoBar.setFieldValue(attribute, attributeChange.to)
+              this.infoBar.endChangeField(attribute)
+            }
+          }
+        } else {
+          for (const attribute of ATTRIBUTES) {
+            const attributeChange = attributesChange[attribute]
+            if (attributeChange !== undefined) {
+              this.infoBar.startChangeField(attribute)
+            }
+          }
         }
       }
 

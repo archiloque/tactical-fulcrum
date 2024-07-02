@@ -4,10 +4,13 @@ import { DoorTile, EMPTY_TILE, EnemyTile, ItemTile, KeyTile, Tile, TileType } fr
 import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../common/data/drop"
 import { calculateReachableTiles } from "./play/a-star"
 import { Enemy } from "../../common/models/enemy"
+import { ItemName } from "../../common/data/item-name"
 import { PlayerInfo } from "./player-info"
+import { PlayItem } from "./play/play-item"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
+import { ATTRIBUTES } from "./attribute"
 
 export class PlayedTower {
   readonly tower: Tower
@@ -36,6 +39,10 @@ export class PlayedTower {
         return [...tilesLine]
       })
     })
+  }
+
+  public playedItem(itemName: ItemName): PlayItem {
+    return new PlayItem(this.tower!.items[itemName], this.playerInfo)
   }
 
   movePlayer(delta: Delta2D): Action | null {
@@ -72,9 +79,10 @@ export class PlayedTower {
         this.playerPosition = targetPosition
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const itemName = (targetTile as ItemTile).item
-        const item = this.tower.items[itemName]
+        const playedItem: PlayItem = this.playedItem(itemName)
+        this.fetchItem(playedItem)
         this.calculateReachableTiles()
-        return new PickItem(oldPlayerPosition, targetPosition, item)
+        return new PickItem(oldPlayerPosition, targetPosition, playedItem)
       case TileType.key:
         this.playerPosition = targetPosition
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
@@ -120,6 +128,13 @@ export class PlayedTower {
         return new KeyTile((dropContent as DropContentKey).color)
       case DropType.ITEM:
         return new ItemTile((dropContent as DropContentItem).itemName)
+    }
+  }
+
+  private fetchItem(playedItem: PlayItem) {
+    for (const attribute of ATTRIBUTES) {
+      const attributeAsString = attribute.valueOf()
+      this.playerInfo[attributeAsString] += playedItem[attributeAsString]
     }
   }
 }

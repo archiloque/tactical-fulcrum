@@ -18,8 +18,8 @@ export class PlayerInfo {
     this.def = def
     this.exp = 0
 
-    this.expMult = 0
-    this.hpMult = 0
+    this.expMult = 100
+    this.hpMult = 100
 
     this.blueKeys = 0
     this.crimsonKeys = 0

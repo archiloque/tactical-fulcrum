@@ -1,13 +1,13 @@
 import { ColorScheme } from "./front/color-scheme"
 import { EventEmitter } from "pixi.js"
 
-export class SimpleEventManager {
+export abstract class SimpleEventManager {
   private static EVENT_SCHEME_CHANGE = "schemeChange"
   private static EVENT_SCREEN_CHANGE = "screenChange"
 
   protected eventEmitter: EventEmitter
 
-  constructor() {
+  protected constructor() {
     this.eventEmitter = new EventEmitter()
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
       const colorScheme: ColorScheme = event.matches ? ColorScheme.dark : ColorScheme.light

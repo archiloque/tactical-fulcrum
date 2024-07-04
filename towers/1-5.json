@@ -500,7 +500,11 @@
     "Drop of dream ocean": {
       "hp": 999
     },
+    "Life Crown": {
+      "hpMultAdd": 100
+    },
     "Golden feather": {
+      "expMulAdd": 0,
       "expMulMul": 2
     }
   },

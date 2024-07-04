@@ -16,9 +16,9 @@ export class PlayItem {
     this.def = item.def
     this.hp = (item.hp * playerInfo.hpMult) / 100
 
-    this.expMulAdd = (playerInfo.expMult + item.expMulAdd) * playerInfo.expMult
+    this.expMulAdd = (playerInfo.expMult * item.expMulAdd) / 100
     this.expMulMul = item.expMulMul
-    this.hpMulAdd = item.hpMulAdd
-    this.hpMulMul = (playerInfo.hpMult + item.hpMulAdd) * item.hpMulMul
+    this.hpMulAdd = (playerInfo.hpMult * item.hpMulAdd) / 100
+    this.hpMulMul = item.hpMulMul
   }
 }

@@ -28,6 +28,11 @@ type AttributeChangeInterval = {
   to: number
 }
 
+type AttributeToolTip = {
+  defaultValue: number
+  toolTip: (value: number) => string
+}
+
 export class GameMap extends AbstractMap {
   static readonly TILE_MOVE_TIME: number = 150
 
@@ -196,20 +201,80 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  static readonly ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION: Map<Attribute, string> = new Map([
-    [Attribute.ATK, "ATK"],
-    [Attribute.DEF, "DEF"],
-    [Attribute.HP, "HP"],
+  private static readonly ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION: Map<Attribute, AttributeToolTip> = new Map([
+    [
+      Attribute.ATK,
+      {
+        defaultValue: 0,
+        toolTip: (value: number) => {
+          return `+ ${value} ATK`
+        },
+      },
+    ],
+    [
+      Attribute.DEF,
+      {
+        defaultValue: 0,
+        toolTip: (value: number) => {
+          return `+ ${value} DEF`
+        },
+      },
+    ],
+    [
+      Attribute.HP,
+      {
+        defaultValue: 0,
+        toolTip: (value: number) => {
+          return `+ ${value} HP`
+        },
+      },
+    ],
+    [
+      Attribute.HP_MUL_ADD,
+      {
+        defaultValue: 0,
+        toolTip: (value: number) => {
+          return `+ ${value} HP multiplier`
+        },
+      },
+    ],
+    [
+      Attribute.HP_MUL_MUL,
+      {
+        defaultValue: 1,
+        toolTip: (value: number) => {
+          return `* ${value} HP multiplier `
+        },
+      },
+    ],
+    [
+      Attribute.EXP_MUL_ADD,
+      {
+        defaultValue: 0,
+        toolTip: (value: number) => {
+          return `+ ${value} XP multiplier`
+        },
+      },
+    ],
+    [
+      Attribute.EXP_MUL_MUL,
+      {
+        defaultValue: 1,
+        toolTip: (value: number) => {
+          return `* ${value} HP multiplier `
+        },
+      },
+    ],
   ])
 
   protected toolTipTextItem(itemName: ItemName, playItem: PlayItem): string {
     let result = itemName.valueOf()
     for (const entry of GameMap.ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION) {
       const attributeName = entry[0]
-      const attributeDescription = entry[1]
+      const attributeToolTip: AttributeToolTip = entry[1]
       const attributeValue = playItem[attributeName.valueOf()]
-      if (attributeValue != 0) {
-        result += `<br>${attributeValue} ${attributeDescription}`
+      if (attributeValue != attributeToolTip.defaultValue) {
+        result += `<br>${attributeToolTip.toolTip(attributeValue)}`
       }
     }
     return result
@@ -266,10 +331,14 @@ export class GameMap extends AbstractMap {
       if (move.getType() === ActionType.PICK_ITEM) {
         const playItem = (move as PickItem).playItem
         attributesChange = {
-          [Attribute.HP]: this.getAttributeChangeInterval(playItem, Attribute.HP),
           [Attribute.ATK]: this.getAttributeChangeInterval(playItem, Attribute.ATK),
           [Attribute.DEF]: this.getAttributeChangeInterval(playItem, Attribute.DEF),
           [Attribute.EXP]: undefined,
+          [Attribute.EXP_MUL_ADD]: undefined,
+          [Attribute.EXP_MUL_MUL]: undefined,
+          [Attribute.HP]: this.getAttributeChangeInterval(playItem, Attribute.HP),
+          [Attribute.HP_MUL_ADD]: undefined,
+          [Attribute.HP_MUL_MUL]: undefined,
         }
       }
     }

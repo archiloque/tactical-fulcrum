@@ -11,7 +11,7 @@ const ATTRIBUTE_HP_MUL = "hpMul"
 const ATTRIBUTE_HP_MUL_ADD = "hpMulAdd"
 const ATTRIBUTE_HP_MUL_MUL = "hpMulMul"
 
-export enum ItemAttribute {
+export const enum ItemAttribute {
   ATK = ATTRIBUTE_ATK,
   DEF = ATTRIBUTE_DEF,
   HP = ATTRIBUTE_HP,
@@ -23,7 +23,7 @@ export enum ItemAttribute {
   HP_MUL_MUL = ATTRIBUTE_HP_MUL_MUL,
 }
 
-export enum PlayerAttribute {
+export const enum PlayerAttribute {
   ATK = ATTRIBUTE_ATK,
   DEF = ATTRIBUTE_DEF,
   HP = ATTRIBUTE_HP,

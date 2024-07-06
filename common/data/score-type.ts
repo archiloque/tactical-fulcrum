@@ -1,4 +1,4 @@
-export enum ScoreType {
+export const enum ScoreType {
   check = "check",
   crown = "crown",
   star = "star",

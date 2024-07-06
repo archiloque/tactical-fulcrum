@@ -5,7 +5,7 @@ import { htmlUnsafe } from "../../../common/front/functions"
 import { PlayerAttribute } from "../../models/attribute"
 import { ScreenTower } from "./screen-tower"
 
-export enum ValueChangeType {
+export const enum ValueChangeType {
   UP,
   DOWN,
 }
@@ -45,6 +45,10 @@ export class InfoBar {
     return value.toString().padStart(7, "\xa0")
   }
 
+  padKey(value: number): string {
+    return value.toString().padStart(2, "\xa0")
+  }
+
   renderField(id: string, description: string, value: number | string): Hole {
     return html` <div><span id="${id}">${value}</span>${InfoBar.SMALL_SPACE}${description}</div>`
   }
@@ -73,16 +77,15 @@ export class InfoBar {
       this.renderField(InfoBar.EXP_MUL_ID, "%", playerInfo.expMul),
     ])
 
-    const keys = this.renderBlock(
-      COLORS.map((color: Color) => {
-        const divId = this.colorFieldId(color)
-        const iconName = `key${color}`
-        return html` <div id="screenTowerInfoKeys">
-          <span id="${divId}">${playerInfo.keys[color]}</span>${InfoBar.SMALL_SPACE}
-          <sl-icon library="tf" name="${iconName}"></sl-icon>
-        </div>`
-      }),
-    )
+    const keysContent = COLORS.map((color: Color) => {
+      const divId = this.colorFieldId(color)
+      const iconName = `key${color}`
+      return html` <div>
+        <span id="${divId}">${this.padKey(playerInfo.keys[color])}</span>${InfoBar.SMALL_SPACE}
+        <sl-icon library="tf" name="${iconName}"></sl-icon>
+      </div>`
+    })
+    const keys = html`<div id="screenTowerInfoKeys">${keysContent}</div>`
 
     render(document.getElementById(ScreenTower.INFO_BAR_ID), html`${hp} ${atk} ${def} ${exp} ${keys}`)
     this.infoHp = document.getElementById(InfoBar.HP_ID)!
@@ -120,7 +123,7 @@ export class InfoBar {
 
   public setKeyValue(color: Color, value: number): void {
     const field = this.fieldsByColor[color]
-    field.innerText = value.toString()
+    field.innerText = this.padKey(value)
   }
 
   public endChangeKey(color: Color, valueChangeType: ValueChangeType): void {

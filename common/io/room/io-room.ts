@@ -47,7 +47,7 @@ export class IoRoom {
           }
           tilesArray.forEach((tile) => {
             const type = tile[IoRoom.ATTRIBUTE_TYPE]
-            if (TILE_TYPES.map((it) => it.valueOf()).indexOf(type) === -1) {
+            if (TILE_TYPES.map((it) => it).indexOf(type) === -1) {
               errors.push(`Room ${index + 1} has an invalid tile type [${type}]`)
             }
           })

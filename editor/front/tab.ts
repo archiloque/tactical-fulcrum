@@ -1,4 +1,4 @@
-export enum Tab {
+export const enum Tab {
   map = "tabMap",
   enemy = "tabEnemy",
   item = "tabItem",

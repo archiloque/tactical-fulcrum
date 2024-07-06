@@ -35,7 +35,7 @@ export class ColoredSprite extends Sprite {
     return decodeSvg(
       ColorSpriteContent.get(this.spriteName)!
         .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
-        .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),
+        .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color)),
     )
   }
 }
@@ -129,11 +129,15 @@ export const SPRITES: Map<SpriteName, Sprite> = new Map<SpriteName, Sprite>([
   [SpriteName.keyPlatinum, new ColoredSprite(ColorSpriteName.KEY, Colors.platinum)],
   [SpriteName.keyViolet, new ColoredSprite(ColorSpriteName.KEY, Colors.violet)],
   [SpriteName.keyYellow, new ColoredSprite(ColorSpriteName.KEY, Colors.yellow)],
+
   [SpriteName.scoreCheck, new MonochromeSprite(MonochromeSpriteName.SCORE_CHECK)],
   [SpriteName.scoreCrown, new MonochromeSprite(MonochromeSpriteName.SCORE_CROWN)],
   [SpriteName.scoreStar, new MonochromeSprite(MonochromeSpriteName.SCORE_STAR)],
+
   [SpriteName.staircaseUp, new MonochromeSprite(MonochromeSpriteName.STAIRCASE_UP)],
   [SpriteName.staircaseDown, new MonochromeSprite(MonochromeSpriteName.STAIRCASE_DOWN)],
+
   [SpriteName.startingPosition, new MonochromeSprite(MonochromeSpriteName.STARTING_POSITION)],
+
   [SpriteName.wall, new MonochromeSprite(MonochromeSpriteName.WALL)],
 ])

@@ -2,7 +2,7 @@ import { Color, COLORS } from "./color"
 import { ITEM_NAMES, ItemName } from "./item-name"
 import { capitalize } from "../models/utils"
 
-export enum DropType {
+export const enum DropType {
   KEY = "key",
   ITEM = "item",
 }
@@ -41,7 +41,7 @@ export const DROP_KEYS: string[] = COLORS.map((c) => {
   return name
 })
 export const DROP_ITEMS: string[] = ITEM_NAMES.map((itemName) => {
-  DROPS_CONTENTS.set(itemName.valueOf(), new DropContentItem(itemName))
-  return itemName.valueOf()
+  DROPS_CONTENTS.set(itemName, new DropContentItem(itemName))
+  return itemName
 })
 export const DROPS: string[] = DROP_ITEMS.concat(DROP_KEYS)

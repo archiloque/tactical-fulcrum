@@ -1,4 +1,4 @@
-export enum Colors {
+export const enum Colors {
   blue = "--sl-color-blue-500",
   green = "--sl-color-green-500",
   platinum = "--sl-color-gray-500",

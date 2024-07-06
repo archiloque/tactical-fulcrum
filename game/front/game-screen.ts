@@ -1,4 +1,4 @@
-export enum GameScreen {
+export const enum GameScreen {
   intro = "intro",
   tower = "tower",
 }

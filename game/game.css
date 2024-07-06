@@ -39,18 +39,20 @@
   .downChange {
     color: var(--sl-color-danger-600);
   }
+  div {
+    margin: auto;
+  }
 }
 
 .screenTowerInfoBlock {
   text-align: center;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  div {
-    margin: auto;
-  }
 }
 
 #screenTowerInfoKeys {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .small {

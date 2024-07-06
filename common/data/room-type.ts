@@ -1,4 +1,4 @@
-export enum RoomType {
+export const enum RoomType {
   standard = "standard",
   nexus = "nexus",
 }

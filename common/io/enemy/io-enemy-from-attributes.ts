@@ -7,7 +7,7 @@ export class IoEnemyFromAttributes {
   static fromAttributes(value: Record<string, string | number | null>): Enemy {
     const result: Enemy = new Enemy()
     const enemyType = value[IoEnemy.ATTRIBUTE_TYPE]
-    const possibleType = ENEMY_TYPES.find((it) => it.valueOf() === enemyType)
+    const possibleType = ENEMY_TYPES.find((it) => it === enemyType)
     if (possibleType === undefined) {
       result.type = null
     } else {

@@ -1,4 +1,4 @@
-export enum EnemyType {
+export const enum EnemyType {
   burgeoner = "Burgeoner",
   fighter = "Fighter",
   ranger = "Ranger",

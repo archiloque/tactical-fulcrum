@@ -43,6 +43,6 @@ export class Spriter {
   }
 
   private assetName(spriteName: SpriteName): string {
-    return `${this.name}_${spriteName.valueOf().toString()}_${this.tileSize}`
+    return `${this.name}_${spriteName}_${this.tileSize}`
   }
 }

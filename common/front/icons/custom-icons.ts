@@ -59,16 +59,16 @@ export class ColoredCustomIcon extends CustomIcon {
     return decodeSvg(
       ColorCustomIcons.get(this.iconName.toString())!
         .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
-        .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color.valueOf())),
+        .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color)),
     )
   }
 }
 
 const ICONS = new Map<string, CustomIcon>([
-  [CustomIconsNames.KEY_BLUE.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.blue)],
-  [CustomIconsNames.KEY_CRIMSON.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.red)],
-  [CustomIconsNames.KEY_GREEN_BLUE.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.teal)],
-  [CustomIconsNames.KEY_PLATINUM.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.platinum)],
-  [CustomIconsNames.KEY_VIOLET.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.violet)],
-  [CustomIconsNames.KEY_YELLOW.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.yellow)],
+  [CustomIconsNames.KEY_BLUE, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.blue)],
+  [CustomIconsNames.KEY_CRIMSON, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.red)],
+  [CustomIconsNames.KEY_GREEN_BLUE, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.teal)],
+  [CustomIconsNames.KEY_PLATINUM, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.platinum)],
+  [CustomIconsNames.KEY_VIOLET, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.violet)],
+  [CustomIconsNames.KEY_YELLOW, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.yellow)],
 ])

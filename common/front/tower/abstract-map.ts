@@ -71,6 +71,7 @@ export abstract class AbstractMap {
     console.debug("AbstractMap", "init")
     this.background.on("pointerenter", () => this.pointerEnter())
     this.background.on("pointerleave", () => this.pointerLeave())
+    this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
     return Promise.all([
       this.app.init({
         background: getBackgroundColor(),
@@ -125,7 +126,7 @@ export abstract class AbstractMap {
     return new Point(tileX, tileY)
   }
 
-  protected pointerMove(e: FederatedPointerEvent): void {
+  private pointerMove(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
     if (tilePosition.y < TILES_IN_ROW && tilePosition.x < TILES_IN_ROW && !this.lastMouseTile.equals(tilePosition)) {
       console.debug("AbstractMap", "pointerMove", tilePosition)

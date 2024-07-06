@@ -33,7 +33,6 @@ export class EditorMap extends AbstractMap {
 
   async init(): Promise<any> {
     console.debug("Map", "init")
-    this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
     this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
     document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
     document.addEventListener("keyup", (e: KeyboardEvent) => this.keyUp(e))

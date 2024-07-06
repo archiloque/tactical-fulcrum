@@ -122,6 +122,7 @@ export class PlayedTower {
         return new OpenDoor(oldPlayerPosition, targetPosition, doorColor)
       case TileType.empty:
         this.playerPosition = targetPosition
+        this.calculateReachableTiles()
         return new Move(oldPlayerPosition, targetPosition)
       case TileType.enemy:
         const enemy = (targetTile as EnemyTile).enemy

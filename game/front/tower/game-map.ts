@@ -1,6 +1,6 @@
 import { Action, ActionType, KillEnemy, Move, OpenDoor, PickItem, PickKey } from "../../models/play/action"
 import { AppliedItem, ITEM_ATTRIBUTES, ItemAttribute, PLAYER_ATTRIBUTES, PlayerAttribute } from "../../models/attribute"
-import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
+import { Container, FederatedPointerEvent, Point, Sprite, Text, Ticker } from "pixi.js"
 import {
   DoorTile,
   EMPTY_TILE,
@@ -84,9 +84,9 @@ export class GameMap extends AbstractMap {
   }
 
   async init(): Promise<any> {
-    console.debug("Map", "init")
-    this.background.on("pointermove", (e: FederatedPointerEvent) => this.pointerMove(e))
+    console.debug("GameMap", "init")
     document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
+    this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
     return super.init()
   }
 
@@ -227,7 +227,7 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  protected toolTipTextItem(itemName: ItemName): string {
+  private toolTipTextItem(itemName: ItemName): string {
     const itemToolTipAttributes = this.game.playerTower!.itemToolTipAttributes(itemName)
     let result = itemName.valueOf()
     for (const attributeName of ITEM_ATTRIBUTES) {
@@ -241,7 +241,7 @@ export class GameMap extends AbstractMap {
   }
 
   private keyDown(e: KeyboardEvent): void {
-    console.debug("Map", "keyDown", e)
+    console.debug("GameMap", "keyDown", e)
     switch (e.key) {
       case Keys.ARROW_RIGHT: {
         this.bufferDirection(Delta2D.RIGHT)
@@ -492,7 +492,7 @@ export class GameMap extends AbstractMap {
   private tryAction(): void {
     const delta = this.deltaBuffer.shift()!
     const action: Action | null = this.game.playerTower!.movePlayer(delta)
-    console.debug("Map", "tryAction", delta, action === null ? null : action.getType())
+    console.debug("GameMap", "tryAction", delta, action === null ? null : action.getType())
     if (action === null) {
       this.deltaBuffer.length = 0
       this.currentAction = null
@@ -523,17 +523,31 @@ export class GameMap extends AbstractMap {
   }
 
   private currentMoveEnded(): void {
-    console.debug("Map", "maybeStopAction")
+    console.debug("GameMap", "maybeStopAction")
     if (this.tickerFunction !== null) {
       this.app.ticker.remove(this.tickerFunction)
       this.tickerFunction = null
     }
     if (this.deltaBuffer.length == 0) {
-      console.debug("Map", "maybeStopAction", "stop")
+      console.debug("GameMap", "maybeStopAction", "stop")
       this.currentAction = null
     } else {
-      console.debug("Map", "maybeStopAction", "go on")
+      console.debug("GameMap", "maybeStopAction", "go on")
       this.tryAction()
+    }
+  }
+
+  private pointerTap(e: FederatedPointerEvent): void {
+    const tilePosition: Point = this.tileFromEvent(e)
+    console.debug("GameMap", "pointerTap", "tile", tilePosition)
+    if (!this.currentAction && this.deltaBuffer.length == 0) {
+      const pathToTile: Delta2D[] | null = this.game.playerTower!.reachableTiles[tilePosition.y][tilePosition.x]
+      console.debug("GameMap", "pointerTap", "path", pathToTile)
+      if (pathToTile !== null) {
+        for (const pathPart of pathToTile) {
+          this.bufferDirection(pathPart)
+        }
+      }
     }
   }
 }

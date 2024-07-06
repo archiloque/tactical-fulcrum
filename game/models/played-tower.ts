@@ -12,11 +12,9 @@ import {
   Tile,
   TileType,
 } from "../../common/models/tile"
-import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../common/data/drop"
-import { findStaircasePosition, findStartingPosition } from "./play/locations"
+import { findStaircasePosition, findStartingPosition, getDropTile } from "./play/locations"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
-import { Enemy } from "../../common/models/enemy"
 import { ItemName } from "../../common/data/item-name"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
@@ -127,7 +125,7 @@ export class PlayedTower {
         return new Move(oldPlayerPosition, targetPosition)
       case TileType.enemy:
         const enemy = (targetTile as EnemyTile).enemy
-        const dropTile = this.getDropTile(enemy)
+        const dropTile = getDropTile(enemy)
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = dropTile
         this.calculateReachableTiles()
         return new KillEnemy(oldPlayerPosition, targetPosition, enemy, dropTile)
@@ -161,23 +159,6 @@ export class PlayedTower {
         throw new Error("Should not happen")
       case TileType.wall:
         throw new Error("Should not happen")
-    }
-  }
-
-  private getDropTile(enemy: Enemy): Tile {
-    const dropName = enemy.drop
-    if (dropName == null) {
-      return EMPTY_TILE
-    }
-    const dropContent = DROPS_CONTENTS.get(dropName)
-    if (dropContent === undefined) {
-      throw new Error(`Unknown drop [${dropName}]`)
-    }
-    switch (dropContent.getType()) {
-      case DropType.KEY:
-        return new KeyTile((dropContent as DropContentKey).color)
-      case DropType.ITEM:
-        return new ItemTile((dropContent as DropContentItem).itemName)
     }
   }
 

@@ -18,8 +18,6 @@ export class InfoBar {
   private static readonly EXP_ID = "screenTowerInfoExp"
   private static readonly EXP_MUL_ID = "screenTowerInfoExpMul"
   private static readonly KEY_ID = "screenTowerInfoKey"
-  private static readonly UP_CHANGE_CLASS = "upChange"
-  private static readonly DOWN_CHANGE_CLASS = "downChange"
 
   private static readonly VALUE_CHANGE_TO_CLASS: Record<ValueChangeType, string> = {
     [ValueChangeType.DOWN]: "downChange",

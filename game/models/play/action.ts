@@ -5,11 +5,12 @@ import { Position3D } from "../tuples"
 import { Tile } from "../../../common/models/tile"
 
 export const enum ActionType {
+  KILL_ENEMY = "kill_enemy",
   MOVE = "move",
+  OPEN_DOOR = "open_door",
   PICK_ITEM = "pick_item",
   PICK_KEY = "pick_key",
-  OPEN_DOOR = "open_door",
-  KILL_ENEMY = "kill_enemy",
+  ROOM_CHANGE = "room_chage",
 }
 
 export abstract class Action {
@@ -24,13 +25,23 @@ export abstract class Action {
   abstract getType(): ActionType
 }
 
-export class PlayerMove extends Action {
+export class Move extends Action {
   constructor(player: Position3D, target: Position3D) {
     super(player, target)
   }
 
   getType(): ActionType {
     return ActionType.MOVE
+  }
+}
+
+export class RoomChange extends Action {
+  constructor(player: Position3D, target: Position3D) {
+    super(player, target)
+  }
+
+  getType(): ActionType {
+    return ActionType.ROOM_CHANGE
   }
 }
 

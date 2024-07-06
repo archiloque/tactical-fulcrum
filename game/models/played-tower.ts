@@ -1,8 +1,18 @@
-import { Action, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "./play/action"
+import { Action, KillEnemy, Move, OpenDoor, PickItem, PickKey, RoomChange } from "./play/action"
 import { APPLIED_ITEM_ATTRIBUTES, AppliedItem, ItemToolTipAttributes } from "./attribute"
 import { Delta2D, Position3D } from "./tuples"
-import { DoorTile, EMPTY_TILE, EnemyTile, ItemTile, KeyTile, Tile, TileType } from "../../common/models/tile"
+import {
+  DoorTile,
+  EMPTY_TILE,
+  EnemyTile,
+  ItemTile,
+  KeyTile,
+  StaircaseTile,
+  Tile,
+  TileType,
+} from "../../common/models/tile"
 import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../common/data/drop"
+import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
 import { Enemy } from "../../common/models/enemy"
 import { ItemName } from "../../common/data/item-name"
@@ -113,7 +123,7 @@ export class PlayedTower {
         return new OpenDoor(oldPlayerPosition, targetPosition, doorColor)
       case TileType.empty:
         this.playerPosition = targetPosition
-        return new PlayerMove(oldPlayerPosition, targetPosition)
+        return new Move(oldPlayerPosition, targetPosition)
       case TileType.enemy:
         const enemy = (targetTile as EnemyTile).enemy
         const dropTile = this.getDropTile(enemy)
@@ -136,7 +146,16 @@ export class PlayedTower {
         this.calculateReachableTiles()
         return new PickKey(oldPlayerPosition, targetPosition, keyColor)
       case TileType.staircase:
-        return null
+        const staircaseDirection = (targetTile as StaircaseTile).direction
+        const roomIndex = this.playerPosition.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
+        const newPosition = this.findStaircasePosition(
+          this.standardRooms,
+          roomIndex,
+          STAIRCASE_OPPOSITE_DIRECTION[staircaseDirection],
+        )
+        this.playerPosition = newPosition
+        this.calculateReachableTiles()
+        return new RoomChange(oldPlayerPosition, newPosition)
       case TileType.startingPosition:
         throw new Error("Should not happen")
       case TileType.wall:
@@ -158,6 +177,27 @@ export class PlayedTower {
       }
     }
     throw new Error("No starting position found")
+  }
+
+  private findStaircasePosition(
+    rooms: Tile[][][],
+    roomIndex: number,
+    staircaseDirection: StaircaseDirection,
+  ): Position3D {
+    const room = rooms[roomIndex]
+    for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
+      const line = room[lineIndex]
+      for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
+        const currentTile = line[columnIndex]
+        if (currentTile.getType() === TileType.staircase) {
+          const staircase = currentTile as StaircaseTile
+          if (staircase.direction === staircaseDirection) {
+            return new Position3D(roomIndex, lineIndex, columnIndex)
+          }
+        }
+      }
+    }
+    throw new Error("No stair position found")
   }
 
   private getDropTile(enemy: Enemy): Tile {

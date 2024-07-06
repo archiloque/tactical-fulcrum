@@ -1,4 +1,4 @@
-import { Action, ActionType, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "../../models/play/action"
+import { Action, ActionType, KillEnemy, Move, OpenDoor, PickItem, PickKey } from "../../models/play/action"
 import { AppliedItem, ITEM_ATTRIBUTES, ItemAttribute, PLAYER_ATTRIBUTES, PlayerAttribute } from "../../models/attribute"
 import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
 import {
@@ -36,6 +36,8 @@ export class GameMap extends AbstractMap {
   private static readonly TILE_SWITCH_HIDE_BEGIN_PERCENT: number = 0.25
   private static readonly TILE_SWITCH_HIDE_MIDDLE_PERCENT: number = 0.5
   private static readonly TILE_SWITCH_HIDE_END_PERCENT: number = 0.75
+
+  private static readonly ALPHA_TILE_UNDERNEATH = 0.2
 
   private readonly game: Game
   private tiles: Container
@@ -97,12 +99,16 @@ export class GameMap extends AbstractMap {
       }
       this.deltaBuffer.length = 0
     }
+    this.redraw(1)
+  }
+
+  private redraw(alpha: number): void {
     if (this.tiles != null) {
       this.app.stage.removeChild(this.tiles)
       this.tiles.destroy()
       this.playerSprite = null
     }
-    this.createTiles()
+    this.createTiles(alpha)
     this.app.stage.addChild(this.tiles)
   }
 
@@ -116,8 +122,11 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  private createTiles(): void {
+  private createTiles(alpha: number): void {
     this.tiles = new Container()
+    if (alpha !== 1) {
+      this.tiles.alpha = alpha
+    }
     const playerTower = this.game.playerTower!
     const playerPosition = playerTower.playerPosition
     const currentRoomIndex = playerPosition.room
@@ -144,7 +153,7 @@ export class GameMap extends AbstractMap {
           scoreSprite.x = x
           scoreSprite.y = y
           if (currentTile !== EMPTY_TILE || playerOnCurrentTile) {
-            scoreSprite.alpha = 0.2
+            scoreSprite.alpha = GameMap.ALPHA_TILE_UNDERNEATH
           }
           this.tiles.addChild(scoreSprite)
         }
@@ -154,7 +163,7 @@ export class GameMap extends AbstractMap {
           sprite.x = x
           sprite.y = y
           if (playerOnCurrentTile) {
-            sprite.alpha = 0.2
+            sprite.alpha = GameMap.ALPHA_TILE_UNDERNEATH
           }
           this.tiles.addChild(sprite)
           this.sprites[lineIndex][columnIndex] = sprite
@@ -276,11 +285,12 @@ export class GameMap extends AbstractMap {
     return result
   }
 
-  private triggerMoveAction(move: PlayerMove | PickItem | PickKey) {
+  private triggerMoveAction(move: Move | PickItem | PickKey): (ticker: Ticker) => void {
     let totalPercentMove: number = 0
     const deltaColumn = move.target.column - move.player.column
     const deltaLine = move.target.line - move.player.line
-    let targetSprite: null | Sprite = null
+    let targetSprite: Sprite | null = null
+    const existingSprite: Sprite | null = this.sprites[move.player.line][move.player.column]
     let attributesChange: Record<PlayerAttribute, AttributeChangeInterval | undefined>
 
     if (move.getType() === ActionType.PICK_ITEM || move.getType() === ActionType.PICK_KEY) {
@@ -315,6 +325,15 @@ export class GameMap extends AbstractMap {
             1 -
             (totalPercentMove - GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT) /
               (GameMap.TILE_GRAB_HIDE_END_PERCENT - GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT)
+        }
+      }
+
+      if (existingSprite !== null) {
+        if (totalPercentMove >= 1) {
+          existingSprite.alpha = 1
+        } else if (totalPercentMove >= 0.5) {
+          existingSprite.alpha =
+            (totalPercentMove - 0.5) * (1 / GameMap.ALPHA_TILE_UNDERNEATH) + GameMap.ALPHA_TILE_UNDERNEATH
         }
       }
 
@@ -364,7 +383,28 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  private triggerMoveAndBackAction(move: OpenDoor | KillEnemy) {
+  private triggerRoomChange(): (ticker: Ticker) => void {
+    let totalPercentMove: number = 0
+    let switchDone = false
+    return (ticker: Ticker): void => {
+      const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
+      totalPercentMove += percentMove
+      if (totalPercentMove >= 1) {
+        this.currentMoveEnded()
+      } else if (totalPercentMove >= 0.5) {
+        if (!switchDone) {
+          switchDone = true
+          this.tiles.alpha = 0
+          this.redraw(0)
+        }
+        this.tiles.alpha = (totalPercentMove - 0.5) * 2
+      } else {
+        this.tiles.alpha = 1 - totalPercentMove * 2
+      }
+    }
+  }
+
+  private triggerMoveAndBackAction(move: OpenDoor | KillEnemy): (ticker: Ticker) => void {
     let totalPercentMove: number = 0
     const deltaColumn = move.target.column - move.player.column
     const deltaLine = move.target.line - move.player.line
@@ -461,13 +501,16 @@ export class GameMap extends AbstractMap {
     this.currentAction = action
     switch (action.getType()) {
       case ActionType.MOVE:
-        this.tickerFunction = this.triggerMoveAction(action as PlayerMove)
+        this.tickerFunction = this.triggerMoveAction(action as Move)
         break
       case ActionType.PICK_ITEM:
         this.tickerFunction = this.triggerMoveAction(action as PickItem)
         break
       case ActionType.PICK_KEY:
         this.tickerFunction = this.triggerMoveAction(action as PickKey)
+        break
+      case ActionType.ROOM_CHANGE:
+        this.tickerFunction = this.triggerRoomChange()
         break
       case ActionType.OPEN_DOOR:
         this.tickerFunction = this.triggerMoveAndBackAction(action as OpenDoor)

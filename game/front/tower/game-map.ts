@@ -1,5 +1,5 @@
 import { Action, ActionType, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "../../models/play/action"
-import { Attribute, ATTRIBUTES } from "../../models/attribute"
+import { AppliedItem, ITEM_ATTRIBUTES, ItemAttribute, PLAYER_ATTRIBUTES, PlayerAttribute } from "../../models/attribute"
 import { Container, FederatedPointerEvent, Sprite, Text, Ticker } from "pixi.js"
 import {
   DoorTile,
@@ -11,15 +11,14 @@ import {
   Tile,
   TileType,
 } from "../../../common/models/tile"
+import { InfoBar, ValueChangeType } from "./info-bar"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { capitalize } from "../../../common/models/utils"
 import { Delta2D } from "../../models/tuples"
 import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
-import { InfoBar } from "./info-bar"
 import { ItemName } from "../../../common/data/item-name"
 import { Keys } from "../../../common/front/keys"
-import { PlayItem } from "../../models/play/play-item"
 import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
@@ -28,20 +27,15 @@ type AttributeChangeInterval = {
   to: number
 }
 
-type AttributeToolTip = {
-  defaultValue: number
-  toolTip: (value: number) => string
-}
-
 export class GameMap extends AbstractMap {
-  static readonly TILE_MOVE_TIME: number = 150
+  private static readonly TILE_MOVE_TIME: number = 150
 
-  static readonly TILE_GRAB_HIDE_BEGIN_PERCENT: number = 0.25
-  static readonly TILE_GRAB_HIDE_END_PERCENT: number = 0.75
+  private static readonly TILE_GRAB_HIDE_BEGIN_PERCENT: number = 0.25
+  private static readonly TILE_GRAB_HIDE_END_PERCENT: number = 0.75
 
-  static readonly TILE_SWITCH_HIDE_BEGIN_PERCENT: number = 0.25
-  static readonly TILE_SWITCH_HIDE_MIDDLE_PERCENT: number = 0.5
-  static readonly TILE_SWITCH_HIDE_END_PERCENT: number = 0.75
+  private static readonly TILE_SWITCH_HIDE_BEGIN_PERCENT: number = 0.25
+  private static readonly TILE_SWITCH_HIDE_MIDDLE_PERCENT: number = 0.5
+  private static readonly TILE_SWITCH_HIDE_END_PERCENT: number = 0.75
 
   private readonly game: Game
   private tiles: Container
@@ -51,6 +45,30 @@ export class GameMap extends AbstractMap {
   private currentAction: Action | null = null
   private readonly sprites: Sprite | null[][]
   private infoBar: InfoBar
+
+  private static readonly ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION: Record<ItemAttribute, (value: number) => string> = {
+    [ItemAttribute.ATK]: (value: number): string => {
+      return `+ ${value} ATK`
+    },
+    [ItemAttribute.DEF]: (value: number): string => {
+      return `+ ${value} DEF`
+    },
+    [ItemAttribute.HP]: (value: number): string => {
+      return `+ ${value} HP`
+    },
+    [ItemAttribute.HP_MUL_ADD]: (value: number): string => {
+      return `+ ${value} HP multiplier`
+    },
+    [ItemAttribute.HP_MUL_MUL]: (value: number): string => {
+      return `* ${value} HP multiplier `
+    },
+    [ItemAttribute.EXP_MUL_ADD]: (value: number): string => {
+      return `+ ${value} EXP multiplier`
+    },
+    [ItemAttribute.EXP_MUL_MUL]: (value: number): string => {
+      return `* ${value} EXP multiplier `
+    },
+  }
 
   constructor(game: Game, infoBar: InfoBar) {
     super()
@@ -188,8 +206,7 @@ export class GameMap extends AbstractMap {
         return `${enemy.name}<br>${capitalize(enemy.type!.valueOf())} lv ${enemy.level} `
       case TileType.item:
         const itemName = (tile as ItemTile).item
-        const playItem: PlayItem = this.game.playerTower!.playedItem(itemName)
-        return this.toolTipTextItem(itemName, playItem)
+        return this.toolTipTextItem(itemName)
       case TileType.key:
         return `${capitalize((tile as KeyTile).color)} key`
       case TileType.staircase:
@@ -201,80 +218,14 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  private static readonly ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION: Map<Attribute, AttributeToolTip> = new Map([
-    [
-      Attribute.ATK,
-      {
-        defaultValue: 0,
-        toolTip: (value: number) => {
-          return `+ ${value} ATK`
-        },
-      },
-    ],
-    [
-      Attribute.DEF,
-      {
-        defaultValue: 0,
-        toolTip: (value: number) => {
-          return `+ ${value} DEF`
-        },
-      },
-    ],
-    [
-      Attribute.HP,
-      {
-        defaultValue: 0,
-        toolTip: (value: number) => {
-          return `+ ${value} HP`
-        },
-      },
-    ],
-    [
-      Attribute.HP_MUL_ADD,
-      {
-        defaultValue: 0,
-        toolTip: (value: number) => {
-          return `+ ${value} HP multiplier`
-        },
-      },
-    ],
-    [
-      Attribute.HP_MUL_MUL,
-      {
-        defaultValue: 1,
-        toolTip: (value: number) => {
-          return `* ${value} HP multiplier `
-        },
-      },
-    ],
-    [
-      Attribute.EXP_MUL_ADD,
-      {
-        defaultValue: 0,
-        toolTip: (value: number) => {
-          return `+ ${value} XP multiplier`
-        },
-      },
-    ],
-    [
-      Attribute.EXP_MUL_MUL,
-      {
-        defaultValue: 1,
-        toolTip: (value: number) => {
-          return `* ${value} HP multiplier `
-        },
-      },
-    ],
-  ])
-
-  protected toolTipTextItem(itemName: ItemName, playItem: PlayItem): string {
+  protected toolTipTextItem(itemName: ItemName): string {
+    const itemToolTipAttributes = this.game.playerTower!.itemToolTipAttributes(itemName)
     let result = itemName.valueOf()
-    for (const entry of GameMap.ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION) {
-      const attributeName = entry[0]
-      const attributeToolTip: AttributeToolTip = entry[1]
-      const attributeValue = playItem[attributeName.valueOf()]
-      if (attributeValue != attributeToolTip.defaultValue) {
-        result += `<br>${attributeToolTip.toolTip(attributeValue)}`
+    for (const attributeName of ITEM_ATTRIBUTES) {
+      const attributeValue = itemToolTipAttributes[attributeName]
+      if (attributeValue !== undefined) {
+        const tooltipDescriptionFunction = GameMap.ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION[attributeName]
+        result += `<br>${tooltipDescriptionFunction(attributeValue)}`
       }
     }
     return result
@@ -309,14 +260,20 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  private getAttributeChangeInterval(playItem: PlayItem, attribute: Attribute): AttributeChangeInterval | undefined {
-    const playerInfo = this.game.playerTower!.playerInfo
-    const attributeString = attribute.valueOf()
-    if (playItem[attributeString] === 0) {
-      return undefined
-    } else {
-      return { from: playerInfo[attributeString] - playItem[attributeString], to: playerInfo[attributeString] }
+  private getAttributesChange(appliedItem: AppliedItem): Record<PlayerAttribute, AttributeChangeInterval | undefined> {
+    const result = {}
+    for (const attributeName of PLAYER_ATTRIBUTES) {
+      const attributeValue = appliedItem[attributeName]
+      if (attributeValue !== undefined) {
+        const playerAttribute = this.game.playerTower!.playerInfo[attributeName]
+        result[attributeName] = {
+          from: playerAttribute - attributeValue,
+          to: playerAttribute,
+        }
+      }
     }
+    // @ts-ignore
+    return result
   }
 
   private triggerMoveAction(move: PlayerMove | PickItem | PickKey) {
@@ -324,24 +281,27 @@ export class GameMap extends AbstractMap {
     const deltaColumn = move.target.column - move.player.column
     const deltaLine = move.target.line - move.player.line
     let targetSprite: null | Sprite = null
-    let attributesChange: Record<Attribute, AttributeChangeInterval | undefined>
+    let attributesChange: Record<PlayerAttribute, AttributeChangeInterval | undefined>
 
     if (move.getType() === ActionType.PICK_ITEM || move.getType() === ActionType.PICK_KEY) {
       targetSprite = this.sprites[move.target.line][move.target.column]
+
       if (move.getType() === ActionType.PICK_ITEM) {
-        const playItem = (move as PickItem).playItem
-        attributesChange = {
-          [Attribute.ATK]: this.getAttributeChangeInterval(playItem, Attribute.ATK),
-          [Attribute.DEF]: this.getAttributeChangeInterval(playItem, Attribute.DEF),
-          [Attribute.EXP]: undefined,
-          [Attribute.EXP_MUL_ADD]: undefined,
-          [Attribute.EXP_MUL_MUL]: undefined,
-          [Attribute.HP]: this.getAttributeChangeInterval(playItem, Attribute.HP),
-          [Attribute.HP_MUL_ADD]: undefined,
-          [Attribute.HP_MUL_MUL]: undefined,
+        const appliedItem = (move as PickItem).appliedItem
+        attributesChange = this.getAttributesChange(appliedItem)
+        for (const attribute of PLAYER_ATTRIBUTES) {
+          const attributeChange = attributesChange[attribute]
+          if (attributeChange !== undefined) {
+            this.infoBar.startChangeField(attribute, ValueChangeType.UP)
+          }
         }
+      } else if (move.getType() === ActionType.PICK_KEY) {
+        const color = (move as PickKey).color
+        this.infoBar.startChangeKey(color, ValueChangeType.UP)
+        this.infoBar.setKeyValue(color, this.game.playerTower!.playerInfo.keys[color])
       }
     }
+
     return (ticker: Ticker): void => {
       const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
       totalPercentMove += percentMove
@@ -350,15 +310,6 @@ export class GameMap extends AbstractMap {
         if (totalPercentMove >= GameMap.TILE_GRAB_HIDE_END_PERCENT) {
           this.tiles.removeChild(targetSprite)
           targetSprite = null
-          for (const attribute of ATTRIBUTES) {
-            const attributeChange = attributesChange[attribute]
-            if (attributeChange !== undefined) {
-              const value = Math.ceil(
-                attributeChange.from + ((attributeChange.to - attributeChange.from) * totalPercentMove) / 100,
-              )
-              this.infoBar.setFieldValue(attribute, value)
-            }
-          }
         } else if (totalPercentMove > GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT) {
           targetSprite!.alpha =
             1 -
@@ -369,20 +320,28 @@ export class GameMap extends AbstractMap {
 
       if (move.getType() === ActionType.PICK_ITEM) {
         if (totalPercentMove >= 1) {
-          for (const attribute of ATTRIBUTES) {
+          for (const attribute of PLAYER_ATTRIBUTES) {
             const attributeChange = attributesChange[attribute]
             if (attributeChange !== undefined) {
               this.infoBar.setFieldValue(attribute, attributeChange.to)
-              this.infoBar.endChangeField(attribute)
+              this.infoBar.endChangeField(attribute, ValueChangeType.UP)
             }
           }
         } else {
-          for (const attribute of ATTRIBUTES) {
+          for (const attribute of PLAYER_ATTRIBUTES) {
             const attributeChange = attributesChange[attribute]
             if (attributeChange !== undefined) {
-              this.infoBar.startChangeField(attribute)
+              const value = Math.ceil(
+                attributeChange.from + ((attributeChange.to - attributeChange.from) * totalPercentMove) / 100,
+              )
+              this.infoBar.setFieldValue(attribute, value)
             }
           }
+        }
+      } else if (move.getType() === ActionType.PICK_KEY) {
+        if (totalPercentMove >= 1) {
+          const color = (move as PickKey).color
+          this.infoBar.endChangeKey(color, ValueChangeType.UP)
         }
       }
 
@@ -420,6 +379,13 @@ export class GameMap extends AbstractMap {
       newTargetSprite.y = oldTargetSprite.y
       this.sprites[move.target.line][move.target.column] = newTargetSprite
     }
+
+    if (move.getType() === ActionType.OPEN_DOOR) {
+      const color = (move as OpenDoor).color
+      this.infoBar.startChangeKey(color, ValueChangeType.DOWN)
+      this.infoBar.setKeyValue(color, this.game.playerTower!.playerInfo.keys[color])
+    }
+
     let switchDone = false
     return (ticker: Ticker): void => {
       const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
@@ -451,6 +417,13 @@ export class GameMap extends AbstractMap {
           1 -
           (totalPercentMove - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT) /
             (GameMap.TILE_SWITCH_HIDE_MIDDLE_PERCENT - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT)
+      }
+
+      if (move.getType() === ActionType.OPEN_DOOR) {
+        if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
+          const color = (move as OpenDoor).color
+          this.infoBar.endChangeKey(color, ValueChangeType.DOWN)
+        }
       }
 
       if (deltaColumn !== 0) {

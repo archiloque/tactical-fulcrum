@@ -1,6 +1,6 @@
+import { AppliedItem } from "../attribute"
 import { Color } from "../../../common/data/color"
 import { Enemy } from "../../../common/models/enemy"
-import { PlayItem } from "./play-item"
 import { Position3D } from "../tuples"
 import { Tile } from "../../../common/models/tile"
 
@@ -35,11 +35,11 @@ export class PlayerMove extends Action {
 }
 
 export class PickItem extends Action {
-  readonly playItem: PlayItem
+  readonly appliedItem: AppliedItem
 
-  constructor(player: Position3D, target: Position3D, playItem: PlayItem) {
+  constructor(player: Position3D, target: Position3D, appliedItem: AppliedItem) {
     super(player, target)
-    this.playItem = playItem
+    this.appliedItem = appliedItem
   }
 
   getType(): ActionType {

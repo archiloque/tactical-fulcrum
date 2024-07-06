@@ -8,7 +8,7 @@ Code related to the [Tactical Nexus](https://store.steampowered.com/app/1141290/
 
 `npm install`
 
-`npm run serve-game` ou  `npm run serve-editor`
+`npm run serve-game` ou `npm run serve-editor`
 
 # Licenses
 
@@ -16,4 +16,3 @@ This software is released under the GNU General Public License v3.0 only (GPL-3.
 
 The JetBrains Mono font in `src/assets/JetBrainsMono-Regular.ttf` is from JetBrains and
 is available under the SIL Open Font License 1.1 license.
-

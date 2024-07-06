@@ -1,5 +1,6 @@
 import { Delta2D, Position2D } from "../tuples"
-import { Tile, TileType } from "../../../common/models/tile"
+import { DoorTile, Tile, TileType } from "../../../common/models/tile"
+import { PlayerInfo } from "../player-info"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
 const enum ReachableType {
@@ -17,7 +18,11 @@ class Destination {
   }
 }
 
-export function calculateReachableTiles(playerPosition: Position2D, room: Tile[][]): Delta2D[] | null[][] {
+export function calculateReachableTiles(
+  playerPosition: Position2D,
+  room: Tile[][],
+  playerInfo: PlayerInfo,
+): Delta2D[] | null[][] {
   const reachableTiles: Delta2D[] | null[][] = new Array(TILES_IN_ROW)
   for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
     reachableTiles[lineIndex] = new Array(TILES_IN_ROW).fill(null, 0, TILES_IN_ROW)
@@ -33,7 +38,7 @@ export function calculateReachableTiles(playerPosition: Position2D, room: Tile[]
         const aroundDestination = currentlyReachableDestination.coordinates.add(aroundDelta)
         if (!reachedTiles.has(aroundDestination.value())) {
           reachedTiles.add(aroundDestination.value())
-          const aroundDestinationReachability = reachable(aroundDestination, room)
+          const aroundDestinationReachability = reachable(aroundDestination, room, playerInfo)
           const path = currentlyReachableDestination.path.concat([aroundDelta])
           switch (aroundDestinationReachability) {
             case ReachableType.blocking:
@@ -54,11 +59,12 @@ export function calculateReachableTiles(playerPosition: Position2D, room: Tile[]
   return reachableTiles
 }
 
-function reachable(position: Position2D, room: Tile[][]): ReachableType {
+function reachable(position: Position2D, room: Tile[][], playerInfo: PlayerInfo): ReachableType {
   const tile = room[position.line][position.column]
   switch (tile.getType()) {
     case TileType.door:
-      return ReachableType.reachable
+      const doorColor = (tile as DoorTile).color
+      return playerInfo.keys[doorColor] >= 1 ? ReachableType.reachable : ReachableType.blocking
     case TileType.empty:
       return ReachableType.traversable
     case TileType.enemy:

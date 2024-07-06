@@ -1,16 +1,14 @@
+import { Color } from "../../common/data/color"
+
 export class PlayerInfo {
   hp: number
+  maxHp: number
   atk: number
   def: number
   exp: number
-  expMult: number
-  hpMult: number
-  blueKeys: number
-  crimsonKeys: number
-  violetKeys: number
-  greenBlueKeys: number
-  platinumKeys: number
-  yellowKeys: number
+  expMul: number
+  hpMul: number
+  keys: Record<Color, number>
 
   constructor(hp: number, atk: number, def: number) {
     this.hp = hp
@@ -18,14 +16,16 @@ export class PlayerInfo {
     this.def = def
     this.exp = 0
 
-    this.expMult = 100
-    this.hpMult = 100
+    this.expMul = 100
+    this.hpMul = 100
 
-    this.blueKeys = 0
-    this.crimsonKeys = 0
-    this.greenBlueKeys = 0
-    this.platinumKeys = 0
-    this.violetKeys = 0
-    this.yellowKeys = 0
+    this.keys = {
+      [Color.blue]: 0,
+      [Color.crimson]: 0,
+      [Color.greenBlue]: 0,
+      [Color.platinum]: 0,
+      [Color.violet]: 0,
+      [Color.yellow]: 0,
+    }
   }
 }

@@ -2,8 +2,18 @@ import { ColorCustomIcons, ColorCustomIconsName } from "./color-custom-icons"
 import { Colors, INITIAL_COLOR_BLACK, INITIAL_COLOR_YELLOW } from "../colors"
 import { getCssProperty, getTextColor } from "../color-scheme"
 import { MonochromeCustomIcons, MonochromeCustomIconsName } from "./monochrome-custom-icons"
+import { Color } from "../../data/color"
 import { decodeSvg } from "./decode-svg"
 import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js"
+
+enum CustomIconsNames {
+  KEY_BLUE = `key${Color.blue}`,
+  KEY_CRIMSON = `key${Color.crimson}`,
+  KEY_GREEN_BLUE = `key${Color.greenBlue}`,
+  KEY_PLATINUM = `key${Color.platinum}`,
+  KEY_VIOLET = `key${Color.violet}`,
+  KEY_YELLOW = `key${Color.yellow}`,
+}
 
 export function registerCustomIcons(): void {
   registerIconLibrary("tf", {
@@ -54,4 +64,11 @@ export class ColoredCustomIcon extends CustomIcon {
   }
 }
 
-const ICONS = new Map<string, CustomIcon>([])
+const ICONS = new Map<string, CustomIcon>([
+  [CustomIconsNames.KEY_BLUE.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.blue)],
+  [CustomIconsNames.KEY_CRIMSON.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.red)],
+  [CustomIconsNames.KEY_GREEN_BLUE.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.teal)],
+  [CustomIconsNames.KEY_PLATINUM.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.platinum)],
+  [CustomIconsNames.KEY_VIOLET.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.violet)],
+  [CustomIconsNames.KEY_YELLOW.valueOf(), new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.yellow)],
+])

@@ -54,7 +54,7 @@ const EDITOR_ICONS = [
   "trash",
 ]
 
-const CUSTOM_ICONS_COLORS = []
+const CUSTOM_ICONS_COLORS = ["key"]
 
 const CUSTOM_ICONS_MONOCHROMES = []
 

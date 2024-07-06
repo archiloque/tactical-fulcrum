@@ -1,4 +1,5 @@
 import { Action, KillEnemy, OpenDoor, PickItem, PickKey, PlayerMove } from "./play/action"
+import { APPLIED_ITEM_ATTRIBUTES, AppliedItem, ItemToolTipAttributes } from "./attribute"
 import { Delta2D, Position3D } from "./tuples"
 import { DoorTile, EMPTY_TILE, EnemyTile, ItemTile, KeyTile, Tile, TileType } from "../../common/models/tile"
 import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../common/data/drop"
@@ -6,11 +7,9 @@ import { calculateReachableTiles } from "./play/a-star"
 import { Enemy } from "../../common/models/enemy"
 import { ItemName } from "../../common/data/item-name"
 import { PlayerInfo } from "./player-info"
-import { PlayItem } from "./play/play-item"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
-import { ATTRIBUTES } from "./attribute"
 
 export class PlayedTower {
   readonly tower: Tower
@@ -30,7 +29,11 @@ export class PlayedTower {
   }
 
   private calculateReachableTiles(): void {
-    this.reachableTiles = calculateReachableTiles(this.playerPosition, this.standardRooms[this.playerPosition.room])
+    this.reachableTiles = calculateReachableTiles(
+      this.playerPosition,
+      this.standardRooms[this.playerPosition.room],
+      this.playerInfo,
+    )
   }
 
   private cloneRoom(rooms: Room[]): Tile[][][] {
@@ -41,8 +44,49 @@ export class PlayedTower {
     })
   }
 
-  public playedItem(itemName: ItemName): PlayItem {
-    return new PlayItem(this.tower!.items[itemName], this.playerInfo)
+  public itemToolTipAttributes(itemName: ItemName): ItemToolTipAttributes {
+    const item = this.tower!.items[itemName]
+    return {
+      atk: item.atk === 0 ? undefined : item.atk,
+      def: item.def === 0 ? undefined : item.def,
+      expMulAdd: item.expMulAdd === 0 ? undefined : item.expMulAdd,
+      expMulMul: item.expMulMul === 1 ? undefined : item.expMulMul,
+      hp: item.hp === 0 ? undefined : (item.hp * this.playerInfo.hpMul) / 100,
+      hpMulAdd: item.hpMulAdd === 0 ? undefined : item.hpMulAdd,
+      hpMulMul: item.hpMulMul === 1 ? undefined : item.hpMulMul,
+    }
+  }
+
+  public appliedItem(itemName: ItemName): AppliedItem {
+    const item = this.tower!.items[itemName]
+    let hpMul: number | undefined
+    if (item.hpMulAdd === 0 && item.hpMulMul === 1) {
+      hpMul = undefined
+    } else if (item.hpMulAdd === 0 && item.hpMulMul !== 1) {
+      hpMul = item.hpMulAdd
+    } else if (item.hpMulAdd !== 0 && item.hpMulMul === 1) {
+      hpMul = this.playerInfo.hpMul * (item.hpMulMul - 1)
+    } else {
+      throw new Error(`Not implemented for ${itemName}`)
+    }
+    let expMul: number | undefined
+    if (item.expMulAdd === 0 && item.expMulMul === 1) {
+      expMul = undefined
+    } else if (item.expMulAdd === 0 && item.expMulMul !== 1) {
+      expMul = item.expMulAdd
+    } else if (item.expMulAdd !== 0 && item.expMulMul === 1) {
+      expMul = this.playerInfo.expMul * (item.expMulMul - 1)
+    } else {
+      throw new Error(`Not implemented for ${itemName}`)
+    }
+    const hp = item.hp === 0 ? undefined : (item.hp * this.playerInfo.hpMul) / 100
+    return {
+      expMul: expMul,
+      hpMul: hpMul,
+      atk: item.atk === 0 ? undefined : item.atk,
+      def: item.def === 0 ? undefined : item.def,
+      hp: hp,
+    }
   }
 
   movePlayer(delta: Delta2D): Action | null {
@@ -64,6 +108,7 @@ export class PlayedTower {
       case TileType.door:
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const doorColor = (targetTile as DoorTile).color
+        this.playerInfo.keys[doorColor] -= 1
         this.calculateReachableTiles()
         return new OpenDoor(oldPlayerPosition, targetPosition, doorColor)
       case TileType.empty:
@@ -79,14 +124,15 @@ export class PlayedTower {
         this.playerPosition = targetPosition
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const itemName = (targetTile as ItemTile).item
-        const playedItem: PlayItem = this.playedItem(itemName)
-        this.fetchItem(playedItem)
+        const appliedItem: AppliedItem = this.appliedItem(itemName)
+        this.applyItem(appliedItem)
         this.calculateReachableTiles()
-        return new PickItem(oldPlayerPosition, targetPosition, playedItem)
+        return new PickItem(oldPlayerPosition, targetPosition, appliedItem)
       case TileType.key:
         this.playerPosition = targetPosition
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const keyColor = (targetTile as KeyTile).color
+        this.playerInfo.keys[keyColor] += 1
         this.calculateReachableTiles()
         return new PickKey(oldPlayerPosition, targetPosition, keyColor)
       case TileType.staircase:
@@ -131,10 +177,15 @@ export class PlayedTower {
     }
   }
 
-  private fetchItem(playedItem: PlayItem) {
-    for (const attribute of ATTRIBUTES) {
-      const attributeAsString = attribute.valueOf()
-      this.playerInfo[attributeAsString] += playedItem[attributeAsString]
+  private applyItem(appliedItem: AppliedItem): void {
+    for (const attribute of APPLIED_ITEM_ATTRIBUTES) {
+      const attributeValue: undefined | number = appliedItem[attribute]
+      if (attributeValue !== undefined) {
+        this.playerInfo[attribute] += attributeValue
+      }
+      if (this.playerInfo.hp > this.playerInfo.maxHp) {
+        this.playerInfo.maxHp = this.playerInfo.hp
+      }
     }
   }
 }

@@ -1,23 +1,33 @@
 import { Color, COLORS } from "../../../common/data/color"
 import { Hole, html, render } from "uhtml"
 import { Game } from "../../game"
+import { getLevelIndex } from "../../models/play/levels"
 import { htmlUnsafe } from "../../../common/front/functions"
 import { PlayerAttribute } from "../../models/attribute"
 import { ScreenTower } from "./screen-tower"
+import SlProgressBar from "@shoelace-style/shoelace/cdn/components/progress-bar/progress-bar.component"
 
 export const enum ValueChangeType {
   UP,
   DOWN,
 }
 
+type ExpInfo = {
+  levelsUpAvailable: number
+  nextLevelDelta: number
+  percentage: number
+}
+
 export class InfoBar {
-  private static readonly HP_ID = "screenTowerInfoHp"
-  private static readonly HP_MUL_ID = "screenTowerInfoHpMul"
-  private static readonly ATK_ID = "screenTowerInfoAtk"
-  private static readonly DEF_ID = "screenTowerInfoDef"
-  private static readonly EXP_ID = "screenTowerInfoExp"
+  private static readonly HP_ID = "screenTowerInfoHpField"
+  private static readonly HP_MUL_ID = "screenTowerInfoHpMulField"
+  private static readonly ATK_ID = "screenTowerInfoAtkField"
+  private static readonly DEF_ID = "screenTowerInfoDefField"
+  private static readonly EXP_ID = "screenTowerInfoExpField"
+  private static readonly EXP_NEXT_LEVEL_ID = "screenTowerInfoExpNextLevelField"
+  private static readonly EXP_PROGRESS_ID = "screenTowerInfoExpProgress"
   private static readonly EXP_MUL_ID = "screenTowerInfoExpMul"
-  private static readonly KEY_ID = "screenTowerInfoKey"
+  private static readonly KEY_ID = "screenTowerInfoKeyField"
 
   private static readonly VALUE_CHANGE_TO_CLASS: Record<ValueChangeType, string> = {
     [ValueChangeType.DOWN]: "downChange",
@@ -33,7 +43,10 @@ export class InfoBar {
   private infoDef: HTMLElement
   private infoExp: HTMLElement
   private infoExpMul: HTMLElement
-  private fieldsByPlayerAttribute: Record<PlayerAttribute, HTMLElement>
+  private infoExpProgress: SlProgressBar
+  private infoExpNextLevel: HTMLElement
+
+  private fieldsByPlayerAttribute: Record<PlayerAttribute, HTMLElement | undefined>
   private fieldsByColor: Record<Color, HTMLElement>
 
   static NBSP = "\xa0"
@@ -63,6 +76,27 @@ export class InfoBar {
     return html` <div class="screenTowerInfoBlock">${fields}</div>`
   }
 
+  private getExpInfo(): ExpInfo {
+    const currentLevel = getLevelIndex(this.game.playerTower!.playerInfo.level)
+    const nextLevel = getLevelIndex(this.game.playerTower!.playerInfo.level + 1)
+    const currentExp = this.game.playerTower!.playerInfo.exp
+
+    let levelsUpAvailable = 0
+    let currentNextLevel = nextLevel
+    let remainingExp = currentExp - currentLevel.exp
+
+    while (currentExp > currentNextLevel.exp) {
+      levelsUpAvailable++
+      remainingExp -= currentNextLevel.deltaExp
+      currentNextLevel = getLevelIndex(currentNextLevel.level + 1)
+    }
+    return {
+      nextLevelDelta: nextLevel.deltaExp,
+      levelsUpAvailable: levelsUpAvailable,
+      percentage: (remainingExp / currentNextLevel.deltaExp) * 100,
+    }
+  }
+
   render(): void {
     console.debug("InfoBar", "render")
     const playerInfo = this.game.playerTower!.playerInfo
@@ -74,10 +108,22 @@ export class InfoBar {
     const atk = this.renderBlock([this.renderField(InfoBar.ATK_ID, "ATK", this.pad(playerInfo.atk))])
     const def = this.renderBlock([this.renderField(InfoBar.DEF_ID, "DEF", this.pad(playerInfo.def))])
 
-    const exp = this.renderBlock([
-      this.renderField(InfoBar.EXP_ID, "EXP", this.pad(playerInfo.exp)),
-      this.renderField(InfoBar.EXP_MUL_ID, "%", playerInfo.expMul),
-    ])
+    const expInfo = this.getExpInfo()
+
+    const exp = html` <div id="screenTowerInfoExp">
+      <div id="screenTowerInfoExpFields">
+        <div>
+          ${this.renderField(InfoBar.EXP_ID, "EXP", this.pad(playerInfo.exp))}
+          <div>
+            <div id="screenTowerInfoExpNextLevel">
+              /<span id="${InfoBar.EXP_NEXT_LEVEL_ID}">${this.pad(expInfo.nextLevelDelta)}</span>
+            </div>
+          </div>
+        </div>
+        ${this.renderField(InfoBar.EXP_MUL_ID, "%", playerInfo.expMul)}
+      </div>
+      <sl-progress-bar id="${InfoBar.EXP_PROGRESS_ID}" value="${expInfo.percentage}"></sl-progress-bar>
+    </div>`
 
     const keysContent = COLORS.map((color: Color) => {
       const divId = this.colorFieldId(color)
@@ -96,7 +142,10 @@ export class InfoBar {
     this.infoDef = document.getElementById(InfoBar.DEF_ID)!
     this.infoExp = document.getElementById(InfoBar.EXP_ID)!
     this.infoExpMul = document.getElementById(InfoBar.EXP_MUL_ID)!
+    this.infoExpNextLevel = document.getElementById(InfoBar.EXP_NEXT_LEVEL_ID)!
+    this.infoExpProgress = document.getElementById(InfoBar.EXP_PROGRESS_ID)! as SlProgressBar
     this.fieldsByPlayerAttribute = {
+      [PlayerAttribute.LEVEL]: undefined,
       [PlayerAttribute.HP]: this.infoHp,
       [PlayerAttribute.HP_MUL]: this.infoHpMul,
       [PlayerAttribute.ATK]: this.infoAtk,
@@ -135,17 +184,31 @@ export class InfoBar {
 
   public startChangeField(attribute: PlayerAttribute, valueChangeType: ValueChangeType): void {
     const field = this.fieldsByPlayerAttribute[attribute]
-    field.classList.add(InfoBar.VALUE_CHANGE_TO_CLASS[valueChangeType])
+    if (field !== undefined) {
+      field.classList.add(InfoBar.VALUE_CHANGE_TO_CLASS[valueChangeType])
+    }
   }
 
   public endChangeField(attribute: PlayerAttribute, valueChangeType: ValueChangeType): void {
     const field = this.fieldsByPlayerAttribute[attribute]
-    field.classList.remove(InfoBar.VALUE_CHANGE_TO_CLASS[valueChangeType])
+    if (field !== undefined) {
+      field.classList.remove(InfoBar.VALUE_CHANGE_TO_CLASS[valueChangeType])
+    }
   }
 
   public setFieldValue(attribute: PlayerAttribute, value: number): void {
     const field = this.fieldsByPlayerAttribute[attribute]
-    field.innerText = this.pad(value)
+    if (field !== undefined) {
+      field.innerText = this.pad(value)
+      if (attribute === PlayerAttribute.EXP) {
+        const expInfo = this.getExpInfo()
+        this.infoExpNextLevel.innerText = this.pad(expInfo.nextLevelDelta)
+        this.infoExpProgress.value = expInfo.percentage
+        if (expInfo.levelsUpAvailable === 0) {
+        } else {
+        }
+      }
+    }
   }
 
   private schemeChanged(): void {

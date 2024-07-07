@@ -8,6 +8,7 @@ export type PlayerInfo = {
   exp: number
   expMul: number
   hpMul: number
+  level: number
   keys: Record<Color, number>
 }
 
@@ -21,6 +22,8 @@ export function createPlayerInfo(hp: number, atk: number, def: number): PlayerIn
 
     expMul: 100,
     hpMul: 100,
+
+    level: 0,
 
     keys: {
       [Color.blue]: 0,

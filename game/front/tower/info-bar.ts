@@ -36,17 +36,19 @@ export class InfoBar {
   private fieldsByPlayerAttribute: Record<PlayerAttribute, HTMLElement>
   private fieldsByColor: Record<Color, HTMLElement>
 
+  static NBSP = "\xa0"
+
   constructor(game: Game) {
     this.game = game
     this.game.eventManager.registerSchemeChange(() => this.schemeChanged())
   }
 
   pad(value: number): string {
-    return value.toString().padStart(7, "\xa0")
+    return value.toString().padStart(7, InfoBar.NBSP)
   }
 
   padKey(value: number): string {
-    return value.toString().padStart(2, "\xa0")
+    return value.toString().padStart(2, InfoBar.NBSP)
   }
 
   renderField(id: string, description: string, value: number | string): Hole {
@@ -66,7 +68,7 @@ export class InfoBar {
     const playerInfo = this.game.playerTower!.playerInfo
 
     const hp = this.renderBlock([
-      this.renderField(InfoBar.HP_ID, "HP", this.pad(playerInfo.hp)),
+      this.renderField(InfoBar.HP_ID, `HP${InfoBar.NBSP}`, this.pad(playerInfo.hp)),
       this.renderField(InfoBar.HP_MUL_ID, "%", playerInfo.hpMul),
     ])
     const atk = this.renderBlock([this.renderField(InfoBar.ATK_ID, "ATK", this.pad(playerInfo.atk))])

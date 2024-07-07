@@ -12,13 +12,21 @@ import {
   Tile,
   TileType,
 } from "../../common/models/tile"
-import { findStaircasePosition, findStartingPosition, getDropTile } from "./play/locations"
+import { fight, getDropTile } from "./play/enemy"
+import { findStaircasePosition, findStartingPosition } from "./play/locations"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
+import { Enemy } from "../../common/models/enemy"
 import { ItemName } from "../../common/data/item-name"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
+
+export type EnemyToolTipAttributes = {
+  enemy: Enemy
+  hpLost: number | null
+  expWin: number
+}
 
 export class PlayedTower {
   readonly tower: Tower
@@ -63,6 +71,14 @@ export class PlayedTower {
       hp: item.hp === 0 ? undefined : (item.hp * this.playerInfo.hpMul) / 100,
       hpMulAdd: item.hpMulAdd === 0 ? undefined : item.hpMulAdd,
       hpMulMul: item.hpMulMul === 1 ? undefined : item.hpMulMul,
+    }
+  }
+
+  public enemyToolTipAttributes(enemy: Enemy): EnemyToolTipAttributes {
+    return {
+      enemy: enemy,
+      expWin: enemy.exp! * this.playerInfo.expMul,
+      hpLost: fight(enemy, this.playerInfo),
     }
   }
 
@@ -126,10 +142,14 @@ export class PlayedTower {
         return new Move(oldPlayerPosition, targetPosition)
       case TileType.enemy:
         const enemy = (targetTile as EnemyTile).enemy
+        const hpLost = fight(enemy, this.playerInfo)!
+        const expWin = (enemy.exp! * this.playerInfo.expMul) / 100
+        this.playerInfo.hp -= hpLost
+        this.playerInfo.exp += expWin
         const dropTile = getDropTile(enemy)
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = dropTile
         this.calculateReachableTiles()
-        return new KillEnemy(oldPlayerPosition, targetPosition, enemy, dropTile)
+        return new KillEnemy(oldPlayerPosition, targetPosition, enemy, dropTile, hpLost, expWin)
       case TileType.item:
         this.playerPosition = targetPosition
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE

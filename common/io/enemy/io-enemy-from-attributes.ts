@@ -19,12 +19,11 @@ export class IoEnemyFromAttributes {
     result.atk = value[IoEnemy.ATTRIBUTE_ATK] as number
     result.def = value[IoEnemy.ATTRIBUTE_DEF] as number
     result.exp = value[IoEnemy.ATTRIBUTE_EXP] as number
-    let drop: string | null = value[IoEnemy.ATTRIBUTE_DROP] as string
-    if (drop === "") {
-      drop = null
-    }
+    const drop: string | null = value[IoEnemy.ATTRIBUTE_DROP] as string
     if (drop != null) {
       result.drop = DROPS.indexOf(drop) === -1 ? null : drop
+    } else {
+      result.drop = null
     }
     return result
   }

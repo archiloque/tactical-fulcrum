@@ -15,6 +15,7 @@ import { InfoBar, ValueChangeType } from "./info-bar"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { capitalize } from "../../../common/models/utils"
 import { Delta2D } from "../../models/tuples"
+import { Enemy } from "../../../common/models/enemy"
 import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
 import { ItemName } from "../../../common/data/item-name"
@@ -212,7 +213,7 @@ export class GameMap extends AbstractMap {
         return null
       case TileType.enemy:
         const enemy = (tile as EnemyTile).enemy
-        return `${enemy.name}<br>${capitalize(enemy.type!.valueOf())} lv ${enemy.level} `
+        return this.toolTipTextEnemy(enemy)
       case TileType.item:
         const itemName = (tile as ItemTile).item
         return this.toolTipTextItem(itemName)
@@ -225,6 +226,13 @@ export class GameMap extends AbstractMap {
       case TileType.wall:
         return null
     }
+  }
+
+  private toolTipTextEnemy(enemy: Enemy): string {
+    const enemyToolTipAttributes = this.game.playerTower!.enemyToolTipAttributes(enemy)
+    const dropName = enemy.drop !== null ? enemy.drop : "nothing"
+    const damage = enemyToolTipAttributes.hpLost !== null ? `Damage: ${enemyToolTipAttributes.hpLost} HP` : "Unkillable"
+    return `${enemy.name} ${capitalize(enemy.type!.valueOf())} lv ${enemy.level}<br>${enemy.hp} HP<br>${enemy.atk} ATK<br>${enemy.def} DEF<br>${enemy.exp} EXP<br>Drop ${dropName}<br>${damage}`
   }
 
   private toolTipTextItem(itemName: ItemName): string {
@@ -293,10 +301,9 @@ export class GameMap extends AbstractMap {
     const existingSprite: Sprite | null = this.sprites[move.player.line][move.player.column]
     let attributesChange: Record<PlayerAttribute, AttributeChangeInterval | undefined>
 
-    if (move.getType() === ActionType.PICK_ITEM || move.getType() === ActionType.PICK_KEY) {
-      targetSprite = this.sprites[move.target.line][move.target.column]
-
-      if (move.getType() === ActionType.PICK_ITEM) {
+    switch (move.getType()) {
+      case ActionType.PICK_ITEM:
+        targetSprite = this.sprites[move.target.line][move.target.column]
         const appliedItem = (move as PickItem).appliedItem
         attributesChange = this.getAttributesChange(appliedItem)
         for (const attribute of PLAYER_ATTRIBUTES) {
@@ -305,11 +312,13 @@ export class GameMap extends AbstractMap {
             this.infoBar.startChangeField(attribute, ValueChangeType.UP)
           }
         }
-      } else if (move.getType() === ActionType.PICK_KEY) {
+        break
+      case ActionType.PICK_KEY:
+        targetSprite = this.sprites[move.target.line][move.target.column]
         const color = (move as PickKey).color
         this.infoBar.startChangeKey(color, ValueChangeType.UP)
         this.infoBar.setKeyValue(color, this.game.playerTower!.playerInfo.keys[color])
-      }
+        break
     }
 
     return (ticker: Ticker): void => {
@@ -337,31 +346,34 @@ export class GameMap extends AbstractMap {
         }
       }
 
-      if (move.getType() === ActionType.PICK_ITEM) {
-        if (totalPercentMove >= 1) {
-          for (const attribute of PLAYER_ATTRIBUTES) {
-            const attributeChange = attributesChange[attribute]
-            if (attributeChange !== undefined) {
-              this.infoBar.setFieldValue(attribute, attributeChange.to)
-              this.infoBar.endChangeField(attribute, ValueChangeType.UP)
+      switch (move.getType()) {
+        case ActionType.PICK_ITEM:
+          if (totalPercentMove >= 1) {
+            for (const attribute of PLAYER_ATTRIBUTES) {
+              const attributeChange = attributesChange[attribute]
+              if (attributeChange !== undefined) {
+                this.infoBar.setFieldValue(attribute, attributeChange.to)
+                this.infoBar.endChangeField(attribute, ValueChangeType.UP)
+              }
+            }
+          } else {
+            for (const attribute of PLAYER_ATTRIBUTES) {
+              const attributeChange = attributesChange[attribute]
+              if (attributeChange !== undefined) {
+                const value = Math.ceil(
+                  attributeChange.from + ((attributeChange.to - attributeChange.from) * totalPercentMove) / 100,
+                )
+                this.infoBar.setFieldValue(attribute, value)
+              }
             }
           }
-        } else {
-          for (const attribute of PLAYER_ATTRIBUTES) {
-            const attributeChange = attributesChange[attribute]
-            if (attributeChange !== undefined) {
-              const value = Math.ceil(
-                attributeChange.from + ((attributeChange.to - attributeChange.from) * totalPercentMove) / 100,
-              )
-              this.infoBar.setFieldValue(attribute, value)
-            }
+          break
+        case ActionType.PICK_KEY:
+          if (totalPercentMove >= 1) {
+            const color = (move as PickKey).color
+            this.infoBar.endChangeKey(color, ValueChangeType.UP)
           }
-        }
-      } else if (move.getType() === ActionType.PICK_KEY) {
-        if (totalPercentMove >= 1) {
-          const color = (move as PickKey).color
-          this.infoBar.endChangeKey(color, ValueChangeType.UP)
-        }
+          break
       }
 
       if (deltaColumn !== 0) {
@@ -420,10 +432,32 @@ export class GameMap extends AbstractMap {
       this.sprites[move.target.line][move.target.column] = newTargetSprite
     }
 
-    if (move.getType() === ActionType.OPEN_DOOR) {
-      const color = (move as OpenDoor).color
-      this.infoBar.startChangeKey(color, ValueChangeType.DOWN)
-      this.infoBar.setKeyValue(color, this.game.playerTower!.playerInfo.keys[color])
+    let enemyHpChange: null | AttributeChangeInterval = null
+    let enemyExpChange: null | AttributeChangeInterval = null
+
+    switch (move.getType()) {
+      case ActionType.KILL_ENEMY:
+        const killEnemy = move as KillEnemy
+        if (killEnemy.hpLost > 0) {
+          this.infoBar.startChangeField(PlayerAttribute.HP, ValueChangeType.DOWN)
+          enemyHpChange = {
+            from: this.game.playerTower!.playerInfo.hp + killEnemy.hpLost,
+            to: this.game.playerTower!.playerInfo.hp,
+          }
+        }
+        if (killEnemy.expWin > 0) {
+          this.infoBar.startChangeField(PlayerAttribute.EXP, ValueChangeType.UP)
+          enemyExpChange = {
+            from: this.game.playerTower!.playerInfo.exp - killEnemy.expWin,
+            to: this.game.playerTower!.playerInfo.exp,
+          }
+        }
+        break
+      case ActionType.OPEN_DOOR:
+        const color = (move as OpenDoor).color
+        this.infoBar.startChangeKey(color, ValueChangeType.DOWN)
+        this.infoBar.setKeyValue(color, this.game.playerTower!.playerInfo.keys[color])
+        break
     }
 
     let switchDone = false
@@ -459,11 +493,38 @@ export class GameMap extends AbstractMap {
             (GameMap.TILE_SWITCH_HIDE_MIDDLE_PERCENT - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT)
       }
 
-      if (move.getType() === ActionType.OPEN_DOOR) {
-        if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
-          const color = (move as OpenDoor).color
-          this.infoBar.endChangeKey(color, ValueChangeType.DOWN)
-        }
+      switch (move.getType()) {
+        case ActionType.KILL_ENEMY:
+          if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
+            if (enemyHpChange !== null) {
+              this.infoBar.setFieldValue(PlayerAttribute.HP, enemyHpChange.to)
+              this.infoBar.endChangeField(PlayerAttribute.HP, ValueChangeType.DOWN)
+            }
+            if (enemyExpChange !== null) {
+              this.infoBar.setFieldValue(PlayerAttribute.EXP, enemyExpChange.to)
+              this.infoBar.endChangeField(PlayerAttribute.EXP, ValueChangeType.UP)
+            }
+          } else {
+            if (enemyHpChange !== null) {
+              const value = Math.ceil(
+                enemyHpChange.from + ((enemyHpChange.to - enemyHpChange.from) * totalPercentMove) / 100,
+              )
+              this.infoBar.setFieldValue(PlayerAttribute.HP, value)
+            }
+            if (enemyExpChange !== null) {
+              const value = Math.ceil(
+                enemyExpChange.from + ((enemyExpChange.to - enemyExpChange.from) * totalPercentMove) / 100,
+              )
+              this.infoBar.setFieldValue(PlayerAttribute.EXP, value)
+            }
+          }
+          break
+        case ActionType.OPEN_DOOR:
+          if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
+            const color = (move as OpenDoor).color
+            this.infoBar.endChangeKey(color, ValueChangeType.DOWN)
+          }
+          break
       }
 
       if (deltaColumn !== 0) {

@@ -1,5 +1,6 @@
 import { Delta2D, Position2D } from "../tuples"
-import { DoorTile, Tile, TileType } from "../../../common/models/tile"
+import { DoorTile, EnemyTile, Tile, TileType } from "../../../common/models/tile"
+import { fight } from "./enemy"
 import { PlayerInfo } from "../player-info"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
@@ -68,7 +69,8 @@ function reachable(position: Position2D, room: Tile[][], playerInfo: PlayerInfo)
     case TileType.empty:
       return ReachableType.traversable
     case TileType.enemy:
-      return ReachableType.reachable
+      const enemy = (tile as EnemyTile).enemy
+      return fight(enemy, playerInfo) === null ? ReachableType.blocking : ReachableType.reachable
     case TileType.item:
       return ReachableType.reachable
     case TileType.key:

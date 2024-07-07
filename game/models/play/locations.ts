@@ -1,6 +1,4 @@
-import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../../common/data/drop"
-import { EMPTY_TILE, ItemTile, KeyTile, StaircaseTile, Tile, TileType } from "../../../common/models/tile"
-import { Enemy } from "../../../common/models/enemy"
+import { EMPTY_TILE, StaircaseTile, Tile, TileType } from "../../../common/models/tile"
 import { Position3D } from "../tuples"
 import { StaircaseDirection } from "../../../common/data/staircase-direction"
 import { TILES_IN_ROW } from "../../../common/data/constants"
@@ -40,21 +38,4 @@ export function findStaircasePosition(
     }
   }
   throw new Error("No stair position found")
-}
-
-export function getDropTile(enemy: Enemy): Tile {
-  const dropName = enemy.drop
-  if (dropName == null) {
-    return EMPTY_TILE
-  }
-  const dropContent = DROPS_CONTENTS.get(dropName)
-  if (dropContent === undefined) {
-    throw new Error(`Unknown drop [${dropName}]`)
-  }
-  switch (dropContent.getType()) {
-    case DropType.KEY:
-      return new KeyTile((dropContent as DropContentKey).color)
-    case DropType.ITEM:
-      return new ItemTile((dropContent as DropContentItem).itemName)
-  }
 }

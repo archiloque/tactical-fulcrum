@@ -87,11 +87,15 @@ export class OpenDoor extends Action {
 export class KillEnemy extends Action {
   readonly enemy: Enemy
   readonly dropTile: Tile
+  readonly hpLost: number
+  readonly expWin: number
 
-  constructor(player: Position3D, target: Position3D, enemy: Enemy, dropTile: Tile) {
+  constructor(player: Position3D, target: Position3D, enemy: Enemy, dropTile: Tile, hpLost: number, expWin: number) {
     super(player, target)
     this.enemy = enemy
     this.dropTile = dropTile
+    this.hpLost = hpLost
+    this.expWin = expWin
   }
 
   getType(): ActionType {

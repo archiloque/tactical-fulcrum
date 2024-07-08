@@ -1,3 +1,12 @@
+:root,
+:host,
+.sl-theme-dark,
+.sl-theme-light {
+  --sl-font-size-small: 24px;
+  --sl-font-size-medium: 16px;
+  --sl-input-height-medium: 3rem;
+}
+
 #screenMainMainTile {
   font-size: 96px;
   text-align: center;
@@ -78,17 +87,22 @@
 }
 
 #screenTowerInfoExpProgress {
-  margin-left: 1em;
-  margin-right: 1em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
   --height: 0.25em;
 }
 
 #screenTowerInfoLevelUp {
+  padding-right: 0.125rem;
+  padding-left: 0.125rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   text-align: center;
-  div {
+  sl-button {
     margin: auto;
+    width: 100%;
+    padding-right: 0.125em;
+    padding-left: 0.125em;
   }
 }
 

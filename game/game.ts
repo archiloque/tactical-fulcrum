@@ -2,7 +2,6 @@ import "../assets/css/reset.css"
 import "../common/common.css"
 import "./game.css"
 
-import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
 import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 

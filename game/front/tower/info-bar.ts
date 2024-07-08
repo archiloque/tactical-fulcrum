@@ -15,6 +15,9 @@ import { PlayerAttribute } from "../../models/attribute"
 import { ScreenTower } from "./screen-tower"
 import SlProgressBar from "@shoelace-style/shoelace/cdn/components/progress-bar/progress-bar.component"
 
+import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
+import "@shoelace-style/shoelace/dist/components/button/button.js"
+
 export const enum ValueChangeType {
   UP,
   DOWN,
@@ -243,17 +246,25 @@ export class InfoBar {
     if (levelUpContent === undefined) {
       return html`<div></div>`
     } else {
+      let content
       switch (levelUpContent.getType()) {
         case LevelUpContentType.KEY:
           const keyLevelUpContent = levelUpContent as KeyLevelUpContent
-          return html`<div>+${keyLevelUpContent.number}${SMALL_SPACE}${keyIcon(keyLevelUpContent.color)}</div>`
+          content = html`+${keyLevelUpContent.number}${SMALL_SPACE}${keyIcon(keyLevelUpContent.color)}`
+          break
         case LevelUpContentType.ATK:
-          return html`<div>+ ${(levelUpContent as AtkLevelUpContent).number}${SMALL_SPACE}ATK</div>`
+          content = html`+ ${(levelUpContent as AtkLevelUpContent).number}${SMALL_SPACE}ATK`
+          break
         case LevelUpContentType.DEF:
-          return html`<div>+ ${(levelUpContent as DefLevelUpContent).number}${SMALL_SPACE}DEF</div>`
+          content = html`+ ${(levelUpContent as DefLevelUpContent).number}${SMALL_SPACE}DEF`
+          break
         case LevelUpContentType.HP:
-          return html`<div>+ ${(levelUpContent as HpLevelUpContent).number}${SMALL_SPACE}HP</div>`
+          content = html`+ ${(levelUpContent as HpLevelUpContent).number}${SMALL_SPACE}HP`
+          break
+        default:
+          throw new Error(`Unknown level up type [${levelUpContent.getType()}] ${levelUpContent}`)
       }
+      return html`<sl-button variant="default">${content}</sl-button>`
     }
   }
 

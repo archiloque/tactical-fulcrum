@@ -253,13 +253,13 @@ export class InfoBar {
           content = html`+${keyLevelUpContent.number}${SMALL_SPACE}${keyIcon(keyLevelUpContent.color)}`
           break
         case LevelUpContentType.ATK:
-          content = html`+ ${(levelUpContent as AtkLevelUpContent).number}${SMALL_SPACE}ATK`
+          content = html`+${(levelUpContent as AtkLevelUpContent).number}${SMALL_SPACE}ATK`
           break
         case LevelUpContentType.DEF:
-          content = html`+ ${(levelUpContent as DefLevelUpContent).number}${SMALL_SPACE}DEF`
+          content = html`+${(levelUpContent as DefLevelUpContent).number}${SMALL_SPACE}DEF`
           break
         case LevelUpContentType.HP:
-          content = html`+ ${(levelUpContent as HpLevelUpContent).number}${SMALL_SPACE}HP`
+          content = html`+${(levelUpContent as HpLevelUpContent).number}${SMALL_SPACE}HP`
           break
         default:
           throw new Error(`Unknown level up type [${levelUpContent.getType()}] ${levelUpContent}`)

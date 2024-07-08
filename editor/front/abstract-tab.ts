@@ -1,5 +1,6 @@
 import { Hole, html } from "uhtml"
 import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
+import SlSelect from "@shoelace-style/shoelace/cdn/components/select/select.component"
 
 export abstract class AbstractTab {
   protected tag(text: string, className: string | null = null): Hole {
@@ -38,5 +39,11 @@ export abstract class AbstractTab {
     const currentTarget = event.currentTarget as SlInput
     const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index!)
     return [enemyIndex, currentTarget.value]
+  }
+
+  protected getInputValueFromList = (event: CustomEvent): [number, string] => {
+    const currentTarget = event.currentTarget as SlSelect
+    const elementIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index!)
+    return [elementIndex, currentTarget.value as string]
   }
 }

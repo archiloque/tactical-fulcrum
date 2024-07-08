@@ -227,74 +227,29 @@
   "items": {},
   "levels": [
     {
-      "atkAdd": 4,
-      "atkMul": 1,
-      "defAdd": 0,
-      "defMul": 0,
-      "hpAdd": 10,
-      "hpMul": 0,
-      "blueKey": 0,
-      "crimsonKey": 0,
-      "greenBlueKey": 0,
-      "platinumKey": 0,
-      "violetKey": 0,
-      "yellowKey": 0
+      "type": "ATK",
+      "add": 4,
+      "mul": 1
     },
     {
-      "atkAdd": 0,
-      "atkMul": 0,
-      "defAdd": 4,
-      "defMul": 2,
-      "hpAdd": 0,
-      "hpMul": 0,
-      "blueKey": 0,
-      "crimsonKey": 0,
-      "greenBlueKey": 0,
-      "platinumKey": 0,
-      "violetKey": 0,
-      "yellowKey": 0
+      "type": "DEF",
+      "add": 4,
+      "mul": 1
     },
     {
-      "atkAdd": 0,
-      "atkMul": 0,
-      "defAdd": 0,
-      "defMul": 0,
-      "hpAdd": 0,
-      "hpMul": 0,
-      "blueKey": 0,
-      "crimsonKey": 0,
-      "greenBlueKey": 0,
-      "platinumKey": 0,
-      "violetKey": 0,
-      "yellowKey": 3
+      "type": "Yellow key",
+      "add": 3,
+      "mul": 1
     },
     {
-      "atkAdd": 0,
-      "atkMul": 0,
-      "defAdd": 0,
-      "defMul": 0,
-      "hpAdd": 0,
-      "hpMul": 0,
-      "blueKey": 0,
-      "crimsonKey": 1,
-      "greenBlueKey": 0,
-      "platinumKey": 0,
-      "violetKey": 0,
-      "yellowKey": 0
+      "type": "Crimson key",
+      "add": 1,
+      "mul": 1
     },
     {
-      "atkAdd": 0,
-      "atkMul": 0,
-      "defAdd": 0,
-      "defMul": 0,
-      "hpAdd": 0,
-      "hpMul": 0,
-      "blueKey": 2,
-      "crimsonKey": 0,
-      "greenBlueKey": 0,
-      "platinumKey": 0,
-      "violetKey": 0,
-      "yellowKey": 0
+      "type": "Blue key",
+      "add": 2,
+      "mul": 1
     }
   ],
   "rooms": {

@@ -1,17 +1,7 @@
+import { LevelType } from "../data/level-type"
+
 export class Level {
-  atkAdd: number = 0
-  atkMul: number = 0
-
-  defAdd: number = 0
-  defMul: number = 0
-
-  hpAdd: number = 0
-  hpMul: number = 0
-
-  blueKey: number = 0
-  greenBlueKey: number = 0
-  crimsonKey: number = 0
-  platinumKey: number = 0
-  violetKey: number = 0
-  yellowKey: number = 0
+  type: LevelType | null
+  add: number = 0
+  mul: number = 0
 }

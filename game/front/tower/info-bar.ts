@@ -1,9 +1,16 @@
+import {
+  AtkLevelUpContent,
+  DefLevelUpContent,
+  HpLevelUpContent,
+  KeyLevelUpContent,
+  LevelUpContent,
+  LevelUpContentType,
+} from "../../models/play/level-up-content"
 import { Color, COLORS } from "../../../common/data/color"
 import { Hole, html, render } from "uhtml"
-import { LevelUpContent, LevelUpContentType } from "../../models/play/level-up-content"
+import { keyIcon, NBSP, SMALL_SPACE } from "../../../common/front/functions"
 import { Game } from "../../game"
 import { getLevelIndex } from "../../models/play/levels"
-import { htmlUnsafe } from "../../../common/front/functions"
 import { PlayerAttribute } from "../../models/attribute"
 import { ScreenTower } from "./screen-tower"
 import SlProgressBar from "@shoelace-style/shoelace/cdn/components/progress-bar/progress-bar.component"
@@ -36,8 +43,6 @@ export class InfoBar {
     [ValueChangeType.UP]: "upChange",
   }
 
-  private static SMALL_SPACE = htmlUnsafe(`<span class='small'> </span>`)
-
   private readonly game: Game
   private infoHp: HTMLElement
   private infoHpMul: HTMLElement
@@ -52,23 +57,21 @@ export class InfoBar {
   private fieldsByPlayerAttribute: Record<PlayerAttribute, HTMLElement | undefined>
   private fieldsByColor: Record<Color, HTMLElement>
 
-  static NBSP = "\xa0"
-
   constructor(game: Game) {
     this.game = game
     this.game.eventManager.registerSchemeChange(() => this.schemeChanged())
   }
 
   pad(value: number): string {
-    return value.toString().padStart(7, InfoBar.NBSP)
+    return value.toString().padStart(7, NBSP)
   }
 
   padKey(value: number): string {
-    return value.toString().padStart(2, InfoBar.NBSP)
+    return value.toString().padStart(2, NBSP)
   }
 
   renderField(id: string, description: string, value: number | string): Hole {
-    return html` <div><span id="${id}">${value}</span>${InfoBar.SMALL_SPACE}${description}</div>`
+    return html` <div><span id="${id}">${value}</span>${SMALL_SPACE}${description}</div>`
   }
 
   renderBlock(fields: Hole[]): Hole {
@@ -105,7 +108,7 @@ export class InfoBar {
     const playerInfo = this.game.playerTower!.playerInfo
 
     const hp = this.renderBlock([
-      this.renderField(InfoBar.HP_ID, `HP${InfoBar.NBSP}`, this.pad(playerInfo.hp)),
+      this.renderField(InfoBar.HP_ID, `HP${NBSP}`, this.pad(playerInfo.hp)),
       this.renderField(InfoBar.HP_MUL_ID, "%", playerInfo.hpMul),
     ])
     const atk = this.renderBlock([this.renderField(InfoBar.ATK_ID, "ATK", this.pad(playerInfo.atk))])
@@ -128,14 +131,12 @@ export class InfoBar {
       <sl-progress-bar id="${InfoBar.EXP_PROGRESS_ID}" value="${expInfo.percentage}"></sl-progress-bar>
     </div>`
 
-    const levelUp = html`<div id="screenTowerInfoLevelUp"></div>`
+    const levelUp = html`<div id="${InfoBar.LEVEL_UP_ID}"></div>`
 
     const keysContent = COLORS.map((color: Color) => {
       const divId = this.colorFieldId(color)
-      const iconName = `key${color}`
       return html` <div>
-        <span id="${divId}">${this.padKey(playerInfo.keys[color])}</span>${InfoBar.SMALL_SPACE}
-        <sl-icon library="tf" name="${iconName}"></sl-icon>
+        <span id="${divId}">${this.padKey(playerInfo.keys[color])}</span>${SMALL_SPACE} ${keyIcon(color)}
       </div>`
     })
     const keys = html`<div id="screenTowerInfoKeys">${keysContent}</div>`
@@ -149,7 +150,7 @@ export class InfoBar {
     this.infoExpMul = document.getElementById(InfoBar.EXP_MUL_ID)!
     this.infoExpNextLevel = document.getElementById(InfoBar.EXP_NEXT_LEVEL_ID)!
     this.infoExpProgress = document.getElementById(InfoBar.EXP_PROGRESS_ID)! as SlProgressBar
-    this.levelUp = document.getElementById(InfoBar.EXP_NEXT_LEVEL_ID)!
+    this.levelUp = document.getElementById(InfoBar.LEVEL_UP_ID)!
 
     this.fieldsByPlayerAttribute = {
       [PlayerAttribute.LEVEL]: undefined,
@@ -224,16 +225,14 @@ export class InfoBar {
       }
       render(
         this.levelUp,
-        html`<div>
+        html`
           ${this.renderLevelUpContent(levelsUpContents[0])}${this.renderLevelUpContent(
             levelsUpContents[1],
           )}${this.renderLevelUpContent(levelsUpContents[2])}
-          <div>
-            ${this.renderLevelUpContent(levelsUpContents[3])}${this.renderLevelUpContent(
-              levelsUpContents[4],
-            )}${this.renderLevelUpContent(levelsUpContents[5])}
-          </div>
-        </div>`,
+          ${this.renderLevelUpContent(levelsUpContents[3])}${this.renderLevelUpContent(
+            levelsUpContents[4],
+          )}${this.renderLevelUpContent(levelsUpContents[5])}
+        `,
       )
     } else {
       render(this.levelUp, html``)
@@ -242,17 +241,18 @@ export class InfoBar {
 
   private renderLevelUpContent(levelUpContent: LevelUpContent | undefined): Hole {
     if (levelUpContent === undefined) {
-      return html``
+      return html`<div></div>`
     } else {
       switch (levelUpContent.getType()) {
         case LevelUpContentType.KEY:
-          return html``
+          const keyLevelUpContent = levelUpContent as KeyLevelUpContent
+          return html`<div>+${keyLevelUpContent.number}${SMALL_SPACE}${keyIcon(keyLevelUpContent.color)}</div>`
         case LevelUpContentType.ATK:
-          return html``
+          return html`<div>+ ${(levelUpContent as AtkLevelUpContent).number}${SMALL_SPACE}ATK</div>`
         case LevelUpContentType.DEF:
-          return html``
+          return html`<div>+ ${(levelUpContent as DefLevelUpContent).number}${SMALL_SPACE}DEF</div>`
         case LevelUpContentType.HP:
-          return html``
+          return html`<div>+ ${(levelUpContent as HpLevelUpContent).number}${SMALL_SPACE}HP</div>`
       }
     }
   }

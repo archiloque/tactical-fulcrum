@@ -20,6 +20,7 @@ import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
 import { ItemName } from "../../../common/data/item-name"
 import { Keys } from "../../../common/front/keys"
+import { SMALL_SPACES_STRING } from "../../../common/front/functions"
 import { SpritesToItem } from "../../../common/front/map/sprites-to-item"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
@@ -51,25 +52,25 @@ export class GameMap extends AbstractMap {
 
   private static readonly ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION: Record<ItemAttribute, (value: number) => string> = {
     [ItemAttribute.ATK]: (value: number): string => {
-      return `+ ${value} ATK`
+      return `+${value}${SMALL_SPACES_STRING}ATK`
     },
     [ItemAttribute.DEF]: (value: number): string => {
-      return `+ ${value} DEF`
+      return `+${value}${SMALL_SPACES_STRING}DEF`
     },
     [ItemAttribute.HP]: (value: number): string => {
-      return `+ ${value} HP`
+      return `+${value}${SMALL_SPACES_STRING}HP`
     },
     [ItemAttribute.HP_MUL_ADD]: (value: number): string => {
-      return `+ ${value} HP multiplier`
+      return `+${value}${SMALL_SPACES_STRING}HP multiplier`
     },
     [ItemAttribute.HP_MUL_MUL]: (value: number): string => {
-      return `* ${value} HP multiplier `
+      return `*${value}${SMALL_SPACES_STRING}HP multiplier `
     },
     [ItemAttribute.EXP_MUL_ADD]: (value: number): string => {
-      return `+ ${value} EXP multiplier`
+      return `+${value}${SMALL_SPACES_STRING}EXP multiplier`
     },
     [ItemAttribute.EXP_MUL_MUL]: (value: number): string => {
-      return `* ${value} EXP multiplier `
+      return `*${value}${SMALL_SPACES_STRING}EXP multiplier `
     },
   }
 

@@ -7,7 +7,6 @@ import { Editor } from "../../editor"
 import { Enemy } from "../../../common/models/enemy"
 import { ItemName } from "../../../common/data/item-name"
 import SlDialog from "@shoelace-style/shoelace/cdn/components/dialog/dialog.component"
-import SlSelect from "@shoelace-style/shoelace/cdn/components/select/select.component"
 import SlTabPanel from "@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.component"
 import { Tab } from "../tab"
 
@@ -167,11 +166,5 @@ export class TabEnemies extends AbstractTab {
     console.debug("TabEnemies", "dropChange", enemyIndex, drop)
     this.editor.tower.enemies[enemyIndex].drop = drop
     this.editor.tower.saveEnemies()
-  }
-
-  private getInputValueFromList = (event: CustomEvent): [number, string] => {
-    const currentTarget = event.currentTarget as SlSelect
-    const enemyIndex = parseInt((currentTarget.parentElement as HTMLElement).dataset.index!)
-    return [enemyIndex, currentTarget.value as string]
   }
 }

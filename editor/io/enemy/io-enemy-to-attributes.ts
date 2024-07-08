@@ -4,7 +4,7 @@ import { IoEnemy } from "../../../common/io/enemy/io-enemy"
 export class IoEnemyToAttributes {
   static toAttributes(enemy: Enemy): Record<string, string | number | null> {
     return {
-      [IoEnemy.ATTRIBUTE_TYPE]: enemy.type ? enemy.type.valueOf() : null,
+      [IoEnemy.ATTRIBUTE_TYPE]: enemy.type ? enemy.type : null,
       [IoEnemy.ATTRIBUTE_LEVEL]: enemy.level,
       [IoEnemy.ATTRIBUTE_NAME]: enemy.name,
       [IoEnemy.ATTRIBUTE_HP]: enemy.hp,

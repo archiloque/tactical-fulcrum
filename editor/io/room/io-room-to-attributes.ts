@@ -24,7 +24,7 @@ export class IoRoomToAttributes {
     return {
       [IoRoom.ATTRIBUTE_LINE]: score.line,
       [IoRoom.ATTRIBUTE_COLUMN]: score.column,
-      [IoRoom.ATTRIBUTE_TYPE]: score.type.valueOf(),
+      [IoRoom.ATTRIBUTE_TYPE]: score.type,
     }
   }
 
@@ -34,7 +34,7 @@ export class IoRoomToAttributes {
         const door = tile as DoorTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.door,
-          [IoRoom.ATTRIBUTE_COLOR]: door.color.valueOf(),
+          [IoRoom.ATTRIBUTE_COLOR]: door.color,
         }
       case TileType.empty:
         return {
@@ -51,19 +51,19 @@ export class IoRoomToAttributes {
         const item = tile as ItemTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.item,
-          [IoRoom.ATTRIBUTE_NAME]: item.item.valueOf(),
+          [IoRoom.ATTRIBUTE_NAME]: item.item,
         }
       case TileType.key:
         const key = tile as KeyTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.key,
-          [IoRoom.ATTRIBUTE_COLOR]: key.color.valueOf(),
+          [IoRoom.ATTRIBUTE_COLOR]: key.color,
         }
       case TileType.staircase:
         const staircase = tile as StaircaseTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.staircase,
-          [IoRoom.ATTRIBUTE_DIRECTION]: staircase.direction.valueOf(),
+          [IoRoom.ATTRIBUTE_DIRECTION]: staircase.direction,
         }
       case TileType.startingPosition:
         return {

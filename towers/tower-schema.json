@@ -168,66 +168,23 @@
       "Level": {
         "type": "object",
         "properties": {
-          "atkAdd": {
+          "type": {
+            "$ref": "#/definitions/enums/LevelType"
+          },
+          "add": {
             "type": "number",
             "minimum": 0
           },
-          "atkMul": {
+          "mul": {
             "type": "number",
-            "minimum": 0
-          },
-          "defAdd": {
-            "type": "number",
-            "minimum": 0
-          },
-          "defMul": {
-            "type": "number",
-            "minimum": 0
-          },
-          "hpAdd": {
-            "type": "number",
-            "minimum": 0
-          },
-          "hpMul": {
-            "type": "number",
-            "minimum": 0
-          },
-          "blueKey": {
-            "type": "number",
-            "minimum": 0
-          },
-          "crimsonKey": {
-            "type": "number",
-            "minimum": 0
-          },
-          "greenBlueKey": {
-            "type": "number",
-            "minimum": 0
-          },
-          "platinumKey": {
-            "type": "number",
-            "minimum": 0
-          },
-          "violetKey": {
-            "type": "number",
-            "minimum": 0
-          },
-          "yellowKey": {
-            "type": "number",
-            "minimum": 0
+            "minimum": 1
           }
         },
         "additionalProperties": false,
         "required": [
-          "atkAdd",
-          "atkMul",
-          "defAdd",
-          "defMul",
-          "hpAdd",
-          "hpMul",
-          "blueKey",
-          "crimsonKey",
-          "yellowKey"
+          "type",
+          "add",
+          "mul"
         ]
       },
       "Rooms": {
@@ -336,6 +293,20 @@
           "Ranger",
           "Shadow",
           "Slasher"
+        ]
+      },
+      "LevelType": {
+        "type": "string",
+        "enum": [
+          "ATK",
+          "DEF",
+          "HP",
+          "Blue key",
+          "Green blue key",
+          "Crimson key",
+          "Platinum key",
+          "Violet key",
+          "Yellow key"
         ]
       },
       "ScoreType": {

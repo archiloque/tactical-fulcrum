@@ -297,18 +297,9 @@
   "items": {},
   "levels": [
     {
-      "atkAdd": 0,
-      "atkMul": 0,
-      "defAdd": 0,
-      "defMul": 0,
-      "hpAdd": 10,
-      "hpMul": 0,
-      "blueKey": 0,
-      "crimsonKey": 0,
-      "greenBlueKey": 0,
-      "platinumKey": 0,
-      "violetKey": 0,
-      "yellowKey": 0
+      "type": "HP",
+      "add": 10,
+      "mul": 1
     }
   ],
   "rooms": {

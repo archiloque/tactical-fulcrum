@@ -14,6 +14,7 @@ import {
 } from "../../common/models/tile"
 import { fight, getDropTile } from "./play/enemy"
 import { findStaircasePosition, findStartingPosition } from "./play/locations"
+import { getLevelUpContent, LevelUpContent } from "./play/level-up-content"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
 import { Enemy } from "../../common/models/enemy"
@@ -181,6 +182,12 @@ export class PlayedTower {
       case TileType.wall:
         throw new Error("Should not happen")
     }
+  }
+
+  levelsUpContents(): LevelUpContent[] {
+    return this.tower.levels.map((level) => {
+      return getLevelUpContent(this.playerInfo, level)
+    })
   }
 
   private applyItem(appliedItem: AppliedItem): void {

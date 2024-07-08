@@ -9,6 +9,9 @@ export class Level {
   hpMul: number = 0
 
   blueKey: number = 0
+  greenBlueKey: number = 0
   crimsonKey: number = 0
+  platinumKey: number = 0
+  violetKey: number = 0
   yellowKey: number = 0
 }

@@ -200,6 +200,18 @@
             "type": "number",
             "minimum": 0
           },
+          "greenBlueKey": {
+            "type": "number",
+            "minimum": 0
+          },
+          "platinumKey": {
+            "type": "number",
+            "minimum": 0
+          },
+          "violetKey": {
+            "type": "number",
+            "minimum": 0
+          },
           "yellowKey": {
             "type": "number",
             "minimum": 0

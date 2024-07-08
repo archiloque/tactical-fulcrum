@@ -12,6 +12,9 @@ export class IoLevelToAttributes {
       [IoLevel.ATTRIBUTE_HP_MUL]: level.hpMul,
       [IoLevel.ATTRIBUTE_BLUE_KEY]: level.blueKey,
       [IoLevel.ATTRIBUTE_CRIMSON_KEY]: level.crimsonKey,
+      [IoLevel.ATTRIBUTE_GREEN_BLUE_KEY]: level.greenBlueKey,
+      [IoLevel.ATTRIBUTE_PLATINUM_KEY]: level.platinumKey,
+      [IoLevel.ATTRIBUTE_VIOLET_KEY]: level.violetKey,
       [IoLevel.ATTRIBUTE_YELLOW_KEY]: level.yellowKey,
     }
   }

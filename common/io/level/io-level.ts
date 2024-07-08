@@ -10,19 +10,10 @@ export class IoLevel {
   static readonly ATTRIBUTE_HP_MUL = "hpMul"
   static readonly ATTRIBUTE_BLUE_KEY = "blueKey"
   static readonly ATTRIBUTE_CRIMSON_KEY = "crimsonKey"
+  static readonly ATTRIBUTE_GREEN_BLUE_KEY = "greenBlueKey"
+  static readonly ATTRIBUTE_PLATINUM_KEY = "platinumKey"
+  static readonly ATTRIBUTE_VIOLET_KEY = "violetKey"
   static readonly ATTRIBUTE_YELLOW_KEY = "yellowKey"
-
-  static readonly ATTRIBUTES: string[] = [
-    IoLevel.ATTRIBUTE_ATK_ADD,
-    IoLevel.ATTRIBUTE_ATK_MUL,
-    IoLevel.ATTRIBUTE_DEF_ADD,
-    IoLevel.ATTRIBUTE_DEF_MUL,
-    IoLevel.ATTRIBUTE_HP_ADD,
-    IoLevel.ATTRIBUTE_HP_MUL,
-    IoLevel.ATTRIBUTE_BLUE_KEY,
-    IoLevel.ATTRIBUTE_CRIMSON_KEY,
-    IoLevel.ATTRIBUTE_YELLOW_KEY,
-  ]
 
   static validateLevelImport(enemy: Record<string, number | null>, index: number, errors: string[]): void {
     const atkAdd = enemy[IoLevel.ATTRIBUTE_ATK_ADD]
@@ -41,7 +32,13 @@ export class IoLevel {
     IO.checkNumber(blueKey, `Level ${index} blue keys [${blueKey}] is invalid`, true, false, errors)
     const crimsonKey = enemy[IoLevel.ATTRIBUTE_CRIMSON_KEY]
     IO.checkNumber(crimsonKey, `Level ${index} crimson keys [${crimsonKey}] is invalid`, true, false, errors)
-    const yellowKey = enemy[IoLevel.ATTRIBUTE_BLUE_KEY]
+    const greenBlueKey = enemy[IoLevel.ATTRIBUTE_GREEN_BLUE_KEY]
+    IO.checkNumber(greenBlueKey, `Level ${index} green blue keys [${greenBlueKey}] is invalid`, true, false, errors)
+    const platinumKey = enemy[IoLevel.ATTRIBUTE_PLATINUM_KEY]
+    IO.checkNumber(platinumKey, `Level ${index} platinum keys [${platinumKey}] is invalid`, true, false, errors)
+    const violetKey = enemy[IoLevel.ATTRIBUTE_VIOLET_KEY]
+    IO.checkNumber(violetKey, `Level ${index} violet keys [${violetKey}] is invalid`, true, false, errors)
+    const yellowKey = enemy[IoLevel.ATTRIBUTE_YELLOW_KEY]
     IO.checkNumber(yellowKey, `Level ${index} yellow keys [${yellowKey}] is invalid`, true, false, errors)
   }
 
@@ -60,6 +57,21 @@ export class IoLevel {
       false,
       errors,
     )
+    IO.checkNumber(
+      level.greenBlueKey,
+      `Level ${index} green blue keys [${level.greenBlueKey}] is invalid`,
+      true,
+      false,
+      errors,
+    )
+    IO.checkNumber(
+      level.platinumKey,
+      `Level ${index} platinum keys [${level.platinumKey}] is invalid`,
+      true,
+      false,
+      errors,
+    )
+    IO.checkNumber(level.violetKey, `Level ${index} violet keys [${level.violetKey}] is invalid`, true, false, errors)
     IO.checkNumber(level.yellowKey, `Level ${index} yellow keys [${level.yellowKey}] is invalid`, true, false, errors)
   }
 }

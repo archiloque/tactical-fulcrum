@@ -27,6 +27,9 @@ export class TabLevels extends AbstractTab {
       ${this.numberInput(level.hpMul, this.hpMulChange, 0, "HP mul")}
       ${this.numberInput(level.blueKey, this.blueKeyChange, 0, "Blue keys")}
       ${this.numberInput(level.crimsonKey, this.crimsonKeyChange, 0, "Crimson keys")}
+      ${this.numberInput(level.greenBlueKey, this.greenBlueKeyChange, 0, "Green Blue keys")}
+      ${this.numberInput(level.platinumKey, this.platinumKeyChange, 0, "Platinum keys")}
+      ${this.numberInput(level.violetKey, this.violetKeyChange, 0, "Violet keys")}
       ${this.numberInput(level.yellowKey, this.yellowKeyChange, 0, "Yellow keys")}
       <sl-button onclick="${this.deleteLevel}" variant="danger" class="delete">
         <sl-icon name="${DefaultIconsName.TRASH}"></sl-icon>
@@ -42,7 +45,8 @@ export class TabLevels extends AbstractTab {
         <div class="elementLine validity-styles">
           ${this.tag("Atk add")} ${this.tag("Atk mul")} ${this.tag("Def add")} ${this.tag("Def mul")}
           ${this.tag("Hp add")} ${this.tag("Hp mul")} ${this.tag("Blue key")} ${this.tag("Crimson key")}
-          ${this.tag("Yellow key")} ${this.tag("Delete", "delete")}
+          ${this.tag("Green blue key")}${this.tag("Platinum key")}${this.tag("Violet key")} ${this.tag("Yellow key")}
+          ${this.tag("Delete", "delete")}
         </div>
         ${this.editor.tower.levels.map((level: Level, levelIndex: number) => this.renderLevel(level, levelIndex))}
         <div class="addButtonDiv">
@@ -98,8 +102,20 @@ export class TabLevels extends AbstractTab {
     this.intValueChanged(event, "blueKey")
   }
 
+  private greenBlueKeyChange = (event: CustomEvent): void => {
+    this.intValueChanged(event, "greenBlueKey")
+  }
+
   private crimsonKeyChange = (event: CustomEvent): void => {
     this.intValueChanged(event, "crimsonKey")
+  }
+
+  private platinumKeyChange = (event: CustomEvent): void => {
+    this.intValueChanged(event, "platinumKey")
+  }
+
+  private violetKeyChange = (event: CustomEvent): void => {
+    this.intValueChanged(event, "violetKey")
   }
 
   private yellowKeyChange = (event: CustomEvent): void => {

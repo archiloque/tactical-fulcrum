@@ -25,13 +25,14 @@
   font-size: 24px;
   border-left: 2px solid var(--sl-color-neutral-950);
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 2px;
   background-color: var(--sl-color-neutral-950);
 }
 
 #screenTowerInfoKeys,
 #screenTowerInfoExp,
+#screenTowerInfoLevelUp,
 .screenTowerInfoBlock {
   background-color: var(--sl-color-neutral-50);
   .upChange {

@@ -1,5 +1,6 @@
 import { Color, COLORS } from "../../../common/data/color"
 import { Hole, html, render } from "uhtml"
+import { LevelUpContent, LevelUpContentType } from "../../models/play/level-up-content"
 import { Game } from "../../game"
 import { getLevelIndex } from "../../models/play/levels"
 import { htmlUnsafe } from "../../../common/front/functions"
@@ -27,6 +28,7 @@ export class InfoBar {
   private static readonly EXP_NEXT_LEVEL_ID = "screenTowerInfoExpNextLevelField"
   private static readonly EXP_PROGRESS_ID = "screenTowerInfoExpProgress"
   private static readonly EXP_MUL_ID = "screenTowerInfoExpMul"
+  private static readonly LEVEL_UP_ID = "screenTowerInfoLevelUp"
   private static readonly KEY_ID = "screenTowerInfoKeyField"
 
   private static readonly VALUE_CHANGE_TO_CLASS: Record<ValueChangeType, string> = {
@@ -45,6 +47,7 @@ export class InfoBar {
   private infoExpMul: HTMLElement
   private infoExpProgress: SlProgressBar
   private infoExpNextLevel: HTMLElement
+  private levelUp: HTMLElement
 
   private fieldsByPlayerAttribute: Record<PlayerAttribute, HTMLElement | undefined>
   private fieldsByColor: Record<Color, HTMLElement>
@@ -125,6 +128,8 @@ export class InfoBar {
       <sl-progress-bar id="${InfoBar.EXP_PROGRESS_ID}" value="${expInfo.percentage}"></sl-progress-bar>
     </div>`
 
+    const levelUp = html`<div id="screenTowerInfoLevelUp"></div>`
+
     const keysContent = COLORS.map((color: Color) => {
       const divId = this.colorFieldId(color)
       const iconName = `key${color}`
@@ -135,7 +140,7 @@ export class InfoBar {
     })
     const keys = html`<div id="screenTowerInfoKeys">${keysContent}</div>`
 
-    render(document.getElementById(ScreenTower.INFO_BAR_ID), html`${hp} ${atk} ${def} ${exp} ${keys}`)
+    render(document.getElementById(ScreenTower.INFO_BAR_ID), html`${hp} ${atk} ${def} ${exp} ${levelUp} ${keys}`)
     this.infoHp = document.getElementById(InfoBar.HP_ID)!
     this.infoHpMul = document.getElementById(InfoBar.HP_MUL_ID)!
     this.infoAtk = document.getElementById(InfoBar.ATK_ID)!
@@ -144,6 +149,8 @@ export class InfoBar {
     this.infoExpMul = document.getElementById(InfoBar.EXP_MUL_ID)!
     this.infoExpNextLevel = document.getElementById(InfoBar.EXP_NEXT_LEVEL_ID)!
     this.infoExpProgress = document.getElementById(InfoBar.EXP_PROGRESS_ID)! as SlProgressBar
+    this.levelUp = document.getElementById(InfoBar.EXP_NEXT_LEVEL_ID)!
+
     this.fieldsByPlayerAttribute = {
       [PlayerAttribute.LEVEL]: undefined,
       [PlayerAttribute.HP]: this.infoHp,
@@ -201,12 +208,51 @@ export class InfoBar {
     if (field !== undefined) {
       field.innerText = this.pad(value)
       if (attribute === PlayerAttribute.EXP) {
-        const expInfo = this.getExpInfo()
-        this.infoExpNextLevel.innerText = this.pad(expInfo.nextLevelDelta)
-        this.infoExpProgress.value = expInfo.percentage
-        if (expInfo.levelsUpAvailable === 0) {
-        } else {
-        }
+        this.updateExp()
+      }
+    }
+  }
+
+  private updateExp(): void {
+    const expInfo = this.getExpInfo()
+    this.infoExpNextLevel.innerText = this.pad(expInfo.nextLevelDelta)
+    this.infoExpProgress.value = expInfo.percentage
+    if (expInfo.levelsUpAvailable !== 0) {
+      const levelsUpContents: (LevelUpContent | undefined)[] = this.game.playerTower!.levelsUpContents()
+      while (levelsUpContents.length < 6) {
+        levelsUpContents.push(undefined)
+      }
+      render(
+        this.levelUp,
+        html`<div>
+          ${this.renderLevelUpContent(levelsUpContents[0])}${this.renderLevelUpContent(
+            levelsUpContents[1],
+          )}${this.renderLevelUpContent(levelsUpContents[2])}
+          <div>
+            ${this.renderLevelUpContent(levelsUpContents[3])}${this.renderLevelUpContent(
+              levelsUpContents[4],
+            )}${this.renderLevelUpContent(levelsUpContents[5])}
+          </div>
+        </div>`,
+      )
+    } else {
+      render(this.levelUp, html``)
+    }
+  }
+
+  private renderLevelUpContent(levelUpContent: LevelUpContent | undefined): Hole {
+    if (levelUpContent === undefined) {
+      return html``
+    } else {
+      switch (levelUpContent.getType()) {
+        case LevelUpContentType.KEY:
+          return html``
+        case LevelUpContentType.ATK:
+          return html``
+        case LevelUpContentType.DEF:
+          return html``
+        case LevelUpContentType.HP:
+          return html``
       }
     }
   }

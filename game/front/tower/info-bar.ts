@@ -1,3 +1,6 @@
+import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
+import "@shoelace-style/shoelace/dist/components/button/button.js"
+
 import {
   AtkLevelUpContent,
   DefLevelUpContent,
@@ -14,9 +17,6 @@ import { getLevelIndex } from "../../models/play/levels"
 import { PlayerAttribute } from "../../models/attribute"
 import { ScreenTower } from "./screen-tower"
 import SlProgressBar from "@shoelace-style/shoelace/cdn/components/progress-bar/progress-bar.component"
-
-import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
-import "@shoelace-style/shoelace/dist/components/button/button.js"
 
 export const enum ValueChangeType {
   UP,

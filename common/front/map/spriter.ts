@@ -1,5 +1,6 @@
 import { Assets, Sprite } from "pixi.js"
 import { SpriteName, SPRITES } from "./sprites"
+import { getCurrentColorScheme } from "../color-scheme"
 
 export class Spriter {
   private tileSize: number
@@ -43,6 +44,6 @@ export class Spriter {
   }
 
   private assetName(spriteName: SpriteName): string {
-    return `${this.name}_${spriteName}_${this.tileSize}`
+    return `${this.name}_${spriteName}_${this.tileSize}_${getCurrentColorScheme()}`
   }
 }

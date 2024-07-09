@@ -93,6 +93,7 @@ export class GameMap extends AbstractMap {
   }
 
   repaint(): void {
+    console.debug("GameMap", "repaint")
     if (this.currentAction) {
       this.currentAction = null
       if (this.tickerFunction !== null) {

@@ -172,6 +172,7 @@ export class InfoBar {
       [Color.violet]: document.getElementById(this.colorFieldId(Color.violet))!,
       [Color.yellow]: document.getElementById(this.colorFieldId(Color.yellow))!,
     }
+    this.updateExp()
   }
 
   private colorFieldId(color: Color): string {
@@ -264,7 +265,7 @@ export class InfoBar {
         default:
           throw new Error(`Unknown level up type [${levelUpContent.getType()}] ${levelUpContent}`)
       }
-      return html`<sl-button variant="default">${content}</sl-button>`
+      return html`<sl-button size="large" variant="default">${content}</sl-button>`
     }
   }
 

@@ -100,8 +100,7 @@ export abstract class AbstractMap {
   }
 
   protected schemeChanged(): void {
-    // @ts-ignore
-    this.app.setBackgroundColor(getBackgroundColor())
+    this.app.renderer.background.color = getBackgroundColor()
     this.cursor.clear()
     this.setupCursor()
     this.spriter.reload(this.tileSize).then(() => {

@@ -1,5 +1,13 @@
 import { Action, KillEnemy, Move, OpenDoor, PickItem, PickKey, RoomChange } from "./play/action"
 import { APPLIED_ITEM_ATTRIBUTES, AppliedItem, ItemToolTipAttributes } from "./attribute"
+import {
+  AtkLevelUpContent,
+  DefLevelUpContent,
+  getLevelUpContent,
+  KeyLevelUpContent,
+  LevelUpContent,
+  LevelUpContentType,
+} from "./play/level-up-content"
 import { createPlayerInfo, PlayerInfo } from "./player-info"
 import { Delta2D, Position3D } from "./tuples"
 import {
@@ -14,10 +22,10 @@ import {
 } from "../../common/models/tile"
 import { fight, getDropTile } from "./play/enemy"
 import { findStaircasePosition, findStartingPosition } from "./play/locations"
-import { getLevelUpContent, LevelUpContent } from "./play/level-up-content"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
 import { Enemy } from "../../common/models/enemy"
+import { getLevelIndex } from "./play/levels"
 import { ItemName } from "../../common/data/item-name"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
@@ -27,6 +35,12 @@ export type EnemyToolTipAttributes = {
   enemy: Enemy
   hpLost: number | null
   expWin: number
+}
+
+type ExpInfo = {
+  levelsUpAvailable: number
+  nextLevelDelta: number
+  percentage: number
 }
 
 export class PlayedTower {
@@ -69,7 +83,7 @@ export class PlayedTower {
       def: item.def === 0 ? undefined : item.def,
       expMulAdd: item.expMulAdd === 0 ? undefined : item.expMulAdd,
       expMulMul: item.expMulMul === 1 ? undefined : item.expMulMul,
-      hp: item.hp === 0 ? undefined : (item.hp * this.playerInfo.hpMul) / 100,
+      hp: item.hp === 0 ? undefined : Math.ceil((item.hp * this.playerInfo.hpMul) / 100),
       hpMulAdd: item.hpMulAdd === 0 ? undefined : item.hpMulAdd,
       hpMulMul: item.hpMulMul === 1 ? undefined : item.hpMulMul,
     }
@@ -81,6 +95,40 @@ export class PlayedTower {
       expWin: enemy.exp! * this.playerInfo.expMul,
       hpLost: fight(enemy, this.playerInfo),
     }
+  }
+
+  public getExpInfo(): ExpInfo {
+    const currentLevel = getLevelIndex(this.playerInfo.level)
+    const nextLevel = getLevelIndex(this.playerInfo.level + 1)
+    const currentExp = this.playerInfo.exp
+
+    let levelsUpAvailable = 0
+    let currentNextLevel = nextLevel
+    let remainingExp = currentExp - currentLevel.exp
+
+    while (currentExp > currentNextLevel.exp) {
+      levelsUpAvailable++
+      remainingExp -= currentNextLevel.deltaExp
+      currentNextLevel = getLevelIndex(currentNextLevel.level + 1)
+    }
+    return {
+      nextLevelDelta: nextLevel.deltaExp,
+      levelsUpAvailable: levelsUpAvailable,
+      percentage: (remainingExp / currentNextLevel.deltaExp) * 100,
+    }
+  }
+
+  public levelUp(levelUpIndex: number): LevelUpContent {
+    if (this.getExpInfo().levelsUpAvailable === 0) {
+      throw new Error("No level up possible")
+    }
+    const levelUpContents = this.levelsUpContents()
+    if (levelUpContents.length < levelUpIndex) {
+      throw new Error("No level up found")
+    }
+    const levelUpContent = levelUpContents[levelUpIndex]
+    this.applyLevelUp(levelUpContent)
+    return levelUpContent
   }
 
   public appliedItem(itemName: ItemName): AppliedItem {
@@ -105,7 +153,7 @@ export class PlayedTower {
     } else {
       throw new Error(`Not implemented for ${itemName}`)
     }
-    const hp = item.hp === 0 ? undefined : (item.hp * this.playerInfo.hpMul) / 100
+    const hp = item.hp === 0 ? undefined : Math.ceil((item.hp * this.playerInfo.hpMul) / 100)
     return {
       expMul: expMul,
       hpMul: hpMul,
@@ -144,7 +192,7 @@ export class PlayedTower {
       case TileType.enemy:
         const enemy = (targetTile as EnemyTile).enemy
         const hpLost = fight(enemy, this.playerInfo)!
-        const expWin = (enemy.exp! * this.playerInfo.expMul) / 100
+        const expWin = Math.ceil((enemy.exp! * this.playerInfo.expMul) / 100)
         this.playerInfo.hp -= hpLost
         this.playerInfo.exp += expWin
         const dropTile = getDropTile(enemy)
@@ -199,6 +247,24 @@ export class PlayedTower {
       if (this.playerInfo.hp > this.playerInfo.maxHp) {
         this.playerInfo.maxHp = this.playerInfo.hp
       }
+    }
+  }
+
+  private applyLevelUp(levelUpContent: LevelUpContent): void {
+    switch (levelUpContent.getType()) {
+      case LevelUpContentType.KEY:
+        const keyLevelUpContent = levelUpContent as KeyLevelUpContent
+        this.playerInfo.keys[keyLevelUpContent.color] += keyLevelUpContent.number
+        break
+      case LevelUpContentType.ATK:
+        this.playerInfo.atk += (levelUpContent as AtkLevelUpContent).number
+        break
+      case LevelUpContentType.DEF:
+        this.playerInfo.def += (levelUpContent as DefLevelUpContent).number
+        break
+      case LevelUpContentType.HP:
+        this.playerInfo.def += Math.ceil(((levelUpContent as DefLevelUpContent).number * this.playerInfo.hpMul) / 100)
+        break
     }
   }
 }

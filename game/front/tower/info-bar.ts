@@ -1,6 +1,7 @@
 import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
 import "@shoelace-style/shoelace/dist/components/button/button.js"
 
+import { Application, Ticker } from "pixi.js"
 import {
   AtkLevelUpContent,
   DefLevelUpContent,
@@ -12,10 +13,11 @@ import {
 import { Color, COLORS } from "../../../common/data/color"
 import { Hole, html, render } from "uhtml"
 import { keyIcon, NBSP, SMALL_SPACE } from "../../../common/front/functions"
+import { AnimationSource } from "../game-event-manager"
 import { Game } from "../../game"
-import { getLevelIndex } from "../../models/play/levels"
 import { PlayerAttribute } from "../../models/attribute"
 import { ScreenTower } from "./screen-tower"
+import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
 import SlProgressBar from "@shoelace-style/shoelace/cdn/components/progress-bar/progress-bar.component"
 
 export const enum ValueChangeType {
@@ -23,13 +25,9 @@ export const enum ValueChangeType {
   DOWN,
 }
 
-type ExpInfo = {
-  levelsUpAvailable: number
-  nextLevelDelta: number
-  percentage: number
-}
-
 export class InfoBar {
+  private static readonly ACTION_TIME: number = 150
+
   private static readonly HP_ID = "screenTowerInfoHpField"
   private static readonly HP_MUL_ID = "screenTowerInfoHpMulField"
   private static readonly ATK_ID = "screenTowerInfoAtkField"
@@ -59,6 +57,9 @@ export class InfoBar {
 
   private fieldsByPlayerAttribute: Record<PlayerAttribute, HTMLElement | undefined>
   private fieldsByColor: Record<Color, HTMLElement>
+  private currentLevelUpContent: LevelUpContent | null
+  private tickerFunction: null | ((ticker: Ticker) => void)
+  app: Application
 
   constructor(game: Game) {
     this.game = game
@@ -85,27 +86,6 @@ export class InfoBar {
     return html` <div class="screenTowerInfoBlock">${fields}</div>`
   }
 
-  private getExpInfo(): ExpInfo {
-    const currentLevel = getLevelIndex(this.game.playerTower!.playerInfo.level)
-    const nextLevel = getLevelIndex(this.game.playerTower!.playerInfo.level + 1)
-    const currentExp = this.game.playerTower!.playerInfo.exp
-
-    let levelsUpAvailable = 0
-    let currentNextLevel = nextLevel
-    let remainingExp = currentExp - currentLevel.exp
-
-    while (currentExp > currentNextLevel.exp) {
-      levelsUpAvailable++
-      remainingExp -= currentNextLevel.deltaExp
-      currentNextLevel = getLevelIndex(currentNextLevel.level + 1)
-    }
-    return {
-      nextLevelDelta: nextLevel.deltaExp,
-      levelsUpAvailable: levelsUpAvailable,
-      percentage: (remainingExp / currentNextLevel.deltaExp) * 100,
-    }
-  }
-
   render(): void {
     console.debug("InfoBar", "render")
     const playerInfo = this.game.playerTower!.playerInfo
@@ -117,7 +97,7 @@ export class InfoBar {
     const atk = this.renderBlock([this.renderField(InfoBar.ATK_ID, "ATK", this.pad(playerInfo.atk))])
     const def = this.renderBlock([this.renderField(InfoBar.DEF_ID, "DEF", this.pad(playerInfo.def))])
 
-    const expInfo = this.getExpInfo()
+    const expInfo = this.game.playerTower!.getExpInfo()
 
     const exp = html` <div id="screenTowerInfoExp">
       <div id="screenTowerInfoExpFields">
@@ -172,7 +152,7 @@ export class InfoBar {
       [Color.violet]: document.getElementById(this.colorFieldId(Color.violet))!,
       [Color.yellow]: document.getElementById(this.colorFieldId(Color.yellow))!,
     }
-    this.updateExp()
+    this.updateExpAndLevelsUp()
   }
 
   private colorFieldId(color: Color): string {
@@ -212,14 +192,14 @@ export class InfoBar {
     const field = this.fieldsByPlayerAttribute[attribute]
     if (field !== undefined) {
       field.innerText = this.pad(value)
-      if (attribute === PlayerAttribute.EXP) {
-        this.updateExp()
+      if (attribute === PlayerAttribute.EXP || attribute === PlayerAttribute.HP_MUL) {
+        this.updateExpAndLevelsUp()
       }
     }
   }
 
-  private updateExp(): void {
-    const expInfo = this.getExpInfo()
+  private updateExpAndLevelsUp(): void {
+    const expInfo = this.game.playerTower!.getExpInfo()
     this.infoExpNextLevel.innerText = this.pad(expInfo.nextLevelDelta)
     this.infoExpProgress.value = expInfo.percentage
     if (expInfo.levelsUpAvailable !== 0) {
@@ -230,12 +210,14 @@ export class InfoBar {
       render(
         this.levelUp,
         html`
-          ${this.renderLevelUpContent(levelsUpContents[0])}${this.renderLevelUpContent(
+          ${this.renderLevelUpContent(levelsUpContents[0], 0)}${this.renderLevelUpContent(
             levelsUpContents[1],
-          )}${this.renderLevelUpContent(levelsUpContents[2])}
-          ${this.renderLevelUpContent(levelsUpContents[3])}${this.renderLevelUpContent(
+            1,
+          )}${this.renderLevelUpContent(levelsUpContents[2], 2)}
+          ${this.renderLevelUpContent(levelsUpContents[3], 3)}${this.renderLevelUpContent(
             levelsUpContents[4],
-          )}${this.renderLevelUpContent(levelsUpContents[5])}
+            4,
+          )}${this.renderLevelUpContent(levelsUpContents[5], 5)}
         `,
       )
     } else {
@@ -243,11 +225,11 @@ export class InfoBar {
     }
   }
 
-  private renderLevelUpContent(levelUpContent: LevelUpContent | undefined): Hole {
+  private renderLevelUpContent(levelUpContent: LevelUpContent | undefined, index: number): Hole {
     if (levelUpContent === undefined) {
       return html`<div></div>`
     } else {
-      let content
+      let content: Hole
       switch (levelUpContent.getType()) {
         case LevelUpContentType.KEY:
           const keyLevelUpContent = levelUpContent as KeyLevelUpContent
@@ -265,7 +247,86 @@ export class InfoBar {
         default:
           throw new Error(`Unknown level up type [${levelUpContent.getType()}] ${levelUpContent}`)
       }
-      return html`<sl-button size="large" variant="default">${content}</sl-button>`
+      return html`<sl-button size="large" variant="default" onclick="${this.clickLevelUp}" data-index="${index}"
+        >${content}</sl-button
+      >`
+    }
+  }
+
+  private clickLevelUp = (event: CustomEvent): void => {
+    const levelUpIndex = parseInt((event.currentTarget as SlButton).dataset.index!)
+    console.debug("InfoBar", "clickLevelUp", levelUpIndex)
+    const levelUpContent = this.game.playerTower!.levelUp(levelUpIndex)
+    this.currentLevelUpContent = levelUpContent
+    this.tickerFunction = this.triggerLevelUp(levelUpContent)
+    this.app.ticker.add(this.tickerFunction!)
+  }
+
+  private triggerLevelUp(levelUpContent: LevelUpContent): (ticker: Ticker) => void {
+    let attribute: PlayerAttribute | undefined = undefined
+    let valueFrom: number
+    let valueTo: number
+    let keyColor: Color | undefined = undefined
+    switch (levelUpContent.getType()) {
+      case LevelUpContentType.KEY:
+        keyColor = (levelUpContent as KeyLevelUpContent).color
+        valueTo = this.game.playerTower!.playerInfo.keys[keyColor]
+        valueFrom = valueTo - (levelUpContent as KeyLevelUpContent).number
+        this.startChangeKey(keyColor, ValueChangeType.UP)
+        break
+      case LevelUpContentType.ATK:
+        attribute = PlayerAttribute.ATK
+        valueTo = this.game.playerTower!.playerInfo.atk
+        valueFrom = valueTo - (levelUpContent as AtkLevelUpContent).number
+        break
+      case LevelUpContentType.DEF:
+        attribute = PlayerAttribute.DEF
+        valueTo = this.game.playerTower!.playerInfo.def
+        valueFrom = valueTo - (levelUpContent as DefLevelUpContent).number
+        break
+      case LevelUpContentType.HP:
+        attribute = PlayerAttribute.HP
+        valueTo = this.game.playerTower!.playerInfo.hp
+        valueFrom = valueTo - (levelUpContent as HpLevelUpContent).number
+        break
+      default:
+        throw new Error(`Unknown level type [${levelUpContent.getType()}]`)
+    }
+    if (attribute !== undefined) {
+      this.startChangeField(attribute, ValueChangeType.UP)
+    }
+    this.game.eventManager.notifyAnimationStart(AnimationSource.INFO_BAR)
+
+    let totalPercentMove: number = 0
+
+    return (ticker: Ticker): void => {
+      const percentMove: number = ticker.deltaMS / InfoBar.ACTION_TIME
+      totalPercentMove += percentMove
+
+      if (totalPercentMove >= 1) {
+        this.currentLevelUpContent = null
+        if (this.tickerFunction !== null) {
+          this.app.ticker.remove(this.tickerFunction)
+          this.tickerFunction = null
+        }
+
+        if (attribute != undefined) {
+          this.endChangeField(attribute, ValueChangeType.UP)
+          this.setFieldValue(attribute, valueTo)
+        }
+        if (keyColor != undefined) {
+          this.endChangeKey(keyColor, ValueChangeType.UP)
+          this.setKeyValue(keyColor, valueTo)
+        }
+      } else {
+        const value = Math.ceil(valueFrom + ((valueTo - valueFrom) * totalPercentMove) / 100)
+        if (attribute != undefined) {
+          this.setFieldValue(attribute, value)
+        }
+        if (keyColor !== undefined) {
+          this.setKeyValue(keyColor, value)
+        }
+      }
     }
   }
 

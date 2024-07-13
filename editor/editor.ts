@@ -17,9 +17,9 @@ import "@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js"
 import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
+import { EditorEventManager } from "./front/editor-event-manager"
 import { EditorTower } from "./models/editor-tower"
 import { EMPTY_TILE } from "../common/models/tile"
-import { EventManager } from "./front/event-manager"
 import { MainMenu } from "./front/main-menu"
 import { registerDefaultIcons } from "../common/front/icons/register-default"
 import { Tab } from "./front/tab"
@@ -40,7 +40,7 @@ registerDefaultIcons()
 
 export class Editor {
   readonly tower: EditorTower
-  readonly eventManager: EventManager
+  readonly eventManager: EditorEventManager
   private readonly tabEnemies: TabEnemies
   private readonly tabImportExport: TabImportExport
   private readonly tabItems: TabItems
@@ -53,7 +53,7 @@ export class Editor {
     console.debug("Editor starting")
     this.tower = new EditorTower()
     this.tower.load()
-    this.eventManager = new EventManager()
+    this.eventManager = new EditorEventManager()
     new MainMenu(this)
     this.tabMaps = new TabMaps(this)
     this.tabInfo = new TabInfo(this)

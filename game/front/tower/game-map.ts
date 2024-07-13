@@ -13,6 +13,7 @@ import {
 } from "../../../common/models/tile"
 import { InfoBar, ValueChangeType } from "./info-bar"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
+import { AnimationSource } from "../game-event-manager"
 import { capitalize } from "../../../common/models/utils"
 import { Delta2D } from "../../models/tuples"
 import { Enemy } from "../../../common/models/enemy"
@@ -30,7 +31,7 @@ type AttributeChangeInterval = {
 }
 
 export class GameMap extends AbstractMap {
-  private static readonly TILE_MOVE_TIME: number = 150
+  private static readonly ACTION_TIME: number = 150
 
   private static readonly TILE_GRAB_HIDE_BEGIN_PERCENT: number = 0.25
   private static readonly TILE_GRAB_HIDE_END_PERCENT: number = 0.75
@@ -83,6 +84,11 @@ export class GameMap extends AbstractMap {
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
       this.sprites[lineIndex] = new Array(TILES_IN_ROW).fill(null, 0, TILES_IN_ROW)
     }
+    this.game.eventManager.registerAnimationStart((animationSource: AnimationSource) => {
+      if (animationSource !== AnimationSource.GAME_MAP) {
+        this.cancelCurrentAnimation()
+      }
+    })
   }
 
   async init(): Promise<any> {
@@ -94,6 +100,11 @@ export class GameMap extends AbstractMap {
 
   repaint(): void {
     console.debug("GameMap", "repaint")
+    this.cancelCurrentAnimation()
+    this.redraw(1)
+  }
+
+  private cancelCurrentAnimation(): void {
     if (this.currentAction) {
       this.currentAction = null
       if (this.tickerFunction !== null) {
@@ -102,7 +113,6 @@ export class GameMap extends AbstractMap {
       }
       this.deltaBuffer.length = 0
     }
-    this.redraw(1)
   }
 
   private redraw(alpha: number): void {
@@ -324,7 +334,7 @@ export class GameMap extends AbstractMap {
     }
 
     return (ticker: Ticker): void => {
-      const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
+      const percentMove: number = ticker.deltaMS / GameMap.ACTION_TIME
       totalPercentMove += percentMove
 
       if (targetSprite !== null) {
@@ -381,7 +391,6 @@ export class GameMap extends AbstractMap {
       if (deltaColumn !== 0) {
         if (totalPercentMove >= 1) {
           this.playerSprite!.x = (move.player.column + deltaColumn) * this.tileSize
-          this.currentMoveEnded()
         } else {
           this.playerSprite!.x += percentMove * deltaColumn * this.tileSize
         }
@@ -389,10 +398,13 @@ export class GameMap extends AbstractMap {
       if (deltaLine !== 0) {
         if (totalPercentMove >= 1) {
           this.playerSprite!.y = (move.player.line + deltaLine) * this.tileSize
-          this.currentMoveEnded()
         } else {
           this.playerSprite!.y += percentMove * deltaLine * this.tileSize
         }
+      }
+
+      if (totalPercentMove >= 1) {
+        this.currentMoveEnded()
       }
     }
   }
@@ -401,7 +413,7 @@ export class GameMap extends AbstractMap {
     let totalPercentMove: number = 0
     let switchDone = false
     return (ticker: Ticker): void => {
-      const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
+      const percentMove: number = ticker.deltaMS / GameMap.ACTION_TIME
       totalPercentMove += percentMove
       if (totalPercentMove >= 1) {
         this.currentMoveEnded()
@@ -464,7 +476,7 @@ export class GameMap extends AbstractMap {
 
     let switchDone = false
     return (ticker: Ticker): void => {
-      const percentMove: number = ticker.deltaMS / GameMap.TILE_MOVE_TIME
+      const percentMove: number = ticker.deltaMS / GameMap.ACTION_TIME
       totalPercentMove += percentMove
 
       if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
@@ -562,6 +574,7 @@ export class GameMap extends AbstractMap {
       return
     }
     this.currentAction = action
+    this.game.eventManager.notifyAnimationStart(AnimationSource.GAME_MAP)
     switch (action.getType()) {
       case ActionType.MOVE:
         this.tickerFunction = this.triggerMoveAction(action as Move)

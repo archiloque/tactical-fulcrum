@@ -242,13 +242,13 @@
       "mul": 1
     },
     {
-      "type": "Crimson key",
-      "add": 1,
+      "type": "Blue key",
+      "add": 2,
       "mul": 1
     },
     {
-      "type": "Blue key",
-      "add": 2,
+      "type": "Crimson key",
+      "add": 1,
       "mul": 1
     }
   ],

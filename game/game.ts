@@ -6,7 +6,7 @@ import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
 import { AlertVariant, showAlert } from "../common/front/alert"
-import { EventManager } from "./front/event-manager"
+import { GameEventManager } from "./front/game-event-manager"
 import { GameScreen } from "./front/game-screen"
 import { Import } from "../common/io/import"
 import { PlayedTower } from "./models/played-tower"
@@ -28,14 +28,14 @@ registerCustomIcons()
 export class Game {
   private readonly screenIntro: ScreenIntro
   private readonly screenTower: ScreenTower
-  readonly eventManager: EventManager
+  readonly eventManager: GameEventManager
   readonly mainDiv: HTMLElement
   displayedScreen: GameScreen
   playerTower: PlayedTower | null
 
   constructor() {
     this.mainDiv = document.getElementById("content")!
-    this.eventManager = new EventManager()
+    this.eventManager = new GameEventManager()
 
     this.eventManager.registerTowerSelection((selectedTower: TowerInfo) => {
       this.towerSelected(selectedTower)

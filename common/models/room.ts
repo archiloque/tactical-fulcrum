@@ -3,6 +3,7 @@ import { Score } from "./score"
 import { TILES_IN_ROW } from "../data/constants"
 
 export class Room {
+  // @ts-ignore
   name: string
   tiles: Tile[][]
   scores: Score[]

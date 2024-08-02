@@ -79,14 +79,21 @@ html {
 #screenTowerInfoExpFields {
   text-align: center;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 2fr 3fr 1fr;
   div {
     margin: auto;
+  }
+  sl-badge {
+    padding-left: 0.5em;
   }
 }
 
 #screenTowerInfoExpNextLevel {
   font-size: 75%;
+}
+
+#screenTowerInfoExpLevelInfo {
+  display: flex;
 }
 
 #screenTowerInfoExpProgress {

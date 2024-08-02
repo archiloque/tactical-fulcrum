@@ -23,7 +23,9 @@ export class TabMaps {
   private readonly tabElement: SlTabPanel
   private rooms: Rooms
   private scores: Scores
+  // @ts-ignore
   private selectedRoom: SelectedRoom | null
+  // @ts-ignore
   private mapDiv: HTMLElement
 
   constructor(editor: Editor) {

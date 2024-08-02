@@ -3,5 +3,5 @@
 import * as esbuild from "esbuild"
 import createConfig from "./esbuild.common.mjs"
 
-const context = await esbuild.context(await createConfig("game"))
+const context = await esbuild.context(await createConfig("game", true))
 await context.serve()

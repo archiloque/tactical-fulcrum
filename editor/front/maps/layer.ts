@@ -8,6 +8,7 @@ export class Layer {
   private static readonly RADIO_GROUP_ID = "tabMapLayerRadioGroup"
 
   private readonly editor: Editor
+  // @ts-ignore
   private radioGroup: SlRadioGroup
 
   constructor(editor: Editor) {

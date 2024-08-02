@@ -14,22 +14,22 @@ function createEntryPoints(fromPath, toPath, type) {
   })
 }
 
-export default function createConfig(entity) {
+export default function createConfig(entity, console) {
   let entryPoints = createEntryPoints("node_modules/@shoelace-style/shoelace/dist/themes", "themes", ".css").concat(
     createEntryPoints("assets/fonts", "fonts"),
   )
+  entryPoints = entryPoints.concat([
+    { out: entity, in: `${entity}/${entity}.ts` },
+    { out: "index", in: `${entity}/index.html` },
+  ])
+
+  const dropLabels = []
+  if (console !== true) {
+    dropLabels.push("CONSOLE")
+  }
+
   if (entity === "game") {
-    entryPoints = entryPoints
-      .concat([
-        { out: "game", in: "game/game.ts" },
-        { out: "index", in: "game/index.html" },
-      ])
-      .concat(createEntryPoints("towers", "towers", ".json"))
-  } else {
-    entryPoints = entryPoints.concat([
-      { out: "editor", in: "editor/editor.ts" },
-      { out: "index", in: "editor/index.html" },
-    ])
+    entryPoints = entryPoints.concat(createEntryPoints("towers", "towers", ".json"))
   }
 
   return {
@@ -40,6 +40,7 @@ export default function createConfig(entity) {
     sourcemap: true,
     outdir: `out/${entity}`,
     logLevel: "debug",
+    dropLabels: dropLabels,
     loader: {
       ".html": "copy",
       ".svg": "copy",

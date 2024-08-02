@@ -4,6 +4,7 @@ import { Item } from "../../data/item"
 export class IoItemFromAttributes {
   static getValue(value: Record<string, number>, defaultItem: Item, attributeName: string): number {
     if (value[attributeName] === undefined) {
+      // @ts-ignore
       return defaultItem[attributeName]
     } else {
       return value[attributeName]

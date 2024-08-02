@@ -9,6 +9,7 @@ import { AlertVariant, showAlert } from "../common/front/alert"
 import { GameEventManager } from "./front/game-event-manager"
 import { GameScreen } from "./front/game-screen"
 import { Import } from "../common/io/import"
+import { installConsole } from "./game-console"
 import { PlayedTower } from "./models/played-tower"
 import { registerCustomIcons } from "../common/front/icons/custom-icons"
 import { registerDefaultIcons } from "../common/front/icons/register-default"
@@ -31,6 +32,7 @@ export class Game {
   readonly eventManager: GameEventManager
   readonly mainDiv: HTMLElement
   displayedScreen: GameScreen
+  // @ts-ignore
   playerTower: PlayedTower | null
 
   constructor() {
@@ -47,6 +49,8 @@ export class Game {
     this.screenTower.init().then(() => {
       this.screenIntro.render()
     })
+
+    CONSOLE: installConsole(this)
   }
 
   private towerSelected(selectedTower: TowerInfo): void {

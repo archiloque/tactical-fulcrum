@@ -13,7 +13,9 @@ export class TabImportExport {
   private readonly editor: Editor
   private readonly tabElement: SlTabPanel
   private exportFileName: string = "tactical-fulcrum-level.json"
+  // @ts-ignore
   private importInput: HTMLInputElement
+  // @ts-ignore
   private tabImportExportLink: HTMLLinkElement
 
   constructor(editor: Editor) {

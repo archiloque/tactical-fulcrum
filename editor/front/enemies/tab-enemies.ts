@@ -17,7 +17,9 @@ export class TabEnemies extends AbstractTab {
   private readonly editor: Editor
   private readonly tabElement: SlTabPanel
   private enemyDeletionIndex = -1
+  // @ts-ignore
   private deleteDialog: SlDialog
+  // @ts-ignore
   private deleteDialogMessage: HTMLElement
 
   constructor(editor: Editor) {
@@ -122,6 +124,7 @@ export class TabEnemies extends AbstractTab {
   private intValueChanged = (event: CustomEvent, attrName: string): void => {
     const [enemyIndex, value] = this.getInputValueInt(event)
     console.debug("TabEnemies", "intValueChanged", enemyIndex, attrName, value)
+    // @ts-ignore
     this.editor.tower.enemies[enemyIndex][attrName] = value
     this.editor.tower.saveEnemies()
   }

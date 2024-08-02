@@ -43,12 +43,15 @@ export class GameMap extends AbstractMap {
   private static readonly ALPHA_TILE_UNDERNEATH = 0.2
 
   private readonly game: Game
+  // @ts-ignore
   private tiles: Container
+  // @ts-ignore
   private playerSprite: null | Sprite
+  // @ts-ignore
   private tickerFunction: null | ((ticker: Ticker) => void)
   private deltaBuffer: Delta2D[] = []
   private currentAction: Action | null = null
-  private readonly sprites: Sprite | null[][]
+  private readonly sprites: Container[][] | null[][]
   private infoBar: InfoBar
 
   private static readonly ATTRIBUTE_TO_TOOL_TIP_DESCRIPTION: Record<ItemAttribute, (value: number) => string> = {
@@ -292,9 +295,11 @@ export class GameMap extends AbstractMap {
   private getAttributesChange(appliedItem: AppliedItem): Record<PlayerAttribute, AttributeChangeInterval | undefined> {
     const result = {}
     for (const attributeName of PLAYER_ATTRIBUTES) {
+      // @ts-ignore
       const attributeValue = appliedItem[attributeName]
       if (attributeValue !== undefined) {
         const playerAttribute = this.game.playerTower!.playerInfo[attributeName]
+        // @ts-ignore
         result[attributeName] = {
           from: playerAttribute - attributeValue,
           to: playerAttribute,
@@ -309,8 +314,8 @@ export class GameMap extends AbstractMap {
     let totalPercentMove: number = 0
     const deltaColumn = move.target.column - move.player.column
     const deltaLine = move.target.line - move.player.line
-    let targetSprite: Sprite | null = null
-    const existingSprite: Sprite | null = this.sprites[move.player.line][move.player.column]
+    let targetSprite: Container | null = null
+    const existingSprite: Container | null = this.sprites[move.player.line][move.player.column]
     let attributesChange: Record<PlayerAttribute, AttributeChangeInterval | undefined>
 
     switch (move.getType()) {
@@ -434,7 +439,7 @@ export class GameMap extends AbstractMap {
     let totalPercentMove: number = 0
     const deltaColumn = move.target.column - move.player.column
     const deltaLine = move.target.line - move.player.line
-    const oldTargetSprite: Sprite = this.sprites[move.target.line][move.target.column]
+    const oldTargetSprite: Container = this.sprites[move.target.line][move.target.column]!
 
     const hasNewTile = move.getType() == ActionType.KILL_ENEMY && (move as KillEnemy).dropTile != EMPTY_TILE
     let newTargetSprite: null | Sprite = null

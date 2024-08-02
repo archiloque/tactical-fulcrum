@@ -3,6 +3,7 @@ import { SpriteName, SPRITES } from "./sprites"
 import { getCurrentColorScheme } from "../color-scheme"
 
 export class Spriter {
+  // @ts-ignore
   private tileSize: number
   private readonly name: string
   private cache: string[] = []

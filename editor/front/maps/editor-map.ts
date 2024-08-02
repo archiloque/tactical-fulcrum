@@ -14,11 +14,15 @@ import { TILES_IN_ROW } from "../../../common/data/constants"
 
 export class EditorMap extends AbstractMap {
   private readonly editor: Editor
+  // @ts-ignore
   private scoreTiles: Container
   private selectedLayer: RoomLayer = RoomLayer.standard
   private selectedRoom: SelectedRoom | null = null
+  // @ts-ignore
   private selectedScore: ScoreType | null
+  // @ts-ignore
   private selectedTile: Tile
+  // @ts-ignore
   private standardTiles: Container
 
   constructor(editor: Editor) {

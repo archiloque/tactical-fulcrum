@@ -10,14 +10,21 @@ import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.compone
 import SlTree from "@shoelace-style/shoelace/cdn/components/tree/tree.component"
 
 export class Rooms {
+  // @ts-ignore
   private addDialog: SlDialog
+  // @ts-ignore
   private buttonDown: SlButton
+  // @ts-ignore
   private buttonUp: SlButton
+  // @ts-ignore
   private deleteDialog: SlDialog
+  // @ts-ignore
   private nexusRooms: SlTree
   private readonly editor: Editor
+  // @ts-ignore
   private roomNameInput: SlInput
   private selectedRoom: SelectedRoom | null = null
+  // @ts-ignore
   private standardRooms: SlTree
 
   constructor(editor: Editor) {

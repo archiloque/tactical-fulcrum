@@ -31,10 +31,11 @@ export class Elements {
   private static readonly TREE_ID = "tabMapElementsTree"
 
   private readonly editor: Editor
+  // @ts-ignore
   private tree: SlTree
-  private selectedTile: Tile | null = null
-
+  // @ts-ignore
   private div: HTMLElement
+  private selectedTile: Tile | null = null
 
   constructor(editor: Editor) {
     this.editor = editor

@@ -14,6 +14,7 @@ export class IoInfoToAttributes {
       [IoInfo.ATTRIBUTE_SUN_STONE]: info.sunStone,
     }
     if (info.diamondMedal !== 0) {
+      // @ts-ignore
       attributes[IoInfo.ATTRIBUTE_DIAMOND_MEDAL] = info.diamondMedal
     }
     return attributes

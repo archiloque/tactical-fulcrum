@@ -22,6 +22,11 @@ export class GameEventManager extends EventManager {
     this.eventEmitter.on(GameEventManager.EVENT_ANIMATION_START, (animationSource) => callBack(animationSource))
   }
 
+  public notifyTowerSelection(selectedTower: TowerInfo): void {
+    console.debug("EventManager", "notifyTowerSelection", selectedTower)
+    this.eventEmitter.emit(GameEventManager.EVENT_TOWER_SELECTION, selectedTower)
+  }
+
   public notifyAnimationStart(animationSource: AnimationSource): void {
     console.debug("GameEventManager", "notifyAnimationStart", animationSource)
     this.eventEmitter.emit(GameEventManager.EVENT_ANIMATION_START, animationSource)

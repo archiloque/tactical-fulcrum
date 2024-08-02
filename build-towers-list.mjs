@@ -9,13 +9,13 @@ const candidates = fs
 function sortTowers(t1, t2) {
   const t1Splited = t1.split("-").map((i) => parseInt(i))
   const t2Splited = t2.split("-").map((i) => parseInt(i))
-  if (t1[0] > t2[0]) {
+  if (t1Splited[0] > t2Splited[0]) {
     return -1
-  } else if (t1[0] < t2[0]) {
+  } else if (t1Splited[0] < t2Splited[0]) {
     return 1
-  } else if (t1[1] > t2[1]) {
+  } else if (t1Splited[1] > t2Splited[1]) {
     return -1
-  } else if (t1[1] < t2[1]) {
+  } else if (t1Splited[1] < t2Splited[1]) {
     return 1
   } else {
     return 0

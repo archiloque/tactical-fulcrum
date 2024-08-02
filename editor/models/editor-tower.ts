@@ -155,6 +155,7 @@ export class EditorTower extends Tower {
       const itemsJson: Record<string, number>[] = JSON.parse(itemsRaw)
 
       for (const itemName of ITEM_NAMES) {
+        // @ts-ignore
         const initialValue = itemsJson[itemName]
         if (initialValue != null) {
           this.items[itemName] = IoItemFromAttributes.fromAttributes(initialValue, DEFAULT_ITEMS[itemName])
@@ -179,13 +180,17 @@ export class EditorTower extends Tower {
     const roomsRaw = localStorage.getItem(LOCAL_STORAGE_KEY_ROOMS)
     if (roomsRaw != null) {
       const roomsJson: Record<string, Record<string, string | number | null>>[] = JSON.parse(roomsRaw)
+      // @ts-ignore
       if (roomsJson[IOOperation.ATTRIBUTE_STANDARD] != null) {
+        // @ts-ignore
         this.standardRooms = roomsJson[IOOperation.ATTRIBUTE_STANDARD].map((value: Record<string, string | any>) =>
           IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )
         console.debug("Tower", this.standardRooms.length, "standard rooms loaded")
       }
+      // @ts-ignore
       if (roomsJson[IOOperation.ATTRIBUTE_NEXUS] != null) {
+        // @ts-ignore
         this.nexusRooms = roomsJson[IOOperation.ATTRIBUTE_NEXUS].map((value) =>
           IoRoomFromAttributes.fromAttributes(value, this.enemies),
         )

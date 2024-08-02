@@ -18,10 +18,13 @@ export abstract class AbstractMap {
   protected readonly cursor: Graphics
   protected readonly spriter: Spriter = new Spriter("map")
   protected tileSize: number = TILES_DEFAULT_SIZE
+  // @ts-ignore
   private toolTip: HTMLElement
   private toolTipTimeout: number | null = null
+  // @ts-ignore
   private toolTipTip: SlTooltip
   readonly app: Application
+  // @ts-ignore
   private toolTipSlot: HTMLElement
 
   protected constructor() {

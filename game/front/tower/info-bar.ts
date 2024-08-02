@@ -1,5 +1,6 @@
-import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
 import "@shoelace-style/shoelace/dist/components/button/button.js"
+import "@shoelace-style/shoelace/dist/components/badge/badge.js"
+import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
 
 import { Application, Ticker } from "pixi.js"
 import {
@@ -14,8 +15,10 @@ import { Color, COLORS } from "../../../common/data/color"
 import { Hole, html, render } from "uhtml"
 import { keyIcon, NBSP, SMALL_SPACE } from "../../../common/front/functions"
 import { AnimationSource } from "../game-event-manager"
+import { ExpInfo } from "../../models/played-tower"
 import { Game } from "../../game"
 import { PlayerAttribute } from "../../models/attribute"
+import { PlayerInfo } from "../../models/player-info"
 import { ScreenTower } from "./screen-tower"
 import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
 import SlProgressBar from "@shoelace-style/shoelace/cdn/components/progress-bar/progress-bar.component"
@@ -35,6 +38,7 @@ export class InfoBar {
   private static readonly EXP_ID = "screenTowerInfoExpField"
   private static readonly EXP_NEXT_LEVEL_ID = "screenTowerInfoExpNextLevelField"
   private static readonly EXP_PROGRESS_ID = "screenTowerInfoExpProgress"
+  private static readonly EXP_LEVEL_INFO_ID = "screenTowerInfoExpLevelInfo"
   private static readonly EXP_MUL_ID = "screenTowerInfoExpMul"
   private static readonly LEVEL_UP_ID = "screenTowerInfoLevelUp"
   private static readonly KEY_ID = "screenTowerInfoKeyField"
@@ -45,32 +49,63 @@ export class InfoBar {
   }
 
   private readonly game: Game
+  // @ts-ignore
   private infoHp: HTMLElement
+  // @ts-ignore
   private infoHpMul: HTMLElement
+  // @ts-ignore
   private infoAtk: HTMLElement
+  // @ts-ignore
   private infoDef: HTMLElement
+  // @ts-ignore
   private infoExp: HTMLElement
+  // @ts-ignore
   private infoExpMul: HTMLElement
+  // @ts-ignore
   private infoExpProgress: SlProgressBar
+  // @ts-ignore
   private infoExpNextLevel: HTMLElement
+  // @ts-ignore
   private levelUp: HTMLElement
+  // @ts-ignore
+  private infoLevel: HTMLElement
 
+  // @ts-ignore
   private fieldsByPlayerAttribute: Record<PlayerAttribute, HTMLElement | undefined>
+  // @ts-ignore
   private fieldsByColor: Record<Color, HTMLElement>
+  // @ts-ignore
   private currentLevelUpContent: LevelUpContent | null
+  // @ts-ignore
   private tickerFunction: null | ((ticker: Ticker) => void)
+  // @ts-ignore
   app: Application
 
   constructor(game: Game) {
     this.game = game
     this.game.eventManager.registerSchemeChange(() => this.schemeChanged())
+    this.game.eventManager.registerAnimationStart((animationSource: AnimationSource) => {
+      if (animationSource !== AnimationSource.GAME_MAP) {
+        this.cancelCurrentAnimation()
+      }
+    })
   }
 
-  pad(value: number): string {
+  private cancelCurrentAnimation(): void {
+    if (this.currentLevelUpContent) {
+      this.currentLevelUpContent = null
+      if (this.tickerFunction !== null) {
+        this.app.ticker.remove(this.tickerFunction)
+        this.tickerFunction = null
+      }
+    }
+  }
+
+  private pad(value: number): string {
     return value.toString().padStart(7, NBSP)
   }
 
-  padKey(value: number): string {
+  private padKey(value: number): string {
     return value.toString().padStart(2, NBSP)
   }
 
@@ -78,7 +113,7 @@ export class InfoBar {
     return html` <div><span id="${id}">${value}</span>${SMALL_SPACE}${description}</div>`
   }
 
-  renderBlock(fields: Hole[]): Hole {
+  private renderBlock(fields: Hole[]): Hole {
     if (fields.length == 1) {
       const emptyHole = html` <div></div>`
       fields.push(emptyHole)
@@ -101,6 +136,7 @@ export class InfoBar {
 
     const exp = html` <div id="screenTowerInfoExp">
       <div id="screenTowerInfoExpFields">
+        <div id="${InfoBar.EXP_LEVEL_INFO_ID}">${this.levelInfo(playerInfo, expInfo)}</div>
         <div>
           ${this.renderField(InfoBar.EXP_ID, "EXP", this.pad(playerInfo.exp))}
           <div>
@@ -114,7 +150,7 @@ export class InfoBar {
       <sl-progress-bar id="${InfoBar.EXP_PROGRESS_ID}" value="${expInfo.percentage}"></sl-progress-bar>
     </div>`
 
-    const levelUp = html`<div id="${InfoBar.LEVEL_UP_ID}"></div>`
+    const levelUp = html` <div id="${InfoBar.LEVEL_UP_ID}"></div>`
 
     const keysContent = COLORS.map((color: Color) => {
       const divId = this.colorFieldId(color)
@@ -122,7 +158,7 @@ export class InfoBar {
         <span id="${divId}">${this.padKey(playerInfo.keys[color])}</span>${SMALL_SPACE} ${keyIcon(color)}
       </div>`
     })
-    const keys = html`<div id="screenTowerInfoKeys">${keysContent}</div>`
+    const keys = html` <div id="screenTowerInfoKeys">${keysContent}</div>`
 
     render(document.getElementById(ScreenTower.INFO_BAR_ID), html`${hp} ${atk} ${def} ${exp} ${levelUp} ${keys}`)
     this.infoHp = document.getElementById(InfoBar.HP_ID)!
@@ -132,8 +168,9 @@ export class InfoBar {
     this.infoExp = document.getElementById(InfoBar.EXP_ID)!
     this.infoExpMul = document.getElementById(InfoBar.EXP_MUL_ID)!
     this.infoExpNextLevel = document.getElementById(InfoBar.EXP_NEXT_LEVEL_ID)!
-    this.infoExpProgress = document.getElementById(InfoBar.EXP_PROGRESS_ID)! as SlProgressBar
+    this.infoExpProgress = document.getElementById(InfoBar.EXP_PROGRESS_ID) as SlProgressBar
     this.levelUp = document.getElementById(InfoBar.LEVEL_UP_ID)!
+    this.infoLevel = document.getElementById(InfoBar.EXP_LEVEL_INFO_ID)!
 
     this.fieldsByPlayerAttribute = {
       [PlayerAttribute.LEVEL]: undefined,
@@ -153,6 +190,11 @@ export class InfoBar {
       [Color.yellow]: document.getElementById(this.colorFieldId(Color.yellow))!,
     }
     this.updateExpAndLevelsUp()
+  }
+
+  private levelInfo(playerInfo: PlayerInfo, expInfo: ExpInfo): Hole {
+    return html`${this.renderField(`${InfoBar.EXP_LEVEL_INFO_ID}Field`, "LV", playerInfo.level)}
+    ${expInfo.levelsUpAvailable === 0 ? html`` : html` <sl-badge>+ ${expInfo.levelsUpAvailable}</sl-badge>`}`
   }
 
   private colorFieldId(color: Color): string {
@@ -199,9 +241,11 @@ export class InfoBar {
   }
 
   private updateExpAndLevelsUp(): void {
-    const expInfo = this.game.playerTower!.getExpInfo()
+    console.debug("InfoBar", "updateExpAndLevelsUp")
+    const expInfo: ExpInfo = this.game.playerTower!.getExpInfo()
     this.infoExpNextLevel.innerText = this.pad(expInfo.nextLevelDelta)
     this.infoExpProgress.value = expInfo.percentage
+    render(this.infoLevel, this.levelInfo(this.game.playerTower!.playerInfo, expInfo))
     if (expInfo.levelsUpAvailable !== 0) {
       const levelsUpContents: (LevelUpContent | undefined)[] = this.game.playerTower!.levelsUpContents()
       while (levelsUpContents.length < 6) {
@@ -227,7 +271,7 @@ export class InfoBar {
 
   private renderLevelUpContent(levelUpContent: LevelUpContent | undefined, index: number): Hole {
     if (levelUpContent === undefined) {
-      return html`<div></div>`
+      return html` <div></div>`
     } else {
       let content: Hole
       switch (levelUpContent.getType()) {
@@ -247,9 +291,9 @@ export class InfoBar {
         default:
           throw new Error(`Unknown level up type [${levelUpContent.getType()}] ${levelUpContent}`)
       }
-      return html`<sl-button size="large" variant="default" onclick="${this.clickLevelUp}" data-index="${index}"
-        >${content}</sl-button
-      >`
+      return html` <sl-button size="large" variant="default" onclick="${this.clickLevelUp}" data-index="${index}"
+        >${content}
+      </sl-button>`
     }
   }
 
@@ -257,6 +301,7 @@ export class InfoBar {
     const levelUpIndex = parseInt((event.currentTarget as SlButton).dataset.index!)
     console.debug("InfoBar", "clickLevelUp", levelUpIndex)
     const levelUpContent = this.game.playerTower!.levelUp(levelUpIndex)
+    this.updateExpAndLevelsUp()
     this.currentLevelUpContent = levelUpContent
     this.tickerFunction = this.triggerLevelUp(levelUpContent)
     this.app.ticker.add(this.tickerFunction!)

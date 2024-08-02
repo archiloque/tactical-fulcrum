@@ -89,6 +89,7 @@ export class TabLevels extends AbstractTab {
   private intValueChanged = (event: CustomEvent, attrName: string): void => {
     const [levelIndex, value] = this.getInputValueInt(event)
     console.debug("TabLevels", "intValueChanged", levelIndex, attrName, value)
+    // @ts-ignore
     this.editor.tower.levels[levelIndex][attrName] = value
     this.editor.tower.saveLevels()
   }

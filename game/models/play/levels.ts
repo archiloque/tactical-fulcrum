@@ -1,14 +1,14 @@
 export type LevelUp = {
-  level: number
-  deltaExp: number
-  exp: number
+  levelIndex: number
+  startingExp: number
+  deltaExpToNextLevel: number
 }
 
 const LEVELS_UPS: LevelUp[] = [
   {
-    level: 0,
-    deltaExp: 0,
-    exp: 0,
+    levelIndex: 0,
+    deltaExpToNextLevel: 0,
+    startingExp: 0,
   },
 ]
 
@@ -19,7 +19,7 @@ export function getLevelIndex(index: number): LevelUp {
     let currentIndex = LEVELS_UPS.length - 1
     while (true) {
       const currentLevelUp = LEVELS_UPS[currentIndex]
-      createLevelsUp(currentLevelUp.exp + 1)
+      createLevelsUp(currentLevelUp.startingExp + 1)
       currentIndex++
       if (currentIndex == index) {
         return LEVELS_UPS[index]
@@ -30,7 +30,7 @@ export function getLevelIndex(index: number): LevelUp {
 
 export function getLevelUp(exp: number): LevelUp {
   for (let levelUpIndex = 0; levelUpIndex < LEVELS_UPS.length; levelUpIndex++) {
-    if (LEVELS_UPS[levelUpIndex].exp > exp) {
+    if (LEVELS_UPS[levelUpIndex].startingExp > exp) {
       return LEVELS_UPS[levelUpIndex - 1]
     }
   }
@@ -40,13 +40,13 @@ export function getLevelUp(exp: number): LevelUp {
 
 function createLevelsUp(exp: number): void {
   let maxLevel: LevelUp = LEVELS_UPS[LEVELS_UPS.length - 1]
-  while (maxLevel.exp <= exp) {
-    const newLevelNumber = maxLevel.level + 1
-    const deltaExp = maxLevel.deltaExp + newLevelNumber * 10
+  while (maxLevel.startingExp <= exp) {
+    const newLevelNumber = maxLevel.levelIndex + 1
+    const deltaExp = maxLevel.deltaExpToNextLevel + newLevelNumber * 10
     maxLevel = {
-      level: newLevelNumber,
-      deltaExp: deltaExp,
-      exp: deltaExp + maxLevel.exp,
+      levelIndex: newLevelNumber,
+      deltaExpToNextLevel: deltaExp,
+      startingExp: deltaExp + maxLevel.startingExp,
     }
     LEVELS_UPS.push(maxLevel)
   }

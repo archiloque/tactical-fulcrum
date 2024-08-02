@@ -88,6 +88,7 @@ export class TabItems extends AbstractTab {
   private intValueChanged = (event: CustomEvent, attrName: string): void => {
     const [itemIndex, value] = this.getInputValueInt(event)
     console.debug("TabItems", "intValueChanged", itemIndex, attrName, value)
+    // @ts-ignore
     this.editor.tower.items[ITEM_NAMES[itemIndex]][attrName] = value
     this.editor.tower.saveItems()
   }

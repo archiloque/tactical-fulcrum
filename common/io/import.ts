@@ -51,13 +51,14 @@ export class Import extends IOOperation {
       this.importStandardRooms(rooms, tower)
       this.importNexusRooms(rooms, tower)
     } catch (e) {
-      this.errors.push(e.message)
+      this.errors.push((e as Error).message)
     }
     console.groupEnd()
     return new ImportResult(tower, this.errors)
   }
 
   private importEnemies(parsedData: Record<string, string | number | null>[], tower: Tower): void {
+    // @ts-ignore
     const enemies = parsedData[IOOperation.ATTRIBUTE_ENEMIES]
     if (this.parsedValueInvalidArray(enemies)) {
       this.errors.push("Enemies value is invalid")
@@ -71,6 +72,7 @@ export class Import extends IOOperation {
   }
 
   private importItems(parsedData: Record<string, number>[], tower: Tower): void {
+    // @ts-ignore
     const items = parsedData[IOOperation.ATTRIBUTE_ITEMS]
     if (items == null) {
       this.errors.push("Items value is invalid")
@@ -89,6 +91,7 @@ export class Import extends IOOperation {
   }
 
   private importLevels(parsedData: Record<string, number | null>[], tower: Tower): void {
+    // @ts-ignore
     const levels = parsedData[IOOperation.ATTRIBUTE_LEVELS]
     if (this.parsedValueInvalidArray(levels)) {
       this.errors.push("Levels value is invalid")
@@ -101,6 +104,7 @@ export class Import extends IOOperation {
   }
 
   private importNexusRooms(rooms: Record<string, any>[], tower: Tower): void {
+    // @ts-ignore
     const nexusRooms = rooms[IOOperation.ATTRIBUTE_NEXUS]
     if (nexusRooms != null) {
       if (this.parsedValueInvalidArray(nexusRooms)) {
@@ -116,6 +120,7 @@ export class Import extends IOOperation {
   }
 
   private importStandardRooms(rooms: Record<string, any>[], tower: Tower): void {
+    // @ts-ignore
     const standardRooms = rooms[IOOperation.ATTRIBUTE_STANDARD]
     if (standardRooms != null) {
       if (this.parsedValueInvalidArray(standardRooms)) {
@@ -131,6 +136,7 @@ export class Import extends IOOperation {
   }
 
   private importInfo(parsedData: Record<string, string | number>[], tower: Tower): void {
+    // @ts-ignore
     const info = parsedData[IOOperation.ATTRIBUTE_INFO]
     if (info == null) {
       this.errors.push("Info value is invalid")

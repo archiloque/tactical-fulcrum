@@ -23,13 +23,13 @@ export function calculateReachableTiles(
   playerPosition: Position2D,
   room: Tile[][],
   playerInfo: PlayerInfo,
-): Delta2D[] | null[][] {
-  const reachableTiles: Delta2D[] | null[][] = new Array(TILES_IN_ROW)
+): Delta2D[][][] | null[][] {
+  const reachableTiles: Delta2D[][][] | null[][] = new Array(TILES_IN_ROW)
   for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
     reachableTiles[lineIndex] = new Array(TILES_IN_ROW).fill(null, 0, TILES_IN_ROW)
   }
   let currentlyReachableDestinations: Destination[] = [new Destination(playerPosition, [])]
-  reachableTiles[playerPosition.line][playerPosition.column] = []
+  reachableTiles[playerPosition.line][playerPosition.column] = null
   const reachedTiles: Set<number> = new Set()
   reachedTiles.add(playerPosition.value())
   while (currentlyReachableDestinations.length > 0) {

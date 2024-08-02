@@ -11,8 +11,10 @@ export class Scores {
   private static readonly DIV_ID = "tabMapScores"
   private static readonly TREE_ID = "tabMapScoresTree"
 
+  // @ts-ignore
   private div: HTMLElement
   private readonly editor: Editor
+  // @ts-ignore
   private scoresTree: SlTree
   private selectedScore: ScoreType | null = null
 

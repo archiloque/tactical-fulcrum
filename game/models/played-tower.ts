@@ -37,7 +37,7 @@ export type EnemyToolTipAttributes = {
   expWin: number
 }
 
-type ExpInfo = {
+export type ExpInfo = {
   levelsUpAvailable: number
   nextLevelDelta: number
   percentage: number
@@ -49,7 +49,8 @@ export class PlayedTower {
   readonly standardRooms: Tile[][][]
   readonly nexusRooms: Tile[][][]
   readonly playerInfo: PlayerInfo
-  reachableTiles: Delta2D[] | null[][]
+  // @ts-ignore
+  reachableTiles: Delta2D[][][] | null[][]
 
   constructor(tower: Tower) {
     this.tower = tower
@@ -104,22 +105,23 @@ export class PlayedTower {
 
     let levelsUpAvailable = 0
     let currentNextLevel = nextLevel
-    let remainingExp = currentExp - currentLevel.exp
+    let remainingExp = currentExp - currentLevel.startingExp
 
-    while (currentExp > currentNextLevel.exp) {
+    while (currentExp > currentNextLevel.startingExp) {
       levelsUpAvailable++
-      remainingExp -= currentNextLevel.deltaExp
-      currentNextLevel = getLevelIndex(currentNextLevel.level + 1)
+      remainingExp -= currentNextLevel.deltaExpToNextLevel
+      currentNextLevel = getLevelIndex(currentNextLevel.levelIndex + 1)
     }
     return {
-      nextLevelDelta: nextLevel.deltaExp,
+      nextLevelDelta: currentNextLevel.deltaExpToNextLevel,
       levelsUpAvailable: levelsUpAvailable,
-      percentage: (remainingExp / currentNextLevel.deltaExp) * 100,
+      percentage: (remainingExp / currentNextLevel.deltaExpToNextLevel) * 100,
     }
   }
 
   public levelUp(levelUpIndex: number): LevelUpContent {
-    if (this.getExpInfo().levelsUpAvailable === 0) {
+    const expInfo = this.getExpInfo()
+    if (expInfo.levelsUpAvailable === 0) {
       throw new Error("No level up possible")
     }
     const levelUpContents = this.levelsUpContents()
@@ -128,6 +130,8 @@ export class PlayedTower {
     }
     const levelUpContent = levelUpContents[levelUpIndex]
     this.applyLevelUp(levelUpContent)
+    this.playerInfo.level++
+    this.playerInfo.exp -= expInfo.nextLevelDelta
     return levelUpContent
   }
 
@@ -240,6 +244,7 @@ export class PlayedTower {
 
   private applyItem(appliedItem: AppliedItem): void {
     for (const attribute of APPLIED_ITEM_ATTRIBUTES) {
+      // @ts-ignore
       const attributeValue: undefined | number = appliedItem[attribute]
       if (attributeValue !== undefined) {
         this.playerInfo[attribute] += attributeValue

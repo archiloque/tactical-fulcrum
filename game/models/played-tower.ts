@@ -25,7 +25,7 @@ import { findStaircasePosition, findStartingPosition } from "./play/locations"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
 import { Enemy } from "../../common/models/enemy"
-import { getLevelIndex } from "./play/levels"
+import { getLevel } from "./play/levels"
 import { ItemName } from "../../common/data/item-name"
 import { Room } from "../../common/models/room"
 import { TILES_IN_ROW } from "../../common/data/constants"
@@ -39,7 +39,8 @@ export type EnemyToolTipAttributes = {
 
 export type ExpInfo = {
   levelsUpAvailable: number
-  nextLevelDelta: number
+  remainingExp: number
+  expForNextLevel: number
   percentage: number
 }
 
@@ -99,23 +100,23 @@ export class PlayedTower {
   }
 
   public getExpInfo(): ExpInfo {
-    const currentLevel = getLevelIndex(this.playerInfo.level)
-    const nextLevel = getLevelIndex(this.playerInfo.level + 1)
     const currentExp = this.playerInfo.exp
 
     let levelsUpAvailable = 0
-    let currentNextLevel = nextLevel
-    let remainingExp = currentExp - currentLevel.startingExp
+    let currentLevel = getLevel(this.playerInfo.level)
+    let remainingExp = currentExp
 
-    while (currentExp > currentNextLevel.startingExp) {
-      levelsUpAvailable++
-      remainingExp -= currentNextLevel.deltaExpToNextLevel
-      currentNextLevel = getLevelIndex(currentNextLevel.levelIndex + 1)
+    while (remainingExp >= currentLevel.expForNextLevel) {
+      levelsUpAvailable += 1
+      remainingExp -= currentLevel.expForNextLevel
+      currentLevel = getLevel(currentLevel.index + 1)
     }
+
     return {
-      nextLevelDelta: currentNextLevel.deltaExpToNextLevel,
       levelsUpAvailable: levelsUpAvailable,
-      percentage: (remainingExp / currentNextLevel.deltaExpToNextLevel) * 100,
+      remainingExp: remainingExp,
+      expForNextLevel: currentLevel.expForNextLevel,
+      percentage: (remainingExp / currentLevel.expForNextLevel) * 100,
     }
   }
 
@@ -131,7 +132,7 @@ export class PlayedTower {
     const levelUpContent = levelUpContents[levelUpIndex]
     this.applyLevelUp(levelUpContent)
     this.playerInfo.level++
-    this.playerInfo.exp -= expInfo.nextLevelDelta
+    this.playerInfo.exp -= getLevel(this.playerInfo.level).expForNextLevel
     return levelUpContent
   }
 

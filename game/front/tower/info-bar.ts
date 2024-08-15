@@ -110,7 +110,11 @@ export class InfoBar {
   }
 
   renderField(id: string, description: string, value: number | string): Hole {
-    return html` <div><span id="${id}">${value}</span>${SMALL_SPACE}${description}</div>`
+    return html` <div>${this.renderFieldSpan(id, description, value)}</div>`
+  }
+
+  renderFieldSpan(id: string, description: string, value: number | string): Hole {
+    return html`<span id="${id}">${value}</span>${SMALL_SPACE}${description}`
   }
 
   private renderBlock(fields: Hole[]): Hole {
@@ -138,12 +142,10 @@ export class InfoBar {
       <div id="screenTowerInfoExpFields">
         <div id="${InfoBar.EXP_LEVEL_INFO_ID}">${this.levelInfo(playerInfo, expInfo)}</div>
         <div>
-          ${this.renderField(InfoBar.EXP_ID, "EXP", this.pad(playerInfo.exp))}
-          <div>
-            <div id="screenTowerInfoExpNextLevel">
-              /<span id="${InfoBar.EXP_NEXT_LEVEL_ID}">${this.pad(expInfo.nextLevelDelta)}</span>
-            </div>
-          </div>
+          ${this.renderFieldSpan(InfoBar.EXP_ID, "EXP", expInfo.remainingExp)}
+          <span id="screenTowerInfoExpNextLevel">
+            /<span id="${InfoBar.EXP_NEXT_LEVEL_ID}">${expInfo.expForNextLevel}</span>
+          </span>
         </div>
         ${this.renderField(InfoBar.EXP_MUL_ID, "%", playerInfo.expMul)}
       </div>
@@ -233,7 +235,9 @@ export class InfoBar {
   public setFieldValue(attribute: PlayerAttribute, value: number): void {
     const field = this.fieldsByPlayerAttribute[attribute]
     if (field !== undefined) {
-      field.innerText = this.pad(value)
+      if (attribute !== PlayerAttribute.EXP) {
+        field.innerText = this.pad(value)
+      }
       if (attribute === PlayerAttribute.EXP || attribute === PlayerAttribute.HP_MUL) {
         this.updateExpAndLevelsUp()
       }
@@ -243,8 +247,9 @@ export class InfoBar {
   private updateExpAndLevelsUp(): void {
     console.debug("InfoBar", "updateExpAndLevelsUp")
     const expInfo: ExpInfo = this.game.playerTower!.getExpInfo()
-    this.infoExpNextLevel.innerText = this.pad(expInfo.nextLevelDelta)
+    this.infoExpNextLevel.innerText = expInfo.expForNextLevel.toString()
     this.infoExpProgress.value = expInfo.percentage
+    this.infoExp.innerText = expInfo.remainingExp.toString()
     render(this.infoLevel, this.levelInfo(this.game.playerTower!.playerInfo, expInfo))
     if (expInfo.levelsUpAvailable !== 0) {
       const levelsUpContents: (LevelUpContent | undefined)[] = this.game.playerTower!.levelsUpContents()

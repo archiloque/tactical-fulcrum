@@ -131,8 +131,8 @@ export class PlayedTower {
     }
     const levelUpContent = levelUpContents[levelUpIndex]
     this.applyLevelUp(levelUpContent)
-    this.playerInfo.level++
     this.playerInfo.exp -= getLevel(this.playerInfo.level).expForNextLevel
+    this.playerInfo.level++
     return levelUpContent
   }
 

@@ -193,7 +193,7 @@ export class GameMap extends AbstractMap {
   private createSprite(tile: Tile): Container {
     const spriteName = SpritesToItem.spriteNameFromTile(tile)!
     const sprite = this.spriter.getSprite(spriteName)
-    if (tile.getType() == TileType.enemy) {
+    if (tile.type === TileType.enemy) {
       const enemyContainer = new Container()
       enemyContainer.addChild(sprite)
       const enemyTile = tile as EnemyTile
@@ -221,7 +221,7 @@ export class GameMap extends AbstractMap {
       this.game.playerTower!.standardRooms[this.game.playerTower!.playerPosition.room][this.lastMouseTile.y][
         this.lastMouseTile.x
       ]
-    switch (tile.getType()) {
+    switch (tile.type) {
       case TileType.door:
         return `${capitalize((tile as DoorTile).color)} key`
       case TileType.empty:
@@ -318,7 +318,7 @@ export class GameMap extends AbstractMap {
     const existingSprite: Container | null = this.sprites[move.player.line][move.player.column]
     let attributesChange: Record<PlayerAttribute, AttributeChangeInterval | undefined>
 
-    switch (move.getType()) {
+    switch (move.type) {
       case ActionType.PICK_ITEM:
         targetSprite = this.sprites[move.target.line][move.target.column]
         const appliedItem = (move as PickItem).appliedItem
@@ -363,7 +363,7 @@ export class GameMap extends AbstractMap {
         }
       }
 
-      switch (move.getType()) {
+      switch (move.type) {
         case ActionType.PICK_ITEM:
           if (totalPercentMove >= 1) {
             for (const attribute of PLAYER_ATTRIBUTES) {
@@ -441,7 +441,7 @@ export class GameMap extends AbstractMap {
     const deltaLine = move.target.line - move.player.line
     const oldTargetSprite: Container = this.sprites[move.target.line][move.target.column]!
 
-    const hasNewTile = move.getType() == ActionType.KILL_ENEMY && (move as KillEnemy).dropTile != EMPTY_TILE
+    const hasNewTile = move.type == ActionType.KILL_ENEMY && (move as KillEnemy).dropTile != EMPTY_TILE
     let newTargetSprite: null | Sprite = null
     if (hasNewTile) {
       newTargetSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile((move as KillEnemy).dropTile)!)
@@ -454,7 +454,7 @@ export class GameMap extends AbstractMap {
     let enemyHpChange: null | AttributeChangeInterval = null
     let enemyExpChange: null | AttributeChangeInterval = null
 
-    switch (move.getType()) {
+    switch (move.type) {
       case ActionType.KILL_ENEMY:
         const killEnemy = move as KillEnemy
         if (killEnemy.hpLost > 0) {
@@ -512,7 +512,7 @@ export class GameMap extends AbstractMap {
             (GameMap.TILE_SWITCH_HIDE_MIDDLE_PERCENT - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT)
       }
 
-      switch (move.getType()) {
+      switch (move.type) {
         case ActionType.KILL_ENEMY:
           if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
             if (enemyHpChange !== null) {
@@ -572,7 +572,7 @@ export class GameMap extends AbstractMap {
   private tryAction(): void {
     const delta = this.deltaBuffer.shift()!
     const action: ActionWithTarget | null = this.game.playerTower!.movePlayer(delta)
-    console.debug("GameMap", "tryAction", delta, action === null ? null : action.getType())
+    console.debug("GameMap", "tryAction", delta, action)
     if (action === null) {
       this.deltaBuffer.length = 0
       this.currentAction = null
@@ -580,7 +580,7 @@ export class GameMap extends AbstractMap {
     }
     this.currentAction = action
     this.game.eventManager.notifyAnimationStart(AnimationSource.GAME_MAP)
-    switch (action.getType()) {
+    switch (action.type) {
       case ActionType.MOVE:
         this.tickerFunction = this.triggerMoveAction(action as Move)
         break

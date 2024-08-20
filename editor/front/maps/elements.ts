@@ -133,7 +133,7 @@ export class Elements {
           return enemy.type === enemyType && enemy.level === enemyLevel
         })
         if (enemy !== undefined) {
-          this.editor.eventManager.notifyTileSelection(new EnemyTile(enemy), false)
+          this.editor.eventManager.notifyTileSelection({ type: TileType.enemy, enemy: enemy }, false)
         }
         break
       }
@@ -179,7 +179,7 @@ export class Elements {
   }
 
   private findTreeItem(tile: Tile): SlTreeItem {
-    switch (tile.getType()) {
+    switch (tile.type) {
       case TileType.door:
         const doorTile = tile as DoorTile
         return this.findTreeItemFromValue({

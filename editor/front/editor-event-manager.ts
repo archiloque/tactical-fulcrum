@@ -1,8 +1,8 @@
+import { EnemyTile, Tile } from "../../common/models/tile"
 import { EventManager } from "../../common/event-manager"
 import { RoomLayer } from "./room-layer"
 import { ScoreType } from "../../common/data/score-type"
 import { SelectedRoom } from "./maps/selected-room"
-import { Tile } from "../../common/models/tile"
 
 export class EditorEventManager extends EventManager {
   private static EVENT_ROOM_SELECTION = "roomSelection"
@@ -29,7 +29,7 @@ export class EditorEventManager extends EventManager {
     )
   }
 
-  public notifyTileSelection(selectedTile: Tile, updateElementTree: boolean): void {
+  public notifyTileSelection(selectedTile: Tile | EnemyTile, updateElementTree: boolean): void {
     console.debug("EditorEventManager", "notifyTileSelection", selectedTile, updateElementTree)
     this.eventEmitter.emit(EditorEventManager.EVENT_TILE_SELECTION, selectedTile, updateElementTree)
   }

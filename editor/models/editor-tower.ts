@@ -49,7 +49,7 @@ export class EditorTower extends Tower {
     for (const room of rooms) {
       for (const tileLines of room.tiles) {
         for (const tile of tileLines) {
-          if (tile.getType() === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
+          if (tile.type === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
             result += 1
           }
         }
@@ -70,7 +70,7 @@ export class EditorTower extends Tower {
     for (const room of rooms) {
       for (const tileLines of room.tiles) {
         tileLines.forEach((tile, index) => {
-          if (tile.getType() === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
+          if (tile.type === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
             tileLines[index] = EMPTY_TILE
           }
         })

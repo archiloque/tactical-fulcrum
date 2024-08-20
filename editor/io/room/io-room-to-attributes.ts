@@ -29,7 +29,7 @@ export class IoRoomToAttributes {
   }
 
   private static createTile(tile: Tile): Record<string, string | number | null> {
-    switch (tile.getType()) {
+    switch (tile.type) {
       case TileType.door:
         const door = tile as DoorTile
         return {

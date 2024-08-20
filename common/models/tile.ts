@@ -25,135 +25,82 @@ export const TILE_TYPES: TileType[] = [
   TileType.wall,
 ]
 
-export interface Tile {
-  getType(): TileType
+export type Tile = {
+  readonly type: TileType
 }
 
-export class DoorTile implements Tile {
+export type DoorTile = Tile & {
   readonly color: Color
-
-  constructor(color: Color) {
-    this.color = color
-  }
-
-  getType(): TileType {
-    return TileType.door
-  }
 }
 
 export const DOOR_TILES: Record<Color, DoorTile> = {
-  [Color.blue]: new DoorTile(Color.blue),
-  [Color.crimson]: new DoorTile(Color.crimson),
-  [Color.greenBlue]: new DoorTile(Color.greenBlue),
-  [Color.platinum]: new DoorTile(Color.platinum),
-  [Color.violet]: new DoorTile(Color.violet),
-  [Color.yellow]: new DoorTile(Color.yellow),
+  [Color.blue]: { type: TileType.door, color: Color.blue },
+  [Color.crimson]: { type: TileType.door, color: Color.crimson },
+  [Color.greenBlue]: { type: TileType.door, color: Color.greenBlue },
+  [Color.platinum]: { type: TileType.door, color: Color.platinum },
+  [Color.violet]: { type: TileType.door, color: Color.violet },
+  [Color.yellow]: { type: TileType.door, color: Color.yellow },
 }
 
-export class EmptyTile implements Tile {
-  getType(): TileType {
-    return TileType.empty
-  }
-}
+export type EmptyTile = Tile & {}
 
-export const EMPTY_TILE: EmptyTile = new EmptyTile()
+export const EMPTY_TILE: EmptyTile = { type: TileType.empty }
 
-export class EnemyTile implements Tile {
+export type EnemyTile = Tile & {
   readonly enemy: Enemy
-
-  constructor(enemy: Enemy) {
-    this.enemy = enemy
-  }
-
-  getType(): TileType {
-    return TileType.enemy
-  }
 }
 
-export class ItemTile implements Tile {
+export type ItemTile = Tile & {
   readonly item: ItemName
-
-  constructor(item: ItemName) {
-    this.item = item
-  }
-
-  getType(): TileType {
-    return TileType.item
-  }
 }
 
 export const ITEM_TILES: Record<ItemName, ItemTile> = {
-  [ItemName.blue_potion]: new ItemTile(ItemName.blue_potion),
-  [ItemName.drop_of_dream_ocean]: new ItemTile(ItemName.drop_of_dream_ocean),
-  [ItemName.golden_feather]: new ItemTile(ItemName.golden_feather),
-  [ItemName.guard_card]: new ItemTile(ItemName.guard_card),
-  [ItemName.guard_deck]: new ItemTile(ItemName.guard_deck),
-  [ItemName.guard_gem]: new ItemTile(ItemName.guard_gem),
-  [ItemName.guard_piece]: new ItemTile(ItemName.guard_piece),
-  [ItemName.guard_potion]: new ItemTile(ItemName.guard_potion),
-  [ItemName.heavenly_potion]: new ItemTile(ItemName.heavenly_potion),
-  [ItemName.life_crown]: new ItemTile(ItemName.life_crown),
-  [ItemName.life_potion]: new ItemTile(ItemName.life_potion),
-  [ItemName.power_card]: new ItemTile(ItemName.power_card),
-  [ItemName.power_deck]: new ItemTile(ItemName.power_deck),
-  [ItemName.power_gem]: new ItemTile(ItemName.power_gem),
-  [ItemName.power_piece]: new ItemTile(ItemName.power_piece),
-  [ItemName.power_potion]: new ItemTile(ItemName.power_potion),
-  [ItemName.pulse_book_shield]: new ItemTile(ItemName.pulse_book_shield),
-  [ItemName.pulse_book_sword]: new ItemTile(ItemName.pulse_book_sword),
-  [ItemName.red_potion]: new ItemTile(ItemName.red_potion),
+  [ItemName.blue_potion]: { type: TileType.item, item: ItemName.blue_potion },
+  [ItemName.drop_of_dream_ocean]: { type: TileType.item, item: ItemName.drop_of_dream_ocean },
+  [ItemName.golden_feather]: { type: TileType.item, item: ItemName.golden_feather },
+  [ItemName.guard_card]: { type: TileType.item, item: ItemName.guard_card },
+  [ItemName.guard_deck]: { type: TileType.item, item: ItemName.guard_deck },
+  [ItemName.guard_gem]: { type: TileType.item, item: ItemName.guard_gem },
+  [ItemName.guard_piece]: { type: TileType.item, item: ItemName.guard_piece },
+  [ItemName.guard_potion]: { type: TileType.item, item: ItemName.guard_potion },
+  [ItemName.heavenly_potion]: { type: TileType.item, item: ItemName.heavenly_potion },
+  [ItemName.life_crown]: { type: TileType.item, item: ItemName.life_crown },
+  [ItemName.life_potion]: { type: TileType.item, item: ItemName.life_potion },
+  [ItemName.power_card]: { type: TileType.item, item: ItemName.power_card },
+  [ItemName.power_deck]: { type: TileType.item, item: ItemName.power_deck },
+  [ItemName.power_gem]: { type: TileType.item, item: ItemName.power_gem },
+  [ItemName.power_piece]: { type: TileType.item, item: ItemName.power_piece },
+  [ItemName.power_potion]: { type: TileType.item, item: ItemName.power_potion },
+  [ItemName.pulse_book_shield]: { type: TileType.item, item: ItemName.pulse_book_shield },
+  [ItemName.pulse_book_sword]: { type: TileType.item, item: ItemName.pulse_book_sword },
+  [ItemName.red_potion]: { type: TileType.item, item: ItemName.red_potion },
 }
 
-export class KeyTile implements Tile {
+export type KeyTile = Tile & {
   readonly color: Color
-
-  constructor(color: Color) {
-    this.color = color
-  }
-
-  getType(): TileType {
-    return TileType.key
-  }
 }
 
 export const KEY_TILES: Record<Color, KeyTile> = {
-  [Color.blue]: new KeyTile(Color.blue),
-  [Color.crimson]: new KeyTile(Color.crimson),
-  [Color.greenBlue]: new KeyTile(Color.greenBlue),
-  [Color.platinum]: new KeyTile(Color.platinum),
-  [Color.violet]: new KeyTile(Color.violet),
-  [Color.yellow]: new KeyTile(Color.yellow),
+  [Color.blue]: { type: TileType.key, color: Color.blue },
+  [Color.crimson]: { type: TileType.key, color: Color.crimson },
+  [Color.greenBlue]: { type: TileType.key, color: Color.greenBlue },
+  [Color.platinum]: { type: TileType.key, color: Color.platinum },
+  [Color.violet]: { type: TileType.key, color: Color.violet },
+  [Color.yellow]: { type: TileType.key, color: Color.yellow },
 }
 
-export class StaircaseTile implements Tile {
+export type StaircaseTile = Tile & {
   readonly direction: StaircaseDirection
-
-  constructor(staircaseDirection: StaircaseDirection) {
-    this.direction = staircaseDirection
-  }
-
-  getType(): TileType {
-    return TileType.staircase
-  }
 }
 
 export const STAIRCASE_TILES: Record<StaircaseDirection, StaircaseTile> = {
-  [StaircaseDirection.down]: new StaircaseTile(StaircaseDirection.down),
-  [StaircaseDirection.up]: new StaircaseTile(StaircaseDirection.up),
+  [StaircaseDirection.down]: { type: TileType.staircase, direction: StaircaseDirection.down },
+  [StaircaseDirection.up]: { type: TileType.staircase, direction: StaircaseDirection.up },
 }
 
-export class StartingPositionTile implements Tile {
-  getType(): TileType {
-    return TileType.startingPosition
-  }
-}
+export type StartingPositionTile = Tile & {}
 
-export const STARTING_POSITION_TILE: StartingPositionTile = new StartingPositionTile()
+export const STARTING_POSITION_TILE: StartingPositionTile = { type: TileType.startingPosition }
 
-export class WallTile implements Tile {
-  getType(): TileType {
-    return TileType.wall
-  }
-}
-
-export const WALL_TILE: WallTile = new WallTile()
+export type WallTile = Tile & {}
+export const WALL_TILE: WallTile = { type: TileType.wall }

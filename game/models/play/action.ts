@@ -15,111 +15,38 @@ export const enum ActionType {
   LEVEL_UP = "level_up",
 }
 
-export abstract class Action {
+export type Action = {
   readonly player: Position3D
-
-  protected constructor(player: Position3D) {
-    this.player = player
-  }
-
-  abstract getType(): ActionType
+  readonly type: ActionType
 }
 
-export abstract class ActionWithTarget extends Action {
+export type ActionWithTarget = Action & {
   readonly target: Position3D
-
-  protected constructor(player: Position3D, target: Position3D) {
-    super(player)
-    this.target = target
-  }
 }
 
-export class Move extends ActionWithTarget {
-  constructor(player: Position3D, target: Position3D) {
-    super(player, target)
-  }
+export type Move = ActionWithTarget & {}
 
-  getType(): ActionType {
-    return ActionType.MOVE
-  }
-}
+export type RoomChange = ActionWithTarget & {}
 
-export class RoomChange extends ActionWithTarget {
-  constructor(player: Position3D, target: Position3D) {
-    super(player, target)
-  }
-
-  getType(): ActionType {
-    return ActionType.ROOM_CHANGE
-  }
-}
-
-export class PickItem extends ActionWithTarget {
+export type PickItem = ActionWithTarget & {
   readonly appliedItem: AppliedItem
-
-  constructor(player: Position3D, target: Position3D, appliedItem: AppliedItem) {
-    super(player, target)
-    this.appliedItem = appliedItem
-  }
-
-  getType(): ActionType {
-    return ActionType.PICK_ITEM
-  }
 }
 
-export class PickKey extends ActionWithTarget {
+export type PickKey = ActionWithTarget & {
   readonly color: Color
-
-  constructor(player: Position3D, target: Position3D, color: Color) {
-    super(player, target)
-    this.color = color
-  }
-
-  getType(): ActionType {
-    return ActionType.PICK_KEY
-  }
 }
 
-export class OpenDoor extends ActionWithTarget {
+export type OpenDoor = ActionWithTarget & {
   readonly color: Color
-
-  constructor(player: Position3D, target: Position3D, color: Color) {
-    super(player, target)
-    this.color = color
-  }
-
-  getType(): ActionType {
-    return ActionType.OPEN_DOOR
-  }
 }
 
-export class KillEnemy extends ActionWithTarget {
+export type KillEnemy = ActionWithTarget & {
   readonly enemy: Enemy
   readonly dropTile: Tile
   readonly hpLost: number
   readonly expWin: number
-
-  constructor(player: Position3D, target: Position3D, enemy: Enemy, dropTile: Tile, hpLost: number, expWin: number) {
-    super(player, target)
-    this.enemy = enemy
-    this.dropTile = dropTile
-    this.hpLost = hpLost
-    this.expWin = expWin
-  }
-
-  getType(): ActionType {
-    return ActionType.KILL_ENEMY
-  }
 }
 
-export class LevelUp extends Action {
+export type LevelUp = Action & {
   readonly levelUpContent: LevelUpContent
-  constructor(player: Position3D, levelUpContent: LevelUpContent) {
-    super(player)
-    this.levelUpContent = levelUpContent
-  }
-
-  getType(): ActionType {
-    return ActionType.LEVEL_UP
-  }
 }

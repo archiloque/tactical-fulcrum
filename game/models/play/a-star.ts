@@ -62,7 +62,7 @@ export function calculateReachableTiles(
 
 function reachable(position: Position2D, room: Tile[][], playerInfo: PlayerInfo): ReachableType {
   const tile = room[position.line][position.column]
-  switch (tile.getType()) {
+  switch (tile.type) {
     case TileType.door:
       const doorColor = (tile as DoorTile).color
       return playerInfo.keys[doorColor] >= 1 ? ReachableType.reachable : ReachableType.blocking

@@ -9,7 +9,7 @@ export function findStartingPosition(rooms: Tile[][][]): Position3D {
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
       const line = room[lineIndex]
       for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
-        if (line[columnIndex].getType() === TileType.startingPosition) {
+        if (line[columnIndex].type === TileType.startingPosition) {
           line[columnIndex] = EMPTY_TILE
           return new Position3D(roomIndex, lineIndex, columnIndex)
         }
@@ -29,7 +29,7 @@ export function findStaircasePosition(
     const line = room[lineIndex]
     for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
       const currentTile = line[columnIndex]
-      if (currentTile.getType() === TileType.staircase) {
+      if (currentTile.type === TileType.staircase) {
         const staircase = currentTile as StaircaseTile
         if (staircase.direction === staircaseDirection) {
           return new Position3D(roomIndex, lineIndex, columnIndex)

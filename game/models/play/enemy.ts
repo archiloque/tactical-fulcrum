@@ -1,9 +1,9 @@
 import { DropContentItem, DropContentKey, DROPS_CONTENTS, DropType } from "../../../common/data/drop"
-import { EMPTY_TILE, ItemTile, KeyTile, Tile } from "../../../common/models/tile"
+import { EMPTY_TILE, EmptyTile, ItemTile, KeyTile, TileType } from "../../../common/models/tile"
 import { Enemy } from "../../../common/models/enemy"
 import { PlayerInfo } from "../player-info"
 
-export function getDropTile(enemy: Enemy): Tile {
+export function getDropTile(enemy: Enemy): KeyTile | ItemTile | EmptyTile {
   const dropName = enemy.drop
   if (dropName === null) {
     return EMPTY_TILE
@@ -14,9 +14,9 @@ export function getDropTile(enemy: Enemy): Tile {
   }
   switch (dropContent.getType()) {
     case DropType.KEY:
-      return new KeyTile((dropContent as DropContentKey).color)
+      return { type: TileType.key, color: (dropContent as DropContentKey).color }
     case DropType.ITEM:
-      return new ItemTile((dropContent as DropContentItem).itemName)
+      return { type: TileType.item, item: (dropContent as DropContentItem).itemName }
   }
 }
 

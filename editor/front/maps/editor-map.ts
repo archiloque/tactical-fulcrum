@@ -112,7 +112,7 @@ export class EditorMap extends AbstractMap {
     } else {
       const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       const currentTile: Tile = currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
-      switch (currentTile.getType()) {
+      switch (currentTile.type) {
         case TileType.enemy:
           const enemy = (currentTile as EnemyTile).enemy
           return `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
@@ -178,7 +178,7 @@ export class EditorMap extends AbstractMap {
             sprite.y = this.tileSize * lineIndex
             this.standardTiles.addChild(sprite)
           }
-          if (currentTile.getType() === TileType.enemy) {
+          if (currentTile.type === TileType.enemy) {
             const enemyTile = currentTile as EnemyTile
             const text = new Text({
               text: enemyTile.enemy.level != null ? enemyTile.enemy.level : "",

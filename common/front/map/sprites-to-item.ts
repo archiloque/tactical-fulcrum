@@ -121,7 +121,7 @@ export class SpritesToItem {
   }
 
   static spriteNameFromTile(tile: Tile): SpriteName | null {
-    switch (tile.getType()) {
+    switch (tile.type) {
       case TileType.empty:
         return null
       case TileType.door:

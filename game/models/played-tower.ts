@@ -1,5 +1,6 @@
 import {
   Action,
+  ActionType,
   ActionWithTarget,
   KillEnemy,
   LevelUp,
@@ -196,19 +197,24 @@ export class PlayedTower {
     }
     const oldPlayerPosition = this.playerPosition
     const targetTile: Tile = this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column]
-    switch (targetTile.getType()) {
+    switch (targetTile.type) {
       case TileType.door:
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = EMPTY_TILE
         const doorColor = (targetTile as DoorTile).color
         this.playerInfo.keys[doorColor] -= 1
         this.calculateReachableTiles()
-        const openDoor = new OpenDoor(oldPlayerPosition, targetPosition, doorColor)
+        const openDoor: OpenDoor = {
+          player: oldPlayerPosition,
+          target: targetPosition,
+          color: doorColor,
+          type: ActionType.OPEN_DOOR,
+        }
         this.actions.push(openDoor)
         return openDoor
       case TileType.empty:
         this.playerPosition = targetPosition
         this.calculateReachableTiles()
-        const move = new Move(oldPlayerPosition, targetPosition)
+        const move: Move = { player: oldPlayerPosition, target: targetPosition, type: ActionType.MOVE }
         this.actions.push(move)
         return move
       case TileType.enemy:
@@ -220,7 +226,15 @@ export class PlayedTower {
         const dropTile = getDropTile(enemy)
         this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column] = dropTile
         this.calculateReachableTiles()
-        const killEnemy = new KillEnemy(oldPlayerPosition, targetPosition, enemy, dropTile, hpLost, expWin)
+        const killEnemy: KillEnemy = {
+          player: oldPlayerPosition,
+          target: targetPosition,
+          enemy: enemy,
+          dropTile: dropTile,
+          hpLost: hpLost,
+          expWin: expWin,
+          type: ActionType.KILL_ENEMY,
+        }
         this.actions.push(killEnemy)
         return killEnemy
       case TileType.item:
@@ -230,7 +244,12 @@ export class PlayedTower {
         const appliedItem: AppliedItem = this.appliedItem(itemName)
         this.applyItem(appliedItem)
         this.calculateReachableTiles()
-        const pickItem = new PickItem(oldPlayerPosition, targetPosition, appliedItem)
+        const pickItem: PickItem = {
+          player: oldPlayerPosition,
+          target: targetPosition,
+          appliedItem: appliedItem,
+          type: ActionType.PICK_ITEM,
+        }
         this.actions.push(pickItem)
         return pickItem
       case TileType.key:
@@ -239,7 +258,12 @@ export class PlayedTower {
         const keyColor = (targetTile as KeyTile).color
         this.playerInfo.keys[keyColor] += 1
         this.calculateReachableTiles()
-        const pickKey = new PickKey(oldPlayerPosition, targetPosition, keyColor)
+        const pickKey: PickKey = {
+          player: oldPlayerPosition,
+          target: targetPosition,
+          color: keyColor,
+          type: ActionType.PICK_KEY,
+        }
         this.actions.push(pickKey)
         return pickKey
       case TileType.staircase:
@@ -252,7 +276,7 @@ export class PlayedTower {
         )
         this.playerPosition = newPosition
         this.calculateReachableTiles()
-        const roomChange = new RoomChange(oldPlayerPosition, newPosition)
+        const roomChange: RoomChange = { player: oldPlayerPosition, target: newPosition, type: ActionType.ROOM_CHANGE }
         this.actions.push(roomChange)
         return roomChange
       case TileType.startingPosition:
@@ -282,7 +306,7 @@ export class PlayedTower {
   }
 
   private applyLevelUp(levelUpContent: LevelUpContent): void {
-    const levelUp = new LevelUp(this.playerPosition, levelUpContent)
+    const levelUp: LevelUp = { player: this.playerPosition, levelUpContent: levelUpContent, type: ActionType.LEVEL_UP }
     this.actions.push(levelUp)
     switch (levelUpContent.getType()) {
       case LevelUpContentType.KEY:

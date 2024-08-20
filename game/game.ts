@@ -6,6 +6,7 @@ import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
 import { AlertVariant, showAlert } from "../common/front/alert"
+import { Database } from "./storage/database"
 import { GameEventManager } from "./front/game-event-manager"
 import { GameScreen } from "./front/game-screen"
 import { Import } from "../common/io/import"
@@ -27,6 +28,7 @@ registerDefaultIcons()
 registerCustomIcons()
 
 export class Game {
+  readonly database: Database
   private readonly screenIntro: ScreenIntro
   private readonly screenTower: ScreenTower
   readonly eventManager: GameEventManager
@@ -36,6 +38,7 @@ export class Game {
   playerTower: PlayedTower | null
 
   constructor() {
+    this.database = new Database()
     this.mainDiv = document.getElementById("content")!
     this.eventManager = new GameEventManager()
 
@@ -46,7 +49,7 @@ export class Game {
     this.screenIntro = new ScreenIntro(this)
     this.screenTower = new ScreenTower(this)
     this.displayedScreen = GameScreen.intro
-    this.screenTower.init().then(() => {
+    Promise.all([this.database.init(), this.screenTower.init()]).then(() => {
       this.screenIntro.render()
     })
 

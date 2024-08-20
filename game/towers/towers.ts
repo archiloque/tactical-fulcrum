@@ -1,4 +1,4 @@
-import {TowerInfo} from './tower-info'
+import { TowerInfo } from './tower-info'
 
 export const TOWERS: TowerInfo[] = [
   new TowerInfo('1-1.json', '1-1 Tactical tutorial'),

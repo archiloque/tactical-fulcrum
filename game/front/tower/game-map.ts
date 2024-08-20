@@ -1,4 +1,4 @@
-import { Action, ActionType, KillEnemy, Move, OpenDoor, PickItem, PickKey } from "../../models/play/action"
+import { ActionType, ActionWithTarget, KillEnemy, Move, OpenDoor, PickItem, PickKey } from "../../models/play/action"
 import { AppliedItem, ITEM_ATTRIBUTES, ItemAttribute, PLAYER_ATTRIBUTES, PlayerAttribute } from "../../models/attribute"
 import { Container, FederatedPointerEvent, Point, Sprite, Text, Ticker } from "pixi.js"
 import {
@@ -50,7 +50,7 @@ export class GameMap extends AbstractMap {
   // @ts-ignore
   private tickerFunction: null | ((ticker: Ticker) => void)
   private deltaBuffer: Delta2D[] = []
-  private currentAction: Action | null = null
+  private currentAction: ActionWithTarget | null = null
   private readonly sprites: Container[][] | null[][]
   private infoBar: InfoBar
 
@@ -571,7 +571,7 @@ export class GameMap extends AbstractMap {
 
   private tryAction(): void {
     const delta = this.deltaBuffer.shift()!
-    const action: Action | null = this.game.playerTower!.movePlayer(delta)
+    const action: ActionWithTarget | null = this.game.playerTower!.movePlayer(delta)
     console.debug("GameMap", "tryAction", delta, action === null ? null : action.getType())
     if (action === null) {
       this.deltaBuffer.length = 0

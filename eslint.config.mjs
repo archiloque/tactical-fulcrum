@@ -14,7 +14,7 @@ export default [
       stylistic: StylisticPlugin,
     },
     rules: {
-      "@stylistic/object-curly-spacing": ["error", "never"],
+      "@stylistic/object-curly-spacing": ["error", "always"],
       "@stylistic/indent": ["off"],
       "@typescript-eslint/ban-ts-comment": ["off"],
       "@typescript-eslint/no-explicit-any": ["off"],

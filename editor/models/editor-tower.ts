@@ -49,8 +49,11 @@ export class EditorTower extends Tower {
     for (const room of rooms) {
       for (const tileLines of room.tiles) {
         for (const tile of tileLines) {
-          if (tile.type === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
-            result += 1
+          if (tile.type === TileType.enemy) {
+            const enemyTile = tile as EnemyTile
+            if (enemyTile.enemyType === enemy.type && enemyTile.level === enemy.level) {
+              result += 1
+            }
           }
         }
       }
@@ -70,8 +73,11 @@ export class EditorTower extends Tower {
     for (const room of rooms) {
       for (const tileLines of room.tiles) {
         tileLines.forEach((tile, index) => {
-          if (tile.type === TileType.enemy && (tile as EnemyTile).enemy.equals(enemy)) {
-            tileLines[index] = EMPTY_TILE
+          if (tile.type === TileType.enemy) {
+            const enemyTile = tile as EnemyTile
+            if (enemyTile.enemyType === enemy.type && enemyTile.level === enemy.level) {
+              tileLines[index] = EMPTY_TILE
+            }
           }
         })
       }

@@ -16,11 +16,11 @@ import {
   TileType,
   WALL_TILE,
 } from "../../models/tile"
+import { Enemy, findEnemy } from "../../models/enemy"
 import { ENEMY_TYPES, EnemyType } from "../../data/enemy-type"
 import { ITEM_NAMES, ItemName } from "../../data/item-name"
 import { SCORE_TYPES, ScoreType } from "../../data/score-type"
 import { STAIRCASE_DIRECTIONS, StaircaseDirection } from "../../data/staircase-direction"
-import { Enemy } from "../../models/enemy"
 import { findEnum } from "../../models/functions"
 import { IoRoom } from "./io-room"
 import { Room } from "../../models/room"
@@ -135,12 +135,12 @@ export class IoRoomFromAttributes {
       return EMPTY_TILE
     }
     const enemyLevel = parseInt(<string>tile[IoRoom.ATTRIBUTE_ENEMY_LEVEL])
-    const enemy = enemies.find((e) => e.type == enemyType && e.level === enemyLevel)
-    if (enemy == null) {
+    const enemy = findEnemy(enemyType, enemyLevel, enemies)
+    if (enemy === undefined) {
       console.error("IoRoomFromAttributes", "createTileEnemy", "unknown enemy", tile)
       return EMPTY_TILE
     } else {
-      return { type: TileType.enemy, enemy: enemy }
+      return { type: TileType.enemy, level: enemyLevel, enemyType: enemyType }
     }
   }
 

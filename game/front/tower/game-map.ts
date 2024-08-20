@@ -16,7 +16,7 @@ import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { AnimationSource } from "../game-event-manager"
 import { capitalize } from "../../../common/models/utils"
 import { Delta2D } from "../../models/tuples"
-import { Enemy } from "../../../common/models/enemy"
+import { findEnemy } from "../../../common/models/enemy"
 import { Game } from "../../game"
 import { getTextColor } from "../../../common/front/color-scheme"
 import { ItemName } from "../../../common/data/item-name"
@@ -198,7 +198,7 @@ export class GameMap extends AbstractMap {
       enemyContainer.addChild(sprite)
       const enemyTile = tile as EnemyTile
       const text = new Text({
-        text: enemyTile.enemy.level !== null ? enemyTile.enemy.level : "",
+        text: enemyTile.level !== null ? enemyTile.level : "",
         style: {
           fontFamily: "JetBrains Mono",
           fontSize: this.tileSize / 2,
@@ -227,7 +227,7 @@ export class GameMap extends AbstractMap {
       case TileType.empty:
         return null
       case TileType.enemy:
-        const enemy = (tile as EnemyTile).enemy
+        const enemy = tile as EnemyTile
         return this.toolTipTextEnemy(enemy)
       case TileType.item:
         const itemName = (tile as ItemTile).item
@@ -243,7 +243,8 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  private toolTipTextEnemy(enemy: Enemy): string {
+  private toolTipTextEnemy(enemyTile: EnemyTile): string {
+    const enemy = findEnemy(enemyTile.enemyType, enemyTile.level, this.game.playerTower!.tower.enemies)!
     const enemyToolTipAttributes = this.game.playerTower!.enemyToolTipAttributes(enemy)
     const dropName = enemy.drop !== null ? enemy.drop : "nothing"
     const damage = enemyToolTipAttributes.hpLost !== null ? `Damage: ${enemyToolTipAttributes.hpLost} HP` : "Unkillable"

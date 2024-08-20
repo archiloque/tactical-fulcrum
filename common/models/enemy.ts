@@ -24,3 +24,7 @@ export class Enemy {
     return this.level == enemy.level && this.type == enemy.type
   }
 }
+
+export function findEnemy(enemyType: EnemyType, enemyLevel: number, enemies: Enemy[]): Enemy | undefined {
+  return enemies.find((e) => e.type == enemyType && e.level === enemyLevel)
+}

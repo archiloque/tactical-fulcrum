@@ -32,11 +32,11 @@ import {
   Tile,
   TileType,
 } from "../../common/models/tile"
+import { Enemy, findEnemy } from "../../common/models/enemy"
 import { fight, getDropTile } from "./play/enemy"
 import { findStaircasePosition, findStartingPosition } from "./play/locations"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
-import { Enemy } from "../../common/models/enemy"
 import { getLevel } from "./play/levels"
 import { ItemName } from "../../common/data/item-name"
 import { Room } from "../../common/models/room"
@@ -218,7 +218,8 @@ export class PlayedTower {
         this.actions.push(move)
         return move
       case TileType.enemy:
-        const enemy = (targetTile as EnemyTile).enemy
+        const enemyTile = targetTile as EnemyTile
+        const enemy = findEnemy(enemyTile.enemyType, enemyTile.level, this.tower.enemies)!
         const hpLost = fight(enemy, this.playerInfo)!
         const expWin = Math.ceil((enemy.exp! * this.playerInfo.expMul) / 100)
         this.playerInfo.hp -= hpLost

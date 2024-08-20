@@ -31,39 +31,39 @@ export class IoRoomToAttributes {
   private static createTile(tile: Tile): Record<string, string | number | null> {
     switch (tile.type) {
       case TileType.door:
-        const door = tile as DoorTile
+        const doorTile = tile as DoorTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.door,
-          [IoRoom.ATTRIBUTE_COLOR]: door.color,
+          [IoRoom.ATTRIBUTE_COLOR]: doorTile.color,
         }
       case TileType.empty:
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.empty,
         }
       case TileType.enemy:
-        const enemy = tile as EnemyTile
+        const enemyTile = tile as EnemyTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.enemy,
-          [IoRoom.ATTRIBUTE_ENEMY_TYPE]: enemy.enemy.type,
-          [IoRoom.ATTRIBUTE_ENEMY_LEVEL]: enemy.enemy.level,
+          [IoRoom.ATTRIBUTE_ENEMY_TYPE]: enemyTile.type,
+          [IoRoom.ATTRIBUTE_ENEMY_LEVEL]: enemyTile.level,
         }
       case TileType.item:
-        const item = tile as ItemTile
+        const itemTile = tile as ItemTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.item,
-          [IoRoom.ATTRIBUTE_NAME]: item.item,
+          [IoRoom.ATTRIBUTE_NAME]: itemTile.item,
         }
       case TileType.key:
-        const key = tile as KeyTile
+        const keyTile = tile as KeyTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.key,
-          [IoRoom.ATTRIBUTE_COLOR]: key.color,
+          [IoRoom.ATTRIBUTE_COLOR]: keyTile.color,
         }
       case TileType.staircase:
-        const staircase = tile as StaircaseTile
+        const staircaseTile = tile as StaircaseTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.staircase,
-          [IoRoom.ATTRIBUTE_DIRECTION]: staircase.direction,
+          [IoRoom.ATTRIBUTE_DIRECTION]: staircaseTile.direction,
         }
       case TileType.startingPosition:
         return {

@@ -1,5 +1,5 @@
 import { Color } from "../data/color"
-import { Enemy } from "./enemy"
+import { EnemyType } from "../data/enemy-type"
 import { ItemName } from "../data/item-name"
 import { StaircaseDirection } from "../data/staircase-direction"
 
@@ -47,7 +47,8 @@ export type EmptyTile = Tile & {}
 export const EMPTY_TILE: EmptyTile = { type: TileType.empty }
 
 export type EnemyTile = Tile & {
-  readonly enemy: Enemy
+  readonly enemyType: EnemyType
+  readonly level: number
 }
 
 export type ItemTile = Tile & {

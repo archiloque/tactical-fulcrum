@@ -1,4 +1,5 @@
 import { Container, FederatedPointerEvent, Point, Text } from "pixi.js"
+import { Enemy, findEnemy } from "../../../common/models/enemy"
 import { EnemyTile, ItemTile, Tile, TileType } from "../../../common/models/tile"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { Editor } from "../../editor"
@@ -114,7 +115,8 @@ export class EditorMap extends AbstractMap {
       const currentTile: Tile = currentRoom.tiles[this.lastMouseTile.y][this.lastMouseTile.x]
       switch (currentTile.type) {
         case TileType.enemy:
-          const enemy = (currentTile as EnemyTile).enemy
+          const enemyTile = currentTile as EnemyTile
+          const enemy: Enemy = findEnemy(enemyTile.enemyType, enemyTile.level, this.editor.tower.enemies)!
           return `${enemy.type == null || enemy.type.length === 0 ? "??" : enemy.type} ${enemy.level == null ? "??" : enemy.level} (${enemy.name})`
         case TileType.item:
           return (currentTile as ItemTile).item.valueOf()
@@ -181,7 +183,7 @@ export class EditorMap extends AbstractMap {
           if (currentTile.type === TileType.enemy) {
             const enemyTile = currentTile as EnemyTile
             const text = new Text({
-              text: enemyTile.enemy.level != null ? enemyTile.enemy.level : "",
+              text: enemyTile.level != null ? enemyTile.level : "",
               style: {
                 fontFamily: "JetBrains Mono",
                 fontSize: this.tileSize / 2,

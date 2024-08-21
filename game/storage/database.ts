@@ -2,8 +2,14 @@ import { DBSchema, deleteDB, IDBPDatabase, openDB } from "idb"
 import { PlayedTower } from "../models/played-tower"
 import { PlayerInfo } from "../models/player-info"
 
-const enum SaveAttributes {
+const enum TowerModelAttributes {
+  id = "id",
   towerName = "towerName",
+}
+
+const enum PlayedTowerModelAttributes {
+  id = "id",
+  towerId = "towerId",
   slot = "slot",
   saveName = "saveName",
   timestamp = "timestamp",
@@ -15,8 +21,14 @@ export type PlayerPosition = {
   room: number
 }
 
-export type Save = {
+export type TowerModel = {
+  id: number
   towerName: string
+}
+
+export type PlayedTowerModel = {
+  id: number
+  tower: number
   slot: number
   saveName: string | null
   timestamp: Date
@@ -25,16 +37,22 @@ export type Save = {
 }
 
 interface TacticalFulcrumGameDbSchema extends DBSchema {
-  save: {
+  [Database.TOWER_OBJECT_STORE]: {
+    key: [number]
+    value: TowerModel
+    indexes: { name: [string] }
+  }
+  [Database.PLAYED_TOWER_OBJECT_STORE]: {
     key: [number, string]
-    value: Save
-    indexes: { identifier: [SaveAttributes.towerName, SaveAttributes.slot] }
+    value: PlayedTowerModel
+    indexes: { identifier: [number, number] }
   }
 }
 
 export class Database {
   static readonly DATABASE_NAME = "tactical-fulcrum-game"
-  static readonly SAVE_OBJECT_STORE = "save"
+  static readonly TOWER_OBJECT_STORE = "tower"
+  static readonly PLAYED_TOWER_OBJECT_STORE = "playedTower"
   private db: undefined | IDBPDatabase<TacticalFulcrumGameDbSchema>
 
   constructor() {}
@@ -42,17 +60,37 @@ export class Database {
   async init(): Promise<any> {
     this.db = await openDB<TacticalFulcrumGameDbSchema>(Database.DATABASE_NAME, 1, {
       upgrade(database: IDBPDatabase<TacticalFulcrumGameDbSchema>) {
-        const store = database.createObjectStore(Database.SAVE_OBJECT_STORE, {
-          keyPath: [SaveAttributes.towerName, SaveAttributes.slot],
-          autoIncrement: false,
+        const towerStore = database.createObjectStore(Database.TOWER_OBJECT_STORE, {
+          keyPath: TowerModelAttributes.id,
+          autoIncrement: true,
         })
-        store.createIndex("identifier", [SaveAttributes.towerName, SaveAttributes.slot])
+        towerStore.createIndex("name", [TowerModelAttributes.towerName])
+
+        const playedTowerStore = database.createObjectStore(Database.PLAYED_TOWER_OBJECT_STORE, {
+          keyPath: PlayedTowerModelAttributes.id,
+          autoIncrement: true,
+        })
+        playedTowerStore.createIndex("identifier", [
+          PlayedTowerModelAttributes.towerId,
+          PlayedTowerModelAttributes.slot,
+        ])
       },
     })
   }
 
-  async save(save: Save): Promise<any> {
-    await this.db!.put(Database.SAVE_OBJECT_STORE, save)
+  async savePlayerTower(save: PlayedTowerModel): Promise<any> {
+    await this.db!.put(Database.PLAYED_TOWER_OBJECT_STORE, save)
+  }
+
+  async getTowerId(towerName: string): Promise<any> {
+    const tower = await this.db!.getFromIndex(Database.TOWER_OBJECT_STORE, "name", [towerName])
+    if (tower === undefined) {
+      // @ts-ignore
+      const tower: TowerModel = { towerName: towerName }
+      return (await this.db!.put(Database.TOWER_OBJECT_STORE, tower))[0]
+    } else {
+      return tower.id
+    }
   }
 
   async clear(): Promise<any> {
@@ -60,7 +98,8 @@ export class Database {
     return await this.init()
   }
 
-  toSave(playedTower: PlayedTower, slot: number, saveName: string | null): Save {
+  async toPlayedTowerModel(playedTower: PlayedTower, slot: number, saveName: string | null): Promise<PlayedTowerModel> {
+    // @ts-ignore
     return {
       playerInfo: playedTower.playerInfo,
       playerPosition: {
@@ -70,12 +109,12 @@ export class Database {
       },
       saveName: saveName,
       slot: slot,
-      towerName: playedTower.tower.name,
+      tower: await this.getTowerId(playedTower.tower.name),
       timestamp: new Date(),
     }
   }
 
-  toCurrentSave(playedTower: PlayedTower): Save {
-    return this.toSave(playedTower, -1, null)
+  async toCurrentSave(playedTower: PlayedTower): Promise<PlayedTowerModel> {
+    return await this.toPlayedTowerModel(playedTower, -1, null)
   }
 }

@@ -56,7 +56,7 @@ export class Game {
     CONSOLE: installConsole(this)
   }
 
-  private towerSelected(selectedTower: TowerInfo): void {
+  private async towerSelected(selectedTower: TowerInfo): Promise<any> {
     console.debug("ScreenTower", "towerSelected", selectedTower.name)
     fetch(`towers/${selectedTower.file}`).then(async (response) => {
       if (!response.ok) {
@@ -68,7 +68,9 @@ export class Game {
           await showAlert(errorMessage, AlertVariant.danger, "check2-circle")
         } else {
           const tower = importResult.tower
+          await this.database.getTowerId(tower.name)
           this.playerTower = new PlayedTower(tower)
+          await this.database.savePlayerTower(await this.database.toCurrentSave(this.playerTower))
           this.displayedScreen = GameScreen.tower
           this.screenTower.render()
         }

@@ -127,7 +127,7 @@ export class InfoBar {
 
   render(): void {
     console.debug("InfoBar", "render")
-    const playerInfo = this.game.playerTower!.playerInfo
+    const playerInfo = this.game.playedTower!.playerInfo
 
     const hp = this.renderBlock([
       this.renderField(InfoBar.HP_ID, `HP${NBSP}`, this.pad(playerInfo.hp)),
@@ -136,7 +136,7 @@ export class InfoBar {
     const atk = this.renderBlock([this.renderField(InfoBar.ATK_ID, "ATK", this.pad(playerInfo.atk))])
     const def = this.renderBlock([this.renderField(InfoBar.DEF_ID, "DEF", this.pad(playerInfo.def))])
 
-    const expInfo = this.game.playerTower!.getExpInfo()
+    const expInfo = this.game.playedTower!.getExpInfo()
 
     const exp = html` <div id="screenTowerInfoExp">
       <div id="screenTowerInfoExpFields">
@@ -246,13 +246,13 @@ export class InfoBar {
 
   private updateExpAndLevelsUp(): void {
     console.debug("InfoBar", "updateExpAndLevelsUp")
-    const expInfo: ExpInfo = this.game.playerTower!.getExpInfo()
+    const expInfo: ExpInfo = this.game.playedTower!.getExpInfo()
     this.infoExpNextLevel.innerText = expInfo.expForNextLevel.toString()
     this.infoExpProgress.value = expInfo.percentage
     this.infoExp.innerText = expInfo.remainingExp.toString()
-    render(this.infoLevel, this.levelInfo(this.game.playerTower!.playerInfo, expInfo))
+    render(this.infoLevel, this.levelInfo(this.game.playedTower!.playerInfo, expInfo))
     if (expInfo.levelsUpAvailable !== 0) {
-      const levelsUpContents: (LevelUpContent | undefined)[] = this.game.playerTower!.levelsUpContents()
+      const levelsUpContents: (LevelUpContent | undefined)[] = this.game.playedTower!.levelsUpContents()
       while (levelsUpContents.length < 6) {
         levelsUpContents.push(undefined)
       }
@@ -305,7 +305,7 @@ export class InfoBar {
   private clickLevelUp = (event: CustomEvent): void => {
     const levelUpIndex = parseInt((event.currentTarget as SlButton).dataset.index!)
     console.debug("InfoBar", "clickLevelUp", levelUpIndex)
-    const levelUpContent = this.game.playerTower!.levelUp(levelUpIndex)
+    const levelUpContent = this.game.playedTower!.levelUp(levelUpIndex)
     this.updateExpAndLevelsUp()
     this.currentLevelUpContent = levelUpContent
     this.tickerFunction = this.triggerLevelUp(levelUpContent)
@@ -320,23 +320,23 @@ export class InfoBar {
     switch (levelUpContent.getType()) {
       case LevelUpContentType.KEY:
         keyColor = (levelUpContent as KeyLevelUpContent).color
-        valueTo = this.game.playerTower!.playerInfo.keys[keyColor]
+        valueTo = this.game.playedTower!.playerInfo.keys[keyColor]
         valueFrom = valueTo - (levelUpContent as KeyLevelUpContent).number
         this.startChangeKey(keyColor, ValueChangeType.UP)
         break
       case LevelUpContentType.ATK:
         attribute = PlayerAttribute.ATK
-        valueTo = this.game.playerTower!.playerInfo.atk
+        valueTo = this.game.playedTower!.playerInfo.atk
         valueFrom = valueTo - (levelUpContent as AtkLevelUpContent).number
         break
       case LevelUpContentType.DEF:
         attribute = PlayerAttribute.DEF
-        valueTo = this.game.playerTower!.playerInfo.def
+        valueTo = this.game.playedTower!.playerInfo.def
         valueFrom = valueTo - (levelUpContent as DefLevelUpContent).number
         break
       case LevelUpContentType.HP:
         attribute = PlayerAttribute.HP
-        valueTo = this.game.playerTower!.playerInfo.hp
+        valueTo = this.game.playedTower!.playerInfo.hp
         valueFrom = valueTo - (levelUpContent as HpLevelUpContent).number
         break
       default:

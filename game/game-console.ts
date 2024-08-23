@@ -11,7 +11,7 @@ declare global {
 
 export function installConsole(game: Game): void {
   Window.prototype.setXp = function (value: number): void {
-    game.playerTower!.playerInfo.exp = value
+    game.playedTower!.playerInfo.exp = value
   }
   Window.prototype.clearDB = async function (): Promise<any> {
     await game.database.clear()

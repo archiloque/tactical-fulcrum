@@ -34,16 +34,15 @@ export class Game {
   readonly eventManager: GameEventManager
   readonly mainDiv: HTMLElement
   displayedScreen: GameScreen
-  // @ts-ignore
-  playerTower: PlayedTower | null
+  playedTower?: PlayedTower
 
   constructor() {
     this.database = new Database()
     this.mainDiv = document.getElementById("content")!
     this.eventManager = new GameEventManager()
 
-    this.eventManager.registerTowerSelection((selectedTower: TowerInfo) => {
-      this.towerSelected(selectedTower)
+    this.eventManager.registerTowerSelection(async (selectedTower: TowerInfo) => {
+      await this.towerSelected(selectedTower)
     })
 
     this.screenIntro = new ScreenIntro(this)
@@ -68,9 +67,15 @@ export class Game {
           await showAlert(errorMessage, AlertVariant.danger, "check2-circle")
         } else {
           const tower = importResult.tower
-          await this.database.getTowerId(tower.name)
-          this.playerTower = new PlayedTower(tower)
-          await this.database.savePlayerTower(await this.database.toCurrentSave(this.playerTower))
+          const databaseTowerId = await this.database.getTowerId(tower.name)
+          this.playedTower = new PlayedTower(tower)
+          const databaseCurrentPlayedTowerId = await this.database.currentPlayedTowerModelId(databaseTowerId)
+          if (databaseTowerId === undefined) {
+            this.playedTower.initNewGame()
+            await this.database.initPlayedTower(this.playedTower)
+          } else {
+            this.database.setupPlayedTower(this.playedTower, databaseCurrentPlayedTowerId!)
+          }
           this.displayedScreen = GameScreen.tower
           this.screenTower.render()
         }

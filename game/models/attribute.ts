@@ -59,13 +59,13 @@ export const PLAYER_ATTRIBUTES: PlayerAttribute[] = [
 ]
 
 export type ItemToolTipAttributes = {
-  [ItemAttribute.ATK]: number | undefined
-  [ItemAttribute.DEF]: number | undefined
-  [ItemAttribute.HP]: number | undefined
-  [ItemAttribute.EXP_MUL_ADD]: number | undefined
-  [ItemAttribute.EXP_MUL_MUL]: number | undefined
-  [ItemAttribute.HP_MUL_ADD]: number | undefined
-  [ItemAttribute.HP_MUL_MUL]: number | undefined
+  [ItemAttribute.ATK]?: number
+  [ItemAttribute.DEF]?: number
+  [ItemAttribute.HP]?: number
+  [ItemAttribute.EXP_MUL_ADD]?: number
+  [ItemAttribute.EXP_MUL_MUL]?: number
+  [ItemAttribute.HP_MUL_ADD]?: number
+  [ItemAttribute.HP_MUL_MUL]?: number
 }
 
 export const APPLIED_ITEM_ATTRIBUTES: PlayerAttribute[] = [
@@ -77,9 +77,9 @@ export const APPLIED_ITEM_ATTRIBUTES: PlayerAttribute[] = [
 ]
 
 export type AppliedItem = {
-  [PlayerAttribute.ATK]: number | undefined
-  [PlayerAttribute.DEF]: number | undefined
-  [PlayerAttribute.HP]: number | undefined
-  [PlayerAttribute.EXP_MUL]: number | undefined
-  [PlayerAttribute.HP_MUL]: number | undefined
+  [PlayerAttribute.ATK]?: number
+  [PlayerAttribute.DEF]?: number
+  [PlayerAttribute.HP]?: number
+  [PlayerAttribute.EXP_MUL]?: number
+  [PlayerAttribute.HP_MUL]?: number
 }

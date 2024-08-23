@@ -133,7 +133,7 @@ export class Elements {
           return enemy.type === enemyType && enemy.level === enemyLevel
         })
         if (enemy !== undefined) {
-          this.editor.eventManager.notifyTileSelection({ type: TileType.enemy, enemy: enemy }, false)
+          this.editor.eventManager.notifyTileSelection({ type: TileType.enemy }, false)
         }
         break
       }
@@ -192,11 +192,11 @@ export class Elements {
         const enemyTile = tile as EnemyTile
         const filter: Record<string, string | number> = {}
         filter["type"] = TileType.enemy.valueOf()
-        if (enemyTile.enemy.type !== null) {
-          filter["enemy-type"] = enemyTile.enemy.type.valueOf()
+        if (enemyTile.enemyType !== null) {
+          filter["enemy-type"] = enemyTile.enemyType
         }
-        if (enemyTile.enemy.level !== null) {
-          filter["enemy-level"] = enemyTile.enemy.level
+        if (enemyTile.level !== null) {
+          filter["enemy-level"] = enemyTile.level
         }
         return this.findTreeItemFromValue(filter)
       case TileType.item:

@@ -58,9 +58,11 @@ export type ExpInfo = {
 
 export class PlayedTower {
   readonly tower: Tower
+  // @ts-ignore
   playerPosition: Position3D
   readonly standardRooms: Tile[][][]
   readonly nexusRooms: Tile[][][]
+  // @ts-ignore
   readonly playerInfo: PlayerInfo
   // @ts-ignore
   reachableTiles: Delta2D[][][] | null[][]
@@ -70,10 +72,13 @@ export class PlayedTower {
     this.tower = tower
     this.standardRooms = this.cloneRoom(tower.standardRooms)
     this.nexusRooms = this.cloneRoom(tower.nexusRooms)
-    this.playerPosition = findStartingPosition(this.standardRooms)
     this.playerInfo = createPlayerInfo(tower.info.hp, tower.info.atk, tower.info.def)
     this.calculateReachableTiles()
     this.actions = []
+  }
+
+  public initNewGame(): void {
+    this.playerPosition = findStartingPosition(this.standardRooms)
   }
 
   private calculateReachableTiles(): void {

@@ -129,7 +129,7 @@ export class GameMap extends AbstractMap {
   }
 
   protected afterRepositionCursor(): void {
-    const playerTower = this.game.playerTower!
+    const playerTower = this.game.playedTower!
     const tileReachable = playerTower.reachableTiles[this.lastMouseTile.y][this.lastMouseTile.x]
     if (tileReachable === null) {
       this.app.canvas.style.cursor = "not-allowed"
@@ -143,7 +143,7 @@ export class GameMap extends AbstractMap {
     if (alpha !== 1) {
       this.tiles.alpha = alpha
     }
-    const playerTower = this.game.playerTower!
+    const playerTower = this.game.playedTower!
     const playerPosition = playerTower.playerPosition
     const currentRoomIndex = playerPosition.room
     const currentRoom = playerTower.standardRooms[currentRoomIndex]
@@ -218,7 +218,7 @@ export class GameMap extends AbstractMap {
 
   protected toolTipText(): string | null {
     const tile: Tile =
-      this.game.playerTower!.standardRooms[this.game.playerTower!.playerPosition.room][this.lastMouseTile.y][
+      this.game.playedTower!.standardRooms[this.game.playedTower!.playerPosition.room][this.lastMouseTile.y][
         this.lastMouseTile.x
       ]
     switch (tile.type) {
@@ -244,15 +244,15 @@ export class GameMap extends AbstractMap {
   }
 
   private toolTipTextEnemy(enemyTile: EnemyTile): string {
-    const enemy = findEnemy(enemyTile.enemyType, enemyTile.level, this.game.playerTower!.tower.enemies)!
-    const enemyToolTipAttributes = this.game.playerTower!.enemyToolTipAttributes(enemy)
+    const enemy = findEnemy(enemyTile.enemyType, enemyTile.level, this.game.playedTower!.tower.enemies)!
+    const enemyToolTipAttributes = this.game.playedTower!.enemyToolTipAttributes(enemy)
     const dropName = enemy.drop !== null ? enemy.drop : "nothing"
     const damage = enemyToolTipAttributes.hpLost !== null ? `Damage: ${enemyToolTipAttributes.hpLost} HP` : "Unkillable"
     return `${enemy.name} ${capitalize(enemy.type!.valueOf())} lv ${enemy.level}<br>${enemy.hp} HP<br>${enemy.atk} ATK<br>${enemy.def} DEF<br>${enemy.exp} EXP<br>Drop ${dropName}<br>${damage}`
   }
 
   private toolTipTextItem(itemName: ItemName): string {
-    const itemToolTipAttributes = this.game.playerTower!.itemToolTipAttributes(itemName)
+    const itemToolTipAttributes = this.game.playedTower!.itemToolTipAttributes(itemName)
     let result = itemName.valueOf()
     for (const attributeName of ITEM_ATTRIBUTES) {
       const attributeValue = itemToolTipAttributes[attributeName]
@@ -299,7 +299,7 @@ export class GameMap extends AbstractMap {
       // @ts-ignore
       const attributeValue = appliedItem[attributeName]
       if (attributeValue !== undefined) {
-        const playerAttribute = this.game.playerTower!.playerInfo[attributeName]
+        const playerAttribute = this.game.playedTower!.playerInfo[attributeName]
         // @ts-ignore
         result[attributeName] = {
           from: playerAttribute - attributeValue,
@@ -335,7 +335,7 @@ export class GameMap extends AbstractMap {
         targetSprite = this.sprites[move.target.line][move.target.column]
         const color = (move as PickKey).color
         this.infoBar.startChangeKey(color, ValueChangeType.UP)
-        this.infoBar.setKeyValue(color, this.game.playerTower!.playerInfo.keys[color])
+        this.infoBar.setKeyValue(color, this.game.playedTower!.playerInfo.keys[color])
         break
     }
 
@@ -461,22 +461,22 @@ export class GameMap extends AbstractMap {
         if (killEnemy.hpLost > 0) {
           this.infoBar.startChangeField(PlayerAttribute.HP, ValueChangeType.DOWN)
           enemyHpChange = {
-            from: this.game.playerTower!.playerInfo.hp + killEnemy.hpLost,
-            to: this.game.playerTower!.playerInfo.hp,
+            from: this.game.playedTower!.playerInfo.hp + killEnemy.hpLost,
+            to: this.game.playedTower!.playerInfo.hp,
           }
         }
         if (killEnemy.expWin > 0) {
           this.infoBar.startChangeField(PlayerAttribute.EXP, ValueChangeType.UP)
           enemyExpChange = {
-            from: this.game.playerTower!.playerInfo.exp - killEnemy.expWin,
-            to: this.game.playerTower!.playerInfo.exp,
+            from: this.game.playedTower!.playerInfo.exp - killEnemy.expWin,
+            to: this.game.playedTower!.playerInfo.exp,
           }
         }
         break
       case ActionType.OPEN_DOOR:
         const color = (move as OpenDoor).color
         this.infoBar.startChangeKey(color, ValueChangeType.DOWN)
-        this.infoBar.setKeyValue(color, this.game.playerTower!.playerInfo.keys[color])
+        this.infoBar.setKeyValue(color, this.game.playedTower!.playerInfo.keys[color])
         break
     }
 
@@ -572,7 +572,7 @@ export class GameMap extends AbstractMap {
 
   private tryAction(): void {
     const delta = this.deltaBuffer.shift()!
-    const action: ActionWithTarget | null = this.game.playerTower!.movePlayer(delta)
+    const action: ActionWithTarget | null = this.game.playedTower!.movePlayer(delta)
     console.debug("GameMap", "tryAction", delta, action)
     if (action === null) {
       this.deltaBuffer.length = 0
@@ -623,7 +623,7 @@ export class GameMap extends AbstractMap {
     const tilePosition: Point = this.tileFromEvent(e)
     console.debug("GameMap", "pointerTap", "tile", tilePosition)
     if (!this.currentAction && this.deltaBuffer.length == 0) {
-      const pathToTile: Delta2D[] | null = this.game.playerTower!.reachableTiles[tilePosition.y][tilePosition.x]
+      const pathToTile: Delta2D[] | null = this.game.playedTower!.reachableTiles[tilePosition.y][tilePosition.x]
       console.debug("GameMap", "pointerTap", "path", pathToTile)
       if (pathToTile !== null) {
         for (const pathPart of pathToTile) {

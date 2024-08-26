@@ -1,20 +1,37 @@
-import { DBSchema, deleteDB, IDBPDatabase, openDB } from "idb"
-import { Tile, TileType } from "../../common/models/tile"
+import { AlertVariant, showAlert } from "../../common/front/alert"
+import { EMPTY_TILE, Tile, TileType } from "../../common/models/tile"
 import { PlayedTower } from "../models/played-tower"
 import { PlayerInfo } from "../models/player-info"
 import { Position3D } from "../models/tuples"
 
-const TOWER_OBJECT_STORE = "tower"
-const PLAYED_TOWER_OBJECT_STORE = "playedTower"
-const PLAYED_TOWER_ROOM_OBJECT_STORE = "playedTowerRoom"
+const enum TableName {
+  tower = "tower",
+  playedTower = "playedTower",
+  playedTowerRoom = "playedTowerRoom",
+}
+
+const enum IndexName {
+  towerIdIndex = `${TableName.tower}IdIndex`,
+
+  towerNameIndex = `${TableName.tower}NameIndex`,
+
+  playedTowerIdIndex = `${TableName.playedTower}IdIndex`,
+  playedTowerByTowerIdAndSlot = `${TableName.playedTower}ByTowerIdAndSlot`,
+
+  playedTowerRoomIdIndex = `${TableName.playedTowerRoom}IdIndex`,
+  playedTowerRoomByPlayedTowerIndex = `${TableName.playedTowerRoom}ByPlayedTowerIndex`,
+  playedTowerRoomByPlayedTowerAndRoomAndNexusIndex = `${TableName.playedTowerRoom}ByPlayedTowerAndRoomAndNexusIndex`,
+}
+
+const ID_ATTRIBUTE = "id"
 
 const enum TowerModelAttributes {
-  id = "id",
+  id = ID_ATTRIBUTE,
   towerName = "towerName",
 }
 
 const enum PlayedTowerModelAttributes {
-  id = "id",
+  id = ID_ATTRIBUTE,
   towerId = "towerId",
   slot = "slot",
   saveName = "saveName",
@@ -22,26 +39,28 @@ const enum PlayedTowerModelAttributes {
 }
 
 const enum PlayedTowerRoomModelAttributes {
-  id = "id",
+  id = ID_ATTRIBUTE,
   playerTowerId = "playerTowerId",
   roomIndex = "roomIndex",
   nexus = "nexus",
   content = "content",
 }
 
-export type PlayerPosition = {
+interface WithId {
+  id?: number
+}
+
+interface PlayerPosition {
   column: number
   line: number
   room: number
 }
 
-export type TowerModel = {
-  id?: number
+interface TowerModel extends WithId {
   towerName: string
 }
 
-export type PlayedTowerModel = {
-  id?: number
+interface PlayedTowerModel extends WithId {
   towerId: number
   slot: number
   saveName: string | null
@@ -56,137 +75,163 @@ type PositionedTile = {
   tile: Tile
 }
 
-type PlayerTowerRoomModel = {
-  id?: number
+interface PlayerTowerRoomModel extends WithId {
   playerTowerId: number
   roomIndex: number
-  nexus: boolean
+  nexus: number
   content: PositionedTile[]
-}
-
-interface TacticalFulcrumGameDbSchema extends DBSchema {
-  [TOWER_OBJECT_STORE]: {
-    key: [number]
-    value: TowerModel
-    indexes: { name: [string] }
-  }
-  [PLAYED_TOWER_OBJECT_STORE]: {
-    key: [number]
-    value: PlayedTowerModel
-    indexes: {
-      primaryIndex: [number]
-      playedTowerIndex: [number, number]
-    }
-  }
-  [PLAYED_TOWER_ROOM_OBJECT_STORE]: {
-    key: [number]
-    value: PlayerTowerRoomModel
-    indexes: { playedTowerRoomIndex: [number, number] }
-  }
 }
 
 const CURRENT_PLAYED_TOWER_SLOT = -1
 
-export class Database {
+async function runRequest(request: IDBRequest): Promise<any> {
+  return new Promise<any>(function (resolve, reject) {
+    request.onsuccess = (): void => {
+      console.debug("DatabaseAccess", "runRequest", request.result)
+      resolve(request.result)
+    }
+    request.onerror = (): void => {
+      console.error("DatabaseAccess", "runRequest", request.error)
+      reject()
+    }
+  })
+}
+
+function createTable(db: IDBDatabase, tableName: TableName, tableIdIndex: IndexName): IDBObjectStore {
+  console.debug("DatabaseAccess", "createTable", tableName)
+  const store = db.createObjectStore(tableName, {
+    keyPath: ID_ATTRIBUTE,
+    autoIncrement: true,
+  })
+  store.createIndex(tableIdIndex, TowerModelAttributes.id, { unique: true })
+  return store
+}
+export class DatabaseAccess {
   static readonly DATABASE_NAME = "tactical-fulcrum-game"
-  private db: undefined | IDBPDatabase<TacticalFulcrumGameDbSchema>
+  private db: undefined | IDBDatabase
 
   constructor() {}
 
-  async init(): Promise<any> {
-    this.db = await openDB<TacticalFulcrumGameDbSchema>(Database.DATABASE_NAME, 1, {
-      upgrade(database: IDBPDatabase<TacticalFulcrumGameDbSchema>) {
-        const towerStore = database.createObjectStore(TOWER_OBJECT_STORE, {
-          keyPath: TowerModelAttributes.id,
-          autoIncrement: true,
-        })
-        towerStore.createIndex("name", [TowerModelAttributes.towerName], { unique: true })
+  async init(): Promise<void> {
+    const databaseAccess = this
+    return new Promise<void>(function (resolve, reject) {
+      const request = window.indexedDB.open(DatabaseAccess.DATABASE_NAME, 2)
+      request.onupgradeneeded = (event): void => {
+        // @ts-ignore
+        const db: IDBDatabase = event.target!.result
+        const towerObjectStore = createTable(db, TableName.tower, IndexName.towerIdIndex)
+        towerObjectStore.createIndex(IndexName.towerNameIndex, TowerModelAttributes.towerName, { unique: true })
 
-        const playedTowerStore = database.createObjectStore(PLAYED_TOWER_OBJECT_STORE, {
-          keyPath: PlayedTowerModelAttributes.id,
-          autoIncrement: true,
-        })
-        playedTowerStore.createIndex("primaryIndex", [PlayedTowerModelAttributes.id], { unique: true })
-        playedTowerStore.createIndex(
-          "playedTowerIndex",
+        const playedTowerObjectStore = createTable(db, TableName.playedTower, IndexName.playedTowerIdIndex)
+        playedTowerObjectStore.createIndex(
+          IndexName.playedTowerByTowerIdAndSlot,
           [PlayedTowerModelAttributes.towerId, PlayedTowerModelAttributes.slot],
           { unique: true },
         )
 
-        const playedTowerRoomStore = database.createObjectStore(PLAYED_TOWER_ROOM_OBJECT_STORE, {
-          keyPath: PlayedTowerRoomModelAttributes.id,
-          autoIncrement: true,
-        })
-        playedTowerRoomStore.createIndex("playedTowerRoomIndex", [
-          PlayedTowerRoomModelAttributes.playerTowerId,
-          PlayedTowerRoomModelAttributes.roomIndex,
-        ])
-      },
+        const playedTowerRoomObjectStore = createTable(db, TableName.playedTowerRoom, IndexName.playedTowerRoomIdIndex)
+        playedTowerRoomObjectStore.createIndex(
+          IndexName.playedTowerRoomByPlayedTowerIndex,
+          [PlayedTowerRoomModelAttributes.playerTowerId],
+          {
+            unique: false,
+          },
+        )
+        playedTowerRoomObjectStore.createIndex(
+          IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex,
+          [
+            PlayedTowerRoomModelAttributes.playerTowerId,
+            PlayedTowerRoomModelAttributes.roomIndex,
+            PlayedTowerRoomModelAttributes.nexus,
+          ],
+          {
+            unique: true,
+          },
+        )
+      }
+      request.onsuccess = (): void => {
+        databaseAccess.db = request.result
+        resolve()
+      }
+      request.onerror = (): void => {
+        showAlert(`Error when creating database: ${request.error}`, AlertVariant.danger)
+        reject()
+      }
     })
   }
 
-  async savePlayerTower(save: PlayedTowerModel): Promise<any> {
-    await this.db!.put(PLAYED_TOWER_OBJECT_STORE, save)
+  createTransaction<M extends WithId>(tableName: TableName, mode: IDBTransactionMode): DatabaseAccessStore<M> {
+    const transaction = this.db!.transaction(tableName, mode)
+    return new DatabaseAccessStore(transaction.objectStore(tableName))
   }
 
   async getTowerId(towerName: string): Promise<number> {
-    const towerId = await this.db!.getKeyFromIndex(TOWER_OBJECT_STORE, "name", [towerName])
-    if (towerId === undefined) {
+    console.debug("DatabaseAccess", "getTowerId", towerName)
+    const store: DatabaseAccessStore<TowerModel> = this.createTransaction(TableName.tower, "readwrite")
+    const index = store.index(IndexName.towerNameIndex)
+    const towerModelId: number | undefined = await index.getKey(towerName)
+    if (towerModelId === undefined) {
       const tower: TowerModel = { towerName: towerName }
-      return (await this.db!.put(TOWER_OBJECT_STORE, tower))[0]
+      console.debug("DatabaseAccess", "getTowerId", "create tower")
+      return await store.add(tower)
     } else {
-      return towerId[0]
+      return towerModelId!!
     }
   }
 
   async currentPlayedTowerModelId(towerId: number): Promise<number | undefined> {
-    const value = await this.db!.getKeyFromIndex(PLAYED_TOWER_OBJECT_STORE, "playedTowerIndex", [
-      towerId,
-      CURRENT_PLAYED_TOWER_SLOT,
-    ])
-    if (value === undefined) {
-      return undefined
-    } else {
-      return value[0]
-    }
+    console.debug("DatabaseAccess", "currentPlayedTowerModelId", towerId)
+    const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(TableName.playedTower, "readonly")
+    const index: DatabaseAccessIndex<PlayedTowerModel> = store.index(IndexName.playedTowerByTowerIdAndSlot)
+    return await index.getKey([towerId, -1])
   }
 
-  async clear(): Promise<any> {
-    await deleteDB(Database.DATABASE_NAME)
+  async clear(): Promise<void> {
+    this.db = undefined
+    await runRequest(window.indexedDB.deleteDatabase(DatabaseAccess.DATABASE_NAME))
     return await this.init()
   }
 
-  async toPlayedTowerModel(playedTower: PlayedTower, slot: number, saveName: string | null): Promise<PlayedTowerModel> {
+  async toPlayedTowerModel(
+    playedTower: PlayedTower,
+    towerModelId: number,
+    slot: number,
+    saveName: string | null,
+  ): Promise<PlayedTowerModel> {
     return {
       playerInfo: playedTower.playerInfo,
       playerPosition: {
-        column: playedTower.playerPosition.column,
-        line: playedTower.playerPosition.line,
-        room: playedTower.playerPosition.room,
+        column: playedTower.playerPosition!.column,
+        line: playedTower.playerPosition!.line,
+        room: playedTower.playerPosition!.room,
       },
       saveName: saveName,
       slot: slot,
-      towerId: await this.getTowerId(playedTower.tower.name),
+      towerId: towerModelId,
       timestamp: new Date(),
     }
   }
 
-  async toCurrentPlayedTowerModel(playedTower: PlayedTower): Promise<PlayedTowerModel> {
-    return await this.toPlayedTowerModel(playedTower, CURRENT_PLAYED_TOWER_SLOT, null)
+  async toCurrentPlayedTowerModel(playedTower: PlayedTower, towerModelId: number): Promise<PlayedTowerModel> {
+    return await this.toPlayedTowerModel(playedTower, towerModelId, CURRENT_PLAYED_TOWER_SLOT, null)
   }
 
-  private static readonly INTERESTING_TILES_TYPES: TileType[] = [
+  private static readonly TILES_TYPES_INTERESTING: TileType[] = [
     TileType.door,
     TileType.enemy,
     TileType.item,
     TileType.key,
   ]
 
+  private static readonly TILES_TYPES_TO_REMOVE: TileType[] = DatabaseAccess.TILES_TYPES_INTERESTING.concat([
+    TileType.startingPosition,
+  ])
+
   private roomsToPositionedTiles(room: Tile[][]): PositionedTile[] {
     const tiles: PositionedTile[] = []
     for (const [lineIndex, line] of room.entries()) {
       for (const [columnIndex, tile] of line.entries()) {
-        if (Database.INTERESTING_TILES_TYPES.includes(tile.type)) {
+        if (DatabaseAccess.TILES_TYPES_INTERESTING.includes(tile.type)) {
           tiles.push({ line: lineIndex, column: columnIndex, tile: tile })
         }
       }
@@ -194,50 +239,161 @@ export class Database {
     return tiles
   }
 
-  async initPlayedTower(playedTower: PlayedTower): Promise<any> {
-    console.debug("Database", "initPlayedTower", playedTower.tower.name)
-    const playedTowerId = (
-      await this.db!.put(PLAYED_TOWER_OBJECT_STORE, await this.toCurrentPlayedTowerModel(playedTower))
-    )[0]
+  async savePlayedTower(playedTower: PlayedTower, towerModelId: number): Promise<any> {
+    console.debug("DatabaseAccess", "savePlayerTower", playedTower.tower.name)
+    const playedTowerModel = await this.toCurrentPlayedTowerModel(playedTower, towerModelId)
+    playedTowerModel.id = playedTower.playedTowerModelId
+    const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(TableName.playedTower, "readwrite")
+    await store.put(playedTowerModel)
+    await this.initPlayedTowerRooms(playedTower)
+  }
+
+  async initPlayedTower(playedTower: PlayedTower, towerModelId: number): Promise<number> {
+    console.debug("DatabaseAccess", "initPlayedTower", playedTower.tower.name)
+    const playedTowerModel = await this.toCurrentPlayedTowerModel(playedTower, towerModelId)
+    const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(TableName.playedTower, "readwrite")
+    const playedTowerModelId: number = await store.add(playedTowerModel)
+    playedTower.playedTowerModelId = playedTowerModelId
+    await this.initPlayedTowerRooms(playedTower)
+    return playedTowerModelId
+  }
+
+  private async initPlayedTowerRooms(playedTower: PlayedTower): Promise<void> {
+    console.debug("DatabaseAccess", "savePlayedTowerRooms", "tower", playedTower.tower.name)
+    const store: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
+      TableName.playedTowerRoom,
+      "readwrite",
+    )
+
+    const rooms: PlayerTowerRoomModel[] = await store.all()
+
     const promises: Promise<any>[] = []
-    const transaction = this.db!.transaction(PLAYED_TOWER_ROOM_OBJECT_STORE, "readwrite")
     for (const [roomIndex, room] of playedTower.standardRooms.entries()) {
       const tiles: PositionedTile[] = this.roomsToPositionedTiles(room)
-      promises.push(
-        transaction.store.put({
-          playerTowerId: playedTowerId,
-          roomIndex: roomIndex,
-          nexus: false,
-          content: tiles,
-        }),
+      console.debug("DatabaseAccess", "savePlayedTowerRooms", "room", playedTower.towerModelId, roomIndex, 0)
+      const roomModel = rooms.find(
+        (r) => r.nexus == 0 && r.roomIndex == roomIndex && r.playerTowerId == playedTower.playedTowerModelId,
       )
+      const model: PlayerTowerRoomModel = {
+        playerTowerId: playedTower.playedTowerModelId!!,
+        roomIndex: roomIndex,
+        nexus: 0,
+        content: tiles,
+      }
+      if (roomModel !== undefined) {
+        model.id = roomModel.id
+      }
+      promises.push(store.put(model))
     }
     for (const [roomIndex, room] of playedTower.nexusRooms.entries()) {
       const tiles: PositionedTile[] = this.roomsToPositionedTiles(room)
-      promises.push(
-        transaction.store.put({
-          playerTowerId: playedTowerId,
-          roomIndex: roomIndex,
-          nexus: true,
-          content: tiles,
-        }),
+      console.debug("DatabaseAccess", "savePlayedTowerRooms", playedTower.towerModelId, roomIndex, 1)
+      const roomModel = rooms.find(
+        (r) => r.nexus == 1 && r.roomIndex == roomIndex && r.playerTowerId == playedTower.playedTowerModelId,
       )
+      const model: PlayerTowerRoomModel = {
+        playerTowerId: playedTower.playedTowerModelId!!,
+        roomIndex: roomIndex,
+        nexus: 1,
+        content: tiles,
+      }
+      if (roomModel !== undefined) {
+        model.id = roomModel.id
+      }
+      promises.push(store.put(model))
     }
     await Promise.all(promises)
-    await transaction.done
+    console.debug("DatabaseAccess", "savePlayedTowerRooms", playedTower.tower.name, "over")
   }
 
-  async setupPlayedTower(playedTower: PlayedTower, playedTowerId: number): Promise<void> {
-    console.debug("Database", "setupPlayedTower", "playedTower", playedTower.tower.name, "playedTowerId", playedTowerId)
-    const playedTowerModel: PlayedTowerModel = (await this.db!.getFromIndex(PLAYED_TOWER_OBJECT_STORE, "primaryIndex", [
-      playedTowerId,
-    ]))!
-    console.debug("Database", "setupPlayedTower", "playedTowerModel", playedTowerModel)
+  async loadPlayedTower(playedTower: PlayedTower, playedTowerModelId: number): Promise<void> {
+    console.debug("DatabaseAccess", "loadPlayedTower", playedTowerModelId)
+    playedTower.playedTowerModelId = playedTowerModelId
+    const playedTowerStore: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(
+      TableName.playedTower,
+      "readonly",
+    )
+    const index = playedTowerStore.index(IndexName.playedTowerIdIndex)
+    const playedTowerModel = (await index.get(playedTowerModelId))!!
+    console.debug("DatabaseAccess", "loadPlayedTower", playedTowerModel)
     playedTower.playerPosition = new Position3D(
       playedTowerModel.playerPosition.room,
       playedTowerModel.playerPosition.line,
       playedTowerModel.playerPosition.column,
     )
-    playedTower.playerInfo
+
+    const playedTowerRoomStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
+      TableName.playedTowerRoom,
+      "readonly",
+    )
+
+    const rooms: PlayerTowerRoomModel[] = await playedTowerRoomStore
+      .index(IndexName.playedTowerRoomByPlayedTowerIndex)
+      .getAll([playedTowerModelId])
+
+    for (const roomModel of rooms) {
+      console.debug("DatabaseAccess", "loadPlayedTower", roomModel)
+      const room = (roomModel.nexus == 1 ? playedTower.nexusRooms : playedTower.standardRooms)[roomModel.roomIndex]
+      for (const [lineIndex, line] of room.entries()) {
+        for (const [columnIndex, tile] of line.entries()) {
+          if (DatabaseAccess.TILES_TYPES_TO_REMOVE.includes(tile.type)) {
+            room[lineIndex][columnIndex] = EMPTY_TILE
+          }
+        }
+      }
+      for (const positionedTile of roomModel.content) {
+        room[positionedTile.line][positionedTile.column] = positionedTile.tile
+      }
+    }
+
+    playedTower.playerInfo = playedTowerModel.playerInfo
+    playedTower.calculateReachableTiles()
+  }
+}
+
+class DatabaseAccessStore<M extends WithId> {
+  private readonly store: IDBObjectStore
+
+  constructor(store: IDBObjectStore) {
+    this.store = store
+  }
+
+  async put(model: M): Promise<any> {
+    console.debug("DatabaseAccessStore", "put", this.store.name, model)
+    await runRequest(this.store.put(model))
+  }
+
+  async add(model: M): Promise<any> {
+    console.debug("DatabaseAccessStore", "add", this.store.name, model)
+    return await runRequest(this.store.add(model))
+  }
+
+  async all(): Promise<M[]> {
+    console.debug("DatabaseAccessStore", "all", this.store.name)
+    return await runRequest(this.store.getAll())
+  }
+
+  index(name: IndexName): DatabaseAccessIndex<M> {
+    return new DatabaseAccessIndex<M>(this.store.index(name))
+  }
+}
+
+class DatabaseAccessIndex<M extends WithId> {
+  private readonly index: IDBIndex
+  constructor(index: IDBIndex) {
+    this.index = index
+  }
+
+  async get(query: IDBValidKey | IDBKeyRange): Promise<M | undefined> {
+    return await runRequest(this.index.get(query))
+  }
+
+  async getKey(query: IDBValidKey | IDBKeyRange): Promise<number | undefined> {
+    return await runRequest(this.index.getKey(query))
+  }
+
+  async getAll(query?: IDBValidKey | IDBKeyRange | null): Promise<M[]> {
+    console.debug("DatabaseAccessIndex", "getAll", this.index.name, query)
+    return await runRequest(this.index.getAll(query))
   }
 }

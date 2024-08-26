@@ -16,6 +16,7 @@ export async function showAlert(
   duration: number = 3000,
   closable: boolean = true,
 ): Promise<any> {
+  console.debug("showAlert", message)
   const alert: SlAlert = Object.assign(document.createElement("sl-alert"), {
     variant,
     closable: closable,

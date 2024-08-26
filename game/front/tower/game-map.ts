@@ -130,7 +130,7 @@ export class GameMap extends AbstractMap {
 
   protected afterRepositionCursor(): void {
     const playerTower = this.game.playedTower!
-    const tileReachable = playerTower.reachableTiles[this.lastMouseTile.y][this.lastMouseTile.x]
+    const tileReachable = playerTower.reachableTiles![this.lastMouseTile.y][this.lastMouseTile.x]
     if (tileReachable === null) {
       this.app.canvas.style.cursor = "not-allowed"
     } else {
@@ -145,7 +145,7 @@ export class GameMap extends AbstractMap {
     }
     const playerTower = this.game.playedTower!
     const playerPosition = playerTower.playerPosition
-    const currentRoomIndex = playerPosition.room
+    const currentRoomIndex = playerPosition!.room
     const currentRoom = playerTower.standardRooms[currentRoomIndex]
     const scores = playerTower.tower.standardRooms[currentRoomIndex].scores
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
@@ -153,7 +153,7 @@ export class GameMap extends AbstractMap {
         const x = this.tileSize * columnIndex
         const y = this.tileSize * lineIndex
 
-        const playerOnCurrentTile = lineIndex === playerPosition.line && columnIndex === playerPosition.column
+        const playerOnCurrentTile = lineIndex === playerPosition!.line && columnIndex === playerPosition!.column
         if (playerOnCurrentTile) {
           this.playerSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile(STARTING_POSITION_TILE)!)
           this.playerSprite.x = x
@@ -218,7 +218,7 @@ export class GameMap extends AbstractMap {
 
   protected toolTipText(): string | null {
     const tile: Tile =
-      this.game.playedTower!.standardRooms[this.game.playedTower!.playerPosition.room][this.lastMouseTile.y][
+      this.game.playedTower!.standardRooms[this.game.playedTower!.playerPosition!.room][this.lastMouseTile.y][
         this.lastMouseTile.x
       ]
     switch (tile.type) {
@@ -264,32 +264,32 @@ export class GameMap extends AbstractMap {
     return result
   }
 
-  private keyDown(e: KeyboardEvent): void {
+  private async keyDown(e: KeyboardEvent): Promise<void> {
     console.debug("GameMap", "keyDown", e)
     switch (e.key) {
       case Keys.ARROW_RIGHT: {
-        this.bufferDirection(Delta2D.RIGHT)
+        await this.bufferDirection(Delta2D.RIGHT)
         break
       }
       case Keys.ARROW_LEFT: {
-        this.bufferDirection(Delta2D.LEFT)
+        await this.bufferDirection(Delta2D.LEFT)
         break
       }
       case Keys.ARROW_UP: {
-        this.bufferDirection(Delta2D.UP)
+        await this.bufferDirection(Delta2D.UP)
         break
       }
       case Keys.ARROW_DOWN: {
-        this.bufferDirection(Delta2D.DOWN)
+        await this.bufferDirection(Delta2D.DOWN)
         break
       }
     }
   }
 
-  private bufferDirection(delta: Delta2D): void {
+  private async bufferDirection(delta: Delta2D): Promise<void> {
     this.deltaBuffer.push(delta)
     if (this.currentAction === null) {
-      this.tryAction()
+      await this.tryAction()
     }
   }
 
@@ -570,9 +570,9 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  private tryAction(): void {
+  private async tryAction(): Promise<void> {
     const delta = this.deltaBuffer.shift()!
-    const action: ActionWithTarget | null = this.game.playedTower!.movePlayer(delta)
+    const action: ActionWithTarget | null = await this.game.playedTower!.movePlayer(delta)
     console.debug("GameMap", "tryAction", delta, action)
     if (action === null) {
       this.deltaBuffer.length = 0
@@ -619,15 +619,15 @@ export class GameMap extends AbstractMap {
     }
   }
 
-  private pointerTap(e: FederatedPointerEvent): void {
+  private async pointerTap(e: FederatedPointerEvent): Promise<void> {
     const tilePosition: Point = this.tileFromEvent(e)
     console.debug("GameMap", "pointerTap", "tile", tilePosition)
     if (!this.currentAction && this.deltaBuffer.length == 0) {
-      const pathToTile: Delta2D[] | null = this.game.playedTower!.reachableTiles[tilePosition.y][tilePosition.x]
+      const pathToTile: Delta2D[] | null = this.game.playedTower!.reachableTiles![tilePosition.y][tilePosition.x]
       console.debug("GameMap", "pointerTap", "path", pathToTile)
       if (pathToTile !== null) {
         for (const pathPart of pathToTile) {
-          this.bufferDirection(pathPart)
+          await this.bufferDirection(pathPart)
         }
       }
     }

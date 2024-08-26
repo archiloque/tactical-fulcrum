@@ -6,7 +6,7 @@ import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
 import { AlertVariant, showAlert } from "../common/front/alert"
-import { Database } from "./storage/database"
+import { DatabaseAccess } from "./storage/database"
 import { GameEventManager } from "./front/game-event-manager"
 import { GameScreen } from "./front/game-screen"
 import { Import } from "../common/io/import"
@@ -28,7 +28,7 @@ registerDefaultIcons()
 registerCustomIcons()
 
 export class Game {
-  readonly database: Database
+  readonly database: DatabaseAccess
   private readonly screenIntro: ScreenIntro
   private readonly screenTower: ScreenTower
   readonly eventManager: GameEventManager
@@ -37,7 +37,7 @@ export class Game {
   playedTower?: PlayedTower
 
   constructor() {
-    this.database = new Database()
+    this.database = new DatabaseAccess()
     this.mainDiv = document.getElementById("content")!
     this.eventManager = new GameEventManager()
 
@@ -56,7 +56,7 @@ export class Game {
   }
 
   private async towerSelected(selectedTower: TowerInfo): Promise<any> {
-    console.debug("ScreenTower", "towerSelected", selectedTower.name)
+    console.debug("Game", "towerSelected", selectedTower.name)
     fetch(`towers/${selectedTower.file}`).then(async (response) => {
       if (!response.ok) {
         await showAlert(`Error getting the tower file ${response.status}`, AlertVariant.danger, "check2-circle")
@@ -67,14 +67,15 @@ export class Game {
           await showAlert(errorMessage, AlertVariant.danger, "check2-circle")
         } else {
           const tower = importResult.tower
-          const databaseTowerId = await this.database.getTowerId(tower.name)
-          this.playedTower = new PlayedTower(tower)
-          const databaseCurrentPlayedTowerId = await this.database.currentPlayedTowerModelId(databaseTowerId)
-          if (databaseTowerId === undefined) {
+          const towerModelId = await this.database.getTowerId(tower.name)
+          this.playedTower = new PlayedTower(tower, towerModelId, this.database)
+          console.debug("Game", "towerSelected", "towerModelId", towerModelId)
+          const databaseCurrentPlayedTowerId = await this.database.currentPlayedTowerModelId(towerModelId)
+          if (databaseCurrentPlayedTowerId === undefined) {
             this.playedTower.initNewGame()
-            await this.database.initPlayedTower(this.playedTower)
+            this.playedTower.playedTowerModelId = await this.database.initPlayedTower(this.playedTower, towerModelId)
           } else {
-            this.database.setupPlayedTower(this.playedTower, databaseCurrentPlayedTowerId!)
+            await this.database.loadPlayedTower(this.playedTower, databaseCurrentPlayedTowerId!)
           }
           this.displayedScreen = GameScreen.tower
           this.screenTower.render()

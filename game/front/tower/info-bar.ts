@@ -302,10 +302,10 @@ export class InfoBar {
     }
   }
 
-  private clickLevelUp = (event: CustomEvent): void => {
+  private clickLevelUp = async (event: CustomEvent): Promise<void> => {
     const levelUpIndex = parseInt((event.currentTarget as SlButton).dataset.index!)
     console.debug("InfoBar", "clickLevelUp", levelUpIndex)
-    const levelUpContent = this.game.playedTower!.levelUp(levelUpIndex)
+    const levelUpContent = await this.game.playedTower!.levelUp(levelUpIndex)
     this.updateExpAndLevelsUp()
     this.currentLevelUpContent = levelUpContent
     this.tickerFunction = this.triggerLevelUp(levelUpContent)

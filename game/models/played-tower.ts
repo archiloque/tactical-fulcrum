@@ -37,6 +37,7 @@ import { fight, getDropTile } from "./play/enemy"
 import { findStaircasePosition, findStartingPosition } from "./play/locations"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
+import { DatabaseAccess } from "../storage/database"
 import { getLevel } from "./play/levels"
 import { ItemName } from "../../common/data/item-name"
 import { Room } from "../../common/models/room"
@@ -58,34 +59,37 @@ export type ExpInfo = {
 
 export class PlayedTower {
   readonly tower: Tower
-  // @ts-ignore
-  playerPosition: Position3D
+  playerPosition?: Position3D
   readonly standardRooms: Tile[][][]
   readonly nexusRooms: Tile[][][]
-  // @ts-ignore
-  readonly playerInfo: PlayerInfo
-  // @ts-ignore
-  reachableTiles: Delta2D[][][] | null[][]
+  playerInfo: PlayerInfo
+  reachableTiles?: Delta2D[][][] | null[][]
   readonly actions: Action[]
+  private readonly database: DatabaseAccess
+  towerModelId: number
+  playedTowerModelId?: number
 
-  constructor(tower: Tower) {
+  constructor(tower: Tower, towerModelId: number, database: DatabaseAccess) {
     this.tower = tower
+    this.towerModelId = towerModelId
+    this.database = database
     this.standardRooms = this.cloneRoom(tower.standardRooms)
     this.nexusRooms = this.cloneRoom(tower.nexusRooms)
     this.playerInfo = createPlayerInfo(tower.info.hp, tower.info.atk, tower.info.def)
-    this.calculateReachableTiles()
     this.actions = []
   }
 
   public initNewGame(): void {
     this.playerPosition = findStartingPosition(this.standardRooms)
+    this.calculateReachableTiles()
   }
 
-  private calculateReachableTiles(): void {
+  public calculateReachableTiles(): void {
     this.reachableTiles = calculateReachableTiles(
-      this.playerPosition,
-      this.standardRooms[this.playerPosition.room],
+      this.playerPosition!,
+      this.standardRooms[this.playerPosition!.room],
       this.playerInfo,
+      this.tower.enemies,
     )
   }
 
@@ -139,7 +143,7 @@ export class PlayedTower {
     }
   }
 
-  public levelUp(levelUpIndex: number): LevelUpContent {
+  public async levelUp(levelUpIndex: number): Promise<LevelUpContent> {
     const expInfo = this.getExpInfo()
     if (expInfo.levelsUpAvailable === 0) {
       throw new Error("No level up possible")
@@ -149,7 +153,7 @@ export class PlayedTower {
       throw new Error("No level up found")
     }
     const levelUpContent = levelUpContents[levelUpIndex]
-    this.applyLevelUp(levelUpContent)
+    await this.applyLevelUp(levelUpContent)
     this.playerInfo.exp -= getLevel(this.playerInfo.level).expForNextLevel
     this.playerInfo.level++
     return levelUpContent
@@ -187,8 +191,8 @@ export class PlayedTower {
     }
   }
 
-  movePlayer(delta: Delta2D): ActionWithTarget | null {
-    const targetPosition = this.playerPosition.add(delta)
+  async movePlayer(delta: Delta2D): Promise<ActionWithTarget | null> {
+    const targetPosition = this.playerPosition!.add(delta)
     if (
       targetPosition.line < 0 ||
       targetPosition.line >= TILES_IN_ROW ||
@@ -197,10 +201,10 @@ export class PlayedTower {
     ) {
       return null
     }
-    if (this.reachableTiles[targetPosition.line][targetPosition.column] === null) {
+    if (this.reachableTiles![targetPosition.line][targetPosition.column] === null) {
       return null
     }
-    const oldPlayerPosition = this.playerPosition
+    const oldPlayerPosition = this.playerPosition!
     const targetTile: Tile = this.standardRooms[targetPosition.room][targetPosition.line][targetPosition.column]
     switch (targetTile.type) {
       case TileType.door:
@@ -214,13 +218,13 @@ export class PlayedTower {
           color: doorColor,
           type: ActionType.OPEN_DOOR,
         }
-        this.actions.push(openDoor)
+        await this.addActionAndSave(openDoor)
         return openDoor
       case TileType.empty:
         this.playerPosition = targetPosition
         this.calculateReachableTiles()
         const move: Move = { player: oldPlayerPosition, target: targetPosition, type: ActionType.MOVE }
-        this.actions.push(move)
+        await this.addActionAndSave(move)
         return move
       case TileType.enemy:
         const enemyTile = targetTile as EnemyTile
@@ -241,7 +245,7 @@ export class PlayedTower {
           expWin: expWin,
           type: ActionType.KILL_ENEMY,
         }
-        this.actions.push(killEnemy)
+        await this.addActionAndSave(killEnemy)
         return killEnemy
       case TileType.item:
         this.playerPosition = targetPosition
@@ -256,7 +260,7 @@ export class PlayedTower {
           appliedItem: appliedItem,
           type: ActionType.PICK_ITEM,
         }
-        this.actions.push(pickItem)
+        await this.addActionAndSave(pickItem)
         return pickItem
       case TileType.key:
         this.playerPosition = targetPosition
@@ -270,11 +274,11 @@ export class PlayedTower {
           color: keyColor,
           type: ActionType.PICK_KEY,
         }
-        this.actions.push(pickKey)
+        await this.addActionAndSave(pickKey)
         return pickKey
       case TileType.staircase:
         const staircaseDirection = (targetTile as StaircaseTile).direction
-        const roomIndex = this.playerPosition.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
+        const roomIndex = this.playerPosition!.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
         const newPosition = findStaircasePosition(
           this.standardRooms,
           roomIndex,
@@ -283,7 +287,7 @@ export class PlayedTower {
         this.playerPosition = newPosition
         this.calculateReachableTiles()
         const roomChange: RoomChange = { player: oldPlayerPosition, target: newPosition, type: ActionType.ROOM_CHANGE }
-        this.actions.push(roomChange)
+        await this.addActionAndSave(roomChange)
         return roomChange
       case TileType.startingPosition:
         throw new Error("Should not happen")
@@ -311,9 +315,14 @@ export class PlayedTower {
     }
   }
 
-  private applyLevelUp(levelUpContent: LevelUpContent): void {
-    const levelUp: LevelUp = { player: this.playerPosition, levelUpContent: levelUpContent, type: ActionType.LEVEL_UP }
-    this.actions.push(levelUp)
+  private async addActionAndSave(action: Action): Promise<void> {
+    this.actions.push(action)
+    await this.database.savePlayedTower(this, this.playedTowerModelId!)
+  }
+
+  private async applyLevelUp(levelUpContent: LevelUpContent): Promise<void> {
+    const levelUp: LevelUp = { player: this.playerPosition!, levelUpContent: levelUpContent, type: ActionType.LEVEL_UP }
+    await this.addActionAndSave(levelUp)
     switch (levelUpContent.getType()) {
       case LevelUpContentType.KEY:
         const keyLevelUpContent = levelUpContent as KeyLevelUpContent

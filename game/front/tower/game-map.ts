@@ -43,14 +43,11 @@ export class GameMap extends AbstractMap {
   private static readonly ALPHA_TILE_UNDERNEATH = 0.2
 
   private readonly game: Game
-  // @ts-ignore
-  private tiles: Container
-  // @ts-ignore
-  private playerSprite: null | Sprite
-  // @ts-ignore
-  private tickerFunction: null | ((ticker: Ticker) => void)
+  private tiles?: Container
+  private playerSprite: undefined | Sprite
+  private tickerFunction: undefined | ((ticker: Ticker) => void)
   private deltaBuffer: Delta2D[] = []
-  private currentAction: ActionWithTarget | null = null
+  private currentAction: ActionWithTarget | undefined = undefined
   private readonly sprites: Container[][] | null[][]
   private infoBar: InfoBar
 
@@ -85,7 +82,7 @@ export class GameMap extends AbstractMap {
     this.game.eventManager.registerSchemeChange(() => this.schemeChanged())
     this.sprites = new Array(TILES_IN_ROW)
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
-      this.sprites[lineIndex] = new Array(TILES_IN_ROW).fill(null, 0, TILES_IN_ROW)
+      this.sprites[lineIndex] = new Array(TILES_IN_ROW).fill(undefined, 0, TILES_IN_ROW)
     }
     this.game.eventManager.registerAnimationStart((animationSource: AnimationSource) => {
       if (animationSource !== AnimationSource.GAME_MAP) {
@@ -109,10 +106,10 @@ export class GameMap extends AbstractMap {
 
   private cancelCurrentAnimation(): void {
     if (this.currentAction) {
-      this.currentAction = null
-      if (this.tickerFunction !== null) {
+      this.currentAction = undefined
+      if (this.tickerFunction !== undefined) {
         this.app.ticker.remove(this.tickerFunction)
-        this.tickerFunction = null
+        this.tickerFunction = undefined
       }
       this.deltaBuffer.length = 0
     }
@@ -122,10 +119,10 @@ export class GameMap extends AbstractMap {
     if (this.tiles != null) {
       this.app.stage.removeChild(this.tiles)
       this.tiles.destroy()
-      this.playerSprite = null
+      this.playerSprite = undefined
     }
     this.createTiles(alpha)
-    this.app.stage.addChild(this.tiles)
+    this.app.stage.addChild(this.tiles!!)
   }
 
   protected afterRepositionCursor(): void {
@@ -342,7 +339,7 @@ export class GameMap extends AbstractMap {
 
       if (targetSprite !== null) {
         if (totalPercentMove >= GameMap.TILE_GRAB_HIDE_END_PERCENT) {
-          this.tiles.removeChild(targetSprite)
+          this.tiles!!.removeChild(targetSprite)
           targetSprite = null
         } else if (totalPercentMove > GameMap.TILE_GRAB_HIDE_BEGIN_PERCENT) {
           targetSprite!.alpha =
@@ -423,12 +420,12 @@ export class GameMap extends AbstractMap {
       } else if (totalPercentMove >= 0.5) {
         if (!switchDone) {
           switchDone = true
-          this.tiles.alpha = 0
+          this.tiles!!.alpha = 0
           this.redraw(0)
         }
-        this.tiles.alpha = (totalPercentMove - 0.5) * 2
+        this.tiles!!.alpha = (totalPercentMove - 0.5) * 2
       } else {
-        this.tiles.alpha = 1 - totalPercentMove * 2
+        this.tiles!!.alpha = 1 - totalPercentMove * 2
       }
     }
   }
@@ -440,7 +437,7 @@ export class GameMap extends AbstractMap {
     const oldTargetSprite: Container = this.sprites[move.target.line][move.target.column]!
 
     const hasNewTile = move.type == ActionType.KILL_ENEMY && (move as KillEnemy).dropTile != EMPTY_TILE
-    let newTargetSprite: null | Sprite = null
+    let newTargetSprite: undefined | Sprite = undefined
     if (hasNewTile) {
       newTargetSprite = this.spriter.getSprite(SpritesToItem.spriteNameFromTile((move as KillEnemy).dropTile)!)
       newTargetSprite.alpha = 0
@@ -449,8 +446,8 @@ export class GameMap extends AbstractMap {
       this.sprites[move.target.line][move.target.column] = newTargetSprite
     }
 
-    let enemyHpChange: null | AttributeChangeInterval = null
-    let enemyExpChange: null | AttributeChangeInterval = null
+    let enemyHpChange: undefined | AttributeChangeInterval = undefined
+    let enemyExpChange: undefined | AttributeChangeInterval = undefined
 
     switch (move.type) {
       case ActionType.KILL_ENEMY:
@@ -483,20 +480,20 @@ export class GameMap extends AbstractMap {
       totalPercentMove += percentMove
 
       if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
-        if (newTargetSprite !== null) {
+        if (newTargetSprite !== undefined) {
           newTargetSprite.alpha = 1
-          newTargetSprite = null
+          newTargetSprite = undefined
         }
       } else if (totalPercentMove > GameMap.TILE_SWITCH_HIDE_MIDDLE_PERCENT) {
         if (!switchDone) {
           switchDone = true
           oldTargetSprite!.alpha = 0
-          this.tiles.removeChild(oldTargetSprite)
-          if (newTargetSprite !== null) {
-            this.tiles.addChild(newTargetSprite)
+          this.tiles!!.removeChild(oldTargetSprite)
+          if (newTargetSprite !== undefined) {
+            this.tiles!!.addChild(newTargetSprite)
           }
         } else {
-          if (newTargetSprite !== null) {
+          if (newTargetSprite !== undefined) {
             newTargetSprite!.alpha =
               1 -
               (totalPercentMove - GameMap.TILE_SWITCH_HIDE_BEGIN_PERCENT) /
@@ -513,22 +510,22 @@ export class GameMap extends AbstractMap {
       switch (move.type) {
         case ActionType.KILL_ENEMY:
           if (totalPercentMove >= GameMap.TILE_SWITCH_HIDE_END_PERCENT) {
-            if (enemyHpChange !== null) {
+            if (enemyHpChange !== undefined) {
               this.infoBar.setFieldValue(PlayerAttribute.HP, enemyHpChange.to)
               this.infoBar.endChangeField(PlayerAttribute.HP, ValueChangeType.DOWN)
             }
-            if (enemyExpChange !== null) {
+            if (enemyExpChange !== undefined) {
               this.infoBar.setFieldValue(PlayerAttribute.EXP, enemyExpChange.to)
               this.infoBar.endChangeField(PlayerAttribute.EXP, ValueChangeType.UP)
             }
           } else {
-            if (enemyHpChange !== null) {
+            if (enemyHpChange !== undefined) {
               const value = Math.ceil(
                 enemyHpChange.from + ((enemyHpChange.to - enemyHpChange.from) * totalPercentMove) / 100,
               )
               this.infoBar.setFieldValue(PlayerAttribute.HP, value)
             }
-            if (enemyExpChange !== null) {
+            if (enemyExpChange !== undefined) {
               const value = Math.ceil(
                 enemyExpChange.from + ((enemyExpChange.to - enemyExpChange.from) * totalPercentMove) / 100,
               )
@@ -569,11 +566,11 @@ export class GameMap extends AbstractMap {
 
   private async tryAction(): Promise<void> {
     const delta = this.deltaBuffer.shift()!
-    const action: ActionWithTarget | null = await this.game.playedTower!.movePlayer(delta)
+    const action: ActionWithTarget | undefined = await this.game.playedTower!.movePlayer(delta)
     console.debug("GameMap", "tryAction", delta, action)
-    if (action === null) {
+    if (action === undefined) {
       this.deltaBuffer.length = 0
-      this.currentAction = null
+      this.currentAction = undefined
       return
     }
     this.currentAction = action
@@ -603,13 +600,13 @@ export class GameMap extends AbstractMap {
 
   private currentMoveEnded(): void {
     console.debug("GameMap", "maybeStopAction")
-    if (this.tickerFunction !== null) {
+    if (this.tickerFunction !== undefined) {
       this.app.ticker.remove(this.tickerFunction)
-      this.tickerFunction = null
+      this.tickerFunction = undefined
     }
     if (this.deltaBuffer.length == 0) {
       console.debug("GameMap", "maybeStopAction", "stop")
-      this.currentAction = null
+      this.currentAction = undefined
     } else {
       console.debug("GameMap", "maybeStopAction", "go on")
       this.tryAction()

@@ -15,38 +15,38 @@ export const enum ActionType {
   LEVEL_UP = "level_up",
 }
 
-export type Action = {
+export interface Action {
   readonly player: Position3D
   readonly type: ActionType
 }
 
-export type ActionWithTarget = Action & {
+export interface ActionWithTarget extends Action {
   readonly target: Position3D
 }
 
-export type Move = ActionWithTarget & {}
+export interface Move extends ActionWithTarget {}
 
-export type RoomChange = ActionWithTarget & {}
+export interface RoomChange extends ActionWithTarget {}
 
-export type PickItem = ActionWithTarget & {
+export interface PickItem extends ActionWithTarget {
   readonly appliedItem: AppliedItem
 }
 
-export type PickKey = ActionWithTarget & {
+export interface PickKey extends ActionWithTarget {
   readonly color: Color
 }
 
-export type OpenDoor = ActionWithTarget & {
+export interface OpenDoor extends ActionWithTarget {
   readonly color: Color
 }
 
-export type KillEnemy = ActionWithTarget & {
+export interface KillEnemy extends ActionWithTarget {
   readonly enemy: Enemy
   readonly dropTile: Tile
   readonly hpLost: number
   readonly expWin: number
 }
 
-export type LevelUp = Action & {
+export interface LevelUp extends Action {
   readonly levelUpContent: LevelUpContent
 }

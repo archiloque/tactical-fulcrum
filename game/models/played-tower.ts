@@ -43,13 +43,13 @@ import { ItemName } from "../../common/data/item-name"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
 
-export interface EnemyToolTipAttributes {
+export type EnemyToolTipAttributes = {
   enemy: Enemy
   hpLost: number | null
   expWin: number
 }
 
-export interface ExpInfo {
+export type ExpInfo = {
   levelsUpAvailable: number
   remainingExp: number
   expForNextLevel: number
@@ -181,7 +181,7 @@ export class PlayedTower {
     }
   }
 
-  async movePlayer(delta: Delta2D): Promise<ActionWithTarget | undefined> {
+  async movePlayer(delta: Delta2D): Promise<ActionWithTarget | null> {
     const targetPosition = this.playerPosition!.add(delta)
     if (
       targetPosition.line < 0 ||
@@ -189,10 +189,10 @@ export class PlayedTower {
       targetPosition.column < 0 ||
       targetPosition.column >= TILES_IN_ROW
     ) {
-      return undefined
+      return null
     }
     if (this.reachableTiles![targetPosition.line][targetPosition.column] === null) {
-      return undefined
+      return null
     }
     const oldPlayerPosition = this.playerPosition!
     const targetTile: Tile = this.currentRoom!![targetPosition.line][targetPosition.column]

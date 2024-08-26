@@ -1,6 +1,6 @@
 import { Color } from "../../common/data/color"
 
-export interface PlayerInfo {
+export type PlayerInfo = {
   hp: number
   maxHp: number
   atk: number

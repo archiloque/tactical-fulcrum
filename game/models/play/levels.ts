@@ -1,4 +1,4 @@
-export interface LevelUp {
+export type LevelUp = {
   index: number
   startingExp: number
   expForNextLevel: number

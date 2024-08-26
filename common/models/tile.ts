@@ -25,11 +25,11 @@ export const TILE_TYPES: TileType[] = [
   TileType.wall,
 ]
 
-export interface Tile {
+export type Tile = {
   readonly type: TileType
 }
 
-export interface DoorTile extends Tile {
+export type DoorTile = Tile & {
   readonly color: Color
 }
 
@@ -42,16 +42,16 @@ export const DOOR_TILES: Record<Color, DoorTile> = {
   [Color.yellow]: { type: TileType.door, color: Color.yellow },
 }
 
-export interface EmptyTile extends Tile {}
+export type EmptyTile = Tile & {}
 
 export const EMPTY_TILE: EmptyTile = { type: TileType.empty }
 
-export interface EnemyTile extends Tile {
+export type EnemyTile = Tile & {
   readonly enemyType: EnemyType
   readonly level: number
 }
 
-export interface ItemTile extends Tile {
+export type ItemTile = Tile & {
   readonly item: ItemName
 }
 
@@ -77,7 +77,7 @@ export const ITEM_TILES: Record<ItemName, ItemTile> = {
   [ItemName.red_potion]: { type: TileType.item, item: ItemName.red_potion },
 }
 
-export interface KeyTile extends Tile {
+export type KeyTile = Tile & {
   readonly color: Color
 }
 
@@ -90,7 +90,7 @@ export const KEY_TILES: Record<Color, KeyTile> = {
   [Color.yellow]: { type: TileType.key, color: Color.yellow },
 }
 
-export interface StaircaseTile extends Tile {
+export type StaircaseTile = Tile & {
   readonly direction: StaircaseDirection
 }
 
@@ -99,9 +99,9 @@ export const STAIRCASE_TILES: Record<StaircaseDirection, StaircaseTile> = {
   [StaircaseDirection.up]: { type: TileType.staircase, direction: StaircaseDirection.up },
 }
 
-export interface StartingPositionTile extends Tile {}
+export type StartingPositionTile = Tile & {}
 
 export const STARTING_POSITION_TILE: StartingPositionTile = { type: TileType.startingPosition }
 
-export interface WallTile extends Tile {}
+export type WallTile = Tile & {}
 export const WALL_TILE: WallTile = { type: TileType.wall }

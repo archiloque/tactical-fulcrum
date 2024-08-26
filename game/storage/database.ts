@@ -270,23 +270,18 @@ export class DatabaseAccess {
     const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(TableName.playedTower, "readwrite")
     const playedTowerModelId: number = await store.add(playedTowerModel)
     playedTower.playedTowerModelId = playedTowerModelId
-    await this.initPlayedTowerRooms(playedTower)
-    return playedTowerModelId
-  }
-
-  private async initPlayedTowerRooms(playedTower: PlayedTower): Promise<void> {
     console.debug("DatabaseAccess", "initPlayedTowerRooms", "tower", playedTower.tower.name)
-    const store: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
+    const store1: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
       TableName.playedTowerRoom,
       "readwrite",
     )
 
-    const rooms: PlayerTowerRoomModel[] = await store.all()
+    const rooms: PlayerTowerRoomModel[] = await store1.all()
 
     const promises: Promise<any>[] = []
     for (const [roomIndex, room] of playedTower.tower.standardRooms.entries()) {
       const tiles: PositionedTile[] = this.roomsToPositionedTiles(room.tiles)
-      console.debug("DatabaseAccess", "initPlayedTowerRooms", "room", playedTower.towerModelId, roomIndex, 0)
+      console.debug("DatabaseAccess", "initPlayedTower", "room", playedTower.towerModelId, roomIndex, 0)
       const roomModel = rooms.find(
         (r) => r.nexus == 0 && r.roomIndex == roomIndex && r.playerTowerId == playedTower.playedTowerModelId,
       )
@@ -299,11 +294,12 @@ export class DatabaseAccess {
       if (roomModel !== undefined) {
         model.id = roomModel.id
       }
-      promises.push(store.put(model))
+      promises.push(store1.put(model))
     }
+
     for (const [roomIndex, room] of playedTower.tower.nexusRooms.entries()) {
       const tiles: PositionedTile[] = this.roomsToPositionedTiles(room.tiles)
-      console.debug("DatabaseAccess", "initPlayedTowerRooms", playedTower.towerModelId, roomIndex, 1)
+      console.debug("DatabaseAccess", "initPlayedTower", playedTower.towerModelId, roomIndex, 1)
       const roomModel = rooms.find(
         (r) => r.nexus == 1 && r.roomIndex == roomIndex && r.playerTowerId == playedTower.playedTowerModelId,
       )
@@ -316,12 +312,12 @@ export class DatabaseAccess {
       if (roomModel !== undefined) {
         model.id = roomModel.id
       }
-      promises.push(store.put(model))
+      promises.push(store1.put(model))
     }
     await Promise.all(promises)
-    console.debug("DatabaseAccess", "savePlayedTowerRooms", playedTower.tower.name, "over")
+    console.debug("DatabaseAccess", "initPlayedTower", playedTower.tower.name, "over")
+    return playedTowerModelId
   }
-
   async loadPlayedTower(playedTower: PlayedTower, playedTowerModelId: number): Promise<void> {
     console.debug("DatabaseAccess", "loadPlayedTower", playedTowerModelId)
     playedTower.playedTowerModelId = playedTowerModelId

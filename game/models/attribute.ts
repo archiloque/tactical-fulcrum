@@ -58,7 +58,7 @@ export const PLAYER_ATTRIBUTES: PlayerAttribute[] = [
   PlayerAttribute.HP_MUL,
 ]
 
-export type ItemToolTipAttributes = {
+export interface ItemToolTipAttributes {
   [ItemAttribute.ATK]?: number
   [ItemAttribute.DEF]?: number
   [ItemAttribute.HP]?: number
@@ -76,7 +76,7 @@ export const APPLIED_ITEM_ATTRIBUTES: PlayerAttribute[] = [
   PlayerAttribute.HP_MUL,
 ]
 
-export type AppliedItem = {
+export interface AppliedItem {
   [PlayerAttribute.ATK]?: number
   [PlayerAttribute.DEF]?: number
   [PlayerAttribute.HP]?: number

@@ -23,6 +23,7 @@ export default [
       "@stylistic/quotes": ["off"],
       "@typescript-eslint/ban-ts-comment": ["off"],
       "@typescript-eslint/explicit-function-return-type": ["error"],
+      "@typescript-eslint/no-empty-object-type": ["off"],
       "@typescript-eslint/no-explicit-any": ["off"],
       "@typescript-eslint/no-extra-non-null-assertion": ["off"],
       "@typescript-eslint/no-this-alias": ["off"],

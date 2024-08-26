@@ -15,4 +15,10 @@ export class Room {
     }
     this.scores = []
   }
+
+  clone(): Tile[][] {
+    return this.tiles.map((tilesLine) => {
+      return [...tilesLine]
+    })
+  }
 }

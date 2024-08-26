@@ -69,7 +69,7 @@ interface PlayedTowerModel extends WithId {
   playerInfo: PlayerInfo
 }
 
-type PositionedTile = {
+interface PositionedTile {
   line: number
   column: number
   tile: Tile
@@ -160,7 +160,7 @@ export class DatabaseAccess {
     })
   }
 
-  createTransaction<M extends WithId>(tableName: TableName, mode: IDBTransactionMode): DatabaseAccessStore<M> {
+  private createTransaction<M extends WithId>(tableName: TableName, mode: IDBTransactionMode): DatabaseAccessStore<M> {
     const transaction = this.db!.transaction(tableName, mode)
     return new DatabaseAccessStore(transaction.objectStore(tableName))
   }
@@ -179,7 +179,7 @@ export class DatabaseAccess {
     }
   }
 
-  async currentPlayedTowerModelId(towerId: number): Promise<number | undefined> {
+  async getCurrentPlayedTowerModelId(towerId: number): Promise<number | undefined> {
     console.debug("DatabaseAccess", "currentPlayedTowerModelId", towerId)
     const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(TableName.playedTower, "readonly")
     const index: DatabaseAccessIndex<PlayedTowerModel> = store.index(IndexName.playedTowerByTowerIdAndSlot)
@@ -192,9 +192,8 @@ export class DatabaseAccess {
     return await this.init()
   }
 
-  async toPlayedTowerModel(
+  private async toPlayedTowerModel(
     playedTower: PlayedTower,
-    towerModelId: number,
     slot: number,
     saveName: string | null,
   ): Promise<PlayedTowerModel> {
@@ -207,13 +206,13 @@ export class DatabaseAccess {
       },
       saveName: saveName,
       slot: slot,
-      towerId: towerModelId,
+      towerId: playedTower.playedTowerModelId!!,
       timestamp: new Date(),
     }
   }
 
-  async toCurrentPlayedTowerModel(playedTower: PlayedTower, towerModelId: number): Promise<PlayedTowerModel> {
-    return await this.toPlayedTowerModel(playedTower, towerModelId, CURRENT_PLAYED_TOWER_SLOT, null)
+  private async toCurrentPlayedTowerModel(playedTower: PlayedTower): Promise<PlayedTowerModel> {
+    return await this.toPlayedTowerModel(playedTower, CURRENT_PLAYED_TOWER_SLOT, null)
   }
 
   private static readonly TILES_TYPES_INTERESTING: TileType[] = [
@@ -239,18 +238,35 @@ export class DatabaseAccess {
     return tiles
   }
 
-  async savePlayedTower(playedTower: PlayedTower, towerModelId: number): Promise<any> {
-    console.debug("DatabaseAccess", "savePlayerTower", playedTower.tower.name)
-    const playedTowerModel = await this.toCurrentPlayedTowerModel(playedTower, towerModelId)
+  async savePlayedTower(playedTower: PlayedTower): Promise<any> {
+    console.debug("DatabaseAccess", "savePlayedTower", playedTower.playedTowerModelId)
+    const playedTowerModel = await this.toCurrentPlayedTowerModel(playedTower)
     playedTowerModel.id = playedTower.playedTowerModelId
     const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(TableName.playedTower, "readwrite")
     await store.put(playedTowerModel)
-    await this.initPlayedTowerRooms(playedTower)
   }
 
-  async initPlayedTower(playedTower: PlayedTower, towerModelId: number): Promise<number> {
+  async savePlayedTowerRoom(playedTower: PlayedTower): Promise<void> {
+    console.debug(
+      "DatabaseAccess",
+      "savePlayedTowerRoom",
+      playedTower.playedTowerModelId,
+      playedTower.playerPosition?.room,
+    )
+    const playedTowerRoomStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
+      TableName.playedTowerRoom,
+      "readwrite",
+    )
+    const roomModel = (await playedTowerRoomStore
+      .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
+      .get([playedTower.playedTowerModelId!!, playedTower.playerPosition!!.room, 0]))!!
+    roomModel.content = this.roomsToPositionedTiles(playedTower.currentRoom!!)
+    await playedTowerRoomStore.put(roomModel)
+  }
+
+  async initPlayedTower(playedTower: PlayedTower): Promise<number> {
     console.debug("DatabaseAccess", "initPlayedTower", playedTower.tower.name)
-    const playedTowerModel = await this.toCurrentPlayedTowerModel(playedTower, towerModelId)
+    const playedTowerModel = await this.toCurrentPlayedTowerModel(playedTower)
     const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(TableName.playedTower, "readwrite")
     const playedTowerModelId: number = await store.add(playedTowerModel)
     playedTower.playedTowerModelId = playedTowerModelId
@@ -259,7 +275,7 @@ export class DatabaseAccess {
   }
 
   private async initPlayedTowerRooms(playedTower: PlayedTower): Promise<void> {
-    console.debug("DatabaseAccess", "savePlayedTowerRooms", "tower", playedTower.tower.name)
+    console.debug("DatabaseAccess", "initPlayedTowerRooms", "tower", playedTower.tower.name)
     const store: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
       TableName.playedTowerRoom,
       "readwrite",
@@ -268,9 +284,9 @@ export class DatabaseAccess {
     const rooms: PlayerTowerRoomModel[] = await store.all()
 
     const promises: Promise<any>[] = []
-    for (const [roomIndex, room] of playedTower.standardRooms.entries()) {
-      const tiles: PositionedTile[] = this.roomsToPositionedTiles(room)
-      console.debug("DatabaseAccess", "savePlayedTowerRooms", "room", playedTower.towerModelId, roomIndex, 0)
+    for (const [roomIndex, room] of playedTower.tower.standardRooms.entries()) {
+      const tiles: PositionedTile[] = this.roomsToPositionedTiles(room.tiles)
+      console.debug("DatabaseAccess", "initPlayedTowerRooms", "room", playedTower.towerModelId, roomIndex, 0)
       const roomModel = rooms.find(
         (r) => r.nexus == 0 && r.roomIndex == roomIndex && r.playerTowerId == playedTower.playedTowerModelId,
       )
@@ -285,9 +301,9 @@ export class DatabaseAccess {
       }
       promises.push(store.put(model))
     }
-    for (const [roomIndex, room] of playedTower.nexusRooms.entries()) {
-      const tiles: PositionedTile[] = this.roomsToPositionedTiles(room)
-      console.debug("DatabaseAccess", "savePlayedTowerRooms", playedTower.towerModelId, roomIndex, 1)
+    for (const [roomIndex, room] of playedTower.tower.nexusRooms.entries()) {
+      const tiles: PositionedTile[] = this.roomsToPositionedTiles(room.tiles)
+      console.debug("DatabaseAccess", "initPlayedTowerRooms", playedTower.towerModelId, roomIndex, 1)
       const roomModel = rooms.find(
         (r) => r.nexus == 1 && r.roomIndex == roomIndex && r.playerTowerId == playedTower.playedTowerModelId,
       )
@@ -321,33 +337,37 @@ export class DatabaseAccess {
       playedTowerModel.playerPosition.line,
       playedTowerModel.playerPosition.column,
     )
+    playedTower.playerInfo = playedTowerModel.playerInfo
+    playedTower.currentRoom = await this.loadPlayedTowerRoom(playedTower, playedTowerModel.playerPosition.room)
+    playedTower.calculateReachableTiles()
+  }
 
+  async loadPlayedTowerRoom(playedTower: PlayedTower, roomIndex: number): Promise<Tile[][]> {
     const playedTowerRoomStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
       TableName.playedTowerRoom,
       "readonly",
     )
 
-    const rooms: PlayerTowerRoomModel[] = await playedTowerRoomStore
-      .index(IndexName.playedTowerRoomByPlayedTowerIndex)
-      .getAll([playedTowerModelId])
+    const roomModel = (await playedTowerRoomStore
+      .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
+      .get([playedTower.playedTowerModelId!!, roomIndex, 0]))!!
 
-    for (const roomModel of rooms) {
-      console.debug("DatabaseAccess", "loadPlayedTower", roomModel)
-      const room = (roomModel.nexus == 1 ? playedTower.nexusRooms : playedTower.standardRooms)[roomModel.roomIndex]
-      for (const [lineIndex, line] of room.entries()) {
-        for (const [columnIndex, tile] of line.entries()) {
-          if (DatabaseAccess.TILES_TYPES_TO_REMOVE.includes(tile.type)) {
-            room[lineIndex][columnIndex] = EMPTY_TILE
-          }
+    const room = (roomModel.nexus == 1 ? playedTower.tower.nexusRooms : playedTower.tower.standardRooms)[
+      roomModel.roomIndex
+    ].clone()
+
+    for (const [lineIndex, line] of room.entries()) {
+      for (const [columnIndex, tile] of line.entries()) {
+        if (DatabaseAccess.TILES_TYPES_TO_REMOVE.includes(tile.type)) {
+          room[lineIndex][columnIndex] = EMPTY_TILE
         }
       }
-      for (const positionedTile of roomModel.content) {
-        room[positionedTile.line][positionedTile.column] = positionedTile.tile
-      }
+    }
+    for (const positionedTile of roomModel.content) {
+      room[positionedTile.line][positionedTile.column] = positionedTile.tile
     }
 
-    playedTower.playerInfo = playedTowerModel.playerInfo
-    playedTower.calculateReachableTiles()
+    return room
   }
 }
 

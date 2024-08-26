@@ -70,12 +70,13 @@ export class Game {
           const towerModelId = await this.database.getTowerId(tower.name)
           this.playedTower = new PlayedTower(tower, towerModelId, this.database)
           console.debug("Game", "towerSelected", "towerModelId", towerModelId)
-          const databaseCurrentPlayedTowerId = await this.database.currentPlayedTowerModelId(towerModelId)
+          const databaseCurrentPlayedTowerId = await this.database.getCurrentPlayedTowerModelId(towerModelId)
           if (databaseCurrentPlayedTowerId === undefined) {
             this.playedTower.initNewGame()
-            this.playedTower.playedTowerModelId = await this.database.initPlayedTower(this.playedTower, towerModelId)
+            this.playedTower.playedTowerModelId = await this.database.initPlayedTower(this.playedTower)
           } else {
             await this.database.loadPlayedTower(this.playedTower, databaseCurrentPlayedTowerId!)
+            this.playedTower.calculateReachableTiles()
           }
           this.displayedScreen = GameScreen.tower
           this.screenTower.render()

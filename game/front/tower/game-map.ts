@@ -146,7 +146,7 @@ export class GameMap extends AbstractMap {
     const playerTower = this.game.playedTower!
     const playerPosition = playerTower.playerPosition
     const currentRoomIndex = playerPosition!.room
-    const currentRoom = playerTower.standardRooms[currentRoomIndex]
+    const currentRoom = playerTower.currentRoom!!
     const scores = playerTower.tower.standardRooms[currentRoomIndex].scores
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
       for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
@@ -217,10 +217,7 @@ export class GameMap extends AbstractMap {
   }
 
   protected toolTipText(): string | null {
-    const tile: Tile =
-      this.game.playedTower!.standardRooms[this.game.playedTower!.playerPosition!.room][this.lastMouseTile.y][
-        this.lastMouseTile.x
-      ]
+    const tile: Tile = this.game.playedTower!.currentRoom!![this.lastMouseTile.y][this.lastMouseTile.x]
     switch (tile.type) {
       case TileType.door:
         return `${capitalize((tile as DoorTile).color)} key`

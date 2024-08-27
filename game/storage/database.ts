@@ -4,7 +4,6 @@ import { EMPTY_TILE, Tile, TileType } from "../../common/models/tile"
 import { PlayedTowerModel, PlayerTowerRoomModel, PositionedTile, TowerModel } from "./models"
 import { PlayedTower } from "../models/played-tower"
 import { PlayerPosition } from "../models/player-position"
-import { Position3D } from "../models/tuples"
 import { Room } from "../../common/models/room"
 import { RoomType } from "../../common/data/room-type"
 
@@ -157,16 +156,8 @@ export class DatabaseAccess {
     return {
       playerInfo: playedTower.playerInfo,
       position: {
-        standard: {
-          column: playerPosition.standard!.column,
-          line: playerPosition.standard!.line,
-          room: playerPosition.standard!.room,
-        },
-        nexus: {
-          column: playerPosition.nexus!.column,
-          line: playerPosition.nexus!.line,
-          room: playerPosition.nexus!.room,
-        },
+        standard: playerPosition.standard,
+        nexus: playerPosition.nexus,
         roomType: playerPosition.roomType!!,
       },
       saveName: saveName,
@@ -287,26 +278,15 @@ export class DatabaseAccess {
     const playedTowerModel = (await index.get(playedTowerModelId))!!
     console.debug("DatabaseAccess", "loadPlayedTower", playedTowerModel)
 
-    playedTower.position = new PlayerPosition(
-      new Position3D(
-        playedTowerModel.position.standard.room,
-        playedTowerModel.position.standard.line,
-        playedTowerModel.position.standard.column,
-      ),
-      new Position3D(
-        playedTowerModel.position.nexus.room,
-        playedTowerModel.position.nexus.line,
-        playedTowerModel.position.nexus.column,
-      ),
-      playedTowerModel.position.roomType,
-    )
+    playedTower.playerInfo = playedTowerModel.playerInfo
+
+    const position = playedTowerModel.position
+    playedTower.position = new PlayerPosition(position.standard, position.nexus, position.roomType)
 
     playedTower.currentRoom = await this.loadPlayedTowerRoom(
       playedTower,
-      playedTowerModel.position.roomType,
-      playedTowerModel.position.roomType === RoomType.nexus
-        ? playedTowerModel.position.nexus.room
-        : playedTowerModel.position.standard.room,
+      position.roomType,
+      position.roomType === RoomType.nexus ? position.nexus.room : position.standard.room,
     )
     playedTower.calculateReachableTiles()
   }

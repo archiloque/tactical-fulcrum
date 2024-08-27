@@ -10,6 +10,7 @@ import {
   PickKey,
   RoomChange,
 } from "./play/action"
+import { add3D, Delta2D } from "./tuples"
 import { APPLIED_ITEM_ATTRIBUTES, AppliedItem, ItemToolTipAttributes } from "./attribute"
 import {
   AtkLevelUpContent,
@@ -37,7 +38,6 @@ import { findStaircasePosition, findStartingPosition } from "./play/locations"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
 import { DatabaseAccess } from "../storage/database"
-import { Delta2D } from "./tuples"
 import { getLevel } from "./play/levels"
 import { ItemName } from "../../common/data/item-name"
 import { PlayerPosition } from "./player-position"
@@ -188,7 +188,7 @@ export class PlayedTower {
   }
 
   async movePlayer(delta: Delta2D): Promise<ActionWithTarget | null> {
-    const targetPosition = this.position!!.position!.add(delta)
+    const targetPosition = add3D(this.position!!.position!, delta)
     if (
       targetPosition.line < 0 ||
       targetPosition.line >= TILES_IN_ROW ||

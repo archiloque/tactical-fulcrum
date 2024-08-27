@@ -1,4 +1,4 @@
-import { Delta2D, Position2D } from "../tuples"
+import { add2D, around, Delta2D, Position2D, value2D } from "../tuples"
 import { DoorTile, EnemyTile, Tile, TileType } from "../../../common/models/tile"
 import { Enemy, findEnemy } from "../../../common/models/enemy"
 import { fight } from "./enemy"
@@ -33,14 +33,14 @@ export function calculateReachableTiles(
   let currentlyReachableDestinations: Destination[] = [new Destination(playerPosition, [])]
   reachableTiles[playerPosition.line][playerPosition.column] = null
   const reachedTiles: Set<number> = new Set()
-  reachedTiles.add(playerPosition.value())
+  reachedTiles.add(value2D(playerPosition))
   while (currentlyReachableDestinations.length > 0) {
     const newlyReachableDestinations: Destination[] = []
     currentlyReachableDestinations.forEach((currentlyReachableDestination) => {
-      currentlyReachableDestination.coordinates.around().forEach((aroundDelta) => {
-        const aroundDestination = currentlyReachableDestination.coordinates.add(aroundDelta)
-        if (!reachedTiles.has(aroundDestination.value())) {
-          reachedTiles.add(aroundDestination.value())
+      around(currentlyReachableDestination.coordinates).forEach((aroundDelta) => {
+        const aroundDestination = add2D(currentlyReachableDestination.coordinates, aroundDelta)
+        if (!reachedTiles.has(value2D(aroundDestination))) {
+          reachedTiles.add(value2D(aroundDestination))
           const aroundDestinationReachability = reachable(aroundDestination, room, playerInfo, enemies)
           const path = currentlyReachableDestination.path.concat([aroundDelta])
           switch (aroundDestinationReachability) {

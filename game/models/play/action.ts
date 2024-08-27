@@ -3,6 +3,7 @@ import { Color } from "../../../common/data/color"
 import { Enemy } from "../../../common/models/enemy"
 import { LevelUpContent } from "./level-up-content"
 import { Position3D } from "../tuples"
+import { RoomType } from "../../../common/data/room-type"
 import { Tile } from "../../../common/models/tile"
 
 export const enum ActionType {
@@ -17,6 +18,7 @@ export const enum ActionType {
 
 export interface Action {
   readonly player: Position3D
+  readonly roomType: RoomType
   readonly type: ActionType
 }
 

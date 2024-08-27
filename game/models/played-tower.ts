@@ -21,7 +21,6 @@ import {
   LevelUpContentType,
 } from "./play/level-up-content"
 import { createPlayerInfo, PlayerInfo } from "./player-info"
-import { Delta2D, Position3D } from "./tuples"
 import {
   DoorTile,
   EMPTY_TILE,
@@ -38,8 +37,11 @@ import { findStaircasePosition, findStartingPosition } from "./play/locations"
 import { STAIRCASE_OPPOSITE_DIRECTION, StaircaseDirection } from "../../common/data/staircase-direction"
 import { calculateReachableTiles } from "./play/a-star"
 import { DatabaseAccess } from "../storage/database"
+import { Delta2D } from "./tuples"
 import { getLevel } from "./play/levels"
 import { ItemName } from "../../common/data/item-name"
+import { PlayerPosition } from "./player-position"
+import { RoomType } from "../../common/data/room-type"
 import { TILES_IN_ROW } from "../../common/data/constants"
 import { Tower } from "../../common/models/tower"
 
@@ -58,7 +60,7 @@ export interface ExpInfo {
 
 export class PlayedTower {
   readonly tower: Tower
-  playerPosition?: Position3D
+  position?: PlayerPosition
   currentRoom?: Tile[][]
   playerInfo: PlayerInfo
   reachableTiles?: Delta2D[][][] | null[][]
@@ -76,15 +78,19 @@ export class PlayedTower {
   }
 
   public initNewGame(): void {
-    this.playerPosition = findStartingPosition(this.tower.standardRooms)
-    this.currentRoom = this.tower.standardRooms[this.playerPosition.room].clone()
-    this.currentRoom[this.playerPosition.line][this.playerPosition.column] = EMPTY_TILE
+    this.position = new PlayerPosition(
+      findStartingPosition(this.tower.standardRooms),
+      findStartingPosition(this.tower.nexusRooms),
+      RoomType.standard,
+    )
+    this.currentRoom = this.tower.standardRooms[this.position.position.room].clone()
+    this.currentRoom[this.position.standard.line][this.position.standard.column] = EMPTY_TILE
     this.calculateReachableTiles()
   }
 
   public calculateReachableTiles(): void {
     this.reachableTiles = calculateReachableTiles(
-      this.playerPosition!,
+      this.position!!.position,
       this.currentRoom!!,
       this.playerInfo,
       this.tower.enemies,
@@ -182,7 +188,7 @@ export class PlayedTower {
   }
 
   async movePlayer(delta: Delta2D): Promise<ActionWithTarget | null> {
-    const targetPosition = this.playerPosition!.add(delta)
+    const targetPosition = this.position!!.position!.add(delta)
     if (
       targetPosition.line < 0 ||
       targetPosition.line >= TILES_IN_ROW ||
@@ -194,7 +200,7 @@ export class PlayedTower {
     if (this.reachableTiles![targetPosition.line][targetPosition.column] === null) {
       return null
     }
-    const oldPlayerPosition = this.playerPosition!
+    const oldPlayerPosition = this.position!!.position
     const targetTile: Tile = this.currentRoom!![targetPosition.line][targetPosition.column]
     switch (targetTile.type) {
       case TileType.door:
@@ -203,6 +209,7 @@ export class PlayedTower {
         this.playerInfo.keys[doorColor] -= 1
         this.calculateReachableTiles()
         const openDoor: OpenDoor = {
+          roomType: this.position!!.roomType,
           player: oldPlayerPosition,
           target: targetPosition,
           color: doorColor,
@@ -211,9 +218,14 @@ export class PlayedTower {
         await this.addActionAndSave(openDoor, true)
         return openDoor
       case TileType.empty:
-        this.playerPosition = targetPosition
+        this.position!!.position = targetPosition
         this.calculateReachableTiles()
-        const move: Move = { player: oldPlayerPosition, target: targetPosition, type: ActionType.MOVE }
+        const move: Move = {
+          roomType: this.position!!.roomType,
+          player: oldPlayerPosition,
+          target: targetPosition,
+          type: ActionType.MOVE,
+        }
         await this.addActionAndSave(move, true)
         return move
       case TileType.enemy:
@@ -227,6 +239,7 @@ export class PlayedTower {
         this.currentRoom!![targetPosition.line][targetPosition.column] = dropTile
         this.calculateReachableTiles()
         const killEnemy: KillEnemy = {
+          roomType: this.position!!.roomType,
           player: oldPlayerPosition,
           target: targetPosition,
           enemy: enemy,
@@ -238,13 +251,14 @@ export class PlayedTower {
         await this.addActionAndSave(killEnemy, true)
         return killEnemy
       case TileType.item:
-        this.playerPosition = targetPosition
+        this.position!!.position = targetPosition
         this.currentRoom!![targetPosition.line][targetPosition.column] = EMPTY_TILE
         const itemName = (targetTile as ItemTile).item
         const appliedItem: AppliedItem = this.appliedItem(itemName)
         this.applyItem(appliedItem)
         this.calculateReachableTiles()
         const pickItem: PickItem = {
+          roomType: this.position!!.roomType,
           player: oldPlayerPosition,
           target: targetPosition,
           appliedItem: appliedItem,
@@ -253,12 +267,13 @@ export class PlayedTower {
         await this.addActionAndSave(pickItem, true)
         return pickItem
       case TileType.key:
-        this.playerPosition = targetPosition
+        this.position!!.position = targetPosition
         this.currentRoom!![targetPosition.line][targetPosition.column] = EMPTY_TILE
         const keyColor = (targetTile as KeyTile).color
         this.playerInfo.keys[keyColor] += 1
         this.calculateReachableTiles()
         const pickKey: PickKey = {
+          roomType: this.position!!.roomType,
           player: oldPlayerPosition,
           target: targetPosition,
           color: keyColor,
@@ -268,16 +283,21 @@ export class PlayedTower {
         return pickKey
       case TileType.staircase:
         const staircaseDirection = (targetTile as StaircaseTile).direction
-        const roomIndex = this.playerPosition!.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
-        this.currentRoom = await this.database.loadPlayedTowerRoom(this, roomIndex)
+        const roomIndex = this.position!!.position.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
+        this.currentRoom = await this.database.loadPlayedTowerRoom(this, this.position!!.roomType!!, roomIndex)
         const newPosition = findStaircasePosition(
           this.currentRoom,
           roomIndex,
           STAIRCASE_OPPOSITE_DIRECTION[staircaseDirection],
         )
-        this.playerPosition = newPosition
+        this.position!!.position = newPosition
         this.calculateReachableTiles()
-        const roomChange: RoomChange = { player: oldPlayerPosition, target: newPosition, type: ActionType.ROOM_CHANGE }
+        const roomChange: RoomChange = {
+          roomType: this.position!!.roomType!!,
+          player: oldPlayerPosition,
+          target: newPosition,
+          type: ActionType.ROOM_CHANGE,
+        }
         await this.addActionAndSave(roomChange, false)
         return roomChange
       case TileType.startingPosition:
@@ -315,7 +335,12 @@ export class PlayedTower {
   }
 
   private async applyLevelUp(levelUpContent: LevelUpContent): Promise<void> {
-    const levelUp: LevelUp = { player: this.playerPosition!, levelUpContent: levelUpContent, type: ActionType.LEVEL_UP }
+    const levelUp: LevelUp = {
+      roomType: this.position!!.roomType!!,
+      player: this.position!!.position!,
+      levelUpContent: levelUpContent,
+      type: ActionType.LEVEL_UP,
+    }
     await this.addActionAndSave(levelUp, false)
     switch (levelUpContent.getType()) {
       case LevelUpContentType.KEY:

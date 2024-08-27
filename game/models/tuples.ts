@@ -10,6 +10,17 @@ abstract class Pair {
   }
 }
 
+export class Delta2D extends Pair {
+  static readonly UP: Delta2D = new Delta2D(-1, 0)
+  static readonly DOWN: Delta2D = new Delta2D(1, 0)
+  static readonly LEFT: Delta2D = new Delta2D(0, -1)
+  static readonly RIGHT: Delta2D = new Delta2D(0, 1)
+
+  private constructor(line: number, column: number) {
+    super(line, column)
+  }
+}
+
 export class Position2D extends Pair {
   constructor(line: number, column: number) {
     super(line, column)
@@ -38,17 +49,6 @@ export class Position2D extends Pair {
       result.push(Delta2D.RIGHT)
     }
     return result
-  }
-}
-
-export class Delta2D extends Pair {
-  static readonly UP: Delta2D = new Delta2D(-1, 0)
-  static readonly DOWN: Delta2D = new Delta2D(1, 0)
-  static readonly LEFT: Delta2D = new Delta2D(0, -1)
-  static readonly RIGHT: Delta2D = new Delta2D(0, 1)
-
-  private constructor(line: number, column: number) {
-    super(line, column)
   }
 }
 

@@ -153,7 +153,7 @@ export class DatabaseAccess {
     saveName: string | null,
   ): Promise<PlayedTowerModel> {
     const playerPosition = playedTower.position!!
-    return {
+    const result: PlayedTowerModel = {
       playerInfo: playedTower.playerInfo,
       position: {
         standard: playerPosition.standard,
@@ -162,9 +162,13 @@ export class DatabaseAccess {
       },
       saveName: saveName,
       slot: slot,
-      towerId: playedTower.playedTowerModelId!!,
+      towerId: playedTower.towerModelId!!,
       timestamp: new Date(),
     }
+    if (playedTower.playedTowerModelId !== undefined) {
+      result.id = playedTower.playedTowerModelId
+    }
+    return result
   }
 
   private async toCurrentPlayedTowerModel(playedTower: PlayedTower): Promise<PlayedTowerModel> {
@@ -215,15 +219,32 @@ export class DatabaseAccess {
     await playedTowerRoomStore.put(roomModel)
   }
 
-  async initPlayedTower(playedTower: PlayedTower): Promise<number> {
+  async initPlayedTower(playedTower: PlayedTower): Promise<void> {
     console.debug("DatabaseAccess", "initPlayedTower", playedTower.tower.name)
     const playedTowerModel = await this.toCurrentPlayedTowerModel(playedTower)
     const playedTowerModelStore: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction(
       TableName.playedTower,
       "readwrite",
     )
-    const playedTowerModelId: number = await playedTowerModelStore.add(playedTowerModel)
-    playedTower.playedTowerModelId = playedTowerModelId
+
+    if (playedTower.playedTowerModelId === undefined) {
+      const playedTowerModelId: number = await playedTowerModelStore.add(playedTowerModel)
+      playedTower.playedTowerModelId = playedTowerModelId
+    } else {
+      await playedTowerModelStore.put(playedTowerModel)
+      const playerTowerRoomModelStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction(
+        TableName.playedTowerRoom,
+        "readwrite",
+      )
+      const roomModelsIds = await playerTowerRoomModelStore
+        .index(IndexName.playedTowerRoomByPlayedTowerIndex)
+        .getAllKeys()
+      await Promise.all(
+        roomModelsIds.map((roomModelId) => {
+          playerTowerRoomModelStore.delete(roomModelId)
+        }),
+      )
+    }
 
     const promises: Promise<any>[] = []
     for (const [roomIndex, room] of playedTower.tower.standardRooms.entries()) {
@@ -234,7 +255,6 @@ export class DatabaseAccess {
       promises.push(this.initPlayedTowerRoom(playedTower, room, roomIndex, RoomType.nexus))
     }
     await Promise.all(promises)
-    return playedTowerModelId
   }
 
   private async initPlayedTowerRoom(

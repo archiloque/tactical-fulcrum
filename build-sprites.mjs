@@ -56,7 +56,7 @@ const EDITOR_ICONS = [
 
 const CUSTOM_ICONS_COLORS = ["key"]
 
-const CUSTOM_ICONS_MONOCHROMES = []
+const CUSTOM_ICONS_MONOCHROMES = ["fast-backward"]
 
 const IN_DIR = "assets/sprites"
 
@@ -180,7 +180,7 @@ for (const iconName of CUSTOM_ICONS_MONOCHROMES) {
 }
 customMonochromeIconsContent.push("}")
 customMonochromeIconsContent.push("")
-customMonochromeIconsContent.push("export const MonochromeCustomIcons = new Map<string, string>([")
+customMonochromeIconsContent.push("export const MonochromeCustomIcons = new Map<MonochromeCustomIconsName, string>([")
 for (const iconName of CUSTOM_ICONS_MONOCHROMES) {
   const sourcePath = `assets/icons/${iconName}.svg`
   console.info(sourcePath)
@@ -198,7 +198,7 @@ for (const iconName of CUSTOM_ICONS_COLORS) {
 }
 customColorIconsContent.push("}")
 customColorIconsContent.push("")
-customColorIconsContent.push("export const ColorCustomIcons = new Map<string, string>([")
+customColorIconsContent.push("export const ColorCustomIcons = new Map<ColorCustomIconsName, string>([")
 for (const iconName of CUSTOM_ICONS_COLORS) {
   const sourcePath = `assets/icons/${iconName}.svg`
   console.info(sourcePath)

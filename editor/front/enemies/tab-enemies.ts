@@ -99,7 +99,7 @@ export class TabEnemies extends AbstractTab {
     this.editor.tower.saveEnemies()
   }
 
-  private deleteEnemy = async (event: PointerEvent): Promise<any> => {
+  private deleteEnemy = async (event: PointerEvent): Promise<void> => {
     this.enemyDeletionIndex = parseInt(
       // @ts-ignore
       event.currentTarget.parentElement.dataset.index,
@@ -107,18 +107,17 @@ export class TabEnemies extends AbstractTab {
     const enemiesCount = this.editor.tower.countEnemies(this.editor.tower.enemies[this.enemyDeletionIndex])
     const dialogMessage = `Are you sure you want to delete this enemy? ${enemiesCount == 0 ? "It is currently unused." : `It is currently used ${enemiesCount} time(s), deleting it will remove it from the map(s).`}`
     this.deleteDialogMessage.innerText = dialogMessage
-    return this.deleteDialog.show()
+    await this.deleteDialog.show()
   }
 
   private deleteDialogConfirm = async (): Promise<any> => {
-    this.deleteDialog.hide().then(() => {
-      this.editor.tower.deleteEnemy(this.editor.tower.enemies[this.enemyDeletionIndex])
-      this.render()
-    })
+    await this.deleteDialog.hide()
+    this.editor.tower.deleteEnemy(this.editor.tower.enemies[this.enemyDeletionIndex])
+    this.render()
   }
 
   private deleteDialogCancel = async (): Promise<any> => {
-    return this.deleteDialog.hide()
+    await this.deleteDialog.hide()
   }
 
   private intValueChanged = (event: CustomEvent, attrName: string): void => {

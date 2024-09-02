@@ -11,7 +11,7 @@ import {
   Tile,
   TileType,
 } from "../../../common/models/tile"
-import { InfoBar, ValueChangeType } from "./info-bar"
+import { InfoBar, ValueChangeType } from "./info-bar/info-bar"
 import { AbstractMap } from "../../../common/front/tower/abstract-map"
 import { AnimationSource } from "../game-event-manager"
 import { capitalize } from "../../../common/models/utils"

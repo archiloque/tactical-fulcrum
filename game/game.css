@@ -37,7 +37,7 @@ html {
   font-size: 24px;
   border-left: 2px solid var(--sl-color-neutral-950);
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 2fr 1fr 0.5fr;
   gap: 2px;
   background-color: var(--sl-color-neutral-950);
 }
@@ -45,6 +45,7 @@ html {
 #screenTowerInfoKeys,
 #screenTowerInfoExp,
 #screenTowerInfoLevelUp,
+#screenTowerInfoButtons,
 .screenTowerInfoBlock {
   background-color: var(--sl-color-neutral-50);
   .upChange {
@@ -65,6 +66,14 @@ html {
 }
 
 #screenTowerInfoKeys {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  div {
+    margin: auto;
+  }
+}
+
+#screenTowerInfoButtons {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   div {

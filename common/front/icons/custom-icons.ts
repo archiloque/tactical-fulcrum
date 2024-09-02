@@ -39,9 +39,7 @@ export class MonochromeCustomIcon extends CustomIcon {
   }
 
   getValue(): string {
-    return decodeSvg(
-      MonochromeCustomIcons.get(this.iconName.toString())!.replaceAll(INITIAL_COLOR_BLACK, getTextColor()),
-    )
+    return decodeSvg(MonochromeCustomIcons.get(this.iconName)!.replaceAll(INITIAL_COLOR_BLACK, getTextColor()))
   }
 }
 
@@ -57,7 +55,7 @@ export class ColoredCustomIcon extends CustomIcon {
 
   getValue(): string {
     return decodeSvg(
-      ColorCustomIcons.get(this.iconName.toString())!
+      ColorCustomIcons.get(this.iconName)!
         .replaceAll(INITIAL_COLOR_BLACK, getTextColor())
         .replaceAll(INITIAL_COLOR_YELLOW, getCssProperty(this.color)),
     )
@@ -65,6 +63,8 @@ export class ColoredCustomIcon extends CustomIcon {
 }
 
 const ICONS = new Map<string, CustomIcon>([
+  [MonochromeCustomIconsName.FAST_BACKWARD, new MonochromeCustomIcon(MonochromeCustomIconsName.FAST_BACKWARD)],
+  [CustomIconsNames.KEY_BLUE, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.blue)],
   [CustomIconsNames.KEY_BLUE, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.blue)],
   [CustomIconsNames.KEY_CRIMSON, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.red)],
   [CustomIconsNames.KEY_GREEN_BLUE, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.teal)],

@@ -2,7 +2,7 @@ import { html, render } from "uhtml"
 import { Game } from "../../game"
 import { GameMap } from "./game-map"
 import { GameScreen } from "../game-screen"
-import { InfoBar } from "./info-bar"
+import { InfoBar } from "./info-bar/info-bar"
 import { TILES_IN_ROW } from "../../../common/data/constants"
 
 export class ScreenTower {

@@ -2,6 +2,10 @@ import "../assets/css/reset.css"
 import "../common/common.css"
 import "./game.css"
 
+import "@shoelace-style/shoelace/dist/components/badge/badge.js"
+import "@shoelace-style/shoelace/dist/components/button/button.js"
+import "@shoelace-style/shoelace/dist/components/dialog/dialog.js"
+import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
 import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
@@ -45,14 +49,17 @@ export class Game {
       await this.towerSelected(selectedTower)
     })
 
+    this.eventManager.registerTowerReset(async () => {
+      await this.resetTower()
+    })
+
     this.screenIntro = new ScreenIntro(this)
     this.screenTower = new ScreenTower(this)
     this.displayedScreen = GameScreen.intro
     Promise.all([this.database.init(), this.screenTower.init()]).then(() => {
       this.screenIntro.render()
+      CONSOLE: installConsole(this)
     })
-
-    CONSOLE: installConsole(this)
   }
 
   private async towerSelected(selectedTower: TowerInfo): Promise<any> {
@@ -72,8 +79,7 @@ export class Game {
           console.debug("Game", "towerSelected", "towerModelId", towerModelId)
           const databaseCurrentPlayedTowerId = await this.database.getCurrentPlayedTowerModelId(towerModelId)
           if (databaseCurrentPlayedTowerId === undefined) {
-            this.playedTower.initNewGame()
-            this.playedTower.playedTowerModelId = await this.database.initPlayedTower(this.playedTower)
+            await this.playedTower.initNewGame()
           } else {
             await this.database.loadPlayedTower(this.playedTower, databaseCurrentPlayedTowerId!)
             this.playedTower.calculateReachableTiles()
@@ -83,6 +89,12 @@ export class Game {
         }
       }
     })
+  }
+
+  async resetTower(): Promise<any> {
+    console.debug("Game", "resetTower")
+    await this.playedTower!!.initNewGame()
+    this.screenTower.render()
   }
 }
 

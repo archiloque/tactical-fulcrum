@@ -38,6 +38,10 @@ export class DatabaseAccessStore<M extends DatabaseModel> {
   index(name: string): DatabaseAccessIndex<M> {
     return new DatabaseAccessIndex<M>(this.store.index(name))
   }
+
+  delete(id: number): void {
+    this.store.delete(id)
+  }
 }
 
 export class DatabaseAccessIndex<M extends DatabaseModel> {
@@ -55,6 +59,11 @@ export class DatabaseAccessIndex<M extends DatabaseModel> {
   async getKey(query: IDBValidKey | IDBKeyRange): Promise<number | undefined> {
     console.debug("DatabaseAccessIndex", "getKey", this.index.name, query)
     return await runRequest(this.index.getKey(query))
+  }
+
+  async getAllKeys(query?: IDBValidKey | IDBKeyRange): Promise<number[]> {
+    console.debug("DatabaseAccessIndex", "getAllKeys", this.index.name, query)
+    return await runRequest(this.index.getAllKeys(query))
   }
 
   async getAll(query?: IDBValidKey | IDBKeyRange | null): Promise<M[]> {

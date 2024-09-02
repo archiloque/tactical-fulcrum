@@ -24,8 +24,8 @@ export class Buttons {
       <div id="screenTowerInfoButtons">
         <div>
           <sl-tooltip content="Reset the level to its initial state">
-            <sl-button size="small"
-              ><sl-icon library="tf" name="fast-backward" onclick="${this.clickResetLevel}"></sl-icon
+            <sl-button size="small" onclick="${this.clickResetLevel}"
+              ><sl-icon library="tf" name="fast-backward"></sl-icon
             ></sl-button>
           </sl-tooltip>
         </div>

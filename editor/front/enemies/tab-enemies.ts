@@ -28,7 +28,7 @@ export class TabEnemies extends AbstractTab {
     this.tabElement = document.getElementById(Tab.enemy) as SlTabPanel
   }
 
-  private renderEnemy(enemy: Enemy, enemyIndex: number): Hole {
+  private contentEnemy(enemy: Enemy, enemyIndex: number): Hole {
     const drops: Hole[] = DROPS.map(
       (item: string, index: number) =>
         html` <sl-option value="${index}">${item == null ? "<Nothing>" : item}</sl-option>`,
@@ -73,7 +73,7 @@ export class TabEnemies extends AbstractTab {
           ${this.tag("Lv", "narrow")} ${this.tag("Name", "wide")} ${this.tag("HP")} ${this.tag("Atk")}
           ${this.tag("Def")} ${this.tag("Exp")} ${this.tag("Drop", "wide")} ${this.tag("Delete", "delete")}
         </div>
-        ${this.editor.tower.enemies.map((enemy: Enemy, enemyIndex: number) => this.renderEnemy(enemy, enemyIndex))}
+        ${this.editor.tower.enemies.map((enemy: Enemy, enemyIndex: number) => this.contentEnemy(enemy, enemyIndex))}
         <div class="addButtonDiv">
           <sl-button variant="primary" onclick="${this.addEnemy}">
             <sl-icon name="${DefaultIconsName.PLUS_CIRCLE}"></sl-icon>

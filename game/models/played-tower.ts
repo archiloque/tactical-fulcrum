@@ -70,7 +70,7 @@ export class PlayedTower {
   readonly actions: Action[]
   private readonly database: DatabaseAccess
   towerModelId: number
-  playedTowerModelId?: number
+  playedTowerModelCurentSaveId?: number
 
   constructor(tower: Tower, towerModelId: number, database: DatabaseAccess) {
     this.tower = tower
@@ -87,7 +87,7 @@ export class PlayedTower {
       findStartingPosition(this.tower.nexusRooms),
       RoomType.standard,
     )
-    await this.database.initPlayedTower(this)
+    await this.database.getPlayedTowerTable().init(this)
     this.currentRoom = this.tower.standardRooms[this.position.position.room].clone()
     this.currentRoom[this.position.standard.line][this.position.standard.column] = EMPTY_TILE
     this.calculateReachableTiles()
@@ -289,7 +289,7 @@ export class PlayedTower {
       case TileType.staircase:
         const staircaseDirection = (targetTile as StaircaseTile).direction
         const roomIndex = this.position.position.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
-        this.currentRoom = await this.database.loadPlayedTowerRoom(this, this.position.roomType!!, roomIndex)
+        this.currentRoom = await this.database.getRoomTable().load(this, this.position.roomType!!, roomIndex)
         const newPosition = findStaircasePosition(
           this.currentRoom,
           roomIndex,
@@ -333,9 +333,9 @@ export class PlayedTower {
 
   private async addActionAndSave(action: Action, saveRoom: boolean): Promise<void> {
     this.actions.push(action)
-    await this.database.savePlayedTower(this)
+    await this.database.getPlayedTowerTable().saveToCurrentSave(this)
     if (saveRoom) {
-      await this.database.savePlayedTowerRoom(this)
+      await this.database.getRoomTable().saveCurrentRoom(this)
     }
   }
 

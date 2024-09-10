@@ -55,7 +55,7 @@ export class ExperienceAndLevelUp {
     })
   }
 
-  renderExperience(): Hole {
+  contentExperience(): Hole {
     const playerInfo = this.infoBar.game.playedTower!.playerInfo
     const expInfo = this.infoBar.game.playedTower!.getExpInfo()
 
@@ -74,7 +74,7 @@ export class ExperienceAndLevelUp {
     </div>`
   }
 
-  renderLevelUp(): Hole {
+  contentLevelUp(): Hole {
     return html` <div id="${ExperienceAndLevelUp.LEVEL_UP_ID}"></div>`
   }
 

@@ -8,6 +8,7 @@ export async function runRequest(request: IDBRequest): Promise<any> {
     }
     request.onerror = (): void => {
       console.error("DatabaseAccess", "runRequest", request.error)
+      debugger
       reject()
     }
   })

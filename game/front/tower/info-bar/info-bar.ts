@@ -96,13 +96,13 @@ export class InfoBar {
       hp,
       atk,
       def,
-      this.experienceAndLevelUp.renderExperience(),
-      this.experienceAndLevelUp.renderLevelUp(),
+      this.experienceAndLevelUp.contentExperience(),
+      this.experienceAndLevelUp.contentLevelUp(),
       keys,
-      this.buttons.render(),
+      this.buttons.content(),
     ]
     const infoBar = document.getElementById(ScreenTower.INFO_BAR_ID)
-    render(infoBar, html``)
+    // render(infoBar, html``)
     render(infoBar, html`${content}`)
 
     this.experienceAndLevelUp.postRender()

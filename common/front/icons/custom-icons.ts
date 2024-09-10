@@ -71,4 +71,6 @@ const ICONS = new Map<string, CustomIcon>([
   [CustomIconsNames.KEY_PLATINUM, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.platinum)],
   [CustomIconsNames.KEY_VIOLET, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.violet)],
   [CustomIconsNames.KEY_YELLOW, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.yellow)],
+  [MonochromeCustomIconsName.LOAD, new MonochromeCustomIcon(MonochromeCustomIconsName.LOAD)],
+  [MonochromeCustomIconsName.SAVE, new MonochromeCustomIcon(MonochromeCustomIconsName.SAVE)],
 ])

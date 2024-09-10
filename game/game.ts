@@ -5,6 +5,7 @@ import "./game.css"
 import "@shoelace-style/shoelace/dist/components/badge/badge.js"
 import "@shoelace-style/shoelace/dist/components/button/button.js"
 import "@shoelace-style/shoelace/dist/components/dialog/dialog.js"
+import "@shoelace-style/shoelace/dist/components/input/input.js"
 import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js"
 import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
@@ -74,14 +75,14 @@ export class Game {
           await showAlert(errorMessage, AlertVariant.danger, "check2-circle")
         } else {
           const tower = importResult.tower
-          const towerModelId = await this.database.getTowerId(tower.name)
+          const towerModelId = await this.database.getTowerTable().getIdFromName(tower.name)
           this.playedTower = new PlayedTower(tower, towerModelId, this.database)
           console.debug("Game", "towerSelected", "towerModelId", towerModelId)
-          const databaseCurrentPlayedTowerId = await this.database.getCurrentPlayedTowerModelId(towerModelId)
+          const databaseCurrentPlayedTowerId = await this.database.getPlayedTowerTable().getCurrentId(towerModelId)
           if (databaseCurrentPlayedTowerId === undefined) {
             await this.playedTower.initNewGame()
           } else {
-            await this.database.loadPlayedTower(this.playedTower, databaseCurrentPlayedTowerId!)
+            await this.database.getPlayedTowerTable().load(this.playedTower, databaseCurrentPlayedTowerId!)
             this.playedTower.calculateReachableTiles()
           }
           this.displayedScreen = GameScreen.tower

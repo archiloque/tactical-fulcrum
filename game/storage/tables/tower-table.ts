@@ -9,7 +9,7 @@ export class TowerTable extends Table<TowerModel> {
 
   async getIdFromName(towerName: string): Promise<number> {
     console.debug("TowerTable", "getIdFromName", towerName)
-    const store = this.createTransaction("readwrite")
+    const store = this.transaction("readwrite")
     const index = store.index(IndexName.towerNameIndex)
     const towerModelId: number | undefined = await index.getKey(towerName)
     if (towerModelId === undefined) {

@@ -1,9 +1,9 @@
-import { DatabaseModel } from "./utils"
+import { DbModel } from "./utils"
 import { PlayerInfo } from "../models/player-info"
 import { RoomType } from "../../common/data/room-type"
 import { Tile } from "../../common/models/tile"
 
-export interface ModelWithId extends DatabaseModel {
+export interface ModelWithId extends DbModel {
   id?: number
 }
 

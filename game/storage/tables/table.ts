@@ -1,6 +1,6 @@
-import { DatabaseAccessStore, DatabaseModel } from "../utils"
+import { DbAccess, DbModel } from "../utils"
 
-export abstract class Table<M extends DatabaseModel> {
+export abstract class Table<M extends DbModel> {
   private readonly db: IDBDatabase
   private readonly tableName: string
 
@@ -9,8 +9,8 @@ export abstract class Table<M extends DatabaseModel> {
     this.tableName = tableName
   }
 
-  protected createTransaction(mode: IDBTransactionMode): DatabaseAccessStore<M> {
+  protected transaction(mode: IDBTransactionMode): DbAccess<M> {
     const transaction = this.db!.transaction(this.tableName, mode)
-    return new DatabaseAccessStore<M>(transaction.objectStore(this.tableName))
+    return new DbAccess<M>(transaction.objectStore(this.tableName))
   }
 }

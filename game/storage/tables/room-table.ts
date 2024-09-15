@@ -1,7 +1,7 @@
 import { EMPTY_TILE, Tile, TileType } from "../../../common/models/tile"
 import { IndexName, TableName } from "../database"
 import { PlayerTowerRoomModel, PositionedTile } from "../models"
-import { DatabaseAccessStore } from "../utils"
+import { DbAccess } from "../utils"
 import { PlayedTower } from "../../models/played-tower"
 import { Room } from "../../../common/models/room"
 import { RoomType } from "../../../common/data/room-type"
@@ -38,12 +38,12 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     roomIndex: number,
     roomType: RoomType,
   ): Promise<void> {
-    const playerTowerRoomModelStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction("readwrite")
+    const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
 
     const tiles: PositionedTile[] = this.roomToPositionedTiles(room.tiles)
     console.debug("RoomTable", "saveRoom", towerModelId, playedTowerModelId, roomIndex, roomType)
 
-    const roomModelId = await playerTowerRoomModelStore
+    const roomModelId = await store
       .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
       .getKey([playedTowerModelId, roomIndex, roomType])
 
@@ -56,7 +56,7 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     if (roomModelId !== undefined) {
       model.id = roomModelId
     }
-    return playerTowerRoomModelStore.put(model)
+    return store.put(model)
   }
 
   private roomToPositionedTiles(room: Tile[][]): PositionedTile[] {
@@ -72,25 +72,25 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
   }
 
   async saveCurrentRoom(playedTower: PlayedTower): Promise<void> {
-    console.debug("RoomTable", "saveCurrentRoom", playedTower.playedTowerModelCurentSaveId)
-    const playedTowerRoomStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction("readwrite")
-    const roomModel = (await playedTowerRoomStore
+    console.debug("RoomTable", "saveCurrentRoom", playedTower.playedTowerModelCurrentSaveId)
+    const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
+    const roomModel = (await store
       .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
       .get([
-        playedTower.playedTowerModelCurentSaveId!!,
+        playedTower.playedTowerModelCurrentSaveId!!,
         playedTower.position!!.position.room,
         playedTower.position!!.roomType,
       ]))!!
     roomModel.content = this.roomToPositionedTiles(playedTower.currentRoom!!)
-    await playedTowerRoomStore.put(roomModel)
+    await store.put(roomModel)
   }
 
   async load(playedTower: PlayedTower, nexus: RoomType, roomIndex: number): Promise<Tile[][]> {
-    const playedTowerRoomStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction("readonly")
+    const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readonly")
 
-    const roomModel = (await playedTowerRoomStore
+    const roomModel = (await store
       .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
-      .get([playedTower.playedTowerModelCurentSaveId!!, roomIndex, nexus]))!!
+      .get([playedTower.playedTowerModelCurrentSaveId!!, roomIndex, nexus]))!!
 
     const room = playedTower.tower.getRooms(nexus)[roomModel.roomIndex].clone()
 
@@ -109,13 +109,11 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
   }
 
   async deleteRooms(playedTowerModelId: number): Promise<void> {
-    const playerTowerRoomModelStore: DatabaseAccessStore<PlayerTowerRoomModel> = this.createTransaction("readwrite")
-    const roomModelsIds = await playerTowerRoomModelStore
-      .index(IndexName.playedTowerRoomByPlayedTowerIndex)
-      .getAllKeys(playedTowerModelId)
+    const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
+    const roomModelsIds = await store.index(IndexName.playedTowerRoomByPlayedTowerIndex).getAllKeys(playedTowerModelId)
     await Promise.all(
       roomModelsIds.map((roomModelId) => {
-        playerTowerRoomModelStore.delete(roomModelId)
+        store.delete(roomModelId)
       }),
     )
   }

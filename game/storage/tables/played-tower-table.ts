@@ -1,4 +1,4 @@
-import { DatabaseAccessIndex, DatabaseAccessStore } from "../utils"
+import { DbAccess, DbIndex } from "../utils"
 import { IndexName, TableName } from "../database"
 import { PlayedTower } from "../../models/played-tower"
 import { PlayedTowerModel } from "../models"
@@ -19,8 +19,8 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
 
   async getCurrentId(towerId: number): Promise<number | undefined> {
     console.debug("PlayedTowerTable", "getCurrentId", towerId)
-    const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction("readonly")
-    const index: DatabaseAccessIndex<PlayedTowerModel> = store.index(IndexName.playedTowerByTowerIdAndSlot)
+    const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
+    const index: DbIndex<PlayedTowerModel> = store.index(IndexName.playedTowerByTowerIdAndSlot)
     return await index.getKey([towerId, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT])
   }
 
@@ -48,10 +48,10 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
   }
 
   async saveToCurrentSave(playedTower: PlayedTower): Promise<any> {
-    console.debug("PlayedTowerTable", "saveToCurrentSave", playedTower.playedTowerModelCurentSaveId)
+    console.debug("PlayedTowerTable", "saveToCurrentSave", playedTower.playedTowerModelCurrentSaveId)
     const playedTowerModel = this.toModelCurrent(playedTower)
-    playedTowerModel.id = playedTower.playedTowerModelCurentSaveId
-    const store: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction("readwrite")
+    playedTowerModel.id = playedTower.playedTowerModelCurrentSaveId
+    const store: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
     await store.put(playedTowerModel)
   }
 
@@ -59,7 +59,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     console.debug("PlayedTowerTable", "saveNew", saveName)
     const slotId = await this.nextSlotId(playedTower.towerModelId)
     const playedTowerModel = this.toModel(playedTower, saveName, slotId)
-    const towerModelStore: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction("readwrite")
+    const towerModelStore: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
     const playedTowerModelId = await towerModelStore.add(playedTowerModel)
     console.debug("PlayedTowerTable", "playedTowerSaveNew", saveName, playedTowerModelId)
     await this.roomTable.saveRooms(playedTower, playedTowerModelId)
@@ -67,8 +67,8 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
 
   private async nextSlotId(towerModelId: number): Promise<number> {
     console.debug("PlayedTowerTable", "nextSlotId", towerModelId)
-    const playedTowerRoomStore: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction("readonly")
-    const playedTowerModels: PlayedTowerModel[] = await playedTowerRoomStore
+    const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
+    const playedTowerModels: PlayedTowerModel[] = await store
       .index(IndexName.playedTowerByTowerId)
       .getAll([towerModelId])
     let maxSlotId: undefined | number = undefined
@@ -93,24 +93,24 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
   async init(playedTower: PlayedTower): Promise<void> {
     console.debug("PlayedTowerTable", "init", playedTower.tower.name)
     const playedTowerModel = this.toModelCurrent(playedTower)
-    const playedTowerModelStore: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction("readwrite")
+    const playedTowerModelStore: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
 
-    if (playedTower.playedTowerModelCurentSaveId === undefined) {
+    if (playedTower.playedTowerModelCurrentSaveId === undefined) {
       const playedTowerModelId: number = await playedTowerModelStore.add(playedTowerModel)
-      playedTower.playedTowerModelCurentSaveId = playedTowerModelId
+      playedTower.playedTowerModelCurrentSaveId = playedTowerModelId
     } else {
       await playedTowerModelStore.put(playedTowerModel)
-      await this.roomTable.deleteRooms(playedTower.playedTowerModelCurentSaveId)
+      await this.roomTable.deleteRooms(playedTower.playedTowerModelCurrentSaveId)
     }
 
-    await this.roomTable.saveRooms(playedTower, playedTower.playedTowerModelCurentSaveId)
+    await this.roomTable.saveRooms(playedTower, playedTower.playedTowerModelCurrentSaveId)
   }
 
   async load(playedTower: PlayedTower, playedTowerModelId: number): Promise<void> {
     console.debug("PlayedTowerTable", "loadPlayedTower", playedTowerModelId)
-    playedTower.playedTowerModelCurentSaveId = playedTowerModelId
-    const playedTowerStore: DatabaseAccessStore<PlayedTowerModel> = this.createTransaction("readonly")
-    const index = playedTowerStore.index(IndexName.playedTowerIdIndex)
+    playedTower.playedTowerModelCurrentSaveId = playedTowerModelId
+    const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
+    const index = store.index(IndexName.playedTowerIdIndex)
     const playedTowerModel = (await index.get(playedTowerModelId))!!
     console.debug("PlayedTowerTable", "loadPlayedTower", playedTowerModel)
 

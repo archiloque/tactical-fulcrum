@@ -70,7 +70,7 @@ export class PlayedTower {
   readonly actions: Action[]
   private readonly database: DatabaseAccess
   towerModelId: number
-  playedTowerModelCurentSaveId?: number
+  playedTowerModelCurrentSaveId?: number
 
   constructor(tower: Tower, towerModelId: number, database: DatabaseAccess) {
     this.tower = tower

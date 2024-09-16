@@ -107,7 +107,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
   }
 
   async load(playedTower: PlayedTower, playedTowerModelId: number): Promise<void> {
-    console.debug("PlayedTowerTable", "loadPlayedTower", playedTowerModelId)
+    console.debug("PlayedTowerTable", "load", playedTowerModelId)
     playedTower.playedTowerModelCurrentSaveId = playedTowerModelId
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
     const index = store.index(IndexName.playedTowerIdIndex)
@@ -125,5 +125,16 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
       position.roomType === RoomType.nexus ? position.nexus.room : position.standard.room,
     )
     playedTower.calculateReachableTiles()
+  }
+
+  async list(playedTowerModelId: number): Promise<PlayedTowerModel[]> {
+    console.debug("PlayedTowerTable", "load", playedTowerModelId)
+    const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
+    const index = store.index(IndexName.playedTowerByTowerId)
+    const playedTowerModels = (await index.getAll([playedTowerModelId])).filter(
+      (playedTowerModel) => playedTowerModel.slot != PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT,
+    )
+    playedTowerModels.sort((ptm1, ptm2) => ptm1.slot - ptm2.slot)
+    return playedTowerModels
   }
 }

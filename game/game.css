@@ -128,3 +128,12 @@ html {
 .small {
   font-size: 50%;
 }
+
+#screenTowerButtonsSaveDialogSaves {
+  display: grid;
+  grid-auto-flow: row;
+  grid-row-gap: 0.25em;
+  sl-button::part(base) {
+    justify-content: left;
+  }
+}

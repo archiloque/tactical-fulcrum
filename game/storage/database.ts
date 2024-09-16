@@ -65,7 +65,7 @@ export class DatabaseAccess {
     const databaseAccess = this
     return new Promise<void>(function (resolve, reject) {
       const request = window.indexedDB.open(DatabaseAccess.DATABASE_NAME, 2)
-      request.onupgradeneeded = (event): void => {
+      request.onupgradeneeded = (event: IDBVersionChangeEvent): void => {
         // @ts-ignore
         const db: IDBDatabase = event.target!.result
         const towerObjectStore = createTable(db, TableName.tower, IndexName.towerIdIndex)

@@ -67,7 +67,7 @@ export class DbIndex<M extends DbModel> {
     return await runRequest(this.index.getAllKeys(query))
   }
 
-  async getAll(query?: IDBValidKey | IDBKeyRange | null): Promise<M[]> {
+  async getAll(query: IDBValidKey[] | null): Promise<M[]> {
     console.debug("DbIndex", "getAll", this.index.name, query)
     return await runRequest(this.index.getAll(query))
   }

@@ -11,6 +11,7 @@ import "@shoelace-style/shoelace/dist/components/tree/tree.js"
 import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js"
 
 import { AlertVariant, showAlert } from "../common/front/alert"
+import { Hole, render } from "uhtml"
 import { DatabaseAccess } from "./storage/database"
 import { GameEventManager } from "./front/game-event-manager"
 import { GameScreen } from "./front/game-screen"
@@ -38,12 +39,14 @@ export class Game {
   private readonly screenTower: ScreenTower
   readonly eventManager: GameEventManager
   readonly mainDiv: HTMLElement
+  private readonly dialogDiv: HTMLElement
   displayedScreen: GameScreen
   playedTower?: PlayedTower
 
   constructor() {
     this.database = new DatabaseAccess()
     this.mainDiv = document.getElementById("content")!
+    this.dialogDiv = document.getElementById("gameDialog")!
     this.eventManager = new GameEventManager()
 
     this.eventManager.registerTowerSelection(async (selectedTower: TowerInfo) => {
@@ -96,6 +99,25 @@ export class Game {
     console.debug("Game", "resetTower")
     await this.playedTower!!.initNewGame()
     this.screenTower.render()
+  }
+
+  public async hideDialog(): Promise<void> {
+    console.debug("Game", "hideDialog")
+    const promises: Promise<void>[] = []
+    for (const dialog of this.dialogDiv.getElementsByTagName("sl-dialog")) {
+      promises.push(dialog.hide())
+    }
+    await Promise.all(promises)
+  }
+
+  public async showDialog(hole: Hole): Promise<void> {
+    console.debug("Game", "showDialog")
+    render(this.dialogDiv, hole)
+    const promises: Promise<void>[] = []
+    for (const dialog of this.dialogDiv.getElementsByTagName("sl-dialog")) {
+      promises.push(dialog.show())
+    }
+    await Promise.all(promises)
   }
 }
 

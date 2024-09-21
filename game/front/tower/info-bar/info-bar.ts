@@ -106,7 +106,6 @@ export class InfoBar {
     render(infoBar, html`${content}`)
 
     this.experienceAndLevelUp.postRender()
-    this.buttons.postRender()
 
     this.infoHp = document.getElementById(InfoBar.HP_ID)!
     this.infoHpMul = document.getElementById(InfoBar.HP_MUL_ID)!

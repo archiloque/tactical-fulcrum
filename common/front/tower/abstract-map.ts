@@ -27,6 +27,8 @@ export abstract class AbstractMap {
   // @ts-ignore
   private toolTipSlot: HTMLElement
 
+  protected mapEnabled = true
+
   protected constructor() {
     this.app = new Application()
     this.background = new Sprite()
@@ -129,21 +131,23 @@ export abstract class AbstractMap {
   }
 
   private pointerMove(e: FederatedPointerEvent): void {
-    const tilePosition: Point = this.tileFromEvent(e)
-    if (tilePosition.y < TILES_IN_ROW && tilePosition.x < TILES_IN_ROW && !this.lastMouseTile.equals(tilePosition)) {
-      console.debug("AbstractMap", "pointerMove", tilePosition)
-      this.lastMouseTile = tilePosition
-      if (this.toolTipTip.open) {
-        this.toolTipTip.open = false
+    if (this.mapEnabled) {
+      const tilePosition: Point = this.tileFromEvent(e)
+      if (tilePosition.y < TILES_IN_ROW && tilePosition.x < TILES_IN_ROW && !this.lastMouseTile.equals(tilePosition)) {
+        console.debug("AbstractMap", "pointerMove", tilePosition)
+        this.lastMouseTile = tilePosition
+        if (this.toolTipTip.open) {
+          this.toolTipTip.open = false
+        }
+        this.repositionCursor()
+        if (this.toolTipTimeout != null) {
+          clearTimeout(this.toolTipTimeout)
+        }
+        // @ts-ignore
+        this.toolTipTimeout = setTimeout(() => {
+          this.showToolTip()
+        }, 200)
       }
-      this.repositionCursor()
-      if (this.toolTipTimeout != null) {
-        clearTimeout(this.toolTipTimeout)
-      }
-      // @ts-ignore
-      this.toolTipTimeout = setTimeout(() => {
-        this.showToolTip()
-      }, 200)
     }
   }
 

@@ -92,6 +92,12 @@ export class GameMap extends AbstractMap {
         this.cancelCurrentAnimation()
       }
     })
+    this.game.eventManager.registerDialogHidden(() => {
+      this.mapEnabled = true
+    })
+    this.game.eventManager.registerDialogShown(() => {
+      this.mapEnabled = false
+    })
   }
 
   async init(): Promise<any> {

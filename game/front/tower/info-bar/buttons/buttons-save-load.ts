@@ -33,13 +33,34 @@ export class ButtonsSaveLoad {
   }
 
   private async showMainLoadDialog(): Promise<void> {
+    const playedTowerModels = await this.game.database
+      .getPlayedTowerTable()
+      .listByTowerName(this.game.playedTower!.tower.name)
+    const loadContents: Hole[] = playedTowerModels.map((playedTowerModel) => {
+      const text =
+        playedTowerModel === undefined
+          ? "<em>Empty></em>"
+          : `${playedTowerModel!.timestamp.toLocaleString()} - ${playedTowerModel!.saveName}`
+      return html`<sl-button size="small" data-slot="${playedTowerModel.slot}" onclick="${this.clickLoadSaveButton}"
+        >${text}</sl-button
+      >`
+    })
+
     await this.game.showDialog(
       html` <sl-dialog label="Load"">
+      <div id="screenTowerButtonsSaveDialogLoadsAndSaves">${loadContents}</div>
         <div slot="footer">
           <sl-button onclick="${this.hideDialog}" variant="neutral">Cancel </sl-button>
         </div>
       </sl-dialog>`,
     )
+  }
+
+  private clickLoadSaveButton = async (event: CustomEvent): Promise<void> => {
+    const data = (event.currentTarget as SlButton).dataset
+    const slot = parseInt(data.slot!)
+    await this.game.hideDialog()
+    this.game.eventManager.notifyTowerLoad(slot)
   }
 
   private hideDialog = async (): Promise<void> => {
@@ -65,7 +86,7 @@ export class ButtonsSaveLoad {
 
     await this.game.showDialog(
       html` <sl-dialog label="Save">
-        <div id="screenTowerButtonsSaveDialogSaves">${savesContents}</div>
+        <div id="screenTowerButtonsSaveDialogLoadsAndSaves">${savesContents}</div>
         <div slot="footer">
           <sl-button variant="primary" onclick="${this.saveDialogNewSave}">New save </sl-button>
           <sl-button onclick="${this.hideDialog}" variant="neutral">Cancel </sl-button>

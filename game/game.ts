@@ -19,6 +19,7 @@ import { Import } from "../common/io/import"
 import { installConsole } from "./game-console"
 import { PlayedTower } from "./models/played-tower"
 import { PlayedTowerModel } from "./storage/models"
+import { PlayedTowerTable } from "./storage/tables/played-tower-table"
 import { registerCustomIcons } from "../common/front/icons/custom-icons"
 import { registerDefaultIcons } from "../common/front/icons/register-default"
 import { ScreenIntro } from "./front/intro/screen-intro"
@@ -57,6 +58,9 @@ export class Game {
     this.eventManager.registerTowerReset(async () => {
       await this.resetTower()
     })
+    this.eventManager.registerTowerLoad(async (slot) => {
+      await this.towerLoad(slot)
+    })
 
     this.screenIntro = new ScreenIntro(this)
     this.screenTower = new ScreenTower(this)
@@ -88,7 +92,9 @@ export class Game {
           if (playedTowerModel === undefined) {
             await this.playedTower.initNewGame()
           } else {
-            await this.database.getPlayedTowerTable().load(this.playedTower, playedTowerModel!)
+            await this.database
+              .getPlayedTowerTable()
+              .initPlayedTower(this.playedTower, playedTowerModel!, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT)
             this.playedTower.calculateReachableTiles()
           }
           this.displayedScreen = GameScreen.tower
@@ -104,8 +110,18 @@ export class Game {
     this.screenTower.render()
   }
 
+  async towerLoad(slot: number): Promise<any> {
+    console.debug("Game", "towerLoad", slot)
+    const playedTowerModel: PlayedTowerModel = await this.database
+      .getPlayedTowerTable()
+      .get(this.playedTower!!.tower.name, slot)
+    await this.database.getPlayedTowerTable().initPlayedTower(this.playedTower!!, playedTowerModel!, slot)
+    this.playedTower!!.calculateReachableTiles()
+  }
+
   public async hideDialog(): Promise<void> {
     console.debug("Game", "hideDialog")
+    this.eventManager.notifyDialogHidden()
     const promises: Promise<void>[] = []
     for (const dialog of this.dialogDiv.getElementsByTagName("sl-dialog")) {
       promises.push(dialog.hide())
@@ -115,6 +131,7 @@ export class Game {
 
   public async showDialog(hole: Hole): Promise<void> {
     console.debug("Game", "showDialog")
+    this.eventManager.notifyDialogShown()
     render(this.dialogDiv, hole)
     const promises: Promise<void>[] = []
     for (const dialog of this.dialogDiv.getElementsByTagName("sl-dialog")) {

@@ -17,6 +17,18 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     this.roomTable = roomTable
   }
 
+  async get(towerName: string, slot: number): Promise<PlayedTowerModel> {
+    console.debug("PlayedTowerTable", "getCurrent", towerName, slot)
+    const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
+    const index: DbIndex<PlayedTowerModel> = store.index(IndexName.playedTowerByTowerNameAndSlot)
+    const playedTowerModel = await index.get([towerName, slot])
+    if (playedTowerModel === undefined) {
+      throw new Error(`Save not found`)
+    } else {
+      return playedTowerModel
+    }
+  }
+
   async getCurrent(towerName: string): Promise<PlayedTowerModel | undefined> {
     console.debug("PlayedTowerTable", "getCurrent", towerName)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
@@ -103,8 +115,8 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     await this.roomTable.saveRooms(playedTower, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT)
   }
 
-  async load(playedTower: PlayedTower, playedTowerModel: PlayedTowerModel): Promise<void> {
-    console.debug("PlayedTowerTable", "load", playedTowerModel)
+  async initPlayedTower(playedTower: PlayedTower, playedTowerModel: PlayedTowerModel, slot: number): Promise<void> {
+    console.debug("PlayedTowerTable", "initPlayedTower", playedTowerModel)
 
     playedTower.playerInfo = playedTowerModel.playerInfo
 
@@ -113,7 +125,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
 
     playedTower.currentRoom = await this.roomTable.load(
       playedTower,
-      PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT,
+      slot,
       position.roomType,
       position.roomType === RoomType.nexus ? position.nexus.room : position.standard.room,
     )

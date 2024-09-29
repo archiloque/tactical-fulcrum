@@ -129,7 +129,7 @@ html {
   font-size: 50%;
 }
 
-#screenTowerButtonsSaveDialogSaves {
+#screenTowerButtonsSaveDialogLoadsAndSaves {
   display: grid;
   grid-auto-flow: row;
   grid-row-gap: 0.25em;

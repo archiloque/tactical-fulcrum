@@ -49,15 +49,17 @@ export class ButtonsSaveLoad {
   private async showMainSaveDialog(): Promise<void> {
     const playedTowerModels = await this.game.database
       .getPlayedTowerTable()
-      .listByTowerModelId(this.game.playedTower!.towerModelId!)
-    const maxSlotValue = playedTowerModels[playedTowerModels.length - 1].slot
+      .listByTowerName(this.game.playedTower!.tower.name)
     const savesContents: Hole[] = []
     for (const playedTowerModel of playedTowerModels) {
       savesContents[playedTowerModel.slot] = this.saveButton(playedTowerModel.slot, playedTowerModel)
     }
-    for (let slot = 0; slot <= maxSlotValue; slot++) {
-      if (savesContents[slot] === undefined) {
-        savesContents[slot] = this.saveButton(slot, undefined)
+    if (playedTowerModels.length > 0) {
+      const maxSlotValue = playedTowerModels[playedTowerModels.length - 1].slot
+      for (let slot = 0; slot <= maxSlotValue; slot++) {
+        if (savesContents[slot] === undefined) {
+          savesContents[slot] = this.saveButton(slot, undefined)
+        }
       }
     }
 

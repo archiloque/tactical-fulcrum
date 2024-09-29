@@ -7,17 +7,15 @@ export class TowerTable extends Table<TowerModel> {
     super(db, TableName.tower)
   }
 
-  async getIdFromName(towerName: string): Promise<number> {
-    console.debug("TowerTable", "getIdFromName", towerName)
+  async insertIfMissing(towerName: string): Promise<void> {
+    console.debug("TowerTable", "insertIfMissing", towerName)
     const store = this.transaction("readwrite")
     const index = store.index(IndexName.towerNameIndex)
-    const towerModelId: number | undefined = await index.getKey(towerName)
-    if (towerModelId === undefined) {
+    const towerModel: TowerModel | undefined = await index.get([towerName])
+    if (towerModel === undefined) {
       const tower: TowerModel = { towerName: towerName }
-      console.debug("TowerTable", "getTowerId", "create tower")
-      return await store.add(tower)
-    } else {
-      return towerModelId!!
+      console.debug("TowerTable", "insertIfMissing", "create tower")
+      await store.add(tower)
     }
   }
 }

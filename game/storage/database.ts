@@ -11,47 +11,46 @@ export const enum TableName {
 }
 
 export const enum IndexName {
-  towerIdIndex = `${TableName.tower}IdIndex`,
-
   towerNameIndex = `${TableName.tower}NameIndex`,
 
-  playedTowerIdIndex = `${TableName.playedTower}IdIndex`,
-  playedTowerByTowerId = `${TableName.playedTower}ByTowerId`,
-  playedTowerByTowerIdAndSlot = `${TableName.playedTower}ByTowerIdAndSlot`,
+  playedTowerByTowerName = `${TableName.playedTower}ByTowerName`,
+  playedTowerByTowerNameAndSlot = `${TableName.playedTower}ByTowerNameAndSlot`,
 
-  playedTowerRoomIdIndex = `${TableName.playedTowerRoom}IdIndex`,
-  playedTowerRoomByPlayedTowerIndex = `${TableName.playedTowerRoom}ByPlayedTowerIndex`,
-  playedTowerRoomByPlayedTowerAndRoomAndNexusIndex = `${TableName.playedTowerRoom}ByPlayedTowerAndRoomAndNexusIndex`,
+  playedTowerRoomByPlayedTowerNameAndSlot = `${TableName.playedTowerRoom}ByPlayedTowerNameAndSlot`,
+  playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex = `${TableName.playedTowerRoom}ByPlayedTowerNameAndSlotAndRoomAndNexusIndex`,
 }
 
-const ID_ATTRIBUTE = "id"
+const TOWER_NAME_ATTRIBUTE = "towerName"
+const SLOT_ATTRIBUTE = "slot"
 
 const enum TowerModelAttributes {
-  id = ID_ATTRIBUTE,
-  towerName = "towerName",
+  towerName = TOWER_NAME_ATTRIBUTE,
 }
 
 const enum PlayedTowerModelAttributes {
-  id = ID_ATTRIBUTE,
-  towerId = "towerId",
-  slot = "slot",
+  towerName = TOWER_NAME_ATTRIBUTE,
+  slot = SLOT_ATTRIBUTE,
 }
 
 const enum PlayedTowerRoomModelAttributes {
-  id = ID_ATTRIBUTE,
-  playerTowerId = "playerTowerId",
+  towerName = TOWER_NAME_ATTRIBUTE,
+  slot = SLOT_ATTRIBUTE,
   roomIndex = "roomIndex",
   roomType = "roomType",
   content = "content",
 }
 
-function createTable(db: IDBDatabase, tableName: TableName, tableIdIndex: IndexName): IDBObjectStore {
+function createTable(
+  db: IDBDatabase,
+  tableName: TableName,
+  tableIndexName: IndexName,
+  keyPath: string[],
+): IDBObjectStore {
   console.debug("DatabaseAccess", "createTable", tableName)
   const store = db.createObjectStore(tableName, {
-    keyPath: ID_ATTRIBUTE,
-    autoIncrement: true,
+    keyPath: keyPath,
   })
-  store.createIndex(tableIdIndex, TowerModelAttributes.id, { unique: true })
+  store.createIndex(tableIndexName, keyPath, { unique: true })
   return store
 }
 
@@ -68,37 +67,32 @@ export class DatabaseAccess {
       request.onupgradeneeded = (event: IDBVersionChangeEvent): void => {
         // @ts-ignore
         const db: IDBDatabase = event.target!.result
-        const towerObjectStore = createTable(db, TableName.tower, IndexName.towerIdIndex)
-        towerObjectStore.createIndex(IndexName.towerNameIndex, TowerModelAttributes.towerName, { unique: true })
+        createTable(db, TableName.tower, IndexName.towerNameIndex, [TowerModelAttributes.towerName])
 
-        const playedTowerObjectStore = createTable(db, TableName.playedTower, IndexName.playedTowerIdIndex)
-        playedTowerObjectStore.createIndex(IndexName.playedTowerByTowerId, [PlayedTowerModelAttributes.towerId], {
+        const playedTowerObjectStore = createTable(db, TableName.playedTower, IndexName.playedTowerByTowerNameAndSlot, [
+          PlayedTowerModelAttributes.towerName,
+          PlayedTowerModelAttributes.slot,
+        ])
+        playedTowerObjectStore.createIndex(IndexName.playedTowerByTowerName, [PlayedTowerModelAttributes.towerName], {
           unique: false,
         })
 
-        playedTowerObjectStore.createIndex(
-          IndexName.playedTowerByTowerIdAndSlot,
-          [PlayedTowerModelAttributes.towerId, PlayedTowerModelAttributes.slot],
-          { unique: true },
-        )
-
-        const playedTowerRoomObjectStore = createTable(db, TableName.playedTowerRoom, IndexName.playedTowerRoomIdIndex)
-        playedTowerRoomObjectStore.createIndex(
-          IndexName.playedTowerRoomByPlayedTowerIndex,
-          [PlayedTowerRoomModelAttributes.playerTowerId],
-          {
-            unique: false,
-          },
-        )
-        playedTowerRoomObjectStore.createIndex(
-          IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex,
+        const playedTowerRoomObjectStore = createTable(
+          db,
+          TableName.playedTowerRoom,
+          IndexName.playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex,
           [
-            PlayedTowerRoomModelAttributes.playerTowerId,
+            PlayedTowerRoomModelAttributes.towerName,
+            PlayedTowerRoomModelAttributes.slot,
             PlayedTowerRoomModelAttributes.roomIndex,
             PlayedTowerRoomModelAttributes.roomType,
           ],
+        )
+        playedTowerRoomObjectStore.createIndex(
+          IndexName.playedTowerRoomByPlayedTowerNameAndSlot,
+          [PlayedTowerRoomModelAttributes.towerName, PlayedTowerRoomModelAttributes.slot],
           {
-            unique: true,
+            unique: false,
           },
         )
       }

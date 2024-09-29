@@ -40,6 +40,7 @@ import { calculateReachableTiles } from "./play/a-star"
 import { DatabaseAccess } from "../storage/database"
 import { getLevel } from "./play/levels"
 import { ItemName } from "../../common/data/item-name"
+import { PlayedTowerTable } from "../storage/tables/played-tower-table"
 import { PlayerPosition } from "./player-position"
 import { RoomType } from "../../common/data/room-type"
 import { TILES_IN_ROW } from "../../common/data/constants"
@@ -69,12 +70,9 @@ export class PlayedTower {
   reachableTiles?: Delta2D[][][] | null[][]
   readonly actions: Action[]
   private readonly database: DatabaseAccess
-  towerModelId: number
-  playedTowerModelCurrentSaveId?: number
 
-  constructor(tower: Tower, towerModelId: number, database: DatabaseAccess) {
+  constructor(tower: Tower, database: DatabaseAccess) {
     this.tower = tower
-    this.towerModelId = towerModelId
     this.database = database
     this.actions = []
   }
@@ -289,7 +287,9 @@ export class PlayedTower {
       case TileType.staircase:
         const staircaseDirection = (targetTile as StaircaseTile).direction
         const roomIndex = this.position.position.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
-        this.currentRoom = await this.database.getRoomTable().load(this, this.position.roomType!!, roomIndex)
+        this.currentRoom = await this.database
+          .getRoomTable()
+          .load(this, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT, this.position.roomType!!, roomIndex)
         const newPosition = findStaircasePosition(
           this.currentRoom,
           roomIndex,

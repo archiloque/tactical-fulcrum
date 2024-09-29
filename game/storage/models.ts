@@ -3,10 +3,6 @@ import { PlayerInfo } from "../models/player-info"
 import { RoomType } from "../../common/data/room-type"
 import { Tile } from "../../common/models/tile"
 
-export interface ModelWithId extends DbModel {
-  id?: number
-}
-
 export interface PlayerPosition {
   column: number
   line: number
@@ -19,12 +15,12 @@ export interface Position {
   roomType: RoomType
 }
 
-export interface TowerModel extends ModelWithId {
+export interface TowerModel extends DbModel {
   towerName: string
 }
 
-export interface PlayedTowerModel extends ModelWithId {
-  towerId: number
+export interface PlayedTowerModel extends DbModel {
+  towerName: string
   slot: number
   saveName: string | null
   timestamp: Date
@@ -38,8 +34,9 @@ export interface PositionedTile {
   tile: Tile
 }
 
-export interface PlayerTowerRoomModel extends ModelWithId {
-  playerTowerId: number
+export interface PlayerTowerRoomModel extends DbModel {
+  towerName: string
+  slot: number
   roomIndex: number
   roomType: RoomType
   content: PositionedTile[]

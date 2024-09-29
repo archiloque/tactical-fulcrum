@@ -3,6 +3,7 @@ import { IndexName, TableName } from "../database"
 import { PlayerTowerRoomModel, PositionedTile } from "../models"
 import { DbAccess } from "../utils"
 import { PlayedTower } from "../../models/played-tower"
+import { PlayedTowerTable } from "./played-tower-table"
 import { Room } from "../../../common/models/room"
 import { RoomType } from "../../../common/data/room-type"
 import { Table } from "./table"
@@ -18,22 +19,22 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     super(db, TableName.playedTowerRoom)
   }
 
-  async saveRooms(playedTower: PlayedTower, playedTowerModelId: number): Promise<void> {
-    console.debug("RoomTable", "saveRooms", playedTower.tower.name, playedTowerModelId)
+  async saveRooms(playedTower: PlayedTower, slot: number): Promise<void> {
+    console.debug("RoomTable", "saveRooms", playedTower.tower.name, slot)
     const promises: Promise<any>[] = []
     for (const [roomIndex, room] of playedTower.tower.standardRooms.entries()) {
-      promises.push(this.saveRoom(playedTower.towerModelId, playedTowerModelId, room, roomIndex, RoomType.standard))
+      promises.push(this.saveRoom(playedTower.tower.name, slot, room, roomIndex, RoomType.standard))
     }
 
     for (const [roomIndex, room] of playedTower.tower.nexusRooms.entries()) {
-      promises.push(this.saveRoom(playedTower.towerModelId, playedTowerModelId, room, roomIndex, RoomType.nexus))
+      promises.push(this.saveRoom(playedTower.tower.name, slot, room, roomIndex, RoomType.nexus))
     }
     await Promise.all(promises)
   }
 
   private async saveRoom(
-    towerModelId: number,
-    playedTowerModelId: number,
+    towerName: string,
+    slot: number,
     room: Room,
     roomIndex: number,
     roomType: RoomType,
@@ -41,22 +42,16 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
 
     const tiles: PositionedTile[] = this.roomToPositionedTiles(room.tiles)
-    console.debug("RoomTable", "saveRoom", towerModelId, playedTowerModelId, roomIndex, roomType)
-
-    const roomModelId = await store
-      .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
-      .getKey([playedTowerModelId, roomIndex, roomType])
+    console.debug("RoomTable", "saveRoom", towerName, slot, roomIndex, roomType)
 
     const model: PlayerTowerRoomModel = {
-      playerTowerId: playedTowerModelId,
+      towerName: towerName,
+      slot: slot,
       roomIndex: roomIndex,
       roomType: roomType,
       content: tiles,
     }
-    if (roomModelId !== undefined) {
-      model.id = roomModelId
-    }
-    return store.put(model)
+    return await store.put(model)
   }
 
   private roomToPositionedTiles(room: Tile[][]): PositionedTile[] {
@@ -72,12 +67,13 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
   }
 
   async saveCurrentRoom(playedTower: PlayedTower): Promise<void> {
-    console.debug("RoomTable", "saveCurrentRoom", playedTower.playedTowerModelCurrentSaveId)
+    console.debug("RoomTable", "saveCurrentRoom", playedTower.tower.name)
     const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
     const roomModel = (await store
-      .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
+      .index(IndexName.playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex)
       .get([
-        playedTower.playedTowerModelCurrentSaveId!!,
+        playedTower.tower.name!!,
+        PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT,
         playedTower.position!!.position.room,
         playedTower.position!!.roomType,
       ]))!!
@@ -85,12 +81,12 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     await store.put(roomModel)
   }
 
-  async load(playedTower: PlayedTower, nexus: RoomType, roomIndex: number): Promise<Tile[][]> {
+  async load(playedTower: PlayedTower, slot: number, nexus: RoomType, roomIndex: number): Promise<Tile[][]> {
     const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readonly")
 
     const roomModel = (await store
-      .index(IndexName.playedTowerRoomByPlayedTowerAndRoomAndNexusIndex)
-      .get([playedTower.playedTowerModelCurrentSaveId!!, roomIndex, nexus]))!!
+      .index(IndexName.playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex)
+      .get([playedTower.tower.name, slot, roomIndex, nexus]))!!
 
     const room = playedTower.tower.getRooms(nexus)[roomModel.roomIndex].clone()
 
@@ -108,13 +104,8 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     return room
   }
 
-  async deleteRooms(playedTowerModelId: number): Promise<void> {
+  async deleteRooms(towerName: string, playedTowerSlot: number): Promise<void> {
     const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
-    const roomModelsIds = await store.index(IndexName.playedTowerRoomByPlayedTowerIndex).getAllKeys(playedTowerModelId)
-    await Promise.all(
-      roomModelsIds.map((roomModelId) => {
-        store.delete(roomModelId)
-      }),
-    )
+    await store.index(IndexName.playedTowerRoomByPlayedTowerNameAndSlot).deleteAll([towerName, playedTowerSlot])
   }
 }

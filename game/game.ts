@@ -18,6 +18,7 @@ import { GameScreen } from "./front/game-screen"
 import { Import } from "../common/io/import"
 import { installConsole } from "./game-console"
 import { PlayedTower } from "./models/played-tower"
+import { PlayedTowerModel } from "./storage/models"
 import { registerCustomIcons } from "../common/front/icons/custom-icons"
 import { registerDefaultIcons } from "../common/front/icons/register-default"
 import { ScreenIntro } from "./front/intro/screen-intro"
@@ -78,14 +79,16 @@ export class Game {
           await showAlert(errorMessage, AlertVariant.danger, "check2-circle")
         } else {
           const tower = importResult.tower
-          const towerModelId = await this.database.getTowerTable().getIdFromName(tower.name)
-          this.playedTower = new PlayedTower(tower, towerModelId, this.database)
-          console.debug("Game", "towerSelected", "towerModelId", towerModelId)
-          const databaseCurrentPlayedTowerId = await this.database.getPlayedTowerTable().getCurrentId(towerModelId)
-          if (databaseCurrentPlayedTowerId === undefined) {
+          await this.database.getTowerTable().insertIfMissing(tower.name)
+          this.playedTower = new PlayedTower(tower, this.database)
+          console.debug("Game", "towerSelected", "towerModel")
+          const playedTowerModel: PlayedTowerModel | undefined = await this.database
+            .getPlayedTowerTable()
+            .getCurrent(tower.name)
+          if (playedTowerModel === undefined) {
             await this.playedTower.initNewGame()
           } else {
-            await this.database.getPlayedTowerTable().load(this.playedTower, databaseCurrentPlayedTowerId!)
+            await this.database.getPlayedTowerTable().load(this.playedTower, playedTowerModel!)
             this.playedTower.calculateReachableTiles()
           }
           this.displayedScreen = GameScreen.tower

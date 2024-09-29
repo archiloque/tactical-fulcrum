@@ -7,7 +7,7 @@ import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.comp
 import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
 
 export class ButtonsSaveLoad {
-  private static readonly SAVE_NEW_SAVE_DIALOG_INPUT_ID = "screenTowerButtonsSaveNewSaveDialogInput"
+  private static readonly SAVE_NAME_INPUT = "screenTowerButtonsSaveNameInput"
 
   private readonly buttons: Buttons
   private readonly game: Game
@@ -47,7 +47,9 @@ export class ButtonsSaveLoad {
   }
 
   private async showMainSaveDialog(): Promise<void> {
-    const playedTowerModels = await this.game.database.getPlayedTowerTable().list(this.game.playedTower!.towerModelId!)
+    const playedTowerModels = await this.game.database
+      .getPlayedTowerTable()
+      .listByTowerModelId(this.game.playedTower!.towerModelId!)
     const maxSlotValue = playedTowerModels[playedTowerModels.length - 1].slot
     const savesContents: Hole[] = []
     for (const playedTowerModel of playedTowerModels) {
@@ -77,8 +79,8 @@ export class ButtonsSaveLoad {
         : `${playedTowerModel!.timestamp.toLocaleString()} - ${playedTowerModel!.saveName}`
     return html`<sl-button
       size="small"
-      data-model-id="${playedTowerModel!.id}"
-      data-model-save-name="${playedTowerModel!.saveName}"
+      data-slot="${slot}"
+      data-save-name="${playedTowerModel === undefined ? "" : playedTowerModel.saveName}"
       onclick="${this.clickOverwriteSaveButton}"
       >${text}</sl-button
     >`
@@ -86,34 +88,43 @@ export class ButtonsSaveLoad {
 
   private clickOverwriteSaveButton = async (event: CustomEvent): Promise<void> => {
     const data = (event.currentTarget as SlButton).dataset
-    const modelId = parseInt(data.modelId!)
-    const modelSaveName = data.modelSaveName!
-    debugger
+    const slot = parseInt(data.slot!)
+    const saveName = data.saveName!
     await this.game.hideDialog()
     await this.game.showDialog(
-      html`<sl-dialog label="Overwrite save"
-        ><div>Are you sure you want to overwrite [${modelSaveName}]?</div>
+      html`<sl-dialog label="Overwrite save">
+        <sl-input
+          type="text"
+          placeholder="Save name"
+          id="${ButtonsSaveLoad.SAVE_NAME_INPUT}"
+          value="${saveName}"
+        ></sl-input>
         <div slot="footer">
-          <sl-button variant="primary" onclick="${this.clickConfirmOverwriteSaveButton}">Save </sl-button>
-          <sl-button onclick="${this.clickSaveButton}" variant="neutral">Cancel </sl-button>
+          <sl-button variant="danger" onclick="${this.clickConfirmOverwriteSaveButton}" data-slot="${slot}"
+            >Overwrite save
+          </sl-button>
+          <sl-button onclick="${this.clickSaveButton}" variant="neutral">Cancel save overwrite</sl-button>
         </div>
       </sl-dialog>`,
     )
-
-    debugger
-    //const playedTowerModelId = data.modelId === undefined ? undefined : parseInt(data.modelId)
   }
 
-  private clickConfirmOverwriteSaveButton = async (event: CustomEvent): Promise<void> => {}
+  private clickConfirmOverwriteSaveButton = async (event: CustomEvent): Promise<void> => {
+    const data = (event.currentTarget as SlButton).dataset
+    const slot = parseInt(data.slot!)
+    const saveName = (document.getElementById(ButtonsSaveLoad.SAVE_NAME_INPUT) as SlInput).value
+    await this.game.database.getPlayedTowerTable().saveOverwrite(this.game.playedTower!, slot, saveName)
+    await this.game.hideDialog()
+  }
 
   private saveDialogNewSave = async (): Promise<void> => {
     await this.game.hideDialog()
     await this.game.showDialog(html`
       <sl-dialog label="New save">
-        <sl-input type="text" placeholder="Save name" id="${ButtonsSaveLoad.SAVE_NEW_SAVE_DIALOG_INPUT_ID}"></sl-input>
+        <sl-input type="text" placeholder="Save name" id="${ButtonsSaveLoad.SAVE_NAME_INPUT}"></sl-input>
         <div slot="footer">
-          <sl-button variant="primary" onclick="${this.saveNewSaveDialogSave}">Save </sl-button>
-          <sl-button onclick="${this.saveNewSaveDialogCancel}" variant="neutral">Cancel </sl-button>
+          <sl-button variant="primary" onclick="${this.saveNewSaveDialogSave}">Create new save</sl-button>
+          <sl-button onclick="${this.saveNewSaveDialogCancel}" variant="neutral">Cancel save</sl-button>
         </div>
       </sl-dialog>
     `)
@@ -125,7 +136,7 @@ export class ButtonsSaveLoad {
   }
 
   private saveNewSaveDialogSave = async (): Promise<void> => {
-    const saveName = (document.getElementById(ButtonsSaveLoad.SAVE_NEW_SAVE_DIALOG_INPUT_ID) as SlInput).value
+    const saveName = (document.getElementById(ButtonsSaveLoad.SAVE_NAME_INPUT) as SlInput).value
     await this.game.database.getPlayedTowerTable().saveNew(this.game.playedTower!, saveName)
     await this.game.hideDialog()
   }

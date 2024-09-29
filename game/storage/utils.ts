@@ -1,3 +1,5 @@
+import { ModelWithId } from "./models"
+
 export interface DbModel {}
 
 export async function runRequest(request: IDBRequest): Promise<any> {
@@ -14,7 +16,7 @@ export async function runRequest(request: IDBRequest): Promise<any> {
   })
 }
 
-export class DbAccess<M extends DbModel> {
+export class DbAccess<M extends ModelWithId> {
   private readonly store: IDBObjectStore
 
   constructor(store: IDBObjectStore) {
@@ -23,7 +25,7 @@ export class DbAccess<M extends DbModel> {
 
   async put(model: M): Promise<any> {
     console.debug("DbAccess", "put", this.store.name, model)
-    await runRequest(this.store.put(model))
+    await runRequest(this.store.put(model, model.id))
   }
 
   async add(model: M): Promise<any> {

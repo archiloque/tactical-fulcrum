@@ -28,7 +28,7 @@ export class ScreenTower {
     })
   }
 
-  async init(): Promise<any> {
+  async init(): Promise<void> {
     return this.map.init()
   }
 

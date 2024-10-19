@@ -100,7 +100,7 @@ export class GameMap extends AbstractMap {
     })
   }
 
-  async init(): Promise<any> {
+  async init(): Promise<void> {
     console.debug("GameMap", "init")
     document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))
     this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))

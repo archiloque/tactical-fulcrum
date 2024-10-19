@@ -5,8 +5,9 @@ export {}
 declare global {
   interface Window {
     setXp(value: number): void
-    clearDB(): Promise<any>
-    resetTower(): Promise<any>
+    clearDB(): Promise<void>
+    dumpDB(): Promise<void>
+    resetTower(): Promise<void>
   }
 }
 
@@ -14,10 +15,13 @@ export function installConsole(game: Game): void {
   Window.prototype.setXp = function (value: number): void {
     game.playedTower!.playerInfo.exp = value
   }
-  Window.prototype.clearDB = async function (): Promise<any> {
+  Window.prototype.dumpDB = async function (): Promise<void> {
+    await game.database.dumpDb()
+  }
+  Window.prototype.clearDB = async function (): Promise<void> {
     await game.database.clear()
   }
-  Window.prototype.resetTower = async function (): Promise<any> {
+  Window.prototype.resetTower = async function (): Promise<void> {
     await game.resetTower()
   }
 }

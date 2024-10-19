@@ -56,7 +56,7 @@ export abstract class AbstractMap {
 
   abstract repaint(): void
 
-  async resize(elementSize: number): Promise<any> {
+  async resize(elementSize: number): Promise<void> {
     console.debug("AbstractMap", "resize")
     const newTileSize = Math.floor(elementSize / TILES_IN_ROW)
     if (newTileSize !== this.tileSize) {
@@ -72,7 +72,7 @@ export abstract class AbstractMap {
     }
   }
 
-  protected async init(): Promise<any> {
+  protected async init(): Promise<void> {
     console.debug("AbstractMap", "init")
     this.background.on("pointerenter", () => this.pointerEnter())
     this.background.on("pointerleave", () => this.pointerLeave())

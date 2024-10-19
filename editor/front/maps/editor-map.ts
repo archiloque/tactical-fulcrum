@@ -36,7 +36,7 @@ export class EditorMap extends AbstractMap {
     this.editor.eventManager.registerLayerSelection((layer) => this.layerSelected(layer))
   }
 
-  async init(): Promise<any> {
+  async init(): Promise<void> {
     console.debug("Map", "init")
     this.background.on("pointertap", (e: FederatedPointerEvent) => this.pointerTap(e))
     document.addEventListener("keydown", (e: KeyboardEvent) => this.keyDown(e))

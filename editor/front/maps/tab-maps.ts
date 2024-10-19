@@ -47,7 +47,7 @@ export class TabMaps {
     })
   }
 
-  async init(): Promise<any> {
+  async init(): Promise<void> {
     console.debug("TabMap", "init")
     return this.map.init().then(() => {
       render(
@@ -72,7 +72,7 @@ export class TabMaps {
     })
   }
 
-  async render(): Promise<any> {
+  async render(): Promise<void> {
     console.debug("TabMap", "render")
     this.calculateRealSelectedRoom(this.selectedRoom)
     this.elements.render()
@@ -80,12 +80,12 @@ export class TabMaps {
     return this.resize()
   }
 
-  private reposition = async (): Promise<any> => {
+  private reposition = async (): Promise<void> => {
     console.debug("TabMap", "reposition")
     return this.resize()
   }
 
-  private async resize(): Promise<any> {
+  private async resize(): Promise<void> {
     console.debug("TabMap", "resize")
     const height = window.innerHeight - this.mapDiv.getBoundingClientRect().top - 10
     const width = this.mapDiv.getBoundingClientRect().width

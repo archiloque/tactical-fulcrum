@@ -4,7 +4,7 @@ export abstract class Table<M extends DbModel> {
   private readonly db: IDBDatabase
   private readonly tableName: string
 
-  public constructor(db: IDBDatabase, tableName: string) {
+  protected constructor(db: IDBDatabase, tableName: string) {
     this.db = db
     this.tableName = tableName
   }

@@ -71,9 +71,14 @@ export class Game {
     })
   }
 
-  private async towerSelected(selectedTower: TowerInfo): Promise<any> {
+  public static async fetchTowerFile(towerInfo: TowerInfo): Promise<Response> {
+    console.debug("Game", "fetchTowerFile", towerInfo.name)
+    return fetch(`towers/${towerInfo.file}`)
+  }
+
+  private async towerSelected(selectedTower: TowerInfo): Promise<void> {
     console.debug("Game", "towerSelected", selectedTower.name)
-    fetch(`towers/${selectedTower.file}`).then(async (response) => {
+    Game.fetchTowerFile(selectedTower).then(async (response) => {
       if (!response.ok) {
         await showAlert(`Error getting the tower file ${response.status}`, AlertVariant.danger, "check2-circle")
       } else {
@@ -95,7 +100,6 @@ export class Game {
             await this.database
               .getPlayedTowerTable()
               .initPlayedTower(this.playedTower, playedTowerModel!, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT)
-            this.playedTower.calculateReachableTiles()
           }
           this.displayedScreen = GameScreen.tower
           this.screenTower.render()
@@ -104,19 +108,20 @@ export class Game {
     })
   }
 
-  async resetTower(): Promise<any> {
+  async resetTower(): Promise<void> {
     console.debug("Game", "resetTower")
     await this.playedTower!!.initNewGame()
     this.screenTower.render()
   }
 
-  async towerLoad(slot: number): Promise<any> {
+  async towerLoad(slot: number): Promise<void> {
     console.debug("Game", "towerLoad", slot)
-    const playedTowerModel: PlayedTowerModel = await this.database
-      .getPlayedTowerTable()
-      .get(this.playedTower!!.tower.name, slot)
+    const currentTower = this.playedTower!!.tower
+    const playedTowerModel: PlayedTowerModel = await this.database.getPlayedTowerTable().get(currentTower.name, slot)
+    this.playedTower = new PlayedTower(currentTower, this.database)
     await this.database.getPlayedTowerTable().initPlayedTower(this.playedTower!!, playedTowerModel!, slot)
-    this.playedTower!!.calculateReachableTiles()
+    this.displayedScreen = GameScreen.tower
+    this.screenTower.render()
   }
 
   public async hideDialog(): Promise<void> {

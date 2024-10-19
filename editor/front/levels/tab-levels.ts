@@ -62,7 +62,7 @@ export class TabLevels extends AbstractTab {
     this.editor.tower.saveLevels()
   }
 
-  private deleteLevel = async (event: PointerEvent): Promise<any> => {
+  private deleteLevel = async (event: PointerEvent): Promise<void> => {
     this.levelDeletionIndex = parseInt(
       // @ts-ignore
       event.currentTarget.parentElement.dataset.index,

@@ -3,11 +3,11 @@ export interface DbModel {}
 export async function runRequest<T = any>(request: IDBRequest<T>): Promise<T> {
   return new Promise<any>(function (resolve, reject) {
     request.onsuccess = (): void => {
-      console.debug("storage/utils", "runRequest", request.result)
+      console.debug("storage/utils", "runRequest", "success", request.source, request.result)
       resolve(request.result)
     }
     request.onerror = (): void => {
-      console.error("storage/utils", "runRequest", request.error)
+      console.error("storage/utils", "runRequest", "failure", request.source, request.error)
       debugger
       reject()
     }
@@ -21,7 +21,7 @@ export class DbAccess<M extends DbModel> {
     this.store = store
   }
 
-  async put(model: M): Promise<any> {
+  async put(model: M): Promise<void> {
     console.debug("DbAccess", "put", this.store.name, model)
     await runRequest(this.store.put(model))
   }

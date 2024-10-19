@@ -15,7 +15,7 @@ export async function showAlert(
   icon: string = "info-circle",
   duration: number = 3000,
   closable: boolean = true,
-): Promise<any> {
+): Promise<void> {
   console.debug("showAlert", message)
   const alert: SlAlert = Object.assign(document.createElement("sl-alert"), {
     variant,

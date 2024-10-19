@@ -35,7 +35,7 @@ export class ButtonsSaveLoad {
   private async showMainLoadDialog(): Promise<void> {
     const playedTowerModels = await this.game.database
       .getPlayedTowerTable()
-      .listByTowerName(this.game.playedTower!.tower.name)
+      .listByTowerName(this.game.playedTower!.tower.name, true)
     const loadContents: Hole[] = playedTowerModels.map((playedTowerModel) => {
       const text =
         playedTowerModel === undefined
@@ -70,7 +70,7 @@ export class ButtonsSaveLoad {
   private async showMainSaveDialog(): Promise<void> {
     const playedTowerModels = await this.game.database
       .getPlayedTowerTable()
-      .listByTowerName(this.game.playedTower!.tower.name)
+      .listByTowerName(this.game.playedTower!.tower.name, true)
     const savesContents: Hole[] = []
     for (const playedTowerModel of playedTowerModels) {
       savesContents[playedTowerModel.slot] = this.saveButton(playedTowerModel.slot, playedTowerModel)

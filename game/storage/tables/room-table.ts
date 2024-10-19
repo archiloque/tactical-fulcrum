@@ -21,7 +21,7 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
 
   async saveRooms(playedTower: PlayedTower, slot: number): Promise<void> {
     console.debug("RoomTable", "saveRooms", playedTower.tower.name, slot)
-    const promises: Promise<any>[] = []
+    const promises: Promise<void>[] = []
     for (const [roomIndex, room] of playedTower.tower.standardRooms.entries()) {
       promises.push(this.saveRoom(playedTower.tower.name, slot, room, roomIndex, RoomType.standard))
     }
@@ -82,11 +82,7 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
   }
 
   async load(playedTower: PlayedTower, slot: number, nexus: RoomType, roomIndex: number): Promise<Tile[][]> {
-    const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readonly")
-
-    const roomModel = (await store
-      .index(IndexName.playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex)
-      .get([playedTower.tower.name, slot, roomIndex, nexus]))!!
+    const roomModel = await this.get(playedTower.tower.name, slot, roomIndex, nexus)
 
     const room = playedTower.tower.getRooms(nexus)[roomModel.roomIndex].clone()
 
@@ -102,6 +98,15 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     }
 
     return room
+  }
+
+  async get(towerName: string, slot: number, roomIndex: number, nexus: RoomType): Promise<PlayerTowerRoomModel> {
+    const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readonly")
+
+    const roomModel = (await store
+      .index(IndexName.playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex)
+      .get([towerName, slot, roomIndex, nexus]))!!
+    return roomModel
   }
 
   async deleteRooms(towerName: string, playedTowerSlot: number): Promise<void> {

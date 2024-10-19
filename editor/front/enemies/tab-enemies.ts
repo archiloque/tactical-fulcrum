@@ -110,13 +110,13 @@ export class TabEnemies extends AbstractTab {
     await this.deleteDialog.show()
   }
 
-  private deleteDialogConfirm = async (): Promise<any> => {
+  private deleteDialogConfirm = async (): Promise<void> => {
     await this.deleteDialog.hide()
     this.editor.tower.deleteEnemy(this.editor.tower.enemies[this.enemyDeletionIndex])
     this.render()
   }
 
-  private deleteDialogCancel = async (): Promise<any> => {
+  private deleteDialogCancel = async (): Promise<void> => {
     await this.deleteDialog.hide()
   }
 

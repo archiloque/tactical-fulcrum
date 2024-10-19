@@ -132,7 +132,7 @@ export class Rooms {
     this.render()
   }
 
-  private delete = async (): Promise<any> => {
+  private delete = async (): Promise<void> => {
     return this.deleteDialog.show()
   }
 
@@ -148,19 +148,19 @@ export class Rooms {
     this.render()
   }
 
-  private addRoomButton = async (): Promise<any> => {
+  private addRoomButton = async (): Promise<void> => {
     return this.addDialog.show()
   }
 
-  private addRoomStandard = async (): Promise<any> => {
+  private addRoomStandard = async (): Promise<void> => {
     return this.addRoom(RoomType.standard)
   }
 
-  private addRoomNexus = async (): Promise<any> => {
+  private addRoomNexus = async (): Promise<void> => {
     return this.addRoom(RoomType.nexus)
   }
 
-  private async addRoom(roomType: RoomType): Promise<any> {
+  private async addRoom(roomType: RoomType): Promise<void> {
     console.debug("Rooms", "add room")
     this.addDialog.hide().then(() => {
       const room: Room = new Room()
@@ -177,7 +177,7 @@ export class Rooms {
     })
   }
 
-  private deleteDialogConfirm = async (): Promise<any> => {
+  private deleteDialogConfirm = async (): Promise<void> => {
     this.deleteDialog.hide().then(() => {
       if (this.selectedRoom != null) {
         console.debug("Rooms", "delete room", this.selectedRoom)

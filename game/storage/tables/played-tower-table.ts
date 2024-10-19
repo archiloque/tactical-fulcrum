@@ -57,14 +57,14 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     return this.toModel(playedTower, null, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT)
   }
 
-  async saveToCurrentSave(playedTower: PlayedTower): Promise<any> {
+  async saveToCurrentSave(playedTower: PlayedTower): Promise<void> {
     console.debug("PlayedTowerTable", "saveToCurrentSave", playedTower.tower.name)
     const playedTowerModel = this.toModelCurrent(playedTower)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
     await store.put(playedTowerModel)
   }
 
-  async saveNew(playedTower: PlayedTower, saveName: string): Promise<any> {
+  async saveNew(playedTower: PlayedTower, saveName: string): Promise<void> {
     console.debug("PlayedTowerTable", "saveNew", saveName)
     const slot = await this.nextSlot(playedTower.tower.name)
     const playedTowerModel = this.toModel(playedTower, saveName, slot)
@@ -73,7 +73,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     await this.roomTable.saveRooms(playedTower, slot)
   }
 
-  async saveOverwrite(playedTower: PlayedTower, slot: number, saveName: string): Promise<any> {
+  async saveOverwrite(playedTower: PlayedTower, slot: number, saveName: string): Promise<void> {
     console.debug("PlayedTowerTable", "saveOverwrite", playedTower, slot, saveName)
     const playedTowerModel = this.toModel(playedTower, saveName, slot)
     const towerModelStore: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
@@ -132,13 +132,16 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     playedTower.calculateReachableTiles()
   }
 
-  async listByTowerName(towerName: string): Promise<PlayedTowerModel[]> {
+  async listByTowerName(towerName: string, filterCurrentPlayed: boolean): Promise<PlayedTowerModel[]> {
     console.debug("PlayedTowerTable", "listByTowerName", towerName)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
     const index = store.index(IndexName.playedTowerByTowerName)
-    const playedTowerModels = (await index.getAll([towerName])).filter(
-      (playedTowerModel) => playedTowerModel.slot != PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT,
-    )
+    let playedTowerModels = await index.getAll([towerName])
+    if (filterCurrentPlayed) {
+      playedTowerModels = playedTowerModels.filter(
+        (playedTowerModel) => playedTowerModel.slot != PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT,
+      )
+    }
     playedTowerModels.sort((ptm1, ptm2) => ptm1.slot - ptm2.slot)
     return playedTowerModels
   }

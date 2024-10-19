@@ -57,16 +57,16 @@ export class TabImportExport {
     event.preventDefault()
   }
 
-  private selectImportFile = async (): Promise<any> => {
+  private selectImportFile = async (): Promise<void> => {
     return this.processImportFiles(this.importInput.files!)
   }
 
-  private dropImportFile = async (event: DragEvent): Promise<any> => {
+  private dropImportFile = async (event: DragEvent): Promise<void> => {
     event.preventDefault()
     return this.processImportFiles(event.dataTransfer!.files)
   }
 
-  private async processImportFiles(filesList: FileList): Promise<any> {
+  private async processImportFiles(filesList: FileList): Promise<void> {
     const goodFiles: File[] = []
     for (const file of filesList) {
       if (file.type == "application/json") {
@@ -100,7 +100,7 @@ export class TabImportExport {
     })
   }
 
-  private export = async (): Promise<any> => {
+  private export = async (): Promise<void> => {
     const exportResult = new Export().export(this.editor.tower)
     this.tabImportExportLink.setAttribute(
       "href",
@@ -111,7 +111,7 @@ export class TabImportExport {
     return TabImportExport.processIOResult(exportResult, "Export")
   }
 
-  private static async processIOResult(ioResult: IOResult, operationName: string): Promise<any> {
+  private static async processIOResult(ioResult: IOResult, operationName: string): Promise<void> {
     if (ioResult.errors.length === 0) {
       return showAlert(`${operationName} done`, AlertVariant.success, "exclamation-octagon")
     } else {

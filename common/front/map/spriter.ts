@@ -12,7 +12,7 @@ export class Spriter {
     this.name = name
   }
 
-  async reload(tileSize: number): Promise<any> {
+  async reload(tileSize: number): Promise<void> {
     console.debug("Spriter", "reload", "size", tileSize)
     this.tileSize = tileSize
     for (const cached of this.cache) {

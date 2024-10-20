@@ -14,9 +14,8 @@ export class Scores {
   // @ts-ignore
   private div: HTMLElement
   private readonly editor: Editor
-  // @ts-ignore
-  private scoresTree: SlTree
-  private selectedScore: ScoreType | null = null
+  private scoresTree?: SlTree
+  private selectedScore?: ScoreType
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -49,7 +48,7 @@ export class Scores {
     const slTreeItem: SlTreeItem = event.detail.selection[0] as SlTreeItem
     const type = slTreeItem.dataset.type!
     if (type === TileType.empty.valueOf()) {
-      this.editor.eventManager.notifyScoreSelection(null, false)
+      this.editor.eventManager.notifyScoreSelection(undefined, false)
     } else {
       const scoreType: ScoreType | undefined = findEnum(SCORE_TYPES, type)
       if (scoreType !== undefined) {
@@ -58,21 +57,21 @@ export class Scores {
     }
   }
 
-  private findTreeItem(scoreType: ScoreType | null): SlTreeItem {
-    if (scoreType == null) {
-      return findTreeItemFromValue(this.scoresTree, { type: TileType.empty.valueOf() })
+  private findTreeItem(scoreType: ScoreType | undefined): SlTreeItem {
+    if (scoreType === undefined) {
+      return findTreeItemFromValue(this.scoresTree!!, { type: TileType.empty.valueOf() })
     } else {
-      return findTreeItemFromValue(this.scoresTree, { type: scoreType.valueOf() })
+      return findTreeItemFromValue(this.scoresTree!!, { type: scoreType.valueOf() })
     }
   }
 
-  private scoreSelected(scoreType: ScoreType | null, updateScoreTree: boolean): void {
+  private scoreSelected(scoreType: ScoreType | undefined, updateScoreTree: boolean): void {
     if (updateScoreTree) {
-      if (this.selectedScore != null) {
+      if (this.selectedScore !== undefined) {
         this.findTreeItem(this.selectedScore).selected = false
       }
       this.selectedScore = scoreType
-      this.findTreeItem(this.selectedScore).selected = true
+      this.findTreeItem(this.selectedScore!!).selected = true
     } else {
       this.selectedScore = scoreType
     }

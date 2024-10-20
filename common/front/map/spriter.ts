@@ -14,6 +14,9 @@ export class Spriter {
 
   async reload(tileSize: number): Promise<void> {
     console.debug("Spriter", "reload", "size", tileSize)
+    if (tileSize === 0) {
+      console.trace()
+    }
     this.tileSize = tileSize
     for (const cached of this.cache) {
       Assets.cache.remove(cached)

@@ -80,17 +80,14 @@ export class TabMaps {
     return this.resize()
   }
 
-  private reposition = async (): Promise<void> => {
-    console.debug("TabMap", "reposition")
-    return this.resize()
-  }
-
   private async resize(): Promise<void> {
     console.debug("TabMap", "resize")
     const height = window.innerHeight - this.mapDiv.getBoundingClientRect().top - 10
     const width = this.mapDiv.getBoundingClientRect().width
     const number = Math.min(height, width)
-    return this.map.resize(number).then(() => this.map.repaint())
+    if (number !== 0) {
+      return this.map.resize(number).then(() => this.map.repaint())
+    }
   }
 
   private static readonly ATTRIBUTE_SELECTED_ROOM_TYPE = "type"

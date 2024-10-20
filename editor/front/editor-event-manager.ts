@@ -43,13 +43,15 @@ export class EditorEventManager extends EventManager {
     this.eventEmitter.emit(EditorEventManager.EVENT_LAYER_CHANGE, layer)
   }
 
-  public registerScoreSelection(callBack: (scoreType: ScoreType | null, updateElementTree: boolean) => void): void {
+  public registerScoreSelection(
+    callBack: (scoreType: ScoreType | undefined, updateElementTree: boolean) => void,
+  ): void {
     this.eventEmitter.on(EditorEventManager.EVENT_SCORE_SELECTION, (scoreType, updateScoreTree) =>
       callBack(scoreType, updateScoreTree),
     )
   }
 
-  public notifyScoreSelection(scoreType: ScoreType | null, updateScoreTree: boolean): void {
+  public notifyScoreSelection(scoreType: ScoreType | undefined, updateScoreTree: boolean): void {
     console.debug("EditorEventManager", "notifyScoreSelection", scoreType, updateScoreTree)
     this.eventEmitter.emit(EditorEventManager.EVENT_SCORE_SELECTION, scoreType, updateScoreTree)
   }

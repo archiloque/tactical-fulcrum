@@ -15,16 +15,12 @@ import { TILES_IN_ROW } from "../../../common/data/constants"
 
 export class EditorMap extends AbstractMap {
   private readonly editor: Editor
-  // @ts-ignore
-  private scoreTiles: Container
+  private scoreTiles?: Container
   private selectedLayer: RoomLayer = RoomLayer.standard
   private selectedRoom: SelectedRoom | null = null
-  // @ts-ignore
-  private selectedScore: ScoreType | null
-  // @ts-ignore
-  private selectedTile: Tile
-  // @ts-ignore
-  private standardTiles: Container
+  private selectedScore?: ScoreType
+  private selectedTile?: Tile
+  private nonScoreTiles?: Container
 
   constructor(editor: Editor) {
     super()
@@ -50,14 +46,14 @@ export class EditorMap extends AbstractMap {
   }
 
   private keyDown(e: KeyboardEvent): void {
-    //console.debug("EditorMap", "keyDown", e)
+    // console.debug("EditorMap", "keyDown", e)
     if (e.key == Keys.SHIFT) {
       this.app.canvas.style.cursor = "copy"
     }
   }
 
   private keyUp(e: KeyboardEvent): void {
-    //console.debug("EditorMap", "keyUp", e)
+    // console.debug("EditorMap", "keyUp", e)
     if (e.key == Keys.SHIFT) {
       this.app.canvas.style.cursor = "auto"
     }
@@ -75,7 +71,7 @@ export class EditorMap extends AbstractMap {
             this.editor.eventManager.notifyTileSelection(selectedTile, true)
           } else {
             console.debug("EditorMap", "set tile", this.selectedTile)
-            currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
+            currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile!!
             this.editor.tower.saveRooms()
             this.repaint()
           }
@@ -86,7 +82,10 @@ export class EditorMap extends AbstractMap {
             const selectedScore = currentRoom.scores.find((score) => {
               return score.line == tilePosition.y && score.column === tilePosition.x
             })
-            this.editor.eventManager.notifyScoreSelection(selectedScore == null ? null : selectedScore.type, true)
+            this.editor.eventManager.notifyScoreSelection(
+              selectedScore == undefined ? undefined : selectedScore.type,
+              true,
+            )
           } else {
             if (this.selectedScore == null) {
               const selectedScoreIndex = currentRoom.scores.findIndex((score) => {
@@ -135,39 +134,39 @@ export class EditorMap extends AbstractMap {
     this.selectedTile = tileSelected
   }
 
-  private scoreSelected(scoreType: ScoreType | null): void {
+  private scoreSelected(scoreType: ScoreType | undefined): void {
     this.selectedScore = scoreType
   }
 
   repaint(): void {
-    if (this.standardTiles != null) {
-      this.app.stage.removeChild(this.standardTiles)
-      this.standardTiles.destroy()
+    if (this.nonScoreTiles !== undefined) {
+      this.app.stage.removeChild(this.nonScoreTiles!!)
+      this.nonScoreTiles!!.destroy()
     }
-    if (this.scoreTiles != null) {
+    if (this.scoreTiles !== undefined) {
       this.app.stage.removeChild(this.scoreTiles)
       this.scoreTiles.destroy()
     }
     this.createScoreTiles()
-    this.createStandardTiles()
+    this.createNonScoreTiles()
     switch (this.selectedLayer) {
       case RoomLayer.standard: {
-        this.scoreTiles.alpha = 0.2
-        this.app.stage.addChild(this.standardTiles)
-        this.app.stage.addChild(this.scoreTiles)
+        this.scoreTiles!!.alpha = 0.2
+        this.app.stage.addChild(this.nonScoreTiles!!)
+        this.app.stage.addChild(this.scoreTiles!!)
         break
       }
       case RoomLayer.score: {
-        this.standardTiles.alpha = 0.2
-        this.app.stage.addChild(this.scoreTiles)
-        this.app.stage.addChild(this.standardTiles)
+        this.nonScoreTiles!!.alpha = 0.2
+        this.app.stage.addChild(this.scoreTiles!!)
+        this.app.stage.addChild(this.nonScoreTiles!!)
         break
       }
     }
   }
 
-  private createStandardTiles(): void {
-    this.standardTiles = new Container()
+  private createNonScoreTiles(): void {
+    this.nonScoreTiles = new Container()
     if (this.selectedRoom != null) {
       const currentRoom = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
@@ -178,7 +177,7 @@ export class EditorMap extends AbstractMap {
             const sprite = this.spriter.getSprite(spriteName)
             sprite.x = this.tileSize * columnIndex
             sprite.y = this.tileSize * lineIndex
-            this.standardTiles.addChild(sprite)
+            this.nonScoreTiles.addChild(sprite)
           }
           if (currentTile.type === TileType.enemy) {
             const enemyTile = currentTile as EnemyTile
@@ -194,7 +193,7 @@ export class EditorMap extends AbstractMap {
             text.x = this.tileSize * (columnIndex + 0.5)
             text.y = this.tileSize * (lineIndex + 0.4)
             text.anchor.x = 0.5
-            this.standardTiles.addChild(text)
+            this.nonScoreTiles.addChild(text)
           }
         }
       }

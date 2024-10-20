@@ -70,7 +70,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     const playedTowerModel = this.toModel(playedTower, saveName, slot)
     const towerModelStore: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
     await towerModelStore.add(playedTowerModel)
-    await this.roomTable.saveRooms(playedTower, slot)
+    await this.roomTable.cloneRooms(playedTower.tower, slot)
   }
 
   async saveOverwrite(playedTower: PlayedTower, slot: number, saveName: string): Promise<void> {
@@ -78,7 +78,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     const playedTowerModel = this.toModel(playedTower, saveName, slot)
     const towerModelStore: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
     await towerModelStore.put(playedTowerModel)
-    await this.roomTable.saveRooms(playedTower, slot)
+    await this.roomTable.cloneRooms(playedTower.tower, slot)
   }
 
   private async nextSlot(towerName: string): Promise<number> {
@@ -112,7 +112,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     await playedTowerModelStore.put(playedTowerModel)
 
     await this.roomTable.deleteRooms(playedTower.tower.name, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT)
-    await this.roomTable.saveRooms(playedTower, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT)
+    await this.roomTable.initRooms(playedTower)
   }
 
   async initPlayedTower(playedTower: PlayedTower, playedTowerModel: PlayedTowerModel, slot: number): Promise<void> {

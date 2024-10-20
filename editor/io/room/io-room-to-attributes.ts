@@ -44,7 +44,7 @@ export class IoRoomToAttributes {
         const enemyTile = tile as EnemyTile
         return {
           [IoRoom.ATTRIBUTE_TYPE]: TileType.enemy,
-          [IoRoom.ATTRIBUTE_ENEMY_TYPE]: enemyTile.type,
+          [IoRoom.ATTRIBUTE_ENEMY_TYPE]: enemyTile.enemyType,
           [IoRoom.ATTRIBUTE_ENEMY_LEVEL]: enemyTile.level,
         }
       case TileType.item:

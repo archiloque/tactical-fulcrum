@@ -50,14 +50,14 @@ export class EditorMap extends AbstractMap {
   }
 
   private keyDown(e: KeyboardEvent): void {
-    console.debug("Map", "keyDown", e)
+    //console.debug("EditorMap", "keyDown", e)
     if (e.key == Keys.SHIFT) {
       this.app.canvas.style.cursor = "copy"
     }
   }
 
   private keyUp(e: KeyboardEvent): void {
-    console.debug("Map", "keyUp", e)
+    //console.debug("EditorMap", "keyUp", e)
     if (e.key == Keys.SHIFT) {
       this.app.canvas.style.cursor = "auto"
     }
@@ -65,7 +65,7 @@ export class EditorMap extends AbstractMap {
 
   private pointerTap(e: FederatedPointerEvent): void {
     const tilePosition: Point = this.tileFromEvent(e)
-    console.debug("Map", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
+    console.debug("EditorMap", "pointerTap", "position", tilePosition, "shift", e.shiftKey)
     if (this.selectedRoom != null) {
       const currentRoom: Room = this.editor.tower.getRooms(this.selectedRoom.type)[this.selectedRoom.index]
       switch (this.selectedLayer) {
@@ -74,7 +74,7 @@ export class EditorMap extends AbstractMap {
             const selectedTile: Tile = currentRoom.tiles[tilePosition.y][tilePosition.x]
             this.editor.eventManager.notifyTileSelection(selectedTile, true)
           } else {
-            console.debug("Map", "set tile", this.selectedTile)
+            console.debug("EditorMap", "set tile", this.selectedTile)
             currentRoom.tiles[tilePosition.y][tilePosition.x] = this.selectedTile
             this.editor.tower.saveRooms()
             this.repaint()
@@ -126,7 +126,7 @@ export class EditorMap extends AbstractMap {
   }
 
   private roomSelected(selectedRoom: SelectedRoom | null): void {
-    console.debug("Map", "roomSelected", selectedRoom)
+    console.debug("EditorMap", "roomSelected", selectedRoom)
     this.selectedRoom = selectedRoom
     this.repaint()
   }

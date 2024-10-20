@@ -44,7 +44,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
       position: {
         standard: playerPosition.standard,
         nexus: playerPosition.nexus,
-        roomType: playerPosition.roomType!!,
+        currentRoomType: playerPosition.currentRoomType!!,
       },
       saveName: saveName,
       slot: slot,
@@ -121,13 +121,13 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     playedTower.playerInfo = playedTowerModel.playerInfo
 
     const position = playedTowerModel.position
-    playedTower.position = new PlayerPosition(position.standard, position.nexus, position.roomType)
+    playedTower.position = new PlayerPosition(position.standard, position.nexus, position.currentRoomType)
 
     playedTower.currentRoom = await this.roomTable.load(
       playedTower,
       slot,
-      position.roomType,
-      position.roomType === RoomType.nexus ? position.nexus.room : position.standard.room,
+      position.currentRoomType,
+      position.currentRoomType === RoomType.nexus ? position.nexus.room : position.standard.room,
     )
     playedTower.calculateReachableTiles()
   }

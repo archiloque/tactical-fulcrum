@@ -1,12 +1,7 @@
 import { AlertVariant, showAlert } from "../../common/front/alert"
-import { PlayedTowerModel, PlayerTowerRoomModel } from "./models"
-import { Game } from "../game"
-import { Import } from "../../common/io/import"
 import { PlayedTowerTable } from "./tables/played-tower-table"
 import { RoomTable } from "./tables/room-table"
-import { RoomType } from "../../common/data/room-type"
 import { runRequest } from "./utils"
-import { TOWERS } from "../towers/towers"
 import { TowerTable } from "./tables/tower-table"
 
 export const enum TableName {
@@ -43,15 +38,6 @@ const enum PlayedTowerRoomModelAttributes {
   roomIndex = "roomIndex",
   roomType = "roomType",
   content = "content",
-}
-
-interface TowerDump {
-  saves: PlayedTowerDump[]
-}
-
-interface PlayedTowerDump {
-  playedTower: PlayedTowerModel
-  rooms: PlayerTowerRoomModel[]
 }
 
 function createTable(
@@ -137,48 +123,5 @@ export class DatabaseAccess {
     this.db = undefined
     await runRequest(window.indexedDB.deleteDatabase(DatabaseAccess.DATABASE_NAME))
     return await this.init()
-  }
-
-  async dumpDb(): Promise<void> {
-    const result: Record<string, TowerDump> = {}
-    for (const tower of TOWERS) {
-      const towerName = tower.name
-      await Game.fetchTowerFile(tower).then(async (response) => {
-        if (!response.ok) {
-          console.error("DatabaseAccess", "dumpDb", response)
-        } else {
-          const importResult = new Import().import(await response.text())
-          if (importResult.errors.length != 0) {
-            console.error("DatabaseAccess", "dumpDb", importResult.errors)
-          } else {
-            const tower = importResult.tower
-            const towerSaves: PlayedTowerDump[] = []
-            for (const playedTowerModel of await this.getPlayedTowerTable().listByTowerName(towerName, false)) {
-              const slot = playedTowerModel.slot
-              const rooms = []
-              const standardRooms = tower.getRooms(RoomType.standard).length
-              for (let roomIndex = 0; roomIndex < standardRooms; roomIndex++) {
-                rooms.push(await this.getRoomTable().get(towerName, slot, roomIndex, RoomType.standard))
-              }
-              const nexusRooms = tower.getRooms(RoomType.standard).length
-              for (let roomIndex = 0; roomIndex < nexusRooms; roomIndex++) {
-                rooms.push(await this.getRoomTable().get(towerName, slot, roomIndex, RoomType.nexus))
-              }
-              const towerSave = {
-                playedTower: playedTowerModel,
-                rooms: rooms,
-              }
-              towerSaves.push(towerSave)
-            }
-            const towerDump: TowerDump = {
-              saves: towerSaves,
-            }
-            result[towerName] = towerDump
-          }
-        }
-      })
-    }
-    console.debug("Dump ready!")
-    console.debug(result)
   }
 }

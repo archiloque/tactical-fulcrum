@@ -153,7 +153,7 @@ export class GameMap extends AbstractMap {
     const playerPosition = playerTower.position!!.position
     const currentRoomIndex = playerPosition!.room
     const currentRoom = playerTower.currentRoom!!
-    const scores = playerTower.tower.getRooms(playerTower.position!!.roomType)[currentRoomIndex].scores
+    const scores = playerTower.tower.getRooms(playerTower.position!!.currentRoomType)[currentRoomIndex].scores
     for (let lineIndex = 0; lineIndex < TILES_IN_ROW; lineIndex++) {
       for (let columnIndex = 0; columnIndex < TILES_IN_ROW; columnIndex++) {
         const x = this.tileSize * columnIndex

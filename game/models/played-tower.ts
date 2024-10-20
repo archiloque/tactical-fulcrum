@@ -212,7 +212,7 @@ export class PlayedTower {
         this.playerInfo.keys[doorColor] -= 1
         this.calculateReachableTiles()
         const openDoor: OpenDoor = {
-          roomType: this.position.roomType,
+          roomType: this.position.currentRoomType,
           player: oldPlayerPosition,
           target: targetPosition,
           color: doorColor,
@@ -224,7 +224,7 @@ export class PlayedTower {
         this.position.position = targetPosition
         this.calculateReachableTiles()
         const move: Move = {
-          roomType: this.position.roomType,
+          roomType: this.position.currentRoomType,
           player: oldPlayerPosition,
           target: targetPosition,
           type: ActionType.MOVE,
@@ -242,7 +242,7 @@ export class PlayedTower {
         this.currentRoom[targetPosition.line][targetPosition.column] = dropTile
         this.calculateReachableTiles()
         const killEnemy: KillEnemy = {
-          roomType: this.position.roomType,
+          roomType: this.position.currentRoomType,
           player: oldPlayerPosition,
           target: targetPosition,
           enemy: enemy,
@@ -261,7 +261,7 @@ export class PlayedTower {
         this.applyItem(appliedItem)
         this.calculateReachableTiles()
         const pickItem: PickItem = {
-          roomType: this.position.roomType,
+          roomType: this.position.currentRoomType,
           player: oldPlayerPosition,
           target: targetPosition,
           appliedItem: appliedItem,
@@ -276,7 +276,7 @@ export class PlayedTower {
         this.playerInfo.keys[keyColor] += 1
         this.calculateReachableTiles()
         const pickKey: PickKey = {
-          roomType: this.position.roomType,
+          roomType: this.position.currentRoomType,
           player: oldPlayerPosition,
           target: targetPosition,
           color: keyColor,
@@ -289,7 +289,7 @@ export class PlayedTower {
         const roomIndex = this.position.position.room + (staircaseDirection == StaircaseDirection.up ? 1 : -1)
         this.currentRoom = await this.database
           .getRoomTable()
-          .load(this, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT, this.position.roomType!!, roomIndex)
+          .load(this, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT, this.position.currentRoomType!!, roomIndex)
         const newPosition = findStaircasePosition(
           this.currentRoom,
           roomIndex,
@@ -298,7 +298,7 @@ export class PlayedTower {
         this.position.position = newPosition
         this.calculateReachableTiles()
         const roomChange: RoomChange = {
-          roomType: this.position.roomType!!,
+          roomType: this.position.currentRoomType!!,
           player: oldPlayerPosition,
           target: newPosition,
           type: ActionType.ROOM_CHANGE,
@@ -341,7 +341,7 @@ export class PlayedTower {
 
   private async applyLevelUp(levelUpContent: LevelUpContent): Promise<void> {
     const levelUp: LevelUp = {
-      roomType: this.position.roomType!!,
+      roomType: this.position.currentRoomType!!,
       player: this.position.position!,
       levelUpContent: levelUpContent,
       type: ActionType.LEVEL_UP,

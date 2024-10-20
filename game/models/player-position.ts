@@ -4,16 +4,16 @@ import { RoomType } from "../../common/data/room-type"
 export class PlayerPosition {
   standard: Position3D
   nexus: Position3D
-  roomType: RoomType
+  currentRoomType: RoomType
 
   public constructor(standard: Position3D, nexus: Position3D, roomType: RoomType) {
     this.standard = standard
     this.nexus = nexus
-    this.roomType = roomType
+    this.currentRoomType = roomType
   }
 
   public get position(): Position3D {
-    switch (this.roomType) {
+    switch (this.currentRoomType) {
       case RoomType.standard:
         return this.standard!!
       case RoomType.nexus:
@@ -24,7 +24,7 @@ export class PlayerPosition {
   }
 
   public set position(position: Position3D) {
-    switch (this.roomType) {
+    switch (this.currentRoomType) {
       case RoomType.standard:
         this.standard = position
         return

@@ -1,6 +1,6 @@
 import { EMPTY_TILE, Tile, TileType } from "../../../common/models/tile"
 import { IndexName, TableName } from "../database"
-import { PlayerTowerRoomModel, PositionedTile } from "../models"
+import { PlayerTowerRoomModel, PositionedTileModel } from "../models"
 import { DbAccess } from "../utils"
 import { PlayedTower } from "../../models/played-tower"
 import { PlayedTowerTable } from "./played-tower-table"
@@ -41,7 +41,7 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
   ): Promise<void> {
     const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
 
-    const tiles: PositionedTile[] = this.roomToPositionedTiles(room.tiles)
+    const tiles: PositionedTileModel[] = this.roomToPositionedTiles(room.tiles)
     console.debug("RoomTable", "saveRoom", towerName, slot, roomIndex, roomType)
 
     const model: PlayerTowerRoomModel = {
@@ -54,8 +54,8 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     return await store.put(model)
   }
 
-  private roomToPositionedTiles(room: Tile[][]): PositionedTile[] {
-    const tiles: PositionedTile[] = []
+  private roomToPositionedTiles(room: Tile[][]): PositionedTileModel[] {
+    const tiles: PositionedTileModel[] = []
     for (const [lineIndex, line] of room.entries()) {
       for (const [columnIndex, tile] of line.entries()) {
         if (RoomTable.TILES_TYPES_INTERESTING.includes(tile.type)) {
@@ -75,7 +75,7 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
         playedTower.tower.name!!,
         PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT,
         playedTower.position!!.position.room,
-        playedTower.position!!.roomType,
+        playedTower.position!!.currentRoomType,
       ]))!!
     roomModel.content = this.roomToPositionedTiles(playedTower.currentRoom!!)
     await store.put(roomModel)

@@ -1,3 +1,4 @@
+import { dumpDb } from "./storage/dump"
 import { Game } from "./game"
 
 export {}
@@ -16,7 +17,7 @@ export function installConsole(game: Game): void {
     game.playedTower!.playerInfo.exp = value
   }
   Window.prototype.dumpDB = async function (): Promise<void> {
-    await game.database.dumpDb()
+    await dumpDb(game.database)
   }
   Window.prototype.clearDB = async function (): Promise<void> {
     await game.database.clear()

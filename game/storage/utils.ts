@@ -14,6 +14,20 @@ export async function runRequest<T = any>(request: IDBRequest<T>): Promise<T> {
   })
 }
 
+export async function runRequestWithCallBack<T = any>(
+  request: IDBRequest<T>,
+  callback: (element: T) => void,
+): Promise<void> {
+  request.onsuccess = (): void => {
+    console.debug("storage/utils", "runRequestWithCallBack", "success", request.source, request.result)
+    callback(request.result)
+  }
+  request.onerror = (): void => {
+    console.error("storage/utils", "runRequestWithCallBack", "failure", request.source, request.error)
+    debugger
+  }
+}
+
 export class DbAccess<M extends DbModel> {
   private readonly store: IDBObjectStore
 
@@ -53,13 +67,26 @@ export class DbIndex<M extends DbModel> {
     return await runRequest(this.index.getAll(query))
   }
 
+  async each(query: IDBValidKey[] | null, callBack: (element: M) => void): Promise<void> {
+    console.debug("DbIndex", "each", this.index.name, query)
+    await runRequestWithCallBack(this.index.openCursor(query), (cursor: IDBCursorWithValue | null) => {
+      if (cursor !== null) {
+        const value = cursor.value
+        console.debug("DbIndex", "each", this.index.name, query, value)
+        callBack(value)
+        cursor.continue()
+      }
+    })
+  }
+
   async deleteAll(query: IDBValidKey[] | null): Promise<void> {
     console.debug("DbIndex", "deleteAll", this.index.name, query)
-    const cursor: IDBCursorWithValue | null = await runRequest(this.index.openCursor(query))
-    while (cursor !== null) {
-      console.debug("DbIndex", "deleteAll", this.index.name, query, cursor.value)
-      cursor.delete()
-      cursor.continue()
-    }
+    await runRequestWithCallBack(this.index.openCursor(query), (cursor: IDBCursorWithValue | null) => {
+      if (cursor !== null) {
+        console.debug("DbIndex", "deleteAll", this.index.name, query, cursor.value)
+        cursor.delete()
+        cursor.continue()
+      }
+    })
   }
 }

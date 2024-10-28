@@ -84,18 +84,15 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
   private async nextSlot(towerName: string): Promise<number> {
     console.debug("PlayedTowerTable", "nextSlot", towerName)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
-    const playedTowerModels: PlayedTowerModel[] = await store
-      .index(IndexName.playedTowerByTowerName)
-      .getAll([towerName])
     let maxSlot: undefined | number = undefined
-    for (const playedTowerModel of playedTowerModels) {
+    await store.index(IndexName.playedTowerByTowerName).each([towerName], (playedTowerModel: PlayedTowerModel) => {
       if (playedTowerModel.slot === PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT) {
       } else if (maxSlot === undefined) {
         maxSlot = playedTowerModel.slot
       } else if (playedTowerModel.slot > maxSlot) {
         maxSlot = playedTowerModel.slot
       }
-    }
+    })
     if (maxSlot === undefined) {
       console.debug("PlayedTowerTable", "nextSlot", "no save found, slot is 0")
       return 0

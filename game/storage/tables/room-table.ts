@@ -54,13 +54,12 @@ export class RoomTable extends Table<PlayerTowerRoomModel> {
     const promises: Promise<void>[] = []
     const store: DbAccess<PlayerTowerRoomModel> = this.transaction("readwrite")
 
-    const playerTowerRoomModels = await store
+    await store
       .index(IndexName.playedTowerRoomByPlayedTowerNameAndSlot)
-      .getAll([tower.name, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT])
-    for (const playerTowerRoomModel of playerTowerRoomModels) {
-      playerTowerRoomModel.slot = slot
-      promises.push(store.put(playerTowerRoomModel))
-    }
+      .each([tower.name, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT], (playerTowerRoomModel) => {
+        playerTowerRoomModel.slot = slot
+        promises.push(store.put(playerTowerRoomModel))
+      })
     await Promise.all(promises)
   }
 

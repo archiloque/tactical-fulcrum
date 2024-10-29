@@ -1,5 +1,5 @@
 import { DbAccess, DbIndex } from "../utils"
-import { IndexName, TableName } from "../database"
+import { IndexName, TableName } from "../database-constants"
 import { PlayedTower } from "../../models/played-tower"
 import { PlayedTowerModel } from "../models"
 import { PlayerPosition } from "../../models/player-position"
@@ -49,6 +49,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
       saveName: saveName,
       slot: slot,
       timestamp: new Date(),
+      currentActionIndex: playedTower.currentActionIndex,
     }
     return result
   }
@@ -59,7 +60,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
 
   async saveToCurrentSave(playedTower: PlayedTower): Promise<void> {
     console.debug("PlayedTowerTable", "saveToCurrentSave", playedTower.tower.name)
-    const playedTowerModel = this.toModelCurrent(playedTower)
+    const playedTowerModel: PlayedTowerModel = this.toModelCurrent(playedTower)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readwrite")
     await store.put(playedTowerModel)
   }
@@ -119,6 +120,8 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
 
     const position = playedTowerModel.position
     playedTower.position = new PlayerPosition(position.standard, position.nexus, position.currentRoomType)
+
+    playedTower.currentActionIndex = playedTowerModel.currentActionIndex
 
     playedTower.currentRoom = await this.roomTable.load(
       playedTower,

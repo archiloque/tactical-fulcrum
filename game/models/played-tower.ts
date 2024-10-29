@@ -68,13 +68,13 @@ export class PlayedTower {
   // @ts-ignore
   playerInfo: PlayerInfo
   reachableTiles?: Delta2D[][][] | null[][]
-  readonly actions: Action[]
+  // @ts-ignore
+  currentActionIndex: number
   private readonly database: DatabaseAccess
 
   constructor(tower: Tower, database: DatabaseAccess) {
     this.tower = tower
     this.database = database
-    this.actions = []
   }
 
   public async initNewGame(): Promise<void> {
@@ -89,6 +89,7 @@ export class PlayedTower {
     this.currentRoom = this.tower.standardRooms[this.position.position.room].clone()
     this.currentRoom[this.position.standard.line][this.position.standard.column] = EMPTY_TILE
     this.calculateReachableTiles()
+    this.currentActionIndex = 0
   }
 
   public calculateReachableTiles(): void {
@@ -332,8 +333,9 @@ export class PlayedTower {
   }
 
   private async addActionAndSave(action: Action, saveRoom: boolean): Promise<void> {
-    this.actions.push(action)
     await this.database.getPlayedTowerTable().saveToCurrentSave(this)
+    await this.database.getActionTable().addToCurrentSave(this, action)
+    this.currentActionIndex += 1
     if (saveRoom) {
       await this.database.getRoomTable().saveCurrentRoom(this)
     }

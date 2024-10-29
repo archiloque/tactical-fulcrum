@@ -1,3 +1,4 @@
+import { Action } from "../models/play/action"
 import { DbModel } from "./utils"
 import { PlayerInfo } from "../models/player-info"
 import { RoomType } from "../../common/data/room-type"
@@ -26,6 +27,7 @@ export interface PlayedTowerModel extends DbModel {
   timestamp: Date
   position: PositionModel
   playerInfo: PlayerInfo
+  currentActionIndex: number
 }
 
 export interface PositionedTileModel {
@@ -40,4 +42,11 @@ export interface PlayerTowerRoomModel extends DbModel {
   roomIndex: number
   roomType: RoomType
   content: PositionedTileModel[]
+}
+
+export interface ActionModel extends DbModel {
+  towerName: string
+  slot: number
+  actionIndex: number
+  action: Action
 }

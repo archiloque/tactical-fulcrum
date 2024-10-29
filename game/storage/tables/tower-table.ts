@@ -1,4 +1,4 @@
-import { IndexName, TableName } from "../database"
+import { IndexName, TableName } from "../database-constants"
 import { Table } from "./table"
 import { TowerModel } from "../models"
 

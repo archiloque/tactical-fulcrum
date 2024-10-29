@@ -1,5 +1,5 @@
 import { EMPTY_TILE, Tile, TileType } from "../../../common/models/tile"
-import { IndexName, TableName } from "../database"
+import { IndexName, TableName } from "../database-constants"
 import { PlayerTowerRoomModel, PositionedTileModel } from "../models"
 import { DbAccess } from "../utils"
 import { PlayedTower } from "../../models/played-tower"

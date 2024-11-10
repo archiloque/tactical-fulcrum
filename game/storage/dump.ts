@@ -1,4 +1,4 @@
-import { PlayedTowerModel, PlayerTowerRoomModel, PositionedTileModel, PositionModel } from "./models"
+import { PlayedTowerModel, PlayerTowerRoomModel, PositionedTileModel, PositionModel } from "./database-constants"
 import { DatabaseAccess } from "./database"
 import { Game } from "../game"
 import { Import } from "../../common/io/import"

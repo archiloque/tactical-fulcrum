@@ -56,7 +56,7 @@ const EDITOR_ICONS = [
 
 const CUSTOM_ICONS_COLORS = ["key"]
 
-const CUSTOM_ICONS_MONOCHROMES = ["fast-backward", "load", "save"]
+const CUSTOM_ICONS_MONOCHROMES = ["backward", "fast-backward", "forward", "load", "save"]
 
 const IN_DIR = "assets/sprites"
 

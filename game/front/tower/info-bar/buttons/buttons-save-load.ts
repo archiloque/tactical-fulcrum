@@ -2,7 +2,7 @@ import { Hole, html } from "uhtml"
 import { Buttons } from "../buttons"
 import { Game } from "../../../../game"
 import { MonochromeCustomIconsName } from "../../../../../common/front/icons/monochrome-custom-icons"
-import { PlayedTowerModel } from "../../../../storage/models"
+import { PlayedTowerModel } from "../../../../storage/database-constants"
 import SlButton from "@shoelace-style/shoelace/cdn/components/button/button.component"
 import SlInput from "@shoelace-style/shoelace/cdn/components/input/input.component"
 

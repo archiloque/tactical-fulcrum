@@ -1,3 +1,5 @@
+import { Indexes } from "./database-constants"
+
 export interface DbModel {}
 
 export async function runRequest<T = any>(request: IDBRequest<T>): Promise<T> {
@@ -45,8 +47,8 @@ export class DbAccess<M extends DbModel> {
     return await runRequest(this.store.add(model))
   }
 
-  index(name: string): DbIndex<M> {
-    return new DbIndex<M>(this.store.index(name))
+  index<I extends keyof Indexes>(index: Indexes[I] extends M ? I : never): DbIndex<M> {
+    return new DbIndex<M>(this.store.index(index))
   }
 }
 

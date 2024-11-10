@@ -1,11 +1,11 @@
 import { DbAccess, DbIndex } from "../utils"
-import { IndexName, TableName } from "../database-constants"
 import { PlayedTower } from "../../models/played-tower"
-import { PlayedTowerModel } from "../models"
+import { PlayedTowerModel } from "../database-constants"
 import { PlayerPosition } from "../../models/player-position"
 import { RoomTable } from "./room-table"
 import { RoomType } from "../../../common/data/room-type"
 import { Table } from "./table"
+import { TableName } from "../database-constants"
 
 export class PlayedTowerTable extends Table<PlayedTowerModel> {
   static CURRENT_PLAYED_TOWER_SLOT = -1
@@ -20,7 +20,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
   async get(towerName: string, slot: number): Promise<PlayedTowerModel> {
     console.debug("PlayedTowerTable", "getCurrent", towerName, slot)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
-    const index: DbIndex<PlayedTowerModel> = store.index(IndexName.playedTowerByTowerNameAndSlot)
+    const index: DbIndex<PlayedTowerModel> = store.index("playedTowerByTowerNameAndSlot")
     const playedTowerModel = await index.get([towerName, slot])
     if (playedTowerModel === undefined) {
       throw new Error(`Save not found`)
@@ -32,7 +32,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
   async getCurrent(towerName: string): Promise<PlayedTowerModel | undefined> {
     console.debug("PlayedTowerTable", "getCurrent", towerName)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
-    const index: DbIndex<PlayedTowerModel> = store.index(IndexName.playedTowerByTowerNameAndSlot)
+    const index: DbIndex<PlayedTowerModel> = store.index("playedTowerByTowerNameAndSlot")
     return await index.get([towerName, PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT])
   }
 
@@ -50,6 +50,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
       slot: slot,
       timestamp: new Date(),
       currentActionIndex: playedTower.currentActionIndex,
+      maxActionIndex: playedTower.maxActionIndex,
     }
     return result
   }
@@ -86,7 +87,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     console.debug("PlayedTowerTable", "nextSlot", towerName)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
     let maxSlot: undefined | number = undefined
-    await store.index(IndexName.playedTowerByTowerName).each([towerName], (playedTowerModel: PlayedTowerModel) => {
+    await store.index("playedTowerByTowerName").each([towerName], (playedTowerModel: PlayedTowerModel) => {
       if (playedTowerModel.slot === PlayedTowerTable.CURRENT_PLAYED_TOWER_SLOT) {
       } else if (maxSlot === undefined) {
         maxSlot = playedTowerModel.slot
@@ -122,6 +123,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
     playedTower.position = new PlayerPosition(position.standard, position.nexus, position.currentRoomType)
 
     playedTower.currentActionIndex = playedTowerModel.currentActionIndex
+    playedTower.maxActionIndex = playedTowerModel.maxActionIndex
 
     playedTower.currentRoom = await this.roomTable.load(
       playedTower,
@@ -135,7 +137,7 @@ export class PlayedTowerTable extends Table<PlayedTowerModel> {
   async listByTowerName(towerName: string, filterCurrentPlayed: boolean): Promise<PlayedTowerModel[]> {
     console.debug("PlayedTowerTable", "listByTowerName", towerName)
     const store: DbAccess<PlayedTowerModel> = this.transaction("readonly")
-    const index = store.index(IndexName.playedTowerByTowerName)
+    const index = store.index("playedTowerByTowerName")
     let playedTowerModels = await index.getAll([towerName])
     if (filterCurrentPlayed) {
       playedTowerModels = playedTowerModels.filter(

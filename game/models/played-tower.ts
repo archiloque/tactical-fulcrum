@@ -70,6 +70,8 @@ export class PlayedTower {
   reachableTiles?: Delta2D[][][] | null[][]
   // @ts-ignore
   currentActionIndex: number
+  // @ts-ignore
+  maxActionIndex: number
   private readonly database: DatabaseAccess
 
   constructor(tower: Tower, database: DatabaseAccess) {
@@ -90,6 +92,7 @@ export class PlayedTower {
     this.currentRoom[this.position.standard.line][this.position.standard.column] = EMPTY_TILE
     this.calculateReachableTiles()
     this.currentActionIndex = 0
+    this.maxActionIndex = 0
   }
 
   public calculateReachableTiles(): void {
@@ -336,6 +339,7 @@ export class PlayedTower {
     await this.database.getPlayedTowerTable().saveToCurrentSave(this)
     await this.database.getActionTable().addToCurrentSave(this, action)
     this.currentActionIndex += 1
+    this.maxActionIndex += 1
     if (saveRoom) {
       await this.database.getRoomTable().saveCurrentRoom(this)
     }

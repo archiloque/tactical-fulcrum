@@ -1,5 +1,5 @@
 import { Action } from "../../models/play/action"
-import { ActionModel } from "../models"
+import { ActionModel } from "../database-constants"
 import { DbAccess } from "../utils"
 import { PlayedTower } from "../../models/played-tower"
 import { PlayedTowerTable } from "./played-tower-table"

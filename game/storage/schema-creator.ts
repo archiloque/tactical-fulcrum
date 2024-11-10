@@ -1,4 +1,4 @@
-import { IndexName, TableName } from "./database-constants"
+import { Indexes, TableName } from "./database-constants"
 
 const TOWER_NAME_ATTRIBUTE = "towerName"
 const SLOT_ATTRIBUTE = "slot"
@@ -26,10 +26,10 @@ const enum ActionModelAttributes {
   actionIndex = "actionIndex",
 }
 
-function createTable(
+function createTable<I extends keyof Indexes>(
   db: IDBDatabase,
   tableName: TableName,
-  tableIndexName: IndexName,
+  tableIndexName: I,
   keyPath: string[],
 ): IDBObjectStore {
   console.debug("DatabaseAccess", "createTable", tableName)
@@ -44,7 +44,7 @@ function createTowerRoomTable(db: IDBDatabase): void {
   const playedTowerRoomObjectStore = createTable(
     db,
     TableName.playedTowerRoom,
-    IndexName.playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex,
+    "playedTowerRoomByPlayedTowerNameAndSlotAndRoomAndNexusIndex",
     [
       PlayedTowerRoomModelAttributes.towerName,
       PlayedTowerRoomModelAttributes.slot,
@@ -53,7 +53,7 @@ function createTowerRoomTable(db: IDBDatabase): void {
     ],
   )
   playedTowerRoomObjectStore.createIndex(
-    IndexName.playedTowerRoomByPlayedTowerNameAndSlot,
+    "playedTowerRoomByPlayedTowerNameAndSlot",
     [PlayedTowerRoomModelAttributes.towerName, PlayedTowerRoomModelAttributes.slot],
     {
       unique: false,
@@ -62,31 +62,31 @@ function createTowerRoomTable(db: IDBDatabase): void {
 }
 
 function createPlayerTowerTable(db: IDBDatabase): void {
-  const playedTowerObjectStore = createTable(db, TableName.playedTower, IndexName.playedTowerByTowerNameAndSlot, [
+  const playedTowerObjectStore = createTable(db, TableName.playedTower, "playedTowerByTowerNameAndSlot", [
     PlayedTowerModelAttributes.towerName,
     PlayedTowerModelAttributes.slot,
   ])
-  playedTowerObjectStore.createIndex(IndexName.playedTowerByTowerName, [PlayedTowerModelAttributes.towerName], {
+  playedTowerObjectStore.createIndex("playedTowerByTowerName", [PlayedTowerModelAttributes.towerName], {
     unique: false,
   })
 }
 
 function createActionTable(db: IDBDatabase): void {
-  const actionObjectStore = createTable(db, TableName.action, IndexName.actionByPlayedTowerNameAndSlotAndIndex, [
+  const actionObjectStore = createTable(db, TableName.action, "actionByPlayedTowerNameAndSlotAndIndex", [
     ActionModelAttributes.towerName,
     ActionModelAttributes.slot,
     ActionModelAttributes.actionIndex,
   ])
 
   actionObjectStore.createIndex(
-    IndexName.actionByPlayedTowerNameAndSlot,
+    "actionByPlayedTowerNameAndSlot",
     [ActionModelAttributes.towerName, ActionModelAttributes.slot],
     { unique: false },
   )
 }
 
 function createTowerTable(db: IDBDatabase): void {
-  createTable(db, TableName.tower, IndexName.towerNameIndex, [TowerModelAttributes.towerName])
+  createTable(db, TableName.tower, "towerNameIndex", [TowerModelAttributes.towerName])
 }
 
 export function createSchema(db: IDBDatabase): void {

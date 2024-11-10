@@ -63,7 +63,9 @@ export class ColoredCustomIcon extends CustomIcon {
 }
 
 const ICONS = new Map<string, CustomIcon>([
+  [MonochromeCustomIconsName.BACKWARD, new MonochromeCustomIcon(MonochromeCustomIconsName.BACKWARD)],
   [MonochromeCustomIconsName.FAST_BACKWARD, new MonochromeCustomIcon(MonochromeCustomIconsName.FAST_BACKWARD)],
+  [MonochromeCustomIconsName.FORWARD, new MonochromeCustomIcon(MonochromeCustomIconsName.FORWARD)],
   [CustomIconsNames.KEY_BLUE, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.blue)],
   [CustomIconsNames.KEY_BLUE, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.blue)],
   [CustomIconsNames.KEY_CRIMSON, new ColoredCustomIcon(ColorCustomIconsName.KEY, Colors.red)],

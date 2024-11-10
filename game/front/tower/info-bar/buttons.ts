@@ -15,6 +15,8 @@ export class Buttons {
   content(): Hole {
     console.debug("Buttons", "content")
     return html`<div id="screenTowerInfoButtons">
+      ${Buttons.button(MonochromeCustomIconsName.BACKWARD, "Undo move", this.clickResetButton)}
+      ${Buttons.button(MonochromeCustomIconsName.FORWARD, "Redo move", this.clickResetButton)}
       ${Buttons.button(
         MonochromeCustomIconsName.FAST_BACKWARD,
         "Reset the game to its initial state",
